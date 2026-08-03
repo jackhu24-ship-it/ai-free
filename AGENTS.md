@@ -26,6 +26,7 @@ AI 教學工具鏈建置：安裝並熟悉 AI 工具鏈（OpenCode 懶人包 13 
 - [x] 階段二附加：Netlify 兩站公開設定（class-wordcloud＋class-demo-jackhu24 皆無登入可訪問）
 - [x] 階段二附加：Netlify QR Code（qr-codes\ 兩站 SVG＋A4 列印頁）
 - [x] 階段二附加：GAS 試算表測試資料清理（只剩標題列）
+- [x] 階段二附加：Padlet 免費帳戶申請（jackhu24@gmail.com，免費版 3 板限制；評估學生免帳號即可貼）
 - [ ] 階段三：實際運用於教學備課
 
 ## 資料夾結構
@@ -38,6 +39,7 @@ G:\我的雲端硬碟\260803_opencode\    ← 工作區根目錄（git repo，�
 ├── ai-agent-ep03\             ← AI Agent 練習專案（verify_core.py、.venv）
 ├── groq-demo\                 ← Groq 語音轉字幕 demo（edge-tts 測試音、SRT）
 ├── netlify-demo\              ← Netlify 部署 demo（class-demo-jackhu24，含 ask-ai 函式）
+├── padlet-assets\             ← clone 自 mathruffian-dot/padlet-assets（圖床 repo，已 gitignore 排除）
 ├── qr-codes\                  ← 兩站 QR Code（SVG＋print.html A4 列印頁）
 ├── sheets-gas-demo\           ← Google Apps Script 課堂回饋 demo（獨立 repo，已推 GitHub）
 ├── supabase-demo\             ← Supabase 文字雲 demo（建表SQL、keep-alive、.env 金鑰）

@@ -101,6 +101,7 @@ Thumbs.db
 # 獨立 git repo（各自有自己的 GitHub repo，不混入根 repo）
 sheets-gas-demo/
 ai-agent-ep03/
+padlet-assets/
 
 # Playwright MCP 快照
 .playwright-mcp/
