@@ -23,13 +23,14 @@ AI 教學工具鏈建置：安裝並熟悉 AI 工具鏈（OpenCode 懶人包 13 
   - [x] Supabase 文字雲（專案＋建表＋RLS＋keep-alive 全完成；前端頁面待做）
   - [x] Groq 語音字幕（edge-tts 測試音→SRT 完成）
 - [x] 階段二附加：Supabase 文字雲前端頁面（學生輸入＋文字雲，可部署 Netlify）
+- [x] 階段二附加：Netlify 兩站公開設定（class-wordcloud＋class-demo-jackhu24 皆無登入可訪問）
 - [ ] 階段二附加：Netlify QR Code
 - [ ] 階段三：實際運用於教學備課
 
 ## 資料夾結構
 <!-- 初始化時自動掃描生成，之後新增檔案要更新 -->
 ```
-C:\260728-code\                ← 工作區根目錄（git repo，私有）
+G:\我的雲端硬碟\260803_opencode\    ← 工作區根目錄（git repo，私有；由 C:\260728-code 全量複製，SHA256 驗證完整）
 ├── .gitignore                 ← 敏感資料防護（信用卡/API key/PDF/PPT/大檔）
 ├── .githooks\pre-commit       ← 2MB 上限＋檔案類型擋檔
 ├── .github\workflows\         ← supabase-keep-alive.yml（每日 21:00 UTC ping）
