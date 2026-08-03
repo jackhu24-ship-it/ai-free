@@ -16,7 +16,7 @@ AI 教學工具鏈建置：安裝並熟悉 AI 工具鏈（OpenCode 懶人包 13 
   - [x] extras：browser（Playwright＋open-computer-use）、firebase CLI
   - [x] #09 Groq 金鑰（GROQ_API_KEY 已設，語音轉字幕 demo 完成）
   - [x] #10 用途 B：Functions 藏金鑰後端（ask-ai 函式已上線）
-  - [ ] extras firebase login（待使用者執行）
+  - [x] extras firebase login（已登入，projects:list 驗證通過）
 - [ ] 階段二：Demo 作品（GAS 課堂回饋、Supabase 文字雲、Groq 語音字幕、Netlify 網頁部署）
   - [x] Netlify 網頁部署（用途 A＋用途 B）
   - [x] GAS 課堂回饋（已部署上線，Web App 網址見 handoff）
@@ -24,7 +24,8 @@ AI 教學工具鏈建置：安裝並熟悉 AI 工具鏈（OpenCode 懶人包 13 
   - [x] Groq 語音字幕（edge-tts 測試音→SRT 完成）
 - [x] 階段二附加：Supabase 文字雲前端頁面（學生輸入＋文字雲，可部署 Netlify）
 - [x] 階段二附加：Netlify 兩站公開設定（class-wordcloud＋class-demo-jackhu24 皆無登入可訪問）
-- [ ] 階段二附加：Netlify QR Code
+- [x] 階段二附加：Netlify QR Code（qr-codes\ 兩站 SVG＋A4 列印頁）
+- [x] 階段二附加：GAS 試算表測試資料清理（只剩標題列）
 - [ ] 階段三：實際運用於教學備課
 
 ## 資料夾結構
@@ -37,6 +38,7 @@ G:\我的雲端硬碟\260803_opencode\    ← 工作區根目錄（git repo，�
 ├── ai-agent-ep03\             ← AI Agent 練習專案（verify_core.py、.venv）
 ├── groq-demo\                 ← Groq 語音轉字幕 demo（edge-tts 測試音、SRT）
 ├── netlify-demo\              ← Netlify 部署 demo（class-demo-jackhu24，含 ask-ai 函式）
+├── qr-codes\                  ← 兩站 QR Code（SVG＋print.html A4 列印頁）
 ├── sheets-gas-demo\           ← Google Apps Script 課堂回饋 demo（獨立 repo，已推 GitHub）
 ├── supabase-demo\             ← Supabase 文字雲 demo（建表SQL、keep-alive、.env 金鑰）
 └── wordcloud-app\             ← 文字雲前端頁面（Supabase＋WordCloud2，可部署 Netlify）
