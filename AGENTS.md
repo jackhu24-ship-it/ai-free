@@ -10,8 +10,18 @@ AI 教學工具鏈建置：安裝並熟悉 AI 工具鏈（OpenCode 懶人包 13 
 
 ## 目標與路線圖
 <!-- 用 checklist 追蹤，收工技能會更新這裡 -->
-- [ ] 階段一：完成 OpenCode 懶人包安裝（#00-#10＋extras）
+- [x] 階段一：完成 OpenCode 懶人包安裝（#00-#10＋extras）
+  - [x] #00-#08（環境/模型/工具/NotebookLM/Obsidian/GAS/GitHub/工作流程技能）
+  - [x] #10 用途 A：Netlify 部署（class-demo-jackhu24.netlify.app，正式網址已發布）
+  - [x] extras：browser（Playwright＋open-computer-use）、firebase CLI
+  - [ ] #09 Groq 金鑰（待使用者申請 → GROQ_API_KEY 環境變數）
+  - [ ] #10 用途 B：Functions 藏金鑰後端（待 Groq 金鑰）
+  - [ ] extras firebase login（待使用者執行）
 - [ ] 階段二：Demo 作品（GAS 課堂回饋、Supabase 文字雲、Groq 語音字幕、Netlify 網頁部署）
+  - [x] Netlify 網頁部署（用途 A）
+  - [ ] GAS 課堂回饋（待瀏覽器手動部署）
+  - [ ] Supabase 文字雲（待註冊建專案）
+  - [ ] Groq 語音字幕（待金鑰）
 - [ ] 階段三：實際運用於教學備課
 
 ## 資料夾結構
