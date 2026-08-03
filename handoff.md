@@ -34,4 +34,4 @@
 ## 🕐 最後更新
 - 時間：2026-08-03
 - 更新者：opencode @ LAPTOP-C47IT9US
-- Git push：✅ 已推（2a23113，ai-free 私有 repo，文字雲前端完成＋部署上線）；class-demo-jackhu24 公開異動尚未 commit/push
+- Git push：✅ 已推（7535ae6，ai-free 私有 repo，兩站公開設定＋工作區路徑更新；前一筆 2a23113 文字雲前端完成）
