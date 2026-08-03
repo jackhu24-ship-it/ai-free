@@ -19,9 +19,10 @@ AI 教學工具鏈建置：安裝並熟悉 AI 工具鏈（OpenCode 懶人包 13 
   - [ ] extras firebase login（待使用者執行）
 - [ ] 階段二：Demo 作品（GAS 課堂回饋、Supabase 文字雲、Groq 語音字幕、Netlify 網頁部署）
   - [x] Netlify 網頁部署（用途 A＋用途 B）
-  - [ ] GAS 課堂回饋（待瀏覽器手動部署）
-  - [ ] Supabase 文字雲（待註冊建專案）
+  - [x] GAS 課堂回饋（已部署上線，Web App 網址見 handoff）
+  - [x] Supabase 文字雲（專案＋建表＋RLS＋keep-alive 全完成；前端頁面待做）
   - [x] Groq 語音字幕（edge-tts 測試音→SRT 完成）
+- [ ] 階段二附加：Supabase 文字雲前端頁面（學生輸入＋文字雲，可部署 Netlify）、Netlify QR Code
 - [ ] 階段三：實際運用於教學備課
 
 ## 資料夾結構
@@ -30,11 +31,12 @@ AI 教學工具鏈建置：安裝並熟悉 AI 工具鏈（OpenCode 懶人包 13 
 C:\260728-code\                ← 工作區根目錄（git repo，私有）
 ├── .gitignore                 ← 敏感資料防護（信用卡/API key/PDF/PPT/大檔）
 ├── .githooks\pre-commit       ← 2MB 上限＋檔案類型擋檔
+├── .github\workflows\         ← supabase-keep-alive.yml（每日 21:00 UTC ping）
 ├── ai-agent-ep03\             ← AI Agent 練習專案（verify_core.py、.venv）
 ├── groq-demo\                 ← Groq 語音轉字幕 demo（edge-tts 測試音、SRT）
 ├── netlify-demo\              ← Netlify 部署 demo（class-demo-jackhu24，含 ask-ai 函式）
 ├── sheets-gas-demo\           ← Google Apps Script 課堂回饋 demo（獨立 repo，已推 GitHub）
-└── supabase-demo\             ← Supabase 文字雲 demo（建表SQL、keep-alive）
+└── supabase-demo\             ← Supabase 文字雲 demo（建表SQL、keep-alive、.env 金鑰）
 ```
 
 ## 同步層級（本專案初始化至第 3 層級）
