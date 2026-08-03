@@ -34,5 +34,5 @@
 ## 🕐 最後更新
 - 時間：2026-08-03
 - 更新者：opencode @ LAPTOP-C47IT9US
-- Git push：✅ 已推（d97fe2c：QR Code＋試算表清理＋handoff 更新；前一筆 7535ae6 兩站公開設定）
+- Git push：✅ 已推（b581131：收工同步 AGENTS/handoff；前一筆 d97fe2c QR Code＋試算表清理）
 - 本次完成：QR Code 兩站已產生（qr-codes\）；firebase login 驗證通過（projects:list 正常，無專案為預期）；GAS 試算表測試資料已清空（只剩標題列）＋Code.gs 還原乾淨＋未命名.gs 殘留檔已刪除；qr-codes 已 push
