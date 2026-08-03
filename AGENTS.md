@@ -14,14 +14,14 @@ AI 教學工具鏈建置：安裝並熟悉 AI 工具鏈（OpenCode 懶人包 13 
   - [x] #00-#08（環境/模型/工具/NotebookLM/Obsidian/GAS/GitHub/工作流程技能）
   - [x] #10 用途 A：Netlify 部署（class-demo-jackhu24.netlify.app，正式網址已發布）
   - [x] extras：browser（Playwright＋open-computer-use）、firebase CLI
-  - [ ] #09 Groq 金鑰（待使用者申請 → GROQ_API_KEY 環境變數）
-  - [ ] #10 用途 B：Functions 藏金鑰後端（待 Groq 金鑰）
+  - [x] #09 Groq 金鑰（GROQ_API_KEY 已設，語音轉字幕 demo 完成）
+  - [x] #10 用途 B：Functions 藏金鑰後端（ask-ai 函式已上線）
   - [ ] extras firebase login（待使用者執行）
 - [ ] 階段二：Demo 作品（GAS 課堂回饋、Supabase 文字雲、Groq 語音字幕、Netlify 網頁部署）
-  - [x] Netlify 網頁部署（用途 A）
+  - [x] Netlify 網頁部署（用途 A＋用途 B）
   - [ ] GAS 課堂回饋（待瀏覽器手動部署）
   - [ ] Supabase 文字雲（待註冊建專案）
-  - [ ] Groq 語音字幕（待金鑰）
+  - [x] Groq 語音字幕（edge-tts 測試音→SRT 完成）
 - [ ] 階段三：實際運用於教學備課
 
 ## 資料夾結構
@@ -31,7 +31,8 @@ C:\260728-code\                ← 工作區根目錄（git repo，私有）
 ├── .gitignore                 ← 敏感資料防護（信用卡/API key/PDF/PPT/大檔）
 ├── .githooks\pre-commit       ← 2MB 上限＋檔案類型擋檔
 ├── ai-agent-ep03\             ← AI Agent 練習專案（verify_core.py、.venv）
-├── netlify-demo\              ← Netlify 部署 demo（class-demo-jackhu24）
+├── groq-demo\                 ← Groq 語音轉字幕 demo（edge-tts 測試音、SRT）
+├── netlify-demo\              ← Netlify 部署 demo（class-demo-jackhu24，含 ask-ai 函式）
 ├── sheets-gas-demo\           ← Google Apps Script 課堂回饋 demo（獨立 repo，已推 GitHub）
 └── supabase-demo\             ← Supabase 文字雲 demo（建表SQL、keep-alive）
 ```
