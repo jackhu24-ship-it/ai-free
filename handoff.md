@@ -39,5 +39,5 @@
 ## 🕐 最後更新
 - 時間：2026-08-05
 - 更新者：opencode @ LAPTOP-C47IT9US
-- Git push：待推（L2 完成後回填）
+- Git push：✅ 已推（c4ade1a：收工同步 chezmoi dotfiles 管理上線）
 - 本次完成：chezmoi 安裝＋opencode 全域設定納管（json＋四包 skills）＋建立 dotfiles 私有 repo 推送（837e49d）；確認無敏感資料（skills 僅環境變數名稱）
