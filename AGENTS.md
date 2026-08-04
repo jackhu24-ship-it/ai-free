@@ -17,6 +17,7 @@ AI 教學工具鏈建置：安裝並熟悉 AI 工具鏈（OpenCode 懶人包 13 
   - [x] #09 Groq 金鑰（GROQ_API_KEY 已設，語音轉字幕 demo 完成）
   - [x] #10 用途 B：Functions 藏金鑰後端（ask-ai 函式已上線）
   - [x] extras firebase login（已登入，projects:list 驗證通過）
+  - [x] extras chezmoi（dotfiles 管理，已建 dotfiles 私有 repo 並推送）
 - [ ] 階段二：Demo 作品（GAS 課堂回饋、Supabase 文字雲、Groq 語音字幕、Netlify 網頁部署）
   - [x] Netlify 網頁部署（用途 A＋用途 B）
   - [x] GAS 課堂回饋（已部署上線，Web App 網址見 handoff）
