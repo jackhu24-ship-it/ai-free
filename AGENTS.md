@@ -28,6 +28,8 @@ AI 教學工具鏈建置：安裝並熟悉 AI 工具鏈（OpenCode 懶人包 13 
 - [x] 階段二附加：Netlify QR Code（qr-codes\ 兩站 SVG＋A4 列印頁）
 - [x] 階段二附加：GAS 試算表測試資料清理（只剩標題列）
 - [x] 階段二附加：Padlet 免費帳戶申請（jackhu24@gmail.com，免費版 3 板限制；評估學生免帳號即可貼）
+- [x] 階段二附加：簡報技能集安裝（opencode-presentation-skills 5 個技能：SOIL/PPTX/HTML/圖片式；Python 3.12＋PptxGenJS＋Playwright 依賴備齊）
+- [x] 階段二附加：Wordwall CLI 安裝＋登入（wordwall-cli-opencode，本機 C:\wordwall-cli-opencode；可建活動/發作業/讀成績）
 - [ ] 階段三：實際運用於教學備課
 
 ## 資料夾結構
@@ -44,8 +46,10 @@ G:\我的雲端硬碟\260803_opencode\    ← 工作區根目錄（git repo，�
 ├── qr-codes\                  ← 兩站 QR Code（SVG＋print.html A4 列印頁）
 ├── sheets-gas-demo\           ← Google Apps Script 課堂回饋 demo（獨立 repo，已推 GitHub）
 ├── supabase-demo\             ← Supabase 文字雲 demo（建表SQL、keep-alive、.env 金鑰）
-└── wordcloud-app\             ← 文字雲前端頁面（Supabase＋WordCloud2，可部署 Netlify）
+├── wordcloud-app\             ← 文字雲前端頁面（Supabase＋WordCloud2，可部署 Netlify）
+└── 安裝資料\                  ← 使用者自建暫存（內含 wordwall-cli-opencode 副本，已 gitignore 排除）
 ```
+> ⚠️ Wordwall 工具執行主位置在 **C:\wordwall-cli-opencode**（本機，已裝環境＋已登入），不在工作區內；雲端硬碟對 git repo 同步不穩，勿把工具放工作區
 
 ## 同步層級（本專案初始化至第 3 層級）
 
