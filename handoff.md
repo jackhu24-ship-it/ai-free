@@ -43,5 +43,5 @@
 ## 🕐 最後更新
 - 時間：2026-08-05
 - 更新者：opencode @ LAPTOP-C47IT9US
-- Git push：待推（L2 完成後回填）
+- Git push：✅ 已推（c631f3f：收工同步開工密碼驗證機制上線）
 - 本次完成：開工密碼機制上線（startup 技能加 L0 驗證＋本機設 STARTUP_PASSWORD＋dotfiles 推 b4d25af）；AGENTS.md 工作約定補上開工密碼規則
