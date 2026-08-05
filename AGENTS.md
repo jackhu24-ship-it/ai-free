@@ -32,6 +32,7 @@ AI 教學工具鏈建置：安裝並熟悉 AI 工具鏈（OpenCode 懶人包 13 
 - [x] 階段二附加：Wordwall CLI 安裝＋登入（wordwall-cli-opencode，本機 C:\wordwall-cli-opencode；可建活動/發作業/讀成績）
 - [x] 階段二附加：RDQ 技能安裝（需求探索四象限，clone 至 ~/.config/opencode/skills\rdq，chezmoi 納管）
 - [x] 階段二附加：簡報技能實作一（Agent 工具鏈現況報告 21 頁，PPTX＋PDF 交付簡報作品\；修復 pptxgenjs 負寬度坑）
+- [ ] 階段二附加：codex-security 掃描工作區（openai/codex-security 已裝＋登入＋中文路徑編碼修補；三路線全卡額度：ChatGPT 帳號 8/20 重置、OpenAI API 需充值、OpenRouter 免費 50 請求/日 8/6 08:00 重置；已建 8/6 排程提醒＋縮範圍策略 sheets-gas-demo）
 - [ ] 階段三：實際運用於教學備課
 
 ## 資料夾結構
@@ -41,7 +42,6 @@ G:\我的雲端硬碟\260803_opencode\    ← 工作區根目錄（git repo，�
 ├── .gitignore                 ← 敏感資料防護（信用卡/API key/PDF/PPT/大檔）
 ├── .githooks\pre-commit       ← 2MB 上限＋檔案類型擋檔
 ├── .github\workflows\         ← supabase-keep-alive.yml（每日 21:00 UTC ping）
-├── ai-agent-ep03\             ← AI Agent 練習專案（verify_core.py、.venv）
 ├── groq-demo\                 ← Groq 語音轉字幕 demo（edge-tts 測試音、SRT）
 ├── netlify-demo\              ← Netlify 部署 demo（class-demo-jackhu24，含 ask-ai 函式）
 ├── padlet-assets\             ← clone 自 mathruffian-dot/padlet-assets（圖床 repo，已 gitignore 排除）
@@ -50,9 +50,10 @@ G:\我的雲端硬碟\260803_opencode\    ← 工作區根目錄（git repo，�
 ├── supabase-demo\             ← Supabase 文字雲 demo（建表SQL、keep-alive、.env 金鑰）
 ├── wordcloud-app\             ← 文字雲前端頁面（Supabase＋WordCloud2，可部署 Netlify）
 ├── 簡報作品\                  ← 簡報技能成品輸出（Agent工具鏈現況報告.pptx＋.pdf，gitignore 排除不推 GitHub）
-└── 安裝資料\                  ← 使用者自建暫存（內含 wordwall-cli-opencode 副本，已 gitignore 排除）
+└── 安裝資料\                  ← 使用者自建暫存（含 wordwall-cli-opencode、codex-security 副本，已 gitignore 排除）
 ```
 > ⚠️ Wordwall 工具執行主位置在 **C:\wordwall-cli-opencode**（本機，已裝環境＋已登入），不在工作區內；雲端硬碟對 git repo 同步不穩，勿把工具放工作區
+> ⚠️ codex-security 執行主位置在 **C:\codex-security**（本機，已 build＋npm link 全域＋登入），工作區內只有乾淨副本
 
 ## 同步層級（本專案初始化至第 3 層級）
 
