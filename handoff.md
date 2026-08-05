@@ -3,6 +3,7 @@
 > 任何 Agent、任何電腦接手前**必讀**；收工時**必更新**。本檔只放交接必需的精簡資訊，詳細脈絡放 Obsidian（若有 L3）。
 
 ## ⏯️ 目前做到哪
+- **全新全域技能建立與驗證**（完成）：建立並測試全域技能 `web-study-manual-builder`，統一定義獨立雲端資料夾 `G:\我的雲端硬碟\學習手冊和安裝部件好地方\<主題或網址名稱>\`，並成功實測產出 A3 橫向+新細明體 10pt 圖文並茂《全域與專案技能全攻略》學習手冊 (DOCX/PDF/MD/圖表)。
 - **簽呈 Word 模板精準重製**（完成）：依據 `中控規格確認簽呈20260708.xls` 精準重製為 A4 直向標準格式 Word (`.docx`) 與 PDF 範本，已同步至 `sign-template/` 與 `G:\我的雲端硬碟\簽呈表單\`。
 - **Obsidian MCP (L3) 通訊驗證**（完成）：雙向讀寫與統計工具驗證成功，`專案工作流程.md` 追加紀錄完成。
 - **codex-security CLI 本機安裝**（完成）：於 `LAPTOP-BSBDEJ2Q` 完成 `C:\codex-security` 環境建置與全域 `npm link`（版本 0.1.6）。
@@ -13,12 +14,13 @@
 - 其餘全部完成（階段一＋階段二＋附加項）：見 AGENTS.md 路線圖
 
 ## 🚦 目前狀態
+- **全域技能 `web-study-manual-builder`**：已設定於 `C:\Users\jackh\.gemini\config\skills\`，支援口述觸發、唯一獨立資料夾與 A3 講義匯出。
 - **Obsidian MCP**：L3 已啟用，工具可用（`read_note`、`write_note`、`patch_note`、`list_directory`、`search_notes`、`get_vault_stats`），運作良好。
 - **簽呈模板**：`sign-template/中控規格確認簽呈_標準格式.docx` 已建置，並副本至 `G:\我的雲端硬碟\簽呈表單\`。
 - **codex-security CLI**：`LAPTOP-BSBDEJ2Q` 全域指令已啟用。
 
 ## ➡️ 下一步
-1. **確認簽呈模板細節**：確認 `中控規格確認簽呈_標準格式.docx` 欄位與格式是否需調整。
+1. **使用 `web-study-manual-builder` 技能**：未來提供任何網址或主題，說出「生成手冊」、「查閱」或「學習」即可產出獨立資料夾學習手冊。
 2. **8/6 08:00 後**（排程會提醒），用縮範圍測試指令驗證 codex-security 能產出報告：
    ```
    $env:PYTHONUTF8="1"
@@ -38,5 +40,6 @@
 - 時間：2026-08-05
 - 更新者：opencode @ LAPTOP-BSBDEJ2Q
 - Git push：✅ 已推
-- 本次完成：Obsidian MCP (L3) 通訊測試成功；codex-security CLI 本機安裝完畢；精準重製 A4 直向簽呈 Word/PDF 模板。
+- 本次完成：建置全域技能 `web-study-manual-builder` 並實測成功；Obsidian MCP (L3) 通訊測試成功；codex-security CLI 安裝；精準重製 A4 簽呈 Word/PDF 模板。
+
 
