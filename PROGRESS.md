@@ -1,40 +1,38 @@
 # 專案進度與歷程紀錄 (PROGRESS.md)
 
-## 📅 2026-08-05 工作進度歷程
+## 📅 2026-08-06 工作進度歷程
 
 ### ✅ 已完成項目
-1. **Obsidian MCP (L3) 通訊驗證與設定優化**：
-   * `@bitbonsai/mcpvault` 改為 `node` 直連模式，解決 `npx` 每次下載引發的延遲與失敗。
-   * 完成 `get_vault_stats`、`read_note` 與 `patch_note` 的雙向讀寫與統計測試，記錄更新至 Obsidian Vault (`專案/260728-Open Code/專案工作流程.md`)。
+1. **全域技能 `auto-approve-command-guide` 建立與備份**：
+   * 建立指令自動核准與權限白名單 SOP 技能 (`auto-approve-command-guide`)，詳細規範方案 A (選項 3 `Yes, and always allow`) 之作業步驟。
+   * 完成全域技能庫與 `chezmoi` (`~/.config/opencode/skills/`) 雙重同步。
 
-2. **簽呈 Word/PDF 模板精準重製**：
-   * 深入解析 `G:\我的雲端硬碟\簽呈表單\中控規格確認簽呈20260708.xls` 原始格式檔。
-   * 摒棄原本全頁網格扭曲問題，重新建置符合 A4 直向標準規範的 Word (`.docx`) 與列印預覽 PDF (`.pdf`) 檔案。
-   * 成功匯出至 `sign-template/` 與 [G:\我的雲端硬碟\簽呈表單\](file:///G:/我的雲端硬碟/簽呈表單/)。
+2. **`opencode-draw-free` GitHub 套件歸檔與檢測**：
+   * 下載 `https://github.com/mathruffian-dot/opencode-draw-free` 檔案至獨立雲端目錄 `G:\我的雲端硬碟\學習手冊和安裝部件好地方\opencode-draw-free\`。
+   * 完成安裝狀態檢測：確認本機雙全域技能庫已安裝 `draw-free`，且版本與 GitHub 最新版 100% 完全一致。
+   * 自動生成 `學習手冊.md` 並開啟檔案總管供檢視。
 
-3. **`codex-security` CLI 本機環境建置與安裝**：
-   * 在本機 (`LAPTOP-BSBDEJ2Q`) 將安裝套件部署至 `C:\codex-security`。
-   * 執行 TypeScript 構建並建立全域 `npm link`，指令 `codex-security --version` 驗證成功（版本 0.1.6）。
-
-4. **全新全域技能 `web-study-manual-builder` 建立與實測**：
-   * 建立全域技能 `web-study-manual-builder`（支援口述關鍵字「生成手冊」、「查閱」、「學習」自動觸發）。
-   * 強制統一母目錄及專案子資料夾命名：`G:\我的雲端硬碟\學習手冊和安裝部件好地方\<主題或網址名稱>\`。
-   * 實測並於雲端獨立資料夾生成：
-     * **A3 講義版 Word (`.docx`)**：A3 橫向、新細明體 10pt、圖文並茂。
-     * **A3 列印預覽 PDF (`.pdf`)**
-     * **Markdown 手冊 (`學習手冊.md`)**
-     * **結構圖解 PNG (`下載檔案/architecture_diagram.png` & `comparison_matrix.png`)**
+3. **《極光下的父愛》1 分鐘感人繪本短片實作與精修**：
+   * **劇本與分鏡**：編寫「乾旱草原父子相依 ➔ 風雪長征 ➔ 遇見極光與食物 ➔ 溫馨回家團聚」感人劇本。
+   * **圖像與動態**：AI 生成 4 幕劇照；特別製作正弦波「大草原風吹草動」動態 GIF (`scene_1_windy_grass.gif`) 並融合成動畫影片。
+   * **語音與字幕**：以 `edge-tts` 產出台灣中文人聲旁白，加上繁體中文字幕，並以 OpenCV 進行毫秒級音畫同步。
+   * **影片產出**：合成 1 分 20 秒 (79.43 秒) 高畫質影片 `極光下的父愛_1分鐘完整史詩版.mp4` (27.2MB)。
+   * **資料夾清理**：清理 `lion_story/` 內所有數千張中間暫存圖片與聲音切片，精簡保留 7 個核心資產。
 
 ---
 
 ### 🚦 目前進度
-* 專案基礎建設（L1/L2/L3）全數正常運作。
-* 全域技能 `web-study-manual-builder` 正式加入個人技能庫（含 `chezmoi` 管理）。
-* 簽呈模板與文件產出測試 100% 成功。
-* `codex-security` 卡在每日/月 API 額度上限，待 8/6 08:00 額度重置後續測。
+* 專案基礎建設與全域技能庫（`web-study-manual-builder`、`auto-approve-command-guide`、`draw-free`）皆已到位。
+* 《極光下的父愛》1 分鐘短片與素材庫已於 `generated/lion_story/` 歸檔完畢。
+* 工作區無多餘暫存檔，狀態乾淨整潔。
 
 ---
 
 ### ➡️ 下一步計劃
-1. **使用 `web-study-manual-builder`**：貼上任何學習網址或主題，快速產出獨立雲端資料夾與 A3/A4 研讀手冊。
-2. **codex-security 縮範圍掃描**（8/6 08:00 後）：驗證 `sheets-gas-demo` 子目錄之安全性掃描輸出。
+1. **教學素材應用**：將產出之感人繪本短片或音畫同步技術應用於教學展示與短片製作。
+2. **codex-security 縮範圍掃描**（8/6 08:00 API 額度重置後）：驗證 `sheets-gas-demo` 安全性掃描。
+
+---
+
+## 📅 2026-08-05 工作進度歷程
+* (先前進度摘要保留)
