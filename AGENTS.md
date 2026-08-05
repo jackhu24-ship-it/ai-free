@@ -32,6 +32,7 @@ AI 教學工具鏈建置：安裝並熟悉 AI 工具鏈（OpenCode 懶人包 13 
 - [x] 階段二附加：Wordwall CLI 安裝＋登入（wordwall-cli-opencode，本機 C:\wordwall-cli-opencode；可建活動/發作業/讀成績）
 - [x] 階段二附加：RDQ 技能安裝（需求探索四象限，clone 至 ~/.config/opencode/skills\rdq，chezmoi 納管）
 - [x] 階段二附加：簡報技能實作一（Agent 工具鏈現況報告 21 頁，PPTX＋PDF 交付簡報作品\；修復 pptxgenjs 負寬度坑）
+- [x] 階段二附加：Obsidian MCP 配置完成（mcpvault 全域安裝＋opencode.json 改用 node 直連 server.js，消除 npx 下載延遲；L3 層級正式啟用）
 - [ ] 階段二附加：codex-security 掃描工作區（openai/codex-security 已裝＋登入＋中文路徑編碼修補；三路線全卡額度：ChatGPT 帳號 8/20 重置、OpenAI API 需充值、OpenRouter 免費 50 請求/日 8/6 08:00 重置；已建 8/6 排程提醒＋縮範圍策略 sheets-gas-demo）
 - [ ] 階段三：實際運用於教學備課
 
