@@ -38,6 +38,8 @@ AI 教學工具鏈建置：安裝並熟悉 AI 工具鏈（OpenCode 懶人包 13 
 - [x] 階段二附加：全域技能 web-study-manual-builder 與 auto-approve-command-guide 建立與 chezmoi 同步
 - [x] 階段二附加：opencode-draw-free 部件歸檔與本機安裝比對
 - [x] 階段二附加：《極光下的父愛》1 分鐘繪本短片音畫同步與風吹草動 GIF 實作
+- [x] 階段二附加：Ollama 資料夾搬遷（.ollama → ollama，環境變數 OLLAMA_MODELS 已設定）
+- [x] 階段二附加：OI Project Manager 工具包（oi-project-manager.py，自然語言操作 init/startup/shutdown）
 - [ ] 階段三：實際運用於教學備課
 
 ## 資料夾結構
