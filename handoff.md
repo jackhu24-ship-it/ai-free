@@ -6,22 +6,25 @@
 - **Ollama 資料夾搬遷**（完成）：從 `C:\Users\user\.ollama` 搬到 `C:\Users\user\ollama`，環境變數 `OLLAMA_MODELS` 已設定
 - **OI Project Manager 工具包**（完成）：`C:\Users\user\oi-project-manager.py`，支援自然語言操作 init/startup/shutdown
 - **Ollama 雲端模型重新授權**（完成）：已重新登入，雲端模型正常運作
-- **OI 自動載入工具包**（部分完成）：已設定 `custom_instructions`，但 OI 不會自動執行程式碼，需手動載入
+- **OI Model Switcher**（完成）：`C:\Users\user\oi_switcher.py`，支援 3 個模型配置檔切換
+- **OI 工作區選單**（完成）：`C:\Users\user\Desktop\OI-Menu.bat`，一鍵選模型 + 啟動 OI
+- **MiniMax-M3 配置修正**（完成）：移除工具包指令，避免身分衝突，改為純長文件分析模式
 
 ## 🚦 目前狀態
 - **Ollama 本地模型**：qwen2.5:14b 正常運作
-- **Ollama 雲端模型**：nemotron-3-super:cloud 正常運作
-- **OI Project Manager**：工具包已建立，需手動載入
+- **Ollama 雲端模型**：nemotron-3-super/ultra:cloud、minimax-m3:cloud 正常運作
+- **OI 工作流**：選模型 → 啟動 OI → 載入工具（1-2）或直接工作（3）
 - **Git 狀態**：工作區乾淨
 
 ## ➡️ 下一步
-1. **手動載入工具包**：每次開 OI 時貼上 `exec(open(r'C:\Users\user\oi-project-manager.py').read())`
-2. **測試完整流程**：專案初始化 → 開工 → 收工
-3. **考慮替代方案**：將工具包程式碼直接嵌入 OI 設定檔，或建立 OI 插件
+1. **使用 OI 進行教學備課**：實際運用於課堂準備
+2. **繼續開發專案**：使用 OI 工具包管理專案流程
+3. **優化工作流**：根據實際使用情況調整模型配置
 
 ## ⚠️ 注意事項
 - **OI 自動載入限制**：`custom_instructions` 只是文字指示，不會自動執行程式碼
-- **Ollama 資料夾已搬遷**：`OLLAMA_MODELS=C:\Users\user\ollama\models`，新開 PowerShell 需確認環境變數
+- **MiniMax-M3 限制**：不載入工具包，避免身分衝突；僅用於長文件分析
+- **Ollama 資料夾已搬遷**：`OLLAMA_MODELS=C:\Users\user\ollama\models`
 - **OI 工具包位置**：`C:\Users\user\oi-project-manager.py`，不在 git repo 中
 - **開工密碼**：密碼只存環境變數，跨電腦要各自 `setx STARTUP_PASSWORD "密碼"`
 - **API key 不進 repo**：OpenRouter key 僅放 session 環境變數，收工後即消失
@@ -30,7 +33,7 @@
 - **媒體與產出影片不推 GitHub**：`.gitignore` 已自動排除所有 mp4/gif/jpg
 
 ## 🕐 最後更新
-- 時間：2026-08-08 10:35
+- 時間：2026-08-08 17:45
 - 更新者：opencode @ LAPTOP-C47IT9US
-- Git push：✅ 已推（21858e2）
-- 本次完成：確認雲端授權、測試工具包自動載入（發現限制）
+- Git push：✅ 已推（0abd876）
+- 本次完成：OI 工作區選單建立、MiniMax-M3 配置修正、模型用途分類
