@@ -33,7 +33,7 @@
 - **媒體與產出影片不推 GitHub**：`.gitignore` 已自動排除所有 mp4/gif/jpg
 
 ## 🕐 最後更新
-- 時間：2026-08-08 17:45
+- 時間：2026-08-08 18:30
 - 更新者：opencode @ LAPTOP-C47IT9US
-- Git push：✅ 已推（ec52088）
-- 本次完成：OI 工作區選單建立、MiniMax-M3 配置修正、模型用途分類
+- Git push：✅ 已推（無新變動）
+- 本次完成：OI 狀態檢查、OI-Menu 啟動測試
