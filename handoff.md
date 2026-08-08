@@ -5,18 +5,18 @@
 ## ⏯️ 目前做到哪
 - **Ollama 資料夾搬遷**（完成）：從 `C:\Users\user\.ollama` 搬到 `C:\Users\user\ollama`，環境變數 `OLLAMA_MODELS` 已設定
 - **OI Project Manager 工具包**（完成）：`C:\Users\user\oi-project-manager.py`，支援自然語言操作 init/startup/shutdown
-- **Ollama 雲端模型重新授權**（待完成）：已產生授權連結，需使用者在瀏覽器完成登入
+- **Ollama 雲端模型重新授權**（完成）：已重新登入，雲端模型正常運作
 
 ## 🚦 目前狀態
 - **Ollama 本地模型**：qwen2.5:14b 正常運作
-- **Ollama 雲端模型**：401 未授權錯誤，需重新登入
-- **OI Project Manager**：工具包已建立，待載入測試
+- **Ollama 雲端模型**：nemotron-3-super:cloud 正常運作
+- **OI Project Manager**：工具包已建立並載入成功
 - **Git 狀態**：工作區乾淨
 
 ## ➡️ 下一步
-1. **完成 Ollama 雲端授權**：開瀏覽器完成登入，再測試雲端模型
-2. **載入 OI 工具包**：在 OI 中執行 `exec(open(r'C:\Users\user\oi-project-manager.py').read())`
-3. **測試工具包**：用自然語言說「幫我建立一個專案叫做 hello」
+1. **在 OI 中測試工具包**：啟動 OI，執行 `exec(open(r'C:\Users\user\oi-project-manager.py').read())`
+2. **用自然語言測試**：說「幫我建立一個專案叫做 hello」
+3. **開始實際專案**：用工具包管理教學備課專案
 
 ## ⚠️ 注意事項
 - **Ollama 資料夾已搬遷**：`OLLAMA_MODELS=C:\Users\user\ollama\models`，新開 PowerShell 需確認環境變數
@@ -29,7 +29,7 @@
 - **媒體與產出影片不推 GitHub**：`.gitignore` 已自動排除所有 mp4/gif/jpg
 
 ## 🕐 最後更新
-- 時間：2026-08-07 17:15
+- 時間：2026-08-07 17:30
 - 更新者：opencode @ LAPTOP-C47IT9US
 - Git push：待推
-- 本次完成：Ollama 資料夾搬遷、OI 工具包建立、雲端模型重新授權（待完成）
+- 本次完成：雲端模型授權完成、工具包載入測試成功
