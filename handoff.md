@@ -35,5 +35,5 @@
 ## 🕐 最後更新
 - 時間：2026-08-08 17:45
 - 更新者：opencode @ LAPTOP-C47IT9US
-- Git push：✅ 已推（0abd876）
+- Git push：✅ 已推（ec52088）
 - 本次完成：OI 工作區選單建立、MiniMax-M3 配置修正、模型用途分類
