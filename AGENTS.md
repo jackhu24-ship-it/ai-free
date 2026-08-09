@@ -43,7 +43,17 @@ AI 教學工具鏈建置：安裝並熟悉 AI 工具鏈（OpenCode 懶人包 13 
 - [x] 階段二附加：OI Model Switcher（oi_switcher.py，支援 3 個模型配置檔切換）
 - [x] 階段二附加：OI 工作區選單（OI-Menu.bat，一鍵選模型 + 啟動 OI）
 - [x] 階段二附加：MiniMax-M3 配置修正（移除工具包指令，避免身分衝突，改為純長文件分析模式）
-- [ ] 階段二附加：OI 自動載入工具包（custom_instructions 已設定，但 OI 不會自動執行程式碼，需手動載入）
+- [x] 階段二附加：OI 自動載入工具包（OI-AutoLoad.bat＋.ps1，用剪貼簿+SendKeys 自動貼上工具包路徑，UTF-8 編碼問題已修好）
+- [x] 階段二附加：OI Skills Manager 工具包（oi-skills-manager.py，列出 12 個技能，中文指令）
+- [x] 階段二附加：OI 中文指令系統（custom_instructions 加入中文對應：開工/收工/建立專案/列出專案/技能列表等）
+- [x] 階段二附加：OI 教學指南 Markdown（OI_Teaching_Guide.md，待轉 PDF）
+- [x] 階段二附加：基金分析技能（fund-analyzer，四張圖表+統計，支援台股/海外 ETF）
+- [x] 階段二附加：簽呈 Word/PDF 模板製作（sign-form 技能，5 指令，4 範本；待測試完整流程）
+- [ ] 階段二附加：簽呈工作流完善（測試完整流程：建立→預覽→列印→複製上次）
+- [x] 階段二附加：一鍵安裝腳本（install_opencode_complete.py、install_oi_complete.py，GitHub 安裝器+工具包安裝器）
+- [x] 階段二附加：雲端備份同步（update_all.py，Windows PowerShell 編碼問題已修復）
+- [x] 階段二附加：OI 自動雲端同步（startup 自動 update_all_from_cloud，shutdown 自動 update_all + update_backup）
+- [x] 階段二附加：跨電腦同步（sync_info.json 電腦偵測，雲端自動下載/上傳）
 - [ ] 階段三：實際運用於教學備課
 
 ## 資料夾結構
