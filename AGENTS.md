@@ -33,7 +33,7 @@ AI 教學工具鏈建置：安裝並熟悉 AI 工具鏈（OpenCode 懶人包 13 
 - [x] 階段二附加：RDQ 技能安裝（需求探索四象限，clone 至 ~/.config/opencode/skills\rdq，chezmoi 納管）
 - [x] 階段二附加：簡報技能實作一（Agent 工具鏈現況報告 21 頁，PPTX＋PDF 交付簡報作品\；修復 pptxgenjs 負寬度坑）
 - [x] 階段二附加：Obsidian MCP 配置完成（mcpvault 全域安裝＋opencode.json 改用 node 直連 server.js，消除 npx 下載延遲；L3 層級正式啟用）
-- [ ] 階段二附加：codex-security 掃描工作區（嘗試 5 個 OpenRouter 免費模型，全部撞 Google 上游限流 `upstream_provider_shared_pool`；非 OpenRouter 帳戶問題，需等 Google 恢復或加自己的 Google API key）
+- [x] 階段二附加：codex-security 掃描與安全加固（修復 Windows 中文編碼相容性，以 gpt-5.6-terra 完成 sheets-gas-demo 深度掃描，並實作 CWE-1236 試算表公式注入防護）
 - [x] 階段二附加：簽呈 Word/PDF 模板製作（A4 直向標準格式已重製完成，同步 G:\我的雲端硬碟\簽呈表單\）
 - [x] 階段二附加：全域技能 web-study-manual-builder 與 auto-approve-command-guide 建立與 chezmoi 同步
 - [x] 階段二附加：opencode-draw-free 部件歸檔與本機安裝比對
@@ -93,3 +93,9 @@ G:\我的雲端硬碟\260803_opencode\    ← 工作區根目錄（git repo，�
 - **學生資料只用座號**，不出現姓名、學號、班級以外的個資、照片或聯絡方式
 - 要公開分享前，先確認檔案裡沒有上述兩類內容
 - 信用卡／金融資料、PDF、簡報、試算表、影像、音樂檔、大於 2MB 的檔案**一律不上傳 GitHub**（`.gitignore`＋`pre-commit` hook 雙重防護）
+
+## Windows 開發與代碼安全最佳實踐（Agent 學習記憶）
+1. **Python Subprocess UTF-8 編碼防護**：在 Windows 繁體/簡體中文語系下執行 Python 子行程呼叫 Git 或讀取檔案時，一律加上 `encoding="utf-8", errors="replace"`（或設定環境變數 `PYTHONUTF8=1`），防止 `UnicodeDecodeError (GBK/CP950)` 崩潰。
+2. **Codex Security 授權模型配置**：使用 ChatGPT 訂閱帳戶執行 `codex-security scan` 時，一律指定支援的深度推論模型 `--model gpt-5.6-terra`。
+3. **Google Sheets 公式注入防護 (CWE-1236)**：任何 GAS 寫入 Google 試算表之使用者輸入欄位，必須先經過 `sanitizeCell_()` 過濾（若開頭為 `=`, `+`, `-`, `@` 則前置加上單引號 `'` 強制轉純文字）。
+
