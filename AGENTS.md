@@ -38,22 +38,17 @@ AI 教學工具鏈建置：安裝並熟悉 AI 工具鏈（OpenCode 懶人包 13 
 - [x] 階段二附加：全域技能 web-study-manual-builder 與 auto-approve-command-guide 建立與 chezmoi 同步
 - [x] 階段二附加：opencode-draw-free 部件歸檔與本機安裝比對
 - [x] 階段二附加：《極光下的父愛》1 分鐘繪本短片音畫同步與風吹草動 GIF 實作
-- [x] 階段二附加：Ollama 資料夾搬遷（.ollama → ollama，環境變數 OLLAMA_MODELS 已設定）
-- [x] 階段二附加：OI Project Manager 工具包（oi-project-manager.py，自然語言操作 init/startup/shutdown）
-- [x] 階段二附加：OI Model Switcher（oi_switcher.py，支援 3 個模型配置檔切換）
-- [x] 階段二附加：OI 工作區選單（OI-Menu.bat，一鍵選模型 + 啟動 OI）
-- [x] 階段二附加：MiniMax-M3 配置修正（移除工具包指令，避免身分衝突，改為純長文件分析模式）
-- [x] 階段二附加：OI 自動載入工具包（OI-AutoLoad.bat＋.ps1，用剪貼簿+SendKeys 自動貼上工具包路徑，UTF-8 編碼問題已修好）
-- [x] 階段二附加：OI Skills Manager 工具包（oi-skills-manager.py，列出 12 個技能，中文指令）
-- [x] 階段二附加：OI 中文指令系統（custom_instructions 加入中文對應：開工/收工/建立專案/列出專案/技能列表等）
-- [x] 階段二附加：OI 教學指南 Markdown（OI_Teaching_Guide.md，待轉 PDF）
+- [x] 階段二附加：Ollama 資料夾搬遷與模型支援（環境變數 OLLAMA_MODELS 設定）
+- [x] 階段二附加：OI Project Manager 與 Skills Manager 工具包建置（支援自然語言與中文指令）
+- [x] 階段二附加：OI Model Switcher 與 AutoLoad 自動載入工具（支援配置檔切換）
 - [x] 階段二附加：基金分析技能（fund-analyzer，四張圖表+統計，支援台股/海外 ETF）
-- [x] 階段二附加：簽呈 Word/PDF 模板製作（sign-form 技能，5 指令，4 範本；待測試完整流程）
-- [ ] 階段二附加：簽呈工作流完善（測試完整流程：建立→預覽→列印→複製上次）
-- [x] 階段二附加：一鍵安裝腳本（install_opencode_complete.py、install_oi_complete.py，GitHub 安裝器+工具包安裝器）
-- [x] 階段二附加：雲端備份同步（update_all.py，Windows PowerShell 編碼問題已修復）
-- [x] 階段二附加：OI 自動雲端同步（startup 自動 update_all_from_cloud，shutdown 自動 update_all + update_backup）
-- [x] 階段二附加：跨電腦同步（sync_info.json 電腦偵測，雲端自動下載/上傳）
+- [x] 階段二附加：簽呈 Word/PDF 模板製作（sign-form 技能，5 指令，4 範本）
+- [x] 階段二附加：一鍵安裝腳本（install_opencode_complete.py、install_oi_complete.py）
+- [x] 階段二附加：雲端備份同步系統與跨電腦偵測（sync_info.json、auto startup/shutdown 同步）
+- [x] 階段二附加：全系統儲存優化與快取搬移至 E 槽（個人庫/下載/TEMP/AI快取全重定向，釋放 18.44 GB，C 槽 21.96 GB）
+- [x] 階段二附加：Ollama 0.32.14 啟動與 qwen2.5:7b 本地模型建置（E 槽膠合點儲存，模型 4.7 GB 離線驗證通過）
+- [x] 階段二附加：三師爸工具庫 112 項目同步備份至學習手冊和安裝部件好地方
+- [x] 階段二附加：Ollama 本地執行操作手冊撰寫歸檔（ollama-operation-manual.md）
 - [ ] 階段三：實際運用於教學備課
 
 ## 資料夾結構
@@ -71,7 +66,8 @@ G:\我的雲端硬碟\260803_opencode\    ← 工作區根目錄（git repo，�
 ├── supabase-demo\             ← Supabase 文字雲 demo（建表SQL、keep-alive、.env 金鑰）
 ├── wordcloud-app\             ← 文字雲前端頁面（Supabase＋WordCloud2，可部署 Netlify）
 ├── 簡報作品\                  ← 簡報技能成品輸出（Agent工具鏈現況報告.pptx＋.pdf，gitignore 排除不推 GitHub）
-├── ollama-operation-manual.md ← Ollama 本地 LLM 操作手冊（從 Gemini 對話整理）
+├── generated\                 ← AI 生成內容與短片素材（含 lion_story 等）
+├── ollama-operation-manual.md ← Ollama 本地模型操作手冊
 └── 安裝資料\                  ← 使用者自建暫存（含 wordwall-cli-opencode、codex-security 副本，已 gitignore 排除）
 ```
 > ⚠️ Wordwall 工具執行主位置在 **C:\wordwall-cli-opencode**（本機，已裝環境＋已登入），不在工作區內；雲端硬碟對 git repo 同步不穩，勿把工具放工作區
