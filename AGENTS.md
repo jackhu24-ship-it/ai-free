@@ -50,6 +50,7 @@ AI 教學工具鏈建置：安裝並熟悉 AI 工具鏈（OpenCode 懶人包 13 
 - [x] 階段二附加：三師爸工具庫 112 項目同步備份至學習手冊和安裝部件好地方
 - [x] 階段二附加：Ollama 本地執行操作手冊撰寫歸檔（ollama-operation-manual.md）
 - [x] 階段二附加：OI 實戰操作與專案管理驗證（OI-AutoLoad 自動化日常工作流）
+- [x] 階段二附加：Hermes Agent 與 Hermes Desktop 桌面應用建置（v0.20.4，Electron GUI、82 個技能庫、桌面捷徑已建立）
 - [ ] 階段三：實際運用於教學備課
 
 ## 資料夾結構

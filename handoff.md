@@ -10,6 +10,7 @@
 ### 本地 AI 與大模型建置
 - **Ollama 本地開源模型建置**（完成）：Ollama 0.32.14 服務啟動並設置 E 槽模型膠合點，繁中推薦模型 `qwen2.5:7b` 下載與離線測試通過；已撰寫 `ollama-operation-manual.md` 操作手冊。
 - **Ollama 資料夾與模型支援**（完成）：支援本地模型 `qwen2.5:7b`、`qwen2.5:14b` 與雲端模型。
+- **Hermes Agent & Desktop 桌面版建置**（完成）：Nous Research `hermes-agent` v0.20.4 與 `Hermes Desktop`（Electron GUI，214 MB）編譯安裝完成；升級全域 npm 至 v12.0.2 滿足相容需求；已在桌面與開始功能表建立 `Hermes.lnk` 捷徑，並同步 82 個原生技能庫。
 
 ### 一鍵安裝與雲端同步系統
 - **一鍵安裝腳本**（完成）：`install_opencode_complete.py`、`install_oi_complete.py`、`update_all.py` 位於 `G:\我的雲端硬碟\一鍵安裝回原來agent\`。
@@ -25,7 +26,7 @@
 
 ## 🚦 目前狀態
 - **系統空間**：C 槽（SSD）安全空間 21.96 GB，所有大容量下載與快取自動落入 E 槽。
-- **本地與雲端 AI**：Ollama + `qwen2.5:7b` 就緒；Open Interpreter 0.4.3 就緒。
+- **本地與雲端 AI**：Ollama + `qwen2.5:7b` 就緒；Open Interpreter 0.4.3 就緒；Hermes Agent v0.20.4 + Hermes Desktop 就緒。
 - **雲端同步**：`update_all.py` 全量九項備份完成，`sync_info.json` 已寫入 shutdown 標記（`LAPTOP-C47IT9US` @ 2026-08-18T13:39:25）。
 - **Git 狀態**：乾淨無待提交檔案。
 
@@ -41,7 +42,7 @@
 - **媒體與產出影片不推 GitHub**：`.gitignore` 已自動排除所有 mp4/gif/jpg
 
 ## 🕐 最後更新
-- 時間：2026-08-18 13:40
+- 時間：2026-08-19 05:30
 - 更新者：小幫手 @ LAPTOP-C47IT9US
-- Git push：✅ 乾淨無變更（已是最新狀態）
-- 本次完成：收工流程執行完畢，完成 `update_all.py` 雲端全量備份、更新 `sync_info.json` 與交接檔 `handoff.md`。
+- Git push：✅ 乾淨無變更
+- 本次完成：安裝並編譯 Hermes Agent v0.20.4 與 Hermes Desktop 桌面應用（Electron GUI），升級 npm 至 v12.0.2，建立桌面捷徑並同步 82 個技能庫。
