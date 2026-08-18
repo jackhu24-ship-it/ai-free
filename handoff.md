@@ -13,7 +13,7 @@
 
 ### 一鍵安裝與雲端同步系統
 - **一鍵安裝腳本**（完成）：`install_opencode_complete.py`、`install_oi_complete.py`、`update_all.py` 位於 `G:\我的雲端硬碟\一鍵安裝回原來agent\`。
-- **雲端同步系統**（完成）：`sync_manager.py`、`oi_sync_manager.py`，支援電腦偵測（`sync_info.json`）與 auto startup/shutdown 同步。
+- **雲端同步系統**（完成）：`sync_manager.py`、`oi_sync_manager.py`，支援電腦偵測（`sync_info.json`）與 auto startup/shutdown 同步；修復 `update_all.py` 之 Windows CP950 編碼相容性（`errors="replace"`）與檔案佔用防護。
 - **全域技能**：`cloud-sync`、`fund-analyzer`、`sign-form`、`auto-approve-command-guide`、`web-study-manual-builder`。
 
 ### 代碼安全與漏洞防護
@@ -26,8 +26,8 @@
 ## 🚦 目前狀態
 - **系統空間**：C 槽（SSD）安全空間 21.96 GB，所有大容量下載與快取自動落入 E 槽。
 - **本地與雲端 AI**：Ollama + `qwen2.5:7b` 就緒；Open Interpreter 0.4.3 就緒。
-- **雲端同步**：startup 自動偵測電腦並下載 / shutdown 自動備份。
-- **Git 狀態**：更新完成，準備同步。
+- **雲端同步**：`update_all.py` 全量九項備份完成，`sync_info.json` 已寫入 shutdown 標記（`LAPTOP-C47IT9US` @ 2026-08-18T13:39:25）。
+- **Git 狀態**：乾淨無待提交檔案。
 
 ## ➡️ 下一步
 1. **AutoCAD MCP 串接**：在繪圖工作機上執行 `master_setup.ps1` 啟用 31 個 AutoCAD 輔助工具。
@@ -41,7 +41,7 @@
 - **媒體與產出影片不推 GitHub**：`.gitignore` 已自動排除所有 mp4/gif/jpg
 
 ## 🕐 最後更新
-- 時間：2026-08-18 10:22
+- 時間：2026-08-18 13:40
 - 更新者：小幫手 @ LAPTOP-C47IT9US
-- Git push：✅ 準備推送
-- 本次完成：OI 實戰操作與專案管理驗證完成，自下一步清單移除項次並完成交接檔更新。
+- Git push：✅ 乾淨無變更（已是最新狀態）
+- 本次完成：收工流程執行完畢，完成 `update_all.py` 雲端全量備份、更新 `sync_info.json` 與交接檔 `handoff.md`。
