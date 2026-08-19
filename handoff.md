@@ -11,7 +11,7 @@
 - **Ollama 本地開源模型建置**（完成）：Ollama 0.32.14 服務啟動並設置 E 槽模型膠合點，繁中推薦模型 `qwen2.5:7b` 下載與離線測試通過；已撰寫 `ollama-operation-manual.md` 操作手冊。
 - **Ollama 資料夾與模型支援**（完成）：支援本地模型 `qwen2.5:7b`、`qwen2.5:14b`、`qwen2.5:3b` 與雲端模型。
 - **Hermes Agent & Desktop 桌面版建置**（完成）：Nous Research `hermes-agent` v0.20.4 與 `Hermes Desktop`（Electron GUI，214 MB）編譯安裝完成；升級全域 npm 至 v12.0.2 滿足相容需求；已在桌面與開始功能表建立 `Hermes.lnk` 捷徑，並同步 82 個原生技能庫。
-- **Hermes 輕量化加速與教學手冊**（完成）：配置 `qwen2.5:3b` 輕量模型提升 CPU 推理速度；精簡核心工具集減重 70%；撰寫左側選單完整教學手冊 `HERMES.md`，已同步放置於工作區與桌面。
+- **Hermes 輕量化加速與教學手冊**（完成）：配置 `qwen2.5:3b` 輕量模型提升 CPU 推理速度；精簡核心工具集減重 70%；修復 `does not support thinking` 報錯（將 `reasoning_effort` 設為 `none`）；撰寫左側選單完整教學手冊 `HERMES.md`，已同步放置於工作區與桌面。
 
 ### 一鍵安裝與雲端同步系統
 - **一鍵安裝腳本**（完成）：`install_opencode_complete.py`、`install_oi_complete.py`、`update_all.py` 位於 `G:\我的雲端硬碟\一鍵安裝回原來agent\`。
@@ -43,7 +43,7 @@
 - **媒體與產出影片不推 GitHub**：`.gitignore` 已自動排除所有 mp4/gif/jpg
 
 ## 🕐 最後更新
-- 時間：2026-08-20 02:44
+- 時間：2026-08-20 02:54
 - 更新者：小幫手 @ LAPTOP-C47IT9US
 - Git push：✅ 乾淨無變更
-- 本次完成：建立 Hermes Desktop 左側功能表完整教學手冊 `HERMES.md`（同步至桌面與雲端工作區），配置 `qwen2.5:3b` 輕量模型與輕量化調優。
+- 本次完成：修復 Hermes Desktop 之 `qwen2.5:3b does not support thinking` 報錯（關閉 `reasoning_effort`），實測驗證本機回應正常流暢。
