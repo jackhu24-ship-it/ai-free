@@ -32,9 +32,10 @@
 - **Git 狀態**：乾淨無待提交檔案。
 
 ## ➡️ 下一步
-1. **AutoCAD MCP 串接**：在繪圖工作機上執行 `master_setup.ps1` 啟用 31 個 AutoCAD 輔助工具。
-2. **教學工具與專案開發**：運用 Ollama 本地模型（`qwen2.5:7b` / `qwen2.5:3b`）或 OpenCode 技能庫輔助備課與教學應用。
-3. **簽呈工作流完善**：測試完整流程（建立 → 預覽 → 列印 → 複製上次）。
+1. **Hermes Desktop 實戰與進階教學**：帶領進行實戰案例演練（Python 程式生成、檔案批次整理、定時排程自動化等）。
+2. **AutoCAD MCP 串接**：在繪圖工作機上執行 `master_setup.ps1` 啟用 31 個 AutoCAD 輔助工具。
+3. **教學工具與專案開發**：運用 Ollama 本地模型（`qwen2.5:7b` / `qwen2.5:3b`）或 OpenCode 技能庫輔助備課與教學應用。
+4. **簽呈工作流完善**：測試完整流程（建立 → 預覽 → 列印 → 複製上次）。
 
 ## ⚠️ 注意事項
 - **開工密碼**：密碼只存環境變數，跨電腦要各自 `setx STARTUP_PASSWORD "密碼"`
@@ -43,7 +44,8 @@
 - **媒體與產出影片不推 GitHub**：`.gitignore` 已自動排除所有 mp4/gif/jpg
 
 ## 🕐 最後更新
-- 時間：2026-08-20 02:54
+- 時間：2026-08-20 03:26
 - 更新者：小幫手 @ LAPTOP-C47IT9US
 - Git push：✅ 乾淨無變更
+- 本次完成：收工流程執行完畢，完成 `update_all.py` 雲端全量九項備份、更新 `sync_info.json` 與交接檔 `handoff.md`。
 - 本次完成：修復 Hermes Desktop 之 `qwen2.5:3b does not support thinking` 報錯（關閉 `reasoning_effort`），實測驗證本機回應正常流暢。
