@@ -9,8 +9,9 @@
 
 ### 本地 AI 與大模型建置
 - **Ollama 本地開源模型建置**（完成）：Ollama 0.32.14 服務啟動並設置 E 槽模型膠合點，繁中推薦模型 `qwen2.5:7b` 下載與離線測試通過；已撰寫 `ollama-operation-manual.md` 操作手冊。
-- **Ollama 資料夾與模型支援**（完成）：支援本地模型 `qwen2.5:7b`、`qwen2.5:14b` 與雲端模型。
+- **Ollama 資料夾與模型支援**（完成）：支援本地模型 `qwen2.5:7b`、`qwen2.5:14b`、`qwen2.5:3b` 與雲端模型。
 - **Hermes Agent & Desktop 桌面版建置**（完成）：Nous Research `hermes-agent` v0.20.4 與 `Hermes Desktop`（Electron GUI，214 MB）編譯安裝完成；升級全域 npm 至 v12.0.2 滿足相容需求；已在桌面與開始功能表建立 `Hermes.lnk` 捷徑，並同步 82 個原生技能庫。
+- **Hermes 輕量化加速與教學手冊**（完成）：配置 `qwen2.5:3b` 輕量模型提升 CPU 推理速度；精簡核心工具集減重 70%；撰寫左側選單完整教學手冊 `HERMES.md`，已同步放置於工作區與桌面。
 
 ### 一鍵安裝與雲端同步系統
 - **一鍵安裝腳本**（完成）：`install_opencode_complete.py`、`install_oi_complete.py`、`update_all.py` 位於 `G:\我的雲端硬碟\一鍵安裝回原來agent\`。
@@ -25,14 +26,14 @@
 - **OI 實戰操作與專案管理**（完成）：完成 `OI-AutoLoad.bat` 實戰操作與日常專案管理輔助驗證。
 
 ## 🚦 目前狀態
-- **系統空間**：C 槽（SSD）安全空間 21.96 GB，所有大容量下載與快取自動落入 E 槽。
-- **本地與雲端 AI**：Ollama + `qwen2.5:7b` 就緒；Open Interpreter 0.4.3 就緒；Hermes Agent v0.20.4 + Hermes Desktop 就緒。
-- **雲端同步**：`update_all.py` 全量九項備份完成，`sync_info.json` 已寫入 shutdown 標記（`LAPTOP-C47IT9US` @ 2026-08-19 06:01）。
+- **系統空間**：C 槽（SSD）空間充足，所有大容量下載與快取自動落入 E 槽。
+- **本地與雲端 AI**：Ollama + `qwen2.5:7b` / `qwen2.5:3b` 就緒；Open Interpreter 0.4.3 就緒；Hermes Agent v0.20.4 + Hermes Desktop 就緒。
+- **雲端同步**：`update_all.py` 全量九項備份完成，`sync_info.json` 維持最新。
 - **Git 狀態**：乾淨無待提交檔案。
 
 ## ➡️ 下一步
 1. **AutoCAD MCP 串接**：在繪圖工作機上執行 `master_setup.ps1` 啟用 31 個 AutoCAD 輔助工具。
-2. **教學工具與專案開發**：運用 Ollama 本地模型（`qwen2.5:7b`）或 OpenCode 技能庫輔助備課與教學應用。
+2. **教學工具與專案開發**：運用 Ollama 本地模型（`qwen2.5:7b` / `qwen2.5:3b`）或 OpenCode 技能庫輔助備課與教學應用。
 3. **簽呈工作流完善**：測試完整流程（建立 → 預覽 → 列印 → 複製上次）。
 
 ## ⚠️ 注意事項
@@ -42,7 +43,7 @@
 - **媒體與產出影片不推 GitHub**：`.gitignore` 已自動排除所有 mp4/gif/jpg
 
 ## 🕐 最後更新
-- 時間：2026-08-19 06:02
+- 時間：2026-08-20 02:44
 - 更新者：小幫手 @ LAPTOP-C47IT9US
 - Git push：✅ 乾淨無變更
-- 本次完成：安裝並編譯 Hermes Agent v0.20.4 與 Hermes Desktop 桌面應用（Electron GUI），升級 npm 至 v12.0.2，建立桌面捷徑並同步 82 個技能庫；完成 `update_all.py` 雲端全量備份與收工交接。
+- 本次完成：建立 Hermes Desktop 左側功能表完整教學手冊 `HERMES.md`（同步至桌面與雲端工作區），配置 `qwen2.5:3b` 輕量模型與輕量化調優。
