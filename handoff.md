@@ -24,17 +24,18 @@
 ### OI（Open Interpreter）環境與啟動器
 - **OI 執行環境與 AutoLoad 升級**（完成）：使用 `uv` 構建 Python 3.12 獨立環境，修復 `pkg_resources` (setuptools) 依賴，升級 `OI-AutoLoad.ps1` 具備全自動動態路徑解析，並同步至雲端備份庫。
 - **OI 實戰操作與專案管理**（完成）：完成 `OI-AutoLoad.bat` 實戰操作與日常專案管理輔助驗證。
+- **OI 全技能工具化與 AutoLoad 旗艦升級**（完成）：將 23+ 個核心技能完整封裝為旗艦工具庫 `oi_complete_skills.py`（支援中英文雙語呼叫，如 `建立簽呈()`、`分析基金()`、`語音轉字幕()`、`免費生圖()` 等）；升級 `oi-auto-load.py` 具備啟動自動載入與提示詞注入，並全量同步至雲端備份庫。
 
 ## 🚦 目前狀態
 - **系統空間**：C 槽（SSD）空間充足，所有大容量下載與快取自動落入 E 槽。
-- **本地與雲端 AI**：Ollama + `qwen2.5:7b` / `qwen2.5:3b` 就緒；Open Interpreter 0.4.3 就緒；Hermes Agent v0.20.4 + Hermes Desktop 就緒。
+- **本地與雲端 AI**：Ollama + `qwen2.5:7b` / `qwen2.5:3b` 就緒；Open Interpreter 0.4.3 + `oi_complete_skills` 旗艦工具庫就緒；Hermes Agent v0.20.4 + Hermes Desktop 就緒。
 - **雲端同步**：`update_all.py` 全量九項備份完成，`sync_info.json` 維持最新。
 - **Git 狀態**：乾淨無待提交檔案。
 
 ## ➡️ 下一步
 1. **Hermes Desktop 實戰與進階教學**：帶領進行實戰案例演練（Python 程式生成、檔案批次整理、定時排程自動化等）。
 2. **AutoCAD MCP 串接**：在繪圖工作機上執行 `master_setup.ps1` 啟用 31 個 AutoCAD 輔助工具。
-3. **教學工具與專案開發**：運用 Ollama 本地模型（`qwen2.5:7b` / `qwen2.5:3b`）或 OpenCode 技能庫輔助備課與教學應用。
+3. **教學工具與專案開發**：運用 Ollama 本地模型（`qwen2.5:7b` / `qwen2.5:3b`）或 OpenCode / OI 技能庫輔助備課與教學應用。
 4. **簽呈工作流完善**：測試完整流程（建立 → 預覽 → 列印 → 複製上次）。
 
 ## ⚠️ 注意事項
@@ -44,9 +45,9 @@
 - **媒體與產出影片不推 GitHub**：`.gitignore` 已自動排除所有 mp4/gif/jpg
 
 ## 🕐 最後更新
-- 時間：2026-08-20 15:22
+- 時間：2026-08-21 02:53
 - 更新者：小幫手 @ LAPTOP-C47IT9US
 - Git push：✅ 乾淨無變更
-- 本次完成：收工流程執行完畢，完成 `update_all.py` 雲端全量備份、更新交接檔 `handoff.md`。
-- 本次完成：協助診斷與解決 NotebookLM CLI 工具（`nlm` / `notebooklm-mcp`）指令與設定狀態，確認登入與 MCP 伺服端就緒。
-- 本次完成：調出 Hermes Desktop 圖形介面操作教學手冊 `HERMES.md`。
+- 本次完成：將全套 23+ 項技能封裝為 Open Interpreter 旗艦工具庫 `oi_complete_skills.py`，支援中英文雙語呼叫與單元測試驗證通過。
+- 本次完成：升級 `oi-auto-load.py` 啟動器，實作開機自動載入全套工具與提示詞注入。
+- 本次完成：同步更新至雲端備份庫與一鍵安裝目錄 (`G:\我的雲端硬碟\一鍵安裝回原來agent\`)。
