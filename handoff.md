@@ -44,8 +44,9 @@
 - **媒體與產出影片不推 GitHub**：`.gitignore` 已自動排除所有 mp4/gif/jpg
 
 ## 🕐 最後更新
-- 時間：2026-08-20 03:26
+- 時間：2026-08-20 15:22
 - 更新者：小幫手 @ LAPTOP-C47IT9US
 - Git push：✅ 乾淨無變更
-- 本次完成：收工流程執行完畢，完成 `update_all.py` 雲端全量九項備份、更新 `sync_info.json` 與交接檔 `handoff.md`。
-- 本次完成：修復 Hermes Desktop 之 `qwen2.5:3b does not support thinking` 報錯（關閉 `reasoning_effort`），實測驗證本機回應正常流暢。
+- 本次完成：收工流程執行完畢，完成 `update_all.py` 雲端全量備份、更新交接檔 `handoff.md`。
+- 本次完成：協助診斷與解決 NotebookLM CLI 工具（`nlm` / `notebooklm-mcp`）指令與設定狀態，確認登入與 MCP 伺服端就緒。
+- 本次完成：調出 Hermes Desktop 圖形介面操作教學手冊 `HERMES.md`。
