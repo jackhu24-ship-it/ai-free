@@ -100,4 +100,6 @@ G:\我的雲端硬碟\260803_opencode\    ← 工作區根目錄（git repo，�
 1. **Python Subprocess UTF-8 編碼防護**：在 Windows 繁體/簡體中文語系下執行 Python 子行程呼叫 Git 或讀取檔案時，一律加上 `encoding="utf-8", errors="replace"`（或設定環境變數 `PYTHONUTF8=1`），防止 `UnicodeDecodeError (GBK/CP950)` 崩潰。
 2. **Codex Security 授權模型配置**：使用 ChatGPT 訂閱帳戶執行 `codex-security scan` 時，一律指定支援的深度推論模型 `--model gpt-5.6-terra`。
 3. **Google Sheets 公式注入防護 (CWE-1236)**：任何 GAS 寫入 Google 試算表之使用者輸入欄位，必須先經過 `sanitizeCell_()` 過濾（若開頭為 `=`, `+`, `-`, `@` 則前置加上單引號 `'` 強制轉純文字）。
+4. **🚫 嚴禁桌面污染原則（Zero-Desktop Pollution）**：任何 Agent 產出之檔案（PDF、DXF、BAT、DOCX、PPTX、PNG、MD 等）一律歸入 `G:\我的雲端硬碟\AI產出成品總庫\` 相應專區，**嚴禁在 Windows 桌面（Desktop / OneDrive 桌面）生成、複製或存放實體檔案**，維持桌面 100% 清爽。
+
 
