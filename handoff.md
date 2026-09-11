@@ -337,10 +337,11 @@
        - 🧠 **三層記憶架構全量固化**：已於 `G:\我的雲端硬碟\AI_master_workspace\three_memory\` 完成 `00_System/Base_Rules.md` 團隊名冊更新、`00_System/Agents/` 4 份新人設檔案（小踢、小粉、小雷、小蜂）建立，以及 `01_Memory/Memory_Log.md` 里程碑入庫，確保跨電腦無痛遷移、記憶永不遺失！
 
    48. **AutoCopilot Streamlit 旗艦前端與 WebRTC 語音閉環全量落地 (Streamlit-WebRTC ✕ PartialTranscript Barge-in ✕ 3分鐘分鏡腳本)**：
-       - 🎙️ **邊說邊辨識 WebRTC 串流**：`streamlit_app.py` 整合 `streamlit-webrtc` (v0.77.0) ✕ `av.AudioResampler` (v17.1.0)，將麥克風原生音訊影格在背景重採樣為 16kHz 16-bit Mono PCM，透過執行緒隔離之 `queue.Queue` 與非同步 WebSocket 任務直推 AssemblyAI。
-       - 🛑 **PartialTranscript 毫秒級中斷 (Barge-in)**：當檢測到使用者插話開口（PartialTranscript），立即觸發 `TTSClient.cancel_current_speech()` 秒停前次播音；當收到 FinalTranscript 時，由 `AgentOrchestrator` 以 `asyncio.gather` 並行觸發 CAN 遙測與向量手冊檢索，並合成口語化回傳。
-       - 🎬 **3 分鐘展示影片分鏡腳本定稿**：更新 `G:\我的雲端硬碟\AI產出成品總庫\08_📄_手冊文檔專區\AutoCopilot_3分鐘展示影片分鏡腳本.md`，涵蓋 Act 1~5 英文雙語逐字講稿、畫中畫 (PIP) 工業場景走位與 1:45 秒打斷動作檢查清單。
-       - 🚀 **雙啟動器支援**：保留 FastAPI 暗黑工規網關（`launch_autocopilot.bat`）與全新 Streamlit 雙欄動態儀表板（`🚀啟動AutoCopilot_Streamlit儀表板.bat`），評審雙模式皆可無縫運行。
+        - 🎙️ **邊說邊辨識 WebRTC 串流**：`streamlit_app.py` 整合 `streamlit-webrtc` (v0.77.0) ✕ `av.AudioResampler` (v17.1.0)，將麥克風原生音訊影格在背景重採樣為 16kHz 16-bit Mono PCM，透過執行緒隔離之 `queue.Queue` 與非同步 WebSocket 任務直推 AssemblyAI。
+        - 🛑 **PartialTranscript 毫秒級中斷 (Barge-in)**：當檢測到使用者插話開口（PartialTranscript），立即觸發 `TTSClient.cancel_current_speech()` 秒停前次播音；當收到 FinalTranscript 時，由 `AgentOrchestrator` 以 `asyncio.gather` 並行觸發 CAN 遙測與向量手冊檢索，並合成口語化回傳。
+        - ⚡ **獨立語音串流管道模組 (voice_pipeline.py)**：完成 `auto_copilot/voice_pipeline.py` 獨立模組開發與驗證，支援 `av.AudioResampler` 16kHz 重採樣、Word Boost 汽車專業名詞注入、PartialTranscript 即時中斷、FinalTranscript 調度及零成本 Deterministic Fallback 模式，單元模擬驗證 100% 通過。
+        - 🎬 **3 分鐘展示影片分鏡腳本定稿**：更新 `G:\我的雲端硬碟\AI產出成品總庫\08_📄_手冊文檔專區\AutoCopilot_3分鐘展示影片分鏡腳本.md`，涵蓋 Act 1~5 英文雙語逐字講稿、畫中畫 (PIP) 工業場景走位與 1:45 秒打斷動作檢查清單。
+        - 🚀 **雙啟動器支援**：保留 FastAPI 暗黑工規網關（`launch_autocopilot.bat`）與全新 Streamlit 雙欄動態儀表板（`🚀啟動AutoCopilot_Streamlit儀表板.bat`），評審雙模式皆可無縫運行。
 
 ## 🎯 下次開工必做深化任務（6+3 特戰聯軍預備任務）
 1. **🛠️ 小開 (Agent_Coder)**：持續維護零拷貝 C++ 模組與跨平台相容性。
@@ -351,26 +352,8 @@
 6. **👑 小幫手 (Agent_PM)**：帶領指揮官進行第二項賽事報名文件核對與送件確認。
 
 ## 📅 最後更新
-- **最後更新**：2026-09-12 02:25（完成 AutoCopilot Streamlit WebRTC 語音串流、PartialTranscript 秒級中斷、3 分鐘展示分鏡腳本與雙啟動器配置，全棧就緒）
+- **最後更新**：2026-09-12 02:30（完成 AutoCopilot voice_pipeline.py 模組驗證、Streamlit WebRTC 語音串流、PartialTranscript 秒級中斷、3 分鐘展示分鏡腳本與雙啟動器配置，全棧就緒）
 - **更新者**：👑 小幫手 / 🛠️ 小開 / 🐎 小馬 / 🦾 小踢 / 🌸 小粉 / ⚡ 小雷 / 🍯 小蜂 @ LAPTOP-C47IT9US
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
