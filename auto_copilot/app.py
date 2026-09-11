@@ -454,7 +454,42 @@ with col_agent:
             "role": "assistant",
             "content": "Negative. ISO 26262 ASIL-B mandates an **emergency shutdown** if coolant exceeds 105.0°C. Recommended action: Idle engine immediately and inspect auxiliary cooling pump relay."
         })
+        st.session_state.play_golden_audio = True
         st.rerun()
+
+    # 自動語音朗讀合成器 (Web Speech API 雙角色彩蛋演繹)
+    if st.session_state.get("play_golden_audio", False):
+        st.session_state.play_golden_audio = False
+        audio_js = """
+        <script>
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+            
+            const steps = [
+                { text: "AutoCopilot, check vehicle health status and active DTCs.", pitch: 0.92, rate: 1.05, delay: 300 },
+                { text: "Vehicle reports DTC P0117. Active coolant temperature is elevated at 104.2 degrees Celsius, approaching thermal limits.", pitch: 1.15, rate: 1.0, delay: 600 },
+                { text: "Wait, stop! Is 104.2 degrees Celsius within the ISO 26262 safety limit?", pitch: 0.92, rate: 1.2, delay: 500 },
+                { text: "Negative. ISO 26262 ASIL-B mandates an emergency shutdown if coolant exceeds 105 degrees Celsius. Recommended action: Idle engine immediately.", pitch: 1.15, rate: 1.0, delay: 600 }
+            ];
+
+            let i = 0;
+            function next() {
+                if (i >= steps.length) return;
+                let item = steps[i++];
+                setTimeout(() => {
+                    let u = new SpeechSynthesisUtterance(item.text);
+                    u.lang = 'en-US';
+                    u.pitch = item.pitch || 1.0;
+                    u.rate = item.rate || 1.0;
+                    u.onend = next;
+                    window.speechSynthesis.speak(u);
+                }, item.delay || 0);
+            }
+            next();
+        }
+        </script>
+        """
+        st.components.v1.html(audio_js, height=0)
     if scenario_1:
         user_text = "幫我看冷卻液溫度現在多少，手冊上有說超過幾度要停機嗎？"
         st.session_state.messages.append({"role": "user", "content": user_text})
