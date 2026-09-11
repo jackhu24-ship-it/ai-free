@@ -330,15 +330,21 @@
        - 📋 **主白皮書發布**：[`AutoCopilot_AssemblyAI_Voice_Agent_架構白皮書與黑客松手冊.md`](file:///G:/我的雲端硬碟/AI產出成品總庫/08_📄_手冊文檔專區/AutoCopilot_AssemblyAI_Voice_Agent_架構白皮書與黑客松手冊.md)。
        - 🧪 **自動化測試驗收**：`tests/run_tests.py` 8 項端到端測試 100% 綠燈通過，並行工具呼叫延遲 < 0.2ms；`auto_copilot/demo_realtime_core.py` 完整模擬 16kHz PCM 串流、VAD 450ms、Universal-3 Pro 98.5% 置信度、並行 Tool Calling 與 Barge-in 中斷秒停閉環，全棧達到 **1,074 項測試 100% 綠燈大滿貫**！
 
-## 🎯 下次開工必做深化任務（五人戰術小組預備任務）
+   47. **特戰部隊升級為 Six-Agent AI OS ✕ A06「🦾 小踢」(Agent_DesktopOps / Codex) 正式入伍全量就緒**：
+       - 👟 **成員身分與定位**：代號 A06「小踢」，實體引擎採用 OpenAI Codex CLI v0.154.0 ✕ Ollama 0.34 桌面具身橋接器，賦予團隊 Windows 視窗操作（Computer Use）與跨軟體外掛（Notion, GitHub, Google Calendar 等）生態調度能力。
+       - 💰 **100% 零成本免費保證**：預設直連本機已下載之 Ollama 離線模型（`qwen3:8b` / `llama3.2-vision`），零訂閱費、零 Token 費用、零隱私洩漏、零顯存外包負擔。
+       - 🧠 **三層記憶架構全量固化**：已於 `G:\我的雲端硬碟\AI_master_workspace\three_memory\` 完成 `00_System/Base_Rules.md` 團隊名冊更新、`00_System/Agents/Agent_DesktopOps.md` 人設檔案建立，以及 `01_Memory/Memory_Log.md` 里程碑入庫，確保跨電腦無痛遷移、記憶永不遺失！
+
+## 🎯 下次開工必做深化任務（六人特戰隊預備任務）
 1. **🛠️ 小開 (Agent_Coder)**：持續維護零拷貝 C++ 模組與跨平台相容性。
 2. **🐎 小馬 (Agent_QA)**：全時常態化監控 X-Agent 官方 PR #47 審查進度與 CI/CD 迴歸。
 3. **👁️ 小Ｏ (Agent_LocalVision)**：擴充 3D 數位分身儀表板之多視角鏡頭與 AutoCopilot 示波器連動。
-4. **👑 小幫手 (Agent_PM)**：跟進 AWS 足球聯賽首週比分通報，以及 AssemblyAI 黑客松官方提交文案備妥。
+4. **🦾 小踢 (Agent_DesktopOps)**：以本機離線免錢模型待命，支援桌面具身操作與外部自動化串接。
+5. **👑 小幫手 (Agent_PM)**：帶領指揮官進行第二項賽事報名文件核對與送件確認。
 
 ## 📅 最後更新
-- **最後更新**：2026-09-12 01:38（完成 AutoCopilot 即時聲控車載診斷副駕全棧落地、Universal-3 Pro 配置、Barge-in 中斷、並行 Tool Calling、暗黑工規 Web 儀表板，全棧 1,074 項測試 100% 綠燈通關）
-- **更新者**：👑 小幫手 / 🛠️ 小開 / 🐎 小馬 @ LAPTOP-C47IT9US
+- **最後更新**：2026-09-12 02:05（完成 AutoCopilot 車載診斷副駕全棧通關 1,074 測試，並成功收編 A06 🦾 小踢 入伍，完成三層記憶庫跨電腦固化）
+- **更新者**：👑 小幫手 / 🛠️ 小開 / 🐎 小馬 / 🦾 小踢 @ LAPTOP-C47IT9US
 
 
 
