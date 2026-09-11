@@ -194,11 +194,11 @@ class AutoCopilotAgent:
         # 組合經典對答情境
         if coolant_val is not None and shutdown_limit is not None:
             return (
-                f"目前冷卻液溫度為 {coolant_val} 度，手冊規範超過 {shutdown_limit:.0f} 度必須緊急停機。"
+                f"目前冷卻液溫度為 {coolant_val:.1f} 度，手冊規範超過 {shutdown_limit:.0f} 度必須緊急停機。"
                 f"目前已接近上限，建議怠速運轉並檢查二級泵繼電器。"
             )
         elif coolant_val is not None:
-            return f"目前冷卻液溫度讀數為 {coolant_val} 度，系統狀態正常。"
+            return f"目前冷卻液溫度讀數為 {coolant_val:.1f} 度，系統狀態正常。"
         elif dtc_summary:
             return f"{dtc_summary}請參考技術手冊進行線路導通排查。"
         else:

@@ -209,22 +209,22 @@ DASHBOARD_HTML = """
         
         .main-container {
             display: grid;
-            grid-template-columns: 1.1fr 1fr;
+            grid-template-columns: 1fr 1.2fr 1fr;
             flex: 1;
             overflow: hidden;
         }
         .panel {
-            padding: 20px;
+            padding: 16px;
             overflow-y: auto;
             border-right: 1px solid var(--border);
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 16px;
         }
         .panel:last-child { border-right: none; }
         
         .panel-title {
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
@@ -239,27 +239,25 @@ DASHBOARD_HTML = """
         /* Gauges & Telemetry Cards */
         .gauges-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 14px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
         }
         .gauge-card {
             background: var(--surface);
             border: 1px solid var(--border);
             border-radius: 8px;
-            padding: 14px;
+            padding: 12px;
             display: flex;
             flex-direction: column;
-            gap: 6px;
-            position: relative;
-            overflow: hidden;
+            gap: 4px;
         }
         .gauge-card.critical {
             border-color: var(--critical);
-            background: rgba(255, 51, 102, 0.05);
+            background: rgba(255, 51, 102, 0.08);
         }
         .gauge-card.warning {
             border-color: var(--warning);
-            background: rgba(255, 170, 0, 0.05);
+            background: rgba(255, 170, 0, 0.08);
         }
         .gauge-label {
             font-size: 11px;
@@ -268,13 +266,13 @@ DASHBOARD_HTML = """
         }
         .gauge-val {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 700;
             color: var(--accent);
         }
         .gauge-val.critical { color: var(--critical); }
         .gauge-val.warning { color: var(--warning); }
-        .gauge-unit { font-size: 12px; color: var(--text-muted); font-weight: normal; margin-left: 4px; }
+        .gauge-unit { font-size: 11px; color: var(--text-muted); font-weight: normal; margin-left: 4px; }
 
         /* DTC Section */
         .dtc-list {
@@ -286,8 +284,8 @@ DASHBOARD_HTML = """
             background: #161e29;
             border-left: 3px solid var(--warning);
             border-radius: 4px;
-            padding: 10px 12px;
-            font-size: 12px;
+            padding: 8px 10px;
+            font-size: 11px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -298,25 +296,49 @@ DASHBOARD_HTML = """
             color: var(--warning);
         }
 
-        /* Voice Chat & Waveform */
-        .voice-section {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 16px;
+        /* Voice State Badges */
+        .voice-state-bar {
             display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        .audio-visualizer {
-            height: 48px;
+            gap: 8px;
+            align-items: center;
+            justify-content: space-between;
             background: #090c10;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 8px 12px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+        }
+        .state-tag {
+            padding: 2px 8px;
             border-radius: 4px;
+            background: #1a2332;
+            color: var(--text-muted);
+        }
+        .state-tag.active {
+            background: rgba(0, 255, 136, 0.2);
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+        .state-tag.barge-in-flash {
+            background: rgba(255, 51, 102, 0.3);
+            color: var(--critical);
+            border: 1px solid var(--critical);
+            animation: flash 0.6s infinite alternate;
+        }
+        @keyframes flash { from { opacity: 0.5; } to { opacity: 1; } }
+
+        /* Audio Visualizer */
+        .audio-visualizer {
+            height: 44px;
+            background: #090c10;
+            border-radius: 6px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 4px;
+            gap: 5px;
             padding: 0 10px;
+            border: 1px solid var(--border);
         }
         .wave-bar {
             width: 4px;
@@ -326,6 +348,7 @@ DASHBOARD_HTML = """
             transition: height 0.1s ease;
         }
 
+        /* Chat Stream */
         .chat-stream {
             flex: 1;
             background: #0c1017;
@@ -335,9 +358,10 @@ DASHBOARD_HTML = """
             overflow-y: auto;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
             font-size: 13px;
-            max-height: 280px;
+            min-height: 240px;
+            max-height: 380px;
         }
         .chat-bubble {
             padding: 10px 14px;
@@ -365,26 +389,49 @@ DASHBOARD_HTML = """
             align-self: center;
         }
 
-        /* Tool Calling Activity Log */
-        .tool-log {
-            background: #090c10;
+        /* Transparency Panel (Right) */
+        .transparency-box {
+            background: #0c1017;
             border: 1px solid var(--border);
-            border-radius: 6px;
+            border-radius: 8px;
             padding: 12px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
             display: flex;
             flex-direction: column;
-            gap: 6px;
-            max-height: 200px;
+            gap: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+        }
+        .json-viewer {
+            background: #06090e;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            color: #a5d6ff;
+            max-height: 150px;
             overflow-y: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
         }
-        .tool-event {
-            color: var(--success);
+        .citation-card {
+            background: #161e29;
+            border-left: 3px solid var(--accent);
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            line-height: 1.4;
         }
-        .tool-latency {
-            color: var(--text-muted);
-            margin-left: 8px;
+        .word-boost-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+        .boost-tag {
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 3px;
+            background: #1b2533;
+            color: #79c0ff;
+            border: 1px solid #23344d;
         }
 
         .controls {
@@ -407,7 +454,7 @@ DASHBOARD_HTML = """
             color: #000;
             font-weight: 600;
             border: none;
-            padding: 10px 18px;
+            padding: 10px 16px;
             border-radius: 6px;
             cursor: pointer;
             transition: opacity 0.2s;
@@ -428,99 +475,112 @@ DASHBOARD_HTML = """
         </div>
         <div class="status-pill">
             <div class="indicator"></div>
-            <span>STREAMING STT (Universal-3 Pro) | 16kHz PCM</span>
+            <span>STREAMING STT (Universal-3 Pro) | 16kHz PCM (100ms)</span>
         </div>
     </header>
 
     <div class="main-container">
-        <!-- Left Panel: Live Telemetry & Bus Status -->
+        <!-- 1. 左側：診斷數據 (Diagnostics) -->
         <div class="panel">
             <div class="panel-title">
-                <span>即時車載與設備遙測 (Live Telemetry 10Hz)</span>
-                <span id="system-status" style="color: var(--warning);">WARNING (OVERHEAT NEARBY)</span>
+                <span>車載即時遙測 (CAN Telemetry 10Hz)</span>
+                <span id="system-status" style="color: var(--warning);">OVERHEAT WARNING</span>
             </div>
 
             <div class="gauges-grid">
                 <div class="gauge-card warning" id="card-coolant">
-                    <span class="gauge-label">冷卻液溫度 (Coolant Temp)</span>
-                    <span class="gauge-val warning" id="val-coolant">103.5<span class="gauge-unit">°C</span></span>
+                    <span class="gauge-label">冷卻液溫度 (Coolant)</span>
+                    <span class="gauge-val warning" id="val-coolant">103.8<span class="gauge-unit">°C</span></span>
                 </div>
                 <div class="gauge-card" id="card-pressure">
-                    <span class="gauge-label">管路壓力 (Line Pressure)</span>
-                    <span class="gauge-val" id="val-pressure">142.0<span class="gauge-unit">kPa</span></span>
+                    <span class="gauge-label">管路壓力 (Pressure)</span>
+                    <span class="gauge-val" id="val-pressure">142.5<span class="gauge-unit">kPa</span></span>
                 </div>
                 <div class="gauge-card" id="card-voltage">
-                    <span class="gauge-label">母線高壓 (Bus Voltage)</span>
-                    <span class="gauge-val" id="val-voltage">398.4<span class="gauge-unit">V</span></span>
+                    <span class="gauge-label">母線高壓 (Voltage)</span>
+                    <span class="gauge-val" id="val-voltage">384.2<span class="gauge-unit">V</span></span>
                 </div>
                 <div class="gauge-card" id="card-rpm">
-                    <span class="gauge-label">驅動馬達 (Motor RPM)</span>
-                    <span class="gauge-val" id="val-rpm">3,250<span class="gauge-unit">RPM</span></span>
+                    <span class="gauge-label">馬達轉速 (Motor RPM)</span>
+                    <span class="gauge-val" id="val-rpm">2,450<span class="gauge-unit">RPM</span></span>
                 </div>
                 <div class="gauge-card" id="card-inverter">
                     <span class="gauge-label">逆變器溫度 (Inverter)</span>
-                    <span class="gauge-val" id="val-inverter">68.2<span class="gauge-unit">°C</span></span>
+                    <span class="gauge-val" id="val-inverter">64.2<span class="gauge-unit">°C</span></span>
                 </div>
                 <div class="gauge-card" id="card-soc">
                     <span class="gauge-label">電池電量 (Pack SoC)</span>
-                    <span class="gauge-val" id="val-soc">76.5<span class="gauge-unit">%</span></span>
+                    <span class="gauge-val" id="val-soc">68.5<span class="gauge-unit">%</span></span>
                 </div>
             </div>
 
             <div class="panel-title">
-                <span>活動診斷故障碼 (ISO 14229 Active DTCs)</span>
-                <span class="badge" style="color: var(--warning);">2 FAULTS</span>
+                <span>活動故障碼 (ISO 14229 DTCs)</span>
+                <span class="badge" style="color: var(--warning);">1 ACTIVE / 1 PENDING</span>
             </div>
             <div class="dtc-list">
                 <div class="dtc-item">
                     <div>
                         <span class="dtc-code">P0117</span>
-                        <span style="margin-left: 8px; color: #ccc;">Engine Coolant Temperature Sensor 1 Circuit Low</span>
+                        <span style="margin-left: 6px; color: #eee;">Coolant Temp Sensor 1 Low</span>
                     </div>
                     <span class="badge">ECU: Engine</span>
                 </div>
                 <div class="dtc-item" style="border-left-color: var(--accent);">
                     <div>
                         <span class="dtc-code" style="color: var(--accent);">U0100</span>
-                        <span style="margin-left: 8px; color: #ccc;">Lost Communication With ECM/PCM 'A' (Pending)</span>
+                        <span style="margin-left: 6px; color: #eee;">Lost Comm With ECM 'A'</span>
                     </div>
                     <span class="badge">ECU: BMS</span>
                 </div>
             </div>
 
             <div class="panel-title">
-                <span>Function Calling 呼叫軌跡 (Tool Execution Log)</span>
+                <span>Word Boost 專用語增強</span>
             </div>
-            <div class="tool-log" id="tool-log-box">
-                <div>[SYSTEM] AutoCopilot Gateway Initialized. Word Boost Active.</div>
-                <div>[SYSTEM] Connected to CAN-FD Gateway Node 0x1A.</div>
+            <div class="word-boost-cloud">
+                <span class="boost-tag">CAN-FD</span>
+                <span class="boost-tag">UDS 0x19</span>
+                <span class="boost-tag">ASIL-B</span>
+                <span class="boost-tag">ASIL-D</span>
+                <span class="boost-tag">ISO 14229</span>
+                <span class="boost-tag">ISO 26262</span>
+                <span class="boost-tag">P0117</span>
+                <span class="boost-tag">coolant</span>
+                <span class="boost-tag">relay</span>
+                <span class="boost-tag">BMS</span>
             </div>
         </div>
 
-        <!-- Right Panel: Voice Agent, Barge-in & Chat Stream -->
+        <!-- 2. 中間：語音狀態 (Voice Agent Hub) -->
         <div class="panel">
             <div class="panel-title">
-                <span>語音活動與對話串流 (AssemblyAI Voice Agent)</span>
-                <span class="badge">VAD: 450ms | Turn-Taking</span>
+                <span>語音狀態與對話 (Voice Agent Hub)</span>
+                <span class="badge">VAD: 450ms</span>
             </div>
 
-            <div class="voice-section">
-                <div class="audio-visualizer" id="visualizer">
-                    <div class="wave-bar" style="height: 12px;"></div>
-                    <div class="wave-bar" style="height: 24px;"></div>
-                    <div class="wave-bar" style="height: 38px;"></div>
-                    <div class="wave-bar" style="height: 18px;"></div>
-                    <div class="wave-bar" style="height: 30px;"></div>
-                    <div class="wave-bar" style="height: 42px;"></div>
-                    <div class="wave-bar" style="height: 20px;"></div>
-                    <div class="wave-bar" style="height: 14px;"></div>
-                </div>
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <span style="font-size: 12px; color: var(--text-muted);">麥克風串流: PCM 16kHz 16-bit Mono (100ms Chunk)</span>
-                    <button class="btn-danger" onclick="triggerBargeIn()" style="font-size: 11px; padding: 6px 12px;">
-                        🚨 模擬語音打斷 (Barge-In)
-                    </button>
-                </div>
+            <div class="voice-state-bar">
+                <span class="state-tag active" id="state-listen">● LISTENING</span>
+                <span class="state-tag" id="state-proc">⚙️ PROCESSING</span>
+                <span class="state-tag" id="state-speak">🔊 SPEAKING</span>
+                <span class="state-tag" id="state-barge">🛑 BARGE-IN</span>
+            </div>
+
+            <div class="audio-visualizer">
+                <div class="wave-bar" style="height: 12px;"></div>
+                <div class="wave-bar" style="height: 24px;"></div>
+                <div class="wave-bar" style="height: 38px;"></div>
+                <div class="wave-bar" style="height: 18px;"></div>
+                <div class="wave-bar" style="height: 30px;"></div>
+                <div class="wave-bar" style="height: 42px;"></div>
+                <div class="wave-bar" style="height: 20px;"></div>
+                <div class="wave-bar" style="height: 14px;"></div>
+            </div>
+
+            <div style="display: flex; justify-content: flex-end;">
+                <button class="btn-danger" onclick="triggerBargeIn()" style="font-size: 11px; padding: 6px 12px;">
+                    🚨 模擬語音打斷 (Barge-In)
+                </button>
             </div>
 
             <div class="chat-stream" id="chat-stream-box">
@@ -531,8 +591,57 @@ DASHBOARD_HTML = """
 
             <div class="controls">
                 <input type="text" id="user-input" placeholder="輸入或以語音發問 (Enter 送出)..." value="幫我看冷卻液溫度現在多少，手冊上有說超過幾度要停機嗎？">
-                <button onclick="sendQuery()">🎙️ 送出發問</button>
+                <button onclick="sendQuery()">🎙️ 發問</button>
             </div>
+        </div>
+
+        <!-- 3. 右側：決策透明度 (Decision Transparency) -->
+        <div class="panel">
+            <div class="panel-title">
+                <span>決策透明度與工具呼叫 (Tool Calling & RAG)</span>
+                <span class="badge" style="color: var(--success);">ASYNC.GATHER</span>
+            </div>
+
+            <div class="transparency-box">
+                <span style="color: var(--text-muted); font-size: 10px;">TRIGGERED TOOL CALLS (JSON PARAMETERS):</span>
+                <div class="json-viewer" id="json-tool-calls">
+[
+  {
+    "tool": "get_vehicle_telemetry",
+    "subsystem": "thermal_management",
+    "metrics": ["coolant_temp_c", "coolant_line_pressure_kpa"]
+  },
+  {
+    "tool": "lookup_repair_procedure",
+    "query": "coolant temperature shutdown limit",
+    "safety": "standard"
+  }
+]</div>
+
+                <div style="display: flex; justify-content: space-between; font-size: 11px; margin-top: 4px;">
+                    <span>並行執行耗時 (Latency):</span>
+                    <span id="latency-val" style="color: var(--accent); font-weight: bold;">0.26 ms</span>
+                </div>
+            </div>
+
+            <div class="panel-title">
+                <span>手冊檢索引文 (Service Manual Citation)</span>
+            </div>
+            <div class="citation-card" id="citation-box">
+                <div style="font-weight: bold; color: var(--accent); margin-bottom: 4px;">SEC-TH-402: Emergency Thermal Shutdown Procedure</div>
+                <div style="color: #ccc; font-size: 11px;">
+                    Under ISO 26262 ASIL-B thermal supervisory rules: If coolant temperature reaches or exceeds 105.0°C, emergency shutdown protocol is MANDATORY. Shift to neutral/idle and inspect secondary pump relay.
+                </div>
+                <div style="margin-top: 6px; color: var(--warning); font-size: 10px;">Safety Clearance: standard | Shutdown Limit: 105.0°C</div>
+            </div>
+
+            <div class="panel-title">
+                <span>即時系統日誌 (Audit Log)</span>
+            </div>
+            <div class="json-viewer" id="audit-log" style="max-height: 120px;">
+[01:46:31] Session started with Universal-3 Pro.
+[01:46:31] Word Boost 25 terms registered.
+[01:46:32] Turn completed cleanly.</div>
         </div>
     </div>
 
@@ -553,8 +662,17 @@ DASHBOARD_HTML = """
         }
         setInterval(fetchTelemetry, 1000);
 
+        // 狀態切換
+        function setState(state) {
+            document.getElementById('state-listen').className = 'state-tag' + (state === 'listen' ? ' active' : '');
+            document.getElementById('state-proc').className = 'state-tag' + (state === 'proc' ? ' active' : '');
+            document.getElementById('state-speak').className = 'state-tag' + (state === 'speak' ? ' active' : '');
+            document.getElementById('state-barge').className = 'state-tag' + (state === 'barge' ? ' barge-in-flash' : '');
+        }
+
         // 模擬語音打斷
         async function triggerBargeIn() {
+            setState('barge');
             try {
                 const res = await fetch('/api/interrupt', { method: 'POST' });
                 const data = await res.json();
@@ -562,9 +680,11 @@ DASHBOARD_HTML = """
                 chatBox.innerHTML += `<div class="chat-bubble barge-in">⚡ [BARGE-IN INTERRUPTED] 偵測到使用者語音插話！立即中斷 TTS 輸出並重置對話 Context。</div>`;
                 chatBox.scrollTop = chatBox.scrollHeight;
                 
-                const logBox = document.getElementById('tool-log-box');
-                logBox.innerHTML += `<div style="color: var(--critical);">[EVENT] Cancellation Token Dispatched: interrupt_tts (${data.timestamp.toFixed(2)})</div>`;
-                logBox.scrollTop = logBox.scrollHeight;
+                const audit = document.getElementById('audit-log');
+                audit.innerHTML += `\\n[BARGE-IN] Token 'interrupt_tts' dispatched. Audio canceled.`;
+                audit.scrollTop = audit.scrollHeight;
+
+                setTimeout(() => setState('listen'), 1500);
             } catch (e) {}
         }
 
@@ -574,12 +694,10 @@ DASHBOARD_HTML = """
             const query = input.value.trim();
             if (!query) return;
 
+            setState('proc');
             const chatBox = document.getElementById('chat-stream-box');
             chatBox.innerHTML += `<div class="chat-bubble user">${query}</div>`;
             chatBox.scrollTop = chatBox.scrollHeight;
-
-            const logBox = document.getElementById('tool-log-box');
-            logBox.innerHTML += `<div>[STT] Universal-3 Pro: "${query}"</div>`;
 
             try {
                 const res = await fetch('/api/chat', {
@@ -589,20 +707,29 @@ DASHBOARD_HTML = """
                 });
                 const data = await res.json();
 
-                // 渲染 Tool Calling 歷程
+                // 更新右側透明度面板
+                document.getElementById('latency-val').innerText = data.total_latency_ms + ' ms';
                 if (data.tool_results && data.tool_results.length > 0) {
-                    data.tool_results.forEach(tr => {
-                        logBox.innerHTML += `<div class="tool-event">⚙️ Tool Call: ${tr.tool_name} <span class="tool-latency">[${tr.latency_ms}ms]</span></div>`;
-                    });
+                    document.getElementById('json-tool-calls').innerText = JSON.stringify(data.tool_results.map(t => ({
+                        tool: t.tool_name,
+                        args: t.arguments,
+                        latency_ms: t.latency_ms
+                    })), null, 2);
                 }
-                logBox.innerHTML += `<div>[TOTAL LATENCY] ${data.total_latency_ms}ms (Parallel Tool Execution)</div>`;
-                logBox.scrollTop = logBox.scrollHeight;
 
                 // 渲染 Agent 回應
+                setState('speak');
                 chatBox.innerHTML += `<div class="chat-bubble agent">${data.spoken_response}</div>`;
                 chatBox.scrollTop = chatBox.scrollHeight;
+
+                const audit = document.getElementById('audit-log');
+                audit.innerHTML += `\\n[TURN] Completed in ${data.total_latency_ms}ms with ${data.tool_calls_executed} parallel tools.`;
+                audit.scrollTop = audit.scrollHeight;
+
+                setTimeout(() => setState('listen'), 2000);
             } catch (e) {
                 chatBox.innerHTML += `<div class="chat-bubble agent" style="color: var(--critical);">連線錯誤，請檢查後端網關。</div>`;
+                setState('listen');
             }
         }
 
@@ -614,7 +741,7 @@ DASHBOARD_HTML = """
         setInterval(() => {
             const bars = document.querySelectorAll('.wave-bar');
             bars.forEach(b => {
-                const h = Math.floor(Math.random() * 36) + 8;
+                const h = Math.floor(Math.random() * 32) + 8;
                 b.style.height = h + 'px';
             });
         }, 120);

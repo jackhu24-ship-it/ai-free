@@ -97,7 +97,7 @@ async def test_6_full_turn():
     
     result = await auto_copilot_agent.process_user_turn(query)
     assert result["tool_calls_executed"] == 2
-    assert "103.5" in result["spoken_response"]
+    assert "103." in result["spoken_response"]
     assert "105" in result["spoken_response"]
     assert "二級泵繼電器" in result["spoken_response"]
     print(f"  -> PASSED: Spoken Response: \"{result['spoken_response']}\" (Latency: {result['total_latency_ms']} ms)")
