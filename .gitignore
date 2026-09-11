@@ -45,6 +45,8 @@ cookies*.txt
 .cookies*
 .npmrc
 .netlify
+.firebase/
+firebase_deploy/
 
 # ─────────────────────────────────────────────
 # 🔴 檔案類型：PDF／簡報／試算表／影像／音樂（一律不上傳）
