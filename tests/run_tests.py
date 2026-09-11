@@ -140,9 +140,31 @@ def test_8_endpoints():
     assert "AUTOCOPILOT" in r_ui.text
     print("  -> PASSED: All REST endpoints and Web Dashboard respond HTTP 200 OK.")
 
+def test_9_can_dbc():
+    print("[RUN] Test 9: CAN DBC Frame Encoding/Decoding...")
+    from auto_copilot.can_interface import can_bus_interface, CAN_ID_COOLANT_METRICS
+    test_phys = {"coolant_temp_c": 104.2, "coolant_line_pressure_kpa": 145.0}
+    payload = can_bus_interface.decoder.encode_frame(CAN_ID_COOLANT_METRICS, test_phys)
+    assert len(payload) == 8
+    decoded = can_bus_interface.process_incoming_frame(CAN_ID_COOLANT_METRICS, payload)
+    assert abs(decoded["coolant_temp_c"] - 104.2) < 0.15
+    assert decoded["coolant_line_pressure_kpa"] == 145.0
+    print(f"  -> PASSED: CAN Frame 0x120 encoded & decoded accurately: {decoded}")
+
+def test_10_vector_store():
+    print("[RUN] Test 10: Vector Store Cosine Similarity Retrieval...")
+    from auto_copilot.vector_store import vector_store
+    results = vector_store.search("coolant overheat emergency shutdown", top_k=1)
+    assert len(results) == 1
+    doc, score = results[0]
+    assert doc.doc_id == "SEC-TH-402"
+    assert doc.metadata["shutdown_limit_c"] == 105.0
+    assert score > 0.3
+    print(f"  -> PASSED: Vector retrieval matched {doc.doc_id} with similarity {score}")
+
 async def main():
     print("=" * 60)
-    print("🚀 STARTING AUTOCOPILOT END-TO-END VERIFICATION SUITE")
+    print("🚀 STARTING AUTOCOPILOT END-TO-END VERIFICATION SUITE (10 TESTS)")
     print("=" * 60)
     test_1_config()
     test_2_schemas()
@@ -152,8 +174,10 @@ async def main():
     await test_6_full_turn()
     test_7_barge_in()
     test_8_endpoints()
+    test_9_can_dbc()
+    test_10_vector_store()
     print("=" * 60)
-    print("🎉 ALL 8 TESTS 100% PASSED! AUTOCOPILOT READY FOR SUBMISSION!")
+    print("🎉 ALL 10 TESTS 100% PASSED! AUTOCOPILOT READY FOR STAGE 1~2 SUBMISSION!")
     print("=" * 60)
 
 if __name__ == "__main__":
