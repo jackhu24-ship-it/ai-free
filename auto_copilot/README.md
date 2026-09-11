@@ -1,4 +1,4 @@
-﻿# AutoCopilot: Real-Time Hands-Free Voice Diagnostic Co-Pilot
+# AutoCopilot: Real-Time Hands-Free Voice Diagnostic Co-Pilot
 > **Powered by AssemblyAI Universal-3 Pro Streaming STT & Edge CAN Gateway**  
 > *Built for the AssemblyAI Real-Time Voice Agent Hackathon on lablab.ai*
 
@@ -99,12 +99,21 @@ export ASSEMBLYAI_API_KEY="your_api_key_here"
 $env:ASSEMBLYAI_API_KEY="your_api_key_here"
 ```
 
-### 3. One-Click Launch (Windows)
-Double-click `🚀啟動AutoCopilot聲控診斷副駕.bat` or run:
+### 3. Launch the Application
+
+#### Option A: Streamlit WebRTC Live Voice Dashboard (Recommended)
+```bash
+streamlit run app.py
+```
+Or double-click `🚀啟動AutoCopilot_Streamlit儀表板.bat`.  
+Opens `http://localhost:8501` featuring real-time WebRTC microphone streaming, instant audio visualizer, live CAN gauges, and one-click scenario simulations.
+
+#### Option B: FastAPI Industrial Gateway
 ```bash
 python -m auto_copilot.server
 ```
-Navigate to `http://localhost:8000` in your browser to view the 3-column dark-mode dashboard!
+Or double-click `🚀啟動AutoCopilot聲控診斷副駕.bat`.  
+Opens `http://localhost:8000` with telemetry streaming and dark-mode diagnostic interface.
 
 ### 4. Run Verification Tests
 ```bash
