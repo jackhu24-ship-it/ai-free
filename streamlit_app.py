@@ -1,4 +1,4 @@
-﻿"""
+"""
 AutoCopilot - Real-Time Diagnostic Dashboard & Voice Agent Demo
 ==============================================================
 Designed for AssemblyAI x Lablab.ai Hackathon.
@@ -148,13 +148,93 @@ if "dtcs" not in st.session_state:
 # -----------------------------------------------------------------------------
 # 4. Background WebSocket Worker (WebRTC -> AssemblyAI)
 # -----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
+# 4. 具備中斷（Barge-in）特性的 TTS 播放器與意圖路由器
+# -----------------------------------------------------------------------------
+class TTSClient:
+    def __init__(self):
+        self.current_playback_task: Any = None
+        self._is_cancelled = False
+        self.is_speaking = False
+
+    def cancel_current_speech(self):
+        if self.current_playback_task and not self.current_playback_task.done():
+            self._is_cancelled = True
+            self.is_speaking = False
+            self.current_playback_task.cancel()
+
+    async def speak_stream(self, text: str):
+        self.cancel_current_speech()
+        self._is_cancelled = False
+        self.is_speaking = True
+        self.current_playback_task = asyncio.create_task(self._playback_worker(text))
+        try:
+            await self.current_playback_task
+        except asyncio.CancelledError:
+            self.is_speaking = False
+
+    async def _playback_worker(self, text: str):
+        for _ in range(6):
+            if self._is_cancelled:
+                break
+            await asyncio.sleep(0.25)
+        self.is_speaking = False
+
+class AgentOrchestrator:
+    @staticmethod
+    async def route_and_execute(transcript: str, tool_logs: list, telemetry_holder: list, dtc_holder: list) -> str:
+        t_start = time.perf_counter()
+        lower_t = transcript.lower()
+
+        tasks = []
+        if any(k in lower_t for k in ["溫度", "temperature", "coolant", "冷卻液", "壓力"]):
+            tasks.append(("telemetry", DiagnosticBackend.get_vehicle_telemetry("thermal_management")))
+        if any(k in lower_t for k in ["手冊", "manual", "幾度", "停機", "limit", "規範"]):
+            tasks.append(("manual", DiagnosticBackend.query_manual("coolant threshold")))
+        if any(k in lower_t for k in ["故障", "dtc", "code", "錯誤", "代碼"]):
+            tasks.append(("dtc", DiagnosticBackend.read_dtcs()))
+
+        if not tasks:
+            tasks.append(("telemetry", DiagnosticBackend.get_vehicle_telemetry("thermal_management")))
+
+        results = {}
+        for name, res in tasks:
+            results[name] = res
+
+        duration_ms = round((time.perf_counter() - t_start) * 1000, 1)
+
+        # 寫入 Tool Logs
+        if "telemetry" in results:
+            tool_logs.append({"tool": "get_vehicle_telemetry", "args": {"subsystem": "thermal_management"}, "latency_ms": duration_ms, "status": "200 OK"})
+            if telemetry_holder: telemetry_holder[0] = results["telemetry"]
+        if "manual" in results:
+            tool_logs.append({"tool": "lookup_repair_procedure", "args": {"query": "coolant threshold"}, "latency_ms": duration_ms, "status": "200 OK"})
+        if "dtc" in results:
+            tool_logs.append({"tool": "read_diagnostic_trouble_codes", "args": {"ecu_target": "all"}, "latency_ms": duration_ms, "status": "200 OK"})
+            if dtc_holder: dtc_holder[0] = results["dtc"]
+
+        response_parts = []
+        if "telemetry" in results:
+            response_parts.append(f"目前冷卻液溫度為 {results['telemetry']['coolant_temp_c']}°C。")
+        if "manual" in results:
+            m = results["manual"]
+            response_parts.append(f"手冊規定超過 {m['critical_limit']} 必須停機，建議措施：{m['instruction']}")
+        if "dtc" in results:
+            d = results["dtc"]
+            response_parts.append(f"檢測到故障代碼 {d[0]['code']}，請留意感測器訊號。")
+
+        return " ".join(response_parts)
+
+# -----------------------------------------------------------------------------
+# 5. Background WebSocket Worker (WebRTC -> AssemblyAI)
+# -----------------------------------------------------------------------------
 def run_assemblyai_pipeline(audio_q: queue.Queue, transcript_list: list, api_key: str):
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
+    tts = TTSClient()
 
     async def _ws_loop():
         if not api_key:
-            # Deterministic Dummy Streamer when no key is configured
             while True:
                 try:
                     _ = audio_q.get_nowait()
@@ -185,10 +265,20 @@ def run_assemblyai_pipeline(audio_q: queue.Queue, transcript_list: list, api_key
                             msg = await ws.recv()
                             event = json.loads(msg)
                             msg_type = event.get("message_type")
-                            if msg_type == "FinalTranscript":
-                                text = event.get("text", "")
-                                if text.strip():
+
+                            # A. PartialTranscript: 若正在說話立即中斷 (Barge-in)
+                            if msg_type == "PartialTranscript":
+                                partial_text = event.get("text", "").strip()
+                                if partial_text and tts.is_speaking:
+                                    tts.cancel_current_speech()
+
+                            # B. FinalTranscript: 觸發 Tool Calling 與 TTS
+                            elif msg_type == "FinalTranscript":
+                                text = event.get("text", "").strip()
+                                if text:
                                     transcript_list.append(f"【Final】{text}")
+                                    reply = await AgentOrchestrator.route_and_execute(text, [], [], [])
+                                    await tts.speak_stream(reply)
                         except Exception:
                             break
 
