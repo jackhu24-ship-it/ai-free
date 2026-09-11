@@ -328,7 +328,7 @@ st.caption("AssemblyAI Voice Agent 實時車況診斷與 ISO 安全手冊檢索�
 
 # WebRTC 麥克風串流卡片
 handler = st.session_state.audio_handler
-with st.expander("🎙️ 真實麥克風即時串流 (WebRTC Audio Streamer)", expanded=True):
+with st.expander("🎙️ 真實麥克風即時串流 (WebRTC Audio Streamer)", expanded=False):
     col_mic, col_status = st.columns([4, 6])
     with col_mic:
         webrtc_ctx = webrtc_streamer(
@@ -397,7 +397,7 @@ with col_agent:
             st.markdown(msg["content"])
 
     # 處理觸發情境
-    if golden_demo:
+    if golden_demo or st.session_state.pop("trigger_golden", False):
         # 重置並注入黃金 45 秒完整演練
         st.session_state.tool_logs = []
         st.session_state.messages = []
@@ -576,4 +576,9 @@ with col_agent:
                 unsafe_allow_html=True,
             )
     else:
-        st.info("尚未觸發任何 Tool Calling，請點擊上方按鈕模擬語音發問。")
+        st.info("尚未觸發任何 Tool Calling，請點擊上方或下方按鈕模擬語音發問。")
+
+    st.write("")
+    if st.button("🌟 45 秒評審黃金高光一鍵演練 (One-Click 45s Judge Showcase)", key="btn_golden_bottom", use_container_width=True, type="primary"):
+        st.session_state.trigger_golden = True
+        st.rerun()
