@@ -355,7 +355,10 @@
    52. **GitHub 官方賽事 Release Tag 簽發 ✕ 遠端全量推送大捷**：
    53. **Demo 影片音訊母帶重製 ✕ FFmpeg 自適應降噪 ✕ 原創車載科技 BGM 混音大成**：
         - 🎵 **車載科技風原創配樂生成**：撰寫 `auto_copilot/create_tech_bgm.py`，以 48kHz Stereo 合成 D 小調賽博科技氛圍墊音 (Warm Pad)、遙測心跳低音 (Sub-Bass Pulse) 與 120BPM 電子律動 (Cyber Arp)。
-        - 🎚️ **廣播級混音與動態降噪**：調用本機 `ffmpeg` 針對錄製影片原音軌套用自適應頻域濾波器（`afftdn=nf=-25`）完全消除背景電流雜音，並將播報人聲推升（`volume=1.35`），將科技 BGM 完美壓低在背景（`-20dB / 0.85`）不搶人聲，輸出全新母帶成品 `AutoCopilot_Hackathon_Demo_Video_Remastered.mp4`！
+   54. **主播級動態鏡頭追焦 (TV-Anchor Dynamic Pan & Zoom) ✕ 電視台標與動態資訊條 ✕ 廣播旗艦版成片**：
+        - 🎥 **主播級視線動態對焦**：遵照指揮官指示「舊檔先刪後建」，先清除舊重製檔，再撰寫 `auto_copilot/render_broadcast_video.py`，以三次餘弦緩動（Cosine Easing）對 1,293 影格進行攝影機鏡頭動態追焦——講到冷卻液自動推鏡特寫儀表盤、講到打斷自動平移鎖定 `[INTERRUPTED]` 標籤、講到手冊自動下移鎖定 ISO 26262 處置規範。
+        - 📺 **全時動態新聞資訊條 (Lower-Third)**：底部配置 Glassmorphism 動態標籤、即時 Headline/Subtitle 隨著對白同步切換，搭配呼吸警戒光暈與左上角「🔴 LIVE • AutoCopilot ✕ AssemblyAI」電視台標。
+        - 🏆 **旗艦成片輸出**：完美結合降噪人聲與原創賽博科技 BGM，輸出至 `G:\我的雲端硬碟\AI產出成品總庫\04_多媒體與教學素材\AutoCopilot_Hackathon_Demo_Broadcast_Remastered.mp4`（5.92 MB），直出 1080p 廣播發布會規格！
 
 ## 🎯 下次開工必做深化任務（6+3 特戰聯軍預備任務）
 1. **🛠️ 小開 (Agent_Coder)**：持續維護零拷貝 C++ 模組與跨平台相容性。
@@ -366,7 +369,7 @@
 6. **👑 小幫手 (Agent_PM)**：行使最高指揮權，率領全員執行第二賽事資料備齊與送件提報，提請指揮官審查。
 
 ## 📅 最後更新
-- **最後更新**：2026-09-12 03:05（小幫手完成原創車載科技 BGM 合成與 FFmpeg 自適應降噪母帶重製，達成 53 項里程碑大滿貫）
+- **最後更新**：2026-09-12 03:18（小幫手完成電視主播級動態鏡頭追焦、動態 Lower-Third 資訊條與廣播旗艦版成片輸出，達成 54 項里程碑大滿貫）
 - **更新者**：👑 小幫手 / 🛠️ 小開 / 🐎 小馬 / 🦾 小踢 / 🌸 小粉 / ⚡ 小雷 / 🍯 小蜂 @ LAPTOP-C47IT9US
 
 
