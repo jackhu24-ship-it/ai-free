@@ -183,47 +183,67 @@ class TTSClient:
 class AgentOrchestrator:
     @staticmethod
     async def route_and_execute(transcript: str, tool_logs: list, telemetry_holder: list, dtc_holder: list) -> str:
-        t_start = time.perf_counter()
-        lower_t = transcript.lower()
+        # 優先嘗試調用 LangGraph StateGraph 多代理架構
+        try:
+            from auto_copilot.agent_graph import arun_diagnostic
+            final_state = await arun_diagnostic(transcript)
+            duration_ms = final_state.get("execution_duration_ms", 5.0)
+            intents = final_state.get("target_intents", [])
 
-        tasks = []
-        if any(k in lower_t for k in ["溫度", "temperature", "coolant", "冷卻液", "壓力"]):
-            tasks.append(("telemetry", DiagnosticBackend.get_vehicle_telemetry("thermal_management")))
-        if any(k in lower_t for k in ["手冊", "manual", "幾度", "停機", "limit", "規範"]):
-            tasks.append(("manual", DiagnosticBackend.query_manual("coolant threshold")))
-        if any(k in lower_t for k in ["故障", "dtc", "code", "錯誤", "代碼"]):
-            tasks.append(("dtc", DiagnosticBackend.read_dtcs()))
+            if "telemetry" in intents:
+                tool_logs.append({"tool": "telemetry_agent (CAN-FD Polling)", "args": {"subsystem": "thermal_management"}, "latency_ms": duration_ms, "status": "200 OK (LangGraph)"})
+                if telemetry_holder and "telemetry_data" in final_state:
+                    telemetry_holder[0] = final_state["telemetry_data"]
+            if "safety_manual" in intents:
+                tool_logs.append({"tool": "safety_agent (ISO RAG Manual)", "args": {"query": "coolant threshold"}, "latency_ms": duration_ms, "status": "200 OK (LangGraph)"})
+            if "dtc" in intents:
+                tool_logs.append({"tool": "dtc_agent (UDS 0x19 Fault)", "args": {"ecu_target": "all"}, "latency_ms": duration_ms, "status": "200 OK (LangGraph)"})
+                if dtc_holder and "dtc_data" in final_state:
+                    dtc_holder[0] = [final_state["dtc_data"]]
 
-        if not tasks:
-            tasks.append(("telemetry", DiagnosticBackend.get_vehicle_telemetry("thermal_management")))
+            return final_state.get("spoken_response", "")
+        except Exception:
+            # 備援回退原有機制
+            t_start = time.perf_counter()
+            lower_t = transcript.lower()
 
-        results = {}
-        for name, res in tasks:
-            results[name] = res
+            tasks = []
+            if any(k in lower_t for k in ["溫度", "temperature", "coolant", "冷卻液", "水溫", "壓力"]):
+                tasks.append(("telemetry", DiagnosticBackend.get_vehicle_telemetry("thermal_management")))
+            if any(k in lower_t for k in ["手冊", "manual", "幾度", "停機", "limit", "規範"]):
+                tasks.append(("manual", DiagnosticBackend.query_manual("coolant threshold")))
+            if any(k in lower_t for k in ["故障", "dtc", "code", "錯誤", "代碼"]):
+                tasks.append(("dtc", DiagnosticBackend.read_dtcs()))
 
-        duration_ms = round((time.perf_counter() - t_start) * 1000, 1)
+            if not tasks:
+                tasks.append(("telemetry", DiagnosticBackend.get_vehicle_telemetry("thermal_management")))
 
-        # 寫入 Tool Logs
-        if "telemetry" in results:
-            tool_logs.append({"tool": "get_vehicle_telemetry", "args": {"subsystem": "thermal_management"}, "latency_ms": duration_ms, "status": "200 OK"})
-            if telemetry_holder: telemetry_holder[0] = results["telemetry"]
-        if "manual" in results:
-            tool_logs.append({"tool": "lookup_repair_procedure", "args": {"query": "coolant threshold"}, "latency_ms": duration_ms, "status": "200 OK"})
-        if "dtc" in results:
-            tool_logs.append({"tool": "read_diagnostic_trouble_codes", "args": {"ecu_target": "all"}, "latency_ms": duration_ms, "status": "200 OK"})
-            if dtc_holder: dtc_holder[0] = results["dtc"]
+            results = {}
+            for name, res in tasks:
+                results[name] = res
 
-        response_parts = []
-        if "telemetry" in results:
-            response_parts.append(f"目前冷卻液溫度為 {results['telemetry']['coolant_temp_c']}°C。")
-        if "manual" in results:
-            m = results["manual"]
-            response_parts.append(f"手冊規定超過 {m['critical_limit']} 必須停機，建議措施：{m['instruction']}")
-        if "dtc" in results:
-            d = results["dtc"]
-            response_parts.append(f"檢測到故障代碼 {d[0]['code']}，請留意感測器訊號。")
+            duration_ms = round((time.perf_counter() - t_start) * 1000, 1)
 
-        return " ".join(response_parts)
+            if "telemetry" in results:
+                tool_logs.append({"tool": "get_vehicle_telemetry", "args": {"subsystem": "thermal_management"}, "latency_ms": duration_ms, "status": "200 OK"})
+                if telemetry_holder: telemetry_holder[0] = results["telemetry"]
+            if "manual" in results:
+                tool_logs.append({"tool": "lookup_repair_procedure", "args": {"query": "coolant threshold"}, "latency_ms": duration_ms, "status": "200 OK"})
+            if "dtc" in results:
+                tool_logs.append({"tool": "read_diagnostic_trouble_codes", "args": {"ecu_target": "all"}, "latency_ms": duration_ms, "status": "200 OK"})
+                if dtc_holder: dtc_holder[0] = results["dtc"]
+
+            response_parts = []
+            if "telemetry" in results:
+                response_parts.append(f"目前冷卻液溫度為 {results['telemetry']['coolant_temp_c']}°C。")
+            if "manual" in results:
+                m = results["manual"]
+                response_parts.append(f"手冊規定超過 {m['critical_limit']} 必須停機，建議措施：{m['instruction']}")
+            if "dtc" in results:
+                d = results["dtc"]
+                response_parts.append(f"檢測到故障代碼 {d[0]['code']}，請留意感測器訊號。")
+
+            return " ".join(response_parts)
 
 # -----------------------------------------------------------------------------
 # 5. Background WebSocket Worker (WebRTC -> AssemblyAI)
