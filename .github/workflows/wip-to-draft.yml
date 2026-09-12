@@ -1,0 +1,43 @@
+name: Sync WIP Label and Draft Status
+
+on:
+  pull_request_target:
+    types: [labeled, ready_for_review]
+
+permissions:
+  pull-requests: write
+
+jobs:
+  handle-draft-sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Convert to Draft on WIP label
+        if: |
+          github.event.action == 'labeled' &&
+          contains(fromJSON('[ wip,WIP,work-in-progress]'), github.event.label.name) &&
+          github.event.pull_request.draft == false
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const {owner, repo, number} = context.repo;
+            const query = 
+            mutation(!){
+              convertPullRequestToDraft(input:{pullRequestId:(await github.graphql(
+                query { repository(owner:, name:) { pullRequest(number:) { id } } }
+              )).repository.pullRequest.id}){pullRequest{id}}
+            };
+            await github.graphql(query,{prNumber:number});
+      - name: Remove WIP label on ready_for_review
+        if: |
+          github.event.action == 'ready_for_review' &&
+          contains(fromJSON('[wip,WIP,work-in-progress]'), github.event.pull_request.labels.*.name | join(','))
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const {owner, repo, number} = context.repo;
+            await github.rest.issues.removeLabel({
+              owner,
+              repo,
+              issue_number: number,
+              name: 'WIP'
+            }).catch(()=>{});
