@@ -62,14 +62,16 @@ def bundle_safety_case(output_zip: str = "safety_case_bundle.zip") -> Dict[str, 
         {"id": "SRC-E2E-01", "name": "E2E FTTI Validator Suite", "rel_path": "test_e2e_ftti_validator.py", "target": "TC-SEC-01 & TC-FTTI-01"},
         {"id": "SRC-HIL-01", "name": "HIL Vehicle Matrix Test Suite", "rel_path": "test_hil_vehicle_matrix.py", "target": "TC-HIL-01~05"},
         {"id": "SRC-FLEET-01", "name": "Fleet Telemetry Blackbox Engine", "rel_path": "fleet_telemetry_blackbox.py", "target": "200ms Pre-Trigger FIFO"},
+        {"id": "SRC-TRACE-01", "name": "Traceability Matrix Engine", "rel_path": "traceability_engine.py", "target": "Part 8 Clause 6 Traceability"},
+        {"id": "SRC-DRYRUN-01", "name": "Auditor Dry Run Defense Tool", "rel_path": "auditor_dry_run_tool.py", "target": "Auditor Dry Run & Checklist"},
     ]
 
     manifest = {
         "assessment_title": "AutoCopilot ISO 26262:2018 ASIL-D Functional Safety Assessment Dossier",
         "generated_at": datetime.now().isoformat(),
-        "standard_scope": "ISO 26262:2018 Parts 3, 4, 6",
+        "standard_scope": "ISO 26262:2018 Parts 2, 3, 4, 6, 8",
         "target_level": "ASIL-D",
-        "release_tag": "v2.3.0-patent-disclosure-filed",
+        "release_tag": "v3.1.0-audit-dossier-ready",
         "artifacts": []
     }
 
@@ -100,6 +102,25 @@ def bundle_safety_case(output_zip: str = "safety_case_bundle.zip") -> Dict[str, 
                     "target": item["target"],
                     "status": "FILE_NOT_FOUND"
                 })
+
+        # 打包 ISO 26262 必備工作成果目錄 (docs/audit_work_products/)
+        audit_wp_dir = os.path.join(CURRENT_DIR, "docs", "audit_work_products")
+        if os.path.exists(audit_wp_dir):
+            for fname in os.listdir(audit_wp_dir):
+                fpath = os.path.join(audit_wp_dir, fname)
+                if os.path.isfile(fpath):
+                    sha256 = compute_sha256(fpath)
+                    arcname = os.path.join("safety_dossier", "docs", "audit_work_products", fname)
+                    zf.write(fpath, arcname)
+                    manifest["artifacts"].append({
+                        "id": f"WP-{fname[:12]}",
+                        "name": f"Audit Work Product: {fname}",
+                        "path": f"docs/audit_work_products/{fname}",
+                        "target": "ISO 26262 Parts 2/3/4/6/8 WP",
+                        "sha256": sha256,
+                        "size_bytes": os.path.getsize(fpath),
+                        "status": "VERIFIED_PRESENT"
+                    })
 
         # 打包黑盒子快照目錄 (若存在)
         bb_dir = os.path.join(CURRENT_DIR, "blackbox_snapshots")

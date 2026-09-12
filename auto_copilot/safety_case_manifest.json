@@ -1,9 +1,9 @@
 {
   "assessment_title": "AutoCopilot ISO 26262:2018 ASIL-D Functional Safety Assessment Dossier",
-  "generated_at": "2026-09-12T21:06:30.632515",
-  "standard_scope": "ISO 26262:2018 Parts 3, 4, 6",
+  "generated_at": "2026-09-12T21:13:42.265176",
+  "standard_scope": "ISO 26262:2018 Parts 2, 3, 4, 6, 8",
   "target_level": "ASIL-D",
-  "release_tag": "v2.3.0-patent-disclosure-filed",
+  "release_tag": "v3.1.0-audit-dossier-ready",
   "artifacts": [
     {
       "id": "DOC-GSN-01",
@@ -102,6 +102,141 @@
       "target": "200ms Pre-Trigger FIFO",
       "sha256": "bc7c9fa63606a3dd83c78f408a7923e618a3f693e449794d9b15f8b286d66f78",
       "size_bytes": 5734,
+      "status": "VERIFIED_PRESENT"
+    },
+    {
+      "id": "SRC-TRACE-01",
+      "name": "Traceability Matrix Engine",
+      "path": "traceability_engine.py",
+      "target": "Part 8 Clause 6 Traceability",
+      "sha256": "fa70ddb96a223cf22ac32d2affc021f5c7804643e046619ac9a8269795417da6",
+      "size_bytes": 13640,
+      "status": "VERIFIED_PRESENT"
+    },
+    {
+      "id": "SRC-DRYRUN-01",
+      "name": "Auditor Dry Run Defense Tool",
+      "path": "auditor_dry_run_tool.py",
+      "target": "Auditor Dry Run & Checklist",
+      "sha256": "d506e5e35d6a8503595d38cf9a9b3ad310d217991da8cf1119ffdb3db8d24d08",
+      "size_bytes": 8239,
+      "status": "VERIFIED_PRESENT"
+    },
+    {
+      "id": "WP-Part2_Git_Wo",
+      "name": "Audit Work Product: Part2_Git_Workflow_SOP.md",
+      "path": "docs/audit_work_products/Part2_Git_Workflow_SOP.md",
+      "target": "ISO 26262 Parts 2/3/4/6/8 WP",
+      "sha256": "147f1ff8e1da67f7abeaa7807d45f2581669986ad35b2457ecd3d7d9f255a339",
+      "size_bytes": 2352,
+      "status": "VERIFIED_PRESENT"
+    },
+    {
+      "id": "WP-Part2_Safety",
+      "name": "Audit Work Product: Part2_Safety_Management_Plan.md",
+      "path": "docs/audit_work_products/Part2_Safety_Management_Plan.md",
+      "target": "ISO 26262 Parts 2/3/4/6/8 WP",
+      "sha256": "7b8d195503c1b6d5ca0adfc91aa193586360b055d8e240dcd467ad5c54b9ef0e",
+      "size_bytes": 2678,
+      "status": "VERIFIED_PRESENT"
+    },
+    {
+      "id": "WP-Part3_Functi",
+      "name": "Audit Work Product: Part3_Functional_Safety_Concept.md",
+      "path": "docs/audit_work_products/Part3_Functional_Safety_Concept.md",
+      "target": "ISO 26262 Parts 2/3/4/6/8 WP",
+      "sha256": "5b821a2cafa5cd4d86ffa7269ce7573104ff35edbb0d136ab7b52ff8e3369cc9",
+      "size_bytes": 1996,
+      "status": "VERIFIED_PRESENT"
+    },
+    {
+      "id": "WP-Part3_HARA_M",
+      "name": "Audit Work Product: Part3_HARA_Matrix.md",
+      "path": "docs/audit_work_products/Part3_HARA_Matrix.md",
+      "target": "ISO 26262 Parts 2/3/4/6/8 WP",
+      "sha256": "f5f56caaf880492c02254944abb7597cf15c98ff7a68c97925fb45de7b35bf84",
+      "size_bytes": 2890,
+      "status": "VERIFIED_PRESENT"
+    },
+    {
+      "id": "WP-Part3_Item_D",
+      "name": "Audit Work Product: Part3_Item_Definition_Doc.md",
+      "path": "docs/audit_work_products/Part3_Item_Definition_Doc.md",
+      "target": "ISO 26262 Parts 2/3/4/6/8 WP",
+      "sha256": "95d837697b609cd33eec89784ac01562ee8e1a2d1a183e79c8aee9efdf1bcbec",
+      "size_bytes": 2119,
+      "status": "VERIFIED_PRESENT"
+    },
+    {
+      "id": "WP-Part4_System",
+      "name": "Audit Work Product: Part4_System_V_and_V_Plan.md",
+      "path": "docs/audit_work_products/Part4_System_V_and_V_Plan.md",
+      "target": "ISO 26262 Parts 2/3/4/6/8 WP",
+      "sha256": "3bd6daf48181b371d630b35d7b2b7bb0a98d5647ece00d8576ee59f4b84d0949",
+      "size_bytes": 1500,
+      "status": "VERIFIED_PRESENT"
+    },
+    {
+      "id": "WP-Part4_Techni",
+      "name": "Audit Work Product: Part4_Technical_Safety_Concept.md",
+      "path": "docs/audit_work_products/Part4_Technical_Safety_Concept.md",
+      "target": "ISO 26262 Parts 2/3/4/6/8 WP",
+      "sha256": "15bc1854a1b1159c5fcda0ea6da8e10cac601ad74d3cc6c1217063fa2762f2fe",
+      "size_bytes": 1984,
+      "status": "VERIFIED_PRESENT"
+    },
+    {
+      "id": "WP-Part6_SW_Arc",
+      "name": "Audit Work Product: Part6_SW_Architecture_Design.md",
+      "path": "docs/audit_work_products/Part6_SW_Architecture_Design.md",
+      "target": "ISO 26262 Parts 2/3/4/6/8 WP",
+      "sha256": "061a9914a040d11679f9827889a74784ad0c4417f37db06913ab6288e2d16bec",
+      "size_bytes": 1540,
+      "status": "VERIFIED_PRESENT"
+    },
+    {
+      "id": "WP-Part6_SW_FTA",
+      "name": "Audit Work Product: Part6_SW_FTA_Tree.md",
+      "path": "docs/audit_work_products/Part6_SW_FTA_Tree.md",
+      "target": "ISO 26262 Parts 2/3/4/6/8 WP",
+      "sha256": "49d5f5acd67ebe98999705005e4de64decfd6e546d306b8632dc15fc3efaf063",
+      "size_bytes": 2056,
+      "status": "VERIFIED_PRESENT"
+    },
+    {
+      "id": "WP-Part6_SW_Sta",
+      "name": "Audit Work Product: Part6_SW_Static_Analysis_MISRA_Report.md",
+      "path": "docs/audit_work_products/Part6_SW_Static_Analysis_MISRA_Report.md",
+      "target": "ISO 26262 Parts 2/3/4/6/8 WP",
+      "sha256": "c2998126fb16bd1fefddb385c8d60338556b139edf73f6f7c1a5380224a969c1",
+      "size_bytes": 1541,
+      "status": "VERIFIED_PRESENT"
+    },
+    {
+      "id": "WP-Part8_Tool_Q",
+      "name": "Audit Work Product: Part8_Tool_Qualification_Report.md",
+      "path": "docs/audit_work_products/Part8_Tool_Qualification_Report.md",
+      "target": "ISO 26262 Parts 2/3/4/6/8 WP",
+      "sha256": "0e13c29ddb06869b588da86ca5a5ad215f0674750b9f70b784dd99830558b027",
+      "size_bytes": 1880,
+      "status": "VERIFIED_PRESENT"
+    },
+    {
+      "id": "WP-Part8_Tracea",
+      "name": "Audit Work Product: Part8_Traceability_Matrix.json",
+      "path": "docs/audit_work_products/Part8_Traceability_Matrix.json",
+      "target": "ISO 26262 Parts 2/3/4/6/8 WP",
+      "sha256": "94a3f04b7b2160d3051d7231cc770bf8b4df562a6240ad5b2ac6b99b19656573",
+      "size_bytes": 8505,
+      "status": "VERIFIED_PRESENT"
+    },
+    {
+      "id": "WP-Part8_Tracea",
+      "name": "Audit Work Product: Part8_Traceability_Matrix.md",
+      "path": "docs/audit_work_products/Part8_Traceability_Matrix.md",
+      "target": "ISO 26262 Parts 2/3/4/6/8 WP",
+      "sha256": "d7ac599fc306bbf4081daf0fbd7098200627c4a6dd416fab3780c28d23014bd5",
+      "size_bytes": 4949,
       "status": "VERIFIED_PRESENT"
     }
   ]
