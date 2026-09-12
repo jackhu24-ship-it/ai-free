@@ -215,6 +215,13 @@ def build_safety_graph():
 # 5. 驗證情境演練
 # -----------------------------------------------------------------------------
 if __name__ == "__main__":
+    import sys
+    if sys.platform.startswith("win"):
+        try:
+            sys.stdout.reconfigure(encoding="utf-8")
+        except Exception:
+            pass
+
     graph = build_safety_graph()
 
     print("--- [情境 1: 危險指令攔截 (觸發口語雙重確認)] ---")
