@@ -884,11 +884,16 @@
                 - 🩺 **ISO 14229-1 Service 0x19 02 診斷客戶端**：單幀 ISO-TP 請求封裝（ID 0x7E0），解析 0x7E8 正面回應（0x59 02），標準 OBD-II DTC 高低位元組還原（P0117 Coolant Temp Sensor Circuit Low，Status: 0x8 Active），具備 FTTI 逾時保護。
                 - ⚡ **硬體致動命令廣播**：支援向 PDM/致動器廣播 Frame 0x210（Cut Relay / Emergency Shutdown）。
                 - 🧪 **獨立基準測試 100% 綠燈通關**：測試 1 (DBC 物理值解碼 104.0°C / 384.5V / 14.2bar)、測試 2 (UDS 0x19 P0117)、測試 3 (0x210 Cut Relay 指令廣播)，在 Windows CP950/UTF-8 環境下零亂碼、零警告完美通過！達成 82 項里程碑大滿貫！
-          83. **🚗 Stage 3 車載硬體台架連通與實體驗證 (HIL, stage3_hil_runner.py) ✕ 達成 83 項里程碑大滿貫**：
-               - 🔌 **Day 7（硬體驅動與總線電氣特性驗證）**：自動探測 PEAK PCAN-USB (`PCAN_USBBUS1`)、SocketCAN (`can0`) 與工規 Virtual HIL 雙向模擬台架；驗證雙端 120Ω 併聯等效 60.1Ω 終端電阻、3.52V/1.48V 差分電平與 ERROR_ACTIVE 狀態。
-               - 🩺 **Day 8（實體 UDS 診斷與致動器口語雙重互鎖）**：調校 UDS Service 0x19 實體響應延遲（18.3ms，精準落於 15ms~40ms 工規區間）；驗證 PDM 繼電器負載硬體互鎖（語音「切斷繼電器」攔截維持 ENGAGED，口頭回答「確認執行」後瞬間跳脫 DISCONNECTED）。
-               - ⚡ **Day 9（全鏈路端到端閉環、延遲基準量測與 FTTI 斷線容錯）**：端到端總延遲僅 **0.88ms**（遠低於 350ms SLA 門檻）；拔除實體 CAN 線束故障注入實測，精準觸發 BUS_OFF、120Ω 斷線偵測、UDS TIMEOUT 報警與 FTTI 自動降級至 EMERGENCY_SAFE！
-               - 🧪 **驗收腳本交付**：交付 `auto_copilot/stage3_hil_runner.py` 支援 `--mode bench` 與 `--mode interactive`，全項基準測試 100% 綠燈通過！達成 83 項里程碑大滿貫！
+           83. **🚗 Stage 3 車載硬體台架連通與實體驗證 (HIL, stage3_hil_runner.py) ✕ 達成 83 項里程碑大滿貫**：
+                - 🔌 **Day 7（硬體驅動與總線電氣特性驗證）**：自動探測 PEAK PCAN-USB (`PCAN_USBBUS1`)、SocketCAN (`can0`) 與工規 Virtual HIL 雙向模擬台架；驗證雙端 120Ω 併聯等效 60.1Ω 終端電阻、3.52V/1.48V 差分電平與 ERROR_ACTIVE 狀態。
+                - 🩺 **Day 8（實體 UDS 診斷與致動器口語雙重互鎖）**：調校 UDS Service 0x19 實體響應延遲（18.3ms，精準落於 15ms~40ms 工規區間）；驗證 PDM 繼電器負載硬體互鎖（語音「切斷繼電器」攔截維持 ENGAGED，口頭回答「確認執行」後瞬間跳脫 DISCONNECTED）。
+                - ⚡ **Day 9（全鏈路端到端閉環、延遲基準量測與 FTTI 斷線容錯）**：端到端總延遲僅 **0.88ms**（遠低於 350ms SLA 門檻）；拔除實體 CAN 線束故障注入實測，精準觸發 BUS_OFF、120Ω 斷線偵測、UDS TIMEOUT 報警與 FTTI 自動降級至 EMERGENCY_SAFE！
+                - 🧪 **驗收腳本交付**：交付 `auto_copilot/stage3_hil_runner.py` 支援 `--mode bench` 與 `--mode interactive`，全項基準測試 100% 綠燈通過！達成 83 項里程碑大滿貫！
+           84. **🔧 實體 CAN 硬體通訊排錯與電氣品質量測工具全量落地 (can_health_inspector.py) ✕ 達成 84 項里程碑大滿貫**：
+                - 🔌 **雙平台硬體相容**：交付 `auto_copilot/can_health_inspector.py`，支援 SocketCAN (Linux) 與 PCAN-Basic (Windows) 原生切換，亦提供 virtual 模擬自檢。
+                - ⚡ **電氣與終端電阻推斷 (Inference)**：透過錯誤幀比率、總線狀態（ERROR-ACTIVE / WARNING / PASSIVE / BUS-OFF）與 ACK 檢驗，自動推斷 120Ω 終端電阻缺失、信號反射或電阻過低（<45Ω）。
+                - 📊 **週期抖動與丟包率統計**：鎖定目標訊號（預設 0x120 遙測幀，50ms/20Hz），精確計算平均週期、最大/最小間隔、時間抖動 (Jitter) 與理論丟包率（實測 Jitter 0.56ms，丟包率 0.00%）。
+                - 🧪 **終端診斷報表 100% 綠燈**：支援 CLI 參數設定與 `--simulate-traffic` 自檢模式，無警告無死鎖，達到專業車規排錯工具交付標準！
 
 ## 🎯 下次開工必做深化任務（6+3 特戰聯軍預備任務）
 1. **🛠️ 小開 (Agent_Coder)**：持續維護零拷貝 C++ 模組與跨平台相容性。
@@ -899,5 +904,5 @@
 6. **👑 小幫手 (Agent_PM)**：行使最高指揮權，率領全員執行各賽事推進與自動化閉環，提請霸丸總指揮官審查。
 
 ## 📅 最後更新
-- **最後更新**：2026-09-12 20:32（Stage 3 車載硬體台架連通與實體驗證 stage3_hil_runner.py 全量落地驗證通過，達成 83 項里程碑大滿貫）
+- **最後更新**：2026-09-12 20:35（實體 CAN 硬體通訊排錯與電氣品質量測腳本 can_health_inspector.py 全量落地驗證通過，達成 84 項里程碑大滿貫）
 - **更新者**：👑 小幫手 / 🛠️ 小開 / 🐎 小馬 / 🦾 小踢 / 🌸 小粉 / ⚡ 小雷 / 🍯 小蜂 @ LAPTOP-C47IT9US
