@@ -19,11 +19,21 @@ from langgraph.graph import END, START, StateGraph
 
 try:
     from .asil_safety_core import safety_supervisor, VehicleSafeState
+    from .can_interface_adapter import CanInterfaceAdapter
+    from .uds_service_client import UdsServiceClient
 except (ImportError, ValueError):
     try:
         from asil_safety_core import safety_supervisor, VehicleSafeState
+        from can_interface_adapter import CanInterfaceAdapter
+        from uds_service_client import UdsServiceClient
     except ImportError:
         from auto_copilot.asil_safety_core import safety_supervisor, VehicleSafeState
+        from auto_copilot.can_interface_adapter import CanInterfaceAdapter
+        from auto_copilot.uds_service_client import UdsServiceClient
+
+# Initialize shared automotive bus adapters (virtual or physical)
+can_adapter = CanInterfaceAdapter(interface="virtual")
+uds_client = UdsServiceClient(can_adapter)
 
 # -----------------------------------------------------------------------------
 # 1. 定義共用狀態 (Agent State)
@@ -43,40 +53,47 @@ class DiagnosticState(TypedDict):
 
 
 # -----------------------------------------------------------------------------
-# 2. 專業節點實作 (Modular Node Functions)
+# 2. 節點定義 (Agent Nodes)
 # -----------------------------------------------------------------------------
 def supervisor_node(state: DiagnosticState) -> Dict[str, Any]:
-    """主控主管節點：意圖識別與並行分派決策（含 ASIL-D 安全審查）"""
+    """
+    主管節點：意圖識別、ASIL-D 功能安全審查與並行分派 (Fan-out)
+    """
     q = state["query"].lower()
     intents = []
-    
-    # 檢查是否為危險實體致動器動作或雙重口令交握 (Two-Key Handshake)
-    is_critical_action = any(k in q for k in ["切換繼電器", "切斷", "泵浦", "泵", "relay", "clear dtc", "清除故障碼", "清除"])
-    is_confirming = any(k in q for k in ["確認執行", "confirm", "確定"])
-    
-    if is_confirming:
-        allowed, msg, next_st = safety_supervisor.evaluate_request("actuate_relay", {"confirmation_spoken": q})
+
+    # 評估 ASIL-D 安全狀態機與 Two-Key Handshake
+    if any(k in q for k in ["切換", "開啟", "關閉", "切斷", "清除", "reset", "clear", "relay", "繼電器", "水泵"]):
+        # 致動器操作
+        allowed, msg, next_state = safety_supervisor.evaluate_request(
+            intent="actuate_relay" if "繼電器" in q else "clear_dtc",
+            action_payload={"desc": state["query"]}
+        )
+        if not allowed:
+            return {
+                "target_intents": ["safety_guard"],
+                "safe_state": next_state.value if next_state else VehicleSafeState.WAITING_CONFIRMATION.value,
+                "safety_audit_msg": "ASIL-D Two-Key Handshake 攔截高危致動動作",
+                "spoken_response": msg
+            }
+    elif safety_supervisor.current_state == VehicleSafeState.WAITING_CONFIRMATION:
+        # 處於等待確認狀態，評估確認口令
+        allowed, msg, next_state = safety_supervisor.evaluate_request(
+            intent="actuate_relay",
+            action_payload={"confirmation_spoken": q}
+        )
         return {
             "target_intents": ["safety_guard"],
-            "safe_state": next_st.value,
-            "safety_audit_msg": msg,
-            "spoken_response": msg
-        }
-    elif is_critical_action:
-        allowed, msg, next_st = safety_supervisor.evaluate_request("actuate_relay", {"desc": "切換冷卻泵高壓繼電器"})
-        return {
-            "target_intents": ["safety_guard"],
-            "safe_state": next_st.value,
-            "safety_audit_msg": msg,
+            "safe_state": next_state.value,
+            "safety_audit_msg": "Two-Key 口令驗證完畢",
             "spoken_response": msg
         }
 
-    # 檢查 FTTI 超時
+    # 檢查 FTTI 逾時
     if safety_supervisor.check_ftti_timeout():
-        st_val = safety_supervisor.current_state.value
         return {
             "target_intents": ["safety_guard"],
-            "safe_state": st_val,
+            "safe_state": VehicleSafeState.EMERGENCY_SAFE.value,
             "safety_audit_msg": "FTTI 超時觸發緊急安全關斷",
             "spoken_response": "緊急安全警告：故障容忍時間 (FTTI 15s) 已逾時！ISO 26262 安全監督器已自主鎖死高壓輸出並接管冷卻系統。"
         }
@@ -100,26 +117,48 @@ def supervisor_node(state: DiagnosticState) -> Dict[str, Any]:
 
 
 def telemetry_agent_node(state: DiagnosticState) -> Dict[str, Any]:
-    """遙測專精代理節點：讀取即時 CAN-FD / OBD-II 總線數值"""
+    """遙測專精代理節點：讀取即時 CAN-FD / DBC 解碼之匯流排數值"""
+    telem = can_adapter.get_latest_telemetry()
+    coolant_temp = telem.get("coolant_temp", 96.0)
+    battery_v = telem.get("battery_voltage", 398.5)
+    battery_i = telem.get("battery_current", -12.4)
+    pump_pwm = telem.get("pump_pwm", 42.0)
+    
     return {
         "telemetry_data": {
-            "coolant_temp_c": 104.2,
-            "bus_voltage_v": 384.8,
-            "line_pressure_kpa": 145.0,
-            "status": "WARNING_HIGH",
-            "source": "CAN-FD_ECU_0x3F2"
+            "coolant_temp_c": coolant_temp,
+            "bus_voltage_v": battery_v,
+            "battery_current_a": battery_i,
+            "pump_pwm_pct": pump_pwm,
+            "status": "WARNING_HIGH" if coolant_temp > 100 else "NORMAL",
+            "source": f"CAN_DBC_0x100_0x200 ({can_adapter.interface_type})"
         }
     }
 
 
 def dtc_agent_node(state: DiagnosticState) -> Dict[str, Any]:
-    """故障診斷代理節點：讀取 ISO 14229 / UDS 0x19 DTC"""
+    """故障診斷代理節點：透過 UDS Service 0x19 02 讀取真實車載故障碼"""
+    dtc_records = uds_client.read_dtc_information(status_mask=0x08)
+    if dtc_records:
+        top_dtc = dtc_records[0]
+        code = top_dtc.get("dtc_code", "P0A80")
+        desc = "Replace Hybrid/EV Battery Pack Degradation Exceeded Limit" if code == "P0A80" else "Sensor Circuit Anomaly"
+        return {
+            "dtc_data": {
+                "dtc_code": code,
+                "desc": desc,
+                "status_byte": top_dtc.get("status_byte", "0x2F"),
+                "severity": "CRITICAL" if code == "P0A80" else "WARNING",
+                "confirmed": top_dtc.get("confirmed", True),
+                "source": f"UDS_Service_0x19_02 ({can_adapter.interface_type})"
+            }
+        }
     return {
         "dtc_data": {
-            "dtc_code": "P0117",
-            "desc": "Coolant Temp Sensor Circuit Low",
-            "severity": "High",
-            "source": "UDS_Service_0x19"
+            "dtc_code": "NONE",
+            "desc": "No Active DTCs",
+            "severity": "NONE",
+            "source": "UDS_Service_0x19_02"
         }
     }
 

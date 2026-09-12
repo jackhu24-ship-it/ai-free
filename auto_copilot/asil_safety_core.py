@@ -1,4 +1,4 @@
-﻿"""
+"""
 AutoCopilot ISO 26262 ASIL-D Safety Supervisor Core
 ===================================================
 Implementation of Stage 1 Functional Safety State Machine:
@@ -18,6 +18,13 @@ class VehicleSafeState(str, Enum):
     WAITING_CONFIRMATION = "WAITING_CONFIRMATION"
     EMERGENCY_SAFE = "EMERGENCY_SAFE"
 
+class ASILHazardLevel(str, Enum):
+    QM = "QM"
+    ASIL_A = "ASIL_A"
+    ASIL_B = "ASIL_B"
+    ASIL_C = "ASIL_C"
+    ASIL_D = "ASIL_D"
+
 class SafetySupervisor:
     """
     ASIL-D Level Safety Supervisor governing all spoken actuator commands and fault transitions.
@@ -33,6 +40,37 @@ class SafetySupervisor:
         
         # Self-test transition to NORMAL_RUN
         self.transition_to(VehicleSafeState.NORMAL_RUN, "POST Self-Test Passed")
+
+    def reset(self):
+        """Reset supervisor to initial normal state."""
+        self.current_state = VehicleSafeState.NORMAL_RUN
+        self.ftti_start_time = None
+        self.pending_action = None
+        self.high_voltage_interlock_closed = True
+        self.coolant_pump_pwm = 100
+        self.last_transition_reason = "Manual reset to NORMAL_RUN"
+
+    def request_action(self, action: str, hazard_level: ASILHazardLevel = ASILHazardLevel.ASIL_C, details: str = "") -> bool:
+        """Request an ASIL-governed physical action."""
+        self.pending_action = {
+            "intent": action,
+            "hazard_level": hazard_level.value,
+            "desc": details or action,
+            "timestamp": time.time()
+        }
+        self.transition_to(VehicleSafeState.WAITING_CONFIRMATION, f"Awaiting operator voice confirmation for {action}")
+        return True
+
+    def validate_confirmation(self, spoken_phrase: str) -> Tuple[bool, str]:
+        """Validate spoken confirmation for pending action."""
+        phrase = spoken_phrase.lower()
+        if any(w in phrase for w in ["確認執行", "confirm", "yes", "確定"]):
+            executed_desc = self.pending_action.get("desc", "未知動作") if self.pending_action else "未知動作"
+            self.transition_to(VehicleSafeState.NORMAL_RUN, f"Confirmed and executed: {executed_desc}")
+            return True, f"口令驗證通過。已成功執行：{executed_desc}。"
+        else:
+            self.transition_to(VehicleSafeState.NORMAL_RUN, "Two-key confirmation rejected or aborted")
+            return False, "口令不符或操作已取消。致動器保持原始安全鎖定狀態。"
 
     def transition_to(self, new_state: VehicleSafeState, reason: str):
         """State transition with ISO 26262 audit logging."""
@@ -132,3 +170,7 @@ class SafetySupervisor:
 
 # Global singleton supervisor
 safety_supervisor = SafetySupervisor(ftti_seconds=15.0)
+
+def get_safety_supervisor() -> SafetySupervisor:
+    """Return the global ASIL-D SafetySupervisor instance."""
+    return safety_supervisor
