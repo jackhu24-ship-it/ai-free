@@ -909,7 +909,7 @@
                   2. **DTC 爆炸式泛洪 (Burst 5+ Codes)**：自 6 組突發故障碼中精準識別出最高危急等級（`P0A80` Critical 與 `P0117` High），自動截斷為 Top 2 交付語音播報，消除認知過載。
                   3. **FTTI 10.0s 剛性安全關斷**：危險指令發起後靜默，於 **10.15s**（滿足 10.0s ± 0.2s 門檻）強制廣播 0x210 緊急安全關斷幀（`emergency_stop=1`），狀態轉移至 `EMERGENCY_SAFE`。
                 - 📋 **Phase 3（ISO 26262-6 Table 8 ASIL-D MC/DC 覆蓋率）**：交付 `auto_copilot/test_safety_mcdc.py`，構造 4 大核心判定式之獨立影響對（Independence Pairs），pytest 13 項單元測試 **100% 綠燈通過**。
-                - 🏆 **Phase 4（結案報告與版本凍結）**：發布專屬車規報告 `auto_copilot/docs/STAGE4_MCDC_FAULT_INJECTION_REPORT.md`，具備完整 GSN 論證架構與量化指標對照表；正式簽發 Git Tag `v2.0.0-automotive-asil`！達成 86 項里程碑大滿貫！
+                - 🏆 **Phase 4（結案報告與版本凍結）**：發布專屬車規報告 `auto_copilot/docs/STAGE4_MCDC_FAULT_INJECTION_REPORT.md` 與獨立車規標準論證書 `auto_copilot/docs/AUTONOMOUS_VOICE_AGENT_SAFETY_CASE_GSN.md`，具備完整 GSN (Goal Structuring Notation) 論證架構與量化指標對照表；正式簽發 Git Tag `v2.0.0-automotive-asil`！達成 86 項里程碑大滿貫！
 
 ## 🎯 下次開工必做深化任務（6+3 特戰聯軍預備任務）
 1. **🛠️ 小開 (Agent_Coder)**：持續維護零拷貝 C++ 模組與跨平台相容性。
