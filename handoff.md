@@ -893,6 +893,7 @@
                 - 🔌 **雙平台硬體相容**：交付 `auto_copilot/can_health_inspector.py`，支援 SocketCAN (Linux) 與 PCAN-Basic (Windows) 原生切換，亦提供 virtual 模擬自檢。
                 - ⚡ **電氣與終端電阻推斷 (Inference)**：透過錯誤幀比率、總線狀態（ERROR-ACTIVE / WARNING / PASSIVE / BUS-OFF）與 ACK 檢驗，自動推斷 120Ω 終端電阻缺失、信號反射或電阻過低（<45Ω）。
                 - 📊 **週期抖動與丟包率統計**：鎖定目標訊號（預設 0x120 遙測幀，50ms/20Hz），精確計算平均週期、最大/最小間隔、時間抖動 (Jitter) 與理論丟包率（實測 Jitter 0.56ms，丟包率 0.00%）。
+                - 📖 **主規格手冊發布**：產出專屬實體診斷手冊 `auto_copilot/docs/CAN_HEALTH_INSPECTOR_GUIDE.md`，完整沉澱無示波器反推法、電氣故障矩陣與現場 5 步驟 SOP。
                 - 🧪 **終端診斷報表 100% 綠燈**：支援 CLI 參數設定與 `--simulate-traffic` 自檢模式，無警告無死鎖，達到專業車規排錯工具交付標準！
 
 ## 🎯 下次開工必做深化任務（6+3 特戰聯軍預備任務）
