@@ -51,6 +51,7 @@ AI 教學工具鏈建置：安裝並熟悉 AI 工具鏈（OpenCode 懶人包 13 
 - [x] 階段二附加：Ollama 本地執行操作手冊撰寫歸檔（ollama-operation-manual.md）
 - [x] 階段二附加：OI 實戰操作與專案管理驗證（OI-AutoLoad 自動化日常工作流）
 - [x] 階段二附加：Hermes Agent 與 Hermes Desktop 桌面應用建置（v0.20.4，Electron GUI、82 個技能庫、桌面捷徑已建立）
+- [x] 階段二附加：手機隨身行動指揮部即時刷新與 24H 雲端大腦（Netlify Serverless + Groq Qwen 3.8-27B 多模型容錯，commander-jackhu24.netlify.app 已正式發布上線）
 - [ ] 階段三：實際運用於教學備課
 
 ## 資料夾結構
@@ -100,4 +101,6 @@ G:\我的雲端硬碟\260803_opencode\    ← 工作區根目錄（git repo，�
 1. **Python Subprocess UTF-8 編碼防護**：在 Windows 繁體/簡體中文語系下執行 Python 子行程呼叫 Git 或讀取檔案時，一律加上 `encoding="utf-8", errors="replace"`（或設定環境變數 `PYTHONUTF8=1`），防止 `UnicodeDecodeError (GBK/CP950)` 崩潰。
 2. **Codex Security 授權模型配置**：使用 ChatGPT 訂閱帳戶執行 `codex-security scan` 時，一律指定支援的深度推論模型 `--model gpt-5.6-terra`。
 3. **Google Sheets 公式注入防護 (CWE-1236)**：任何 GAS 寫入 Google 試算表之使用者輸入欄位，必須先經過 `sanitizeCell_()` 過濾（若開頭為 `=`, `+`, `-`, `@` 則前置加上單引號 `'` 強制轉純文字）。
+4. **🚫 嚴禁桌面污染原則（Zero-Desktop Pollution）**：任何 Agent 產出之檔案（PDF、DXF、BAT、DOCX、PPTX、PNG、MD 等）一律歸入 `G:\我的雲端硬碟\AI產出成品總庫\` 相應專區，**嚴禁在 Windows 桌面（Desktop / OneDrive 桌面）生成、複製或存放實體檔案**，維持桌面 100% 清爽。
+
 

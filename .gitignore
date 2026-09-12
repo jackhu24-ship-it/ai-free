@@ -45,6 +45,8 @@ cookies*.txt
 .cookies*
 .npmrc
 .netlify
+.firebase/
+firebase_deploy/
 
 # ─────────────────────────────────────────────
 # 🔴 檔案類型：PDF／簡報／試算表／影像／音樂（一律不上傳）
@@ -97,6 +99,9 @@ build/
 *.log
 .DS_Store
 Thumbs.db
+.coverage*
+htmlcov/
+.pytest_cache/
 
 # 獨立 git repo（各自有自己的 GitHub repo，不混入根 repo）
 sheets-gas-demo/
