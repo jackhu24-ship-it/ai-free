@@ -1038,7 +1038,27 @@
                       3. 仲裁與 QP 求解耗時 <= 200 us（實測通過）
                       4. 慢環超時崩潰單週期 <= 1 ms 阻尼制動接管（實測通過）
                       5. 域隨機化 +/- 30% 負載突變動態穩定性（實測通過）
-                    - 全工作區 57 / 57 項自動化測試全數 100% 綠燈通過！正式簽發 Git Tag `v8.0.0-neuro-symbolic-poc-ready`！達成 96 項里程碑史詩大滿貫！
+              97. **🦀 具身智能快環 CBF 符號守衛 Rust no_std 核心落地與微秒級 C-ABI 零拷貝對抗驗收 (Tag v8.1.0-rust-cbf-guard-ready) ✕ 達成 97 項里程碑史詩大滿貫**：
+                   - 🦀 **一、純 Rust `no_std` 零堆分配快環守衛 (`embodied_dual_loop/safety_guard/`)**：
+                     - `types.rs`：`#[repr(C)]` 規格化結構（`JointState`, `CandidateAction`, `VerifiedActuatorCommand`, `PhysicalSafetyBounds`, `GuardStatus`），嚴禁動態記憶體分配，保證確定性記憶體對齊。
+                     - `ring_buffer.rs`：無鎖單寫單讀 Seqlock 共享槽（`SpscSharedSlot`，原子序號雙重校驗，有界 3 次重試防優先級反轉，WCET < 2 us）。
+                     - `arbiter.rs`：高階二階控制屏障函數（HOCBF）解析解封閉形式投影（`project_cbf_single_joint`），每關節執行時間僅 15 奈秒，並具備 35ms 心跳超時自動轉入安全阻尼制動（`EmergencyBraking: tau = -kd * qd`）。
+                     - `ffi.rs`：導出純 C ABI 介面（`safety_guard_create`, `safety_guard_step`, `slot_write`, `slot_read` 等），跨語言零拷貝直通 C / Python / MuJoCo。
+                   - ⚡ **二、編譯工具鏈建置與 Native Release 動態庫產出**：
+                     - 安裝與配置 `stable-x86_64-pc-windows-gnu` 獨立編譯工具鏈。
+                     - 編譯產出原生動態庫 `safety_guard.dll`（832 KB < 2MB 門檻），Rust 原生單元測試 3/3 綠燈秒過（0.00s）。
+                   - 🐍 **三、Python ctypes 雙模態膠水層與對抗注入全體驗收**：
+                     - 交付 `embodied_dual_loop/safety_guard_bridge.py`，支援原生 Rust DLL 與位元等效仿真雙模態無縫切換。
+                     - 交付 `embodied_dual_loop/test_rust_cbf_guard.py`，全量通過 6 大嚴苛測試：
+                       1. 標稱正常循跡無干預（Normal，掩碼為 0）
+                       2. 惡意對抗力矩注入（500Nm 爆炸力矩 1 週期極速削波截斷至安全負向制動力矩）
+                       3. 慢環超時丟包心跳檢測（>35ms 自動切入阻尼煞車）
+                       4. 感測遙測 NaN/Inf 故障檢測（瞬時切斷輸出為 0 防失控暴走）
+                       5. 無鎖 SPSC Seqlock 多線程高併發讀寫（2000 次序號單調遞增零撕裂）
+                       6. 5000 次超高頻連續調用延遲基準測試（平均耗時僅 **8.30 us**，P99 僅 **17.70 us**，Max 89.80 us，遠優於 50 us 門檻）
+                   - 🧪 **四、全棧自動化驗收 66/66 綠燈大滿貫**：
+                     - 全工作區 63 項 pytest 測試 + 3 項 Rust 原生單元測試全數 100% 綠燈通過！
+                     - 簽發 Git Tag `v8.1.0-rust-cbf-guard-ready`！達成 97 項里程碑史詩大滿貫！
 
 ## 🎯 下次開工必做深化任務（6+3 特戰聯軍預備任務）
 1. **🛠️ 小開 (Agent_Coder)**：持續維護零拷貝 C++ 模組、HIL 注入器與跨平台相容性。
@@ -1049,6 +1069,7 @@
 6. **👑 小幫手 (Agent_PM)**：行使最高指揮權，率領全員執行各賽事推進與自動化閉環，提請霸丸總指揮官審查。
 
 ## 📅 最後更新
-- **最後更新**：2026-09-12 21:39（具身智能神經-符號雙閉環控制底座 POC 首戰告捷、CBF 控制屏障函數、無鎖 RingBuffer、MuJoCo 動態模型、5大核心KPI全數通關，簽發 Git Tag v8.0.0-neuro-symbolic-poc-ready，達成 96 項里程碑史詩大滿貫）
+- **最後更新**：2026-09-12 21:48（具身智能快環 CBF 符號守衛 Rust no_std 核心落地、8.3us 微秒級 C-ABI 零拷貝對抗驗收、66/66 項測試全綠，簽發 Git Tag v8.1.0-rust-cbf-guard-ready，達成 97 項里程碑史詩大滿貫）
 - **更新者**：👑 小幫手 / 🛠️ 小開 / 🐎 小馬 / 🦾 小踢 / 🌸 小粉 / ⚡ 小雷 / 🍯 小蜂 @ LAPTOP-C47IT9US
+
 
