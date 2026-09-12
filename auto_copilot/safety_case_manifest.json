@@ -1,0 +1,108 @@
+{
+  "assessment_title": "AutoCopilot ISO 26262:2018 ASIL-D Functional Safety Assessment Dossier",
+  "generated_at": "2026-09-12T21:06:30.632515",
+  "standard_scope": "ISO 26262:2018 Parts 3, 4, 6",
+  "target_level": "ASIL-D",
+  "release_tag": "v2.3.0-patent-disclosure-filed",
+  "artifacts": [
+    {
+      "id": "DOC-GSN-01",
+      "name": "GSN Safety Case Specification",
+      "path": "docs/AUTONOMOUS_VOICE_AGENT_SAFETY_CASE_GSN.md",
+      "target": "GSN G1~G10",
+      "sha256": "b2ee087506bab455abd600fff0e146df440be80e4a2b99bdb8e664e4e51f7b8a",
+      "size_bytes": 11303,
+      "status": "VERIFIED_PRESENT"
+    },
+    {
+      "id": "DOC-HIL-01",
+      "name": "HIL Vehicle Test Matrix Spec",
+      "path": "docs/HIL_VEHICLE_TEST_MATRIX.md",
+      "target": "ISO 26262-4 Cl.6",
+      "sha256": "40e4a9197dc05149438b91e6c73f1341e4d4d59e3d5bbda381b6c1eef3682017",
+      "size_bytes": 5863,
+      "status": "VERIFIED_PRESENT"
+    },
+    {
+      "id": "DOC-PAT-01",
+      "name": "Patent Invention Disclosure Spec",
+      "path": "docs/PATENT_INVENTION_DISCLOSURE_SPEC.md",
+      "target": "IP Defense",
+      "sha256": "159fed1089133feb29b96e66e77d0689d32ba14aaab625df17c72bc80a4ecfc8",
+      "size_bytes": 12979,
+      "status": "VERIFIED_PRESENT"
+    },
+    {
+      "id": "DOC-FSA-01",
+      "name": "Functional Safety Assessment Report",
+      "path": "docs/FUNCTIONAL_SAFETY_ASSESSMENT_REPORT.md",
+      "target": "ISO 26262 Parts 3,4,6 FSA",
+      "sha256": "8ae34651483d962f6f3428c52b5a9d0ed8af2efc063a7e474ac58b0a20b86293",
+      "size_bytes": 10523,
+      "status": "VERIFIED_PRESENT"
+    },
+    {
+      "id": "DOC-COM-01",
+      "name": "Commercialization & IP Defense Whitepaper",
+      "path": "docs/COMMERCIALIZATION_AND_IP_DEFENSE_WHITEPAPER.md",
+      "target": "FTO & PCT Strategy",
+      "sha256": "3a42ba887110919294e20a4f027c97906955772ca05c363104bd4b3e3ba59275",
+      "size_bytes": 8545,
+      "status": "VERIFIED_PRESENT"
+    },
+    {
+      "id": "DAT-FTTI-01",
+      "name": "CAN-FD E2E & FTTI Test Results",
+      "path": "gsn_e2e_ftti_evidence.json",
+      "target": "TC-SEC-01 & TC-FTTI-01",
+      "sha256": "1c81a146fd0987a79a661ec899ff3cb18b9bb9c60bfce8b77bb2cb511db7501f",
+      "size_bytes": 643,
+      "status": "VERIFIED_PRESENT"
+    },
+    {
+      "id": "DAT-SHADOW-01",
+      "name": "Shadow Mode Dynamic Evidence",
+      "path": "shadow_dynamic_evidence.jsonl",
+      "target": "TC-HIL-05 Discrepancy",
+      "sha256": "ce3916ffa7e22879c1b89e9a221f41eb84eaefcf2d77fa6459fd009137c077d3",
+      "size_bytes": 6430,
+      "status": "VERIFIED_PRESENT"
+    },
+    {
+      "id": "SRC-MCDC-01",
+      "name": "Safety MC/DC Test Suite",
+      "path": "test_safety_mcdc.py",
+      "target": "ISO 26262-6 Table 8",
+      "sha256": "e3bed58792416cf0534bef0ce9009c5d3e38fa34cf87ad2ffaeb4082d8df7959",
+      "size_bytes": 10058,
+      "status": "VERIFIED_PRESENT"
+    },
+    {
+      "id": "SRC-E2E-01",
+      "name": "E2E FTTI Validator Suite",
+      "path": "test_e2e_ftti_validator.py",
+      "target": "TC-SEC-01 & TC-FTTI-01",
+      "sha256": "c3ad6d08ac8529ecd62122a8cae463098c1d8534e0def13b03bd8ad016859099",
+      "size_bytes": 14216,
+      "status": "VERIFIED_PRESENT"
+    },
+    {
+      "id": "SRC-HIL-01",
+      "name": "HIL Vehicle Matrix Test Suite",
+      "path": "test_hil_vehicle_matrix.py",
+      "target": "TC-HIL-01~05",
+      "sha256": "8630af16fdca73b9ea8b60de76a54bf22f805be6dc30207553dbbadb6e7a91b9",
+      "size_bytes": 6792,
+      "status": "VERIFIED_PRESENT"
+    },
+    {
+      "id": "SRC-FLEET-01",
+      "name": "Fleet Telemetry Blackbox Engine",
+      "path": "fleet_telemetry_blackbox.py",
+      "target": "200ms Pre-Trigger FIFO",
+      "sha256": "bc7c9fa63606a3dd83c78f408a7923e618a3f693e449794d9b15f8b286d66f78",
+      "size_bytes": 5734,
+      "status": "VERIFIED_PRESENT"
+    }
+  ]
+}
