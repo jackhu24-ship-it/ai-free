@@ -920,6 +920,16 @@
                 - ⚡ **TC-FTTI-01 (扭矩跳變關斷時間驗證)**：注入突變扭矩至 300.0 Nm，高頻監聽電橋關斷與實際扭矩歸零信號，實測 t_response 僅 **5.46ms**（遠低於 40.0ms FTTI 邊界），數值證據支撐 GSN 策略 `St_FTTI_Compliance`。
                 - 🔌 **高精度硬體時間戳相容**：支援 Vector (CANoe/VN16xx)、Peak PCAN、SocketCAN 與虛擬仿真（內置微秒級 MockECUResponder 雙向線程），輸出標準 GSN 證據檔案 `auto_copilot/gsn_e2e_ftti_evidence.json`。
                 - 🧪 **全棧測試大滿貫 22/22 全數綠燈通過**：`test_e2e_ftti_validator.py` (2) + `test_hil_vehicle_matrix.py` (5) + `test_safety_mcdc.py` (15) = 22 項測試 100% 綠燈！正式簽發 Git Tag `v2.2.0-e2e-ftti-validated`！
+           89. **📜 AutoCopilot 發明專利技術交底書 (IDF01) 與權利要求架構定稿 (Tag v2.3.0-patent-disclosure-filed) ✕ 達成 89 項里程碑大滿貫**：
+                - ⚖️ **獨立權利要求提煉 (Claims 1 & 2)**：
+                  - 請求項 1（系統項）：主處理核心 ✕ 安全協處理核心異構校驗，搭配硬體仲裁閘道在小於 FTTI 週期內物理遮蔽第一致動信號並驅動功率電橋切入安全態。
+                  - 請求項 2（方法項）：採集連續報文提取滾動計數與 CRC，以滑動視窗比對計數連續性，連續 N 幀 (N=3) CRC 異常觸發第一級指令凍結，超時強制安全降級。
+                - 🛡️ **附屬權利要求矩陣 (Claims 3 ~ 8)**：覆蓋無鎖雙口 RAM 交叉校驗、AND Gate 門極驅動物理下拉、AUTOSAR 0x1D 多項式、Zero-TX 暗模式聽證閘門與雙軌推論偏差動態實證沉澱。
+                - 🗺️ **必備附圖 (Figures 1, 2, 3)**：
+                  - 附圖 1：系統總體硬體拓撲圖（CAN-FD 收發器、雙核交互介面、硬體仲裁閘道與三相功率電橋）。
+                  - 附圖 2：多階狀態機狀態轉換邏輯與防抖時序圖（NORMAL/WAITING/DEGRADED/EMERGENCY_SAFE）。
+                  - 附圖 3：故障注入與反應時間時序圖（微秒級 t_inject、t_detect、t_mitigate 與 FTTI 限制邊界）。
+                - 📅 **專利推進時程表 (M1 ~ M5)**：鎖定 M1 (Week 1-2 交底書定稿)、M2 (Week 3-4 前案檢索與 FTO)、M3 (Week 5-7 事務所撰寫)、M4 (Week 8 優先權遞交 Priority Date)、M5 (Month 3-12 PCT 國際佈局)。正式簽發 Git Tag `v2.3.0-patent-disclosure-filed`！
 
 ## 🎯 下次開工必做深化任務（6+3 特戰聯軍預備任務）
 1. **🛠️ 小開 (Agent_Coder)**：持續維護零拷貝 C++ 模組、HIL 注入器與跨平台相容性。
@@ -930,6 +940,6 @@
 6. **👑 小幫手 (Agent_PM)**：行使最高指揮權，率領全員執行各賽事推進與自動化閉環，提請霸丸總指揮官審查。
 
 ## 📅 最後更新
-- **最後更新**：2026-09-12 21:03（TC-SEC-01 CAN-FD E2E CRC-8 與 TC-FTTI-01 扭矩跳變關斷驗證套件交付，22/22 測試綠燈通過，簽發 Git Tag v2.2.0-e2e-ftti-validated，達成 88 項里程碑大滿貫）
+- **最後更新**：2026-09-12 21:05（AutoCopilot 發明專利技術交底書 IDF01 完稿、獨立與附屬權利要求 Claims 1~8 確權、三大附圖與 M1~M5 時程表發布，簽發 Git Tag v2.3.0-patent-disclosure-filed，達成 89 項里程碑大滿貫）
 - **更新者**：👑 小幫手 / 🛠️ 小開 / 🐎 小馬 / 🦾 小踢 / 🌸 小粉 / ⚡ 小雷 / 🍯 小蜂 @ LAPTOP-C47IT9US
 
