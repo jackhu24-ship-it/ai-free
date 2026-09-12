@@ -17,6 +17,14 @@ import time
 from typing import Annotated, Any, Dict, List, TypedDict
 from langgraph.graph import END, START, StateGraph
 
+try:
+    from .asil_safety_core import safety_supervisor, VehicleSafeState
+except (ImportError, ValueError):
+    try:
+        from asil_safety_core import safety_supervisor, VehicleSafeState
+    except ImportError:
+        from auto_copilot.asil_safety_core import safety_supervisor, VehicleSafeState
+
 # -----------------------------------------------------------------------------
 # 1. 定義共用狀態 (Agent State)
 # -----------------------------------------------------------------------------
@@ -27,6 +35,8 @@ class DiagnosticState(TypedDict):
     telemetry_data: Annotated[Dict[str, Any], operator.ior]
     dtc_data: Annotated[Dict[str, Any], operator.ior]
     manual_data: Annotated[Dict[str, Any], operator.ior]
+    safe_state: str
+    safety_audit_msg: str
     spoken_response: str
     execution_duration_ms: float
     active_nodes: List[str]
@@ -36,10 +46,41 @@ class DiagnosticState(TypedDict):
 # 2. 專業節點實作 (Modular Node Functions)
 # -----------------------------------------------------------------------------
 def supervisor_node(state: DiagnosticState) -> Dict[str, Any]:
-    """主控主管節點：意圖識別與並行分派決策"""
+    """主控主管節點：意圖識別與並行分派決策（含 ASIL-D 安全審查）"""
     q = state["query"].lower()
     intents = []
     
+    # 檢查是否為危險實體致動器動作或雙重口令交握 (Two-Key Handshake)
+    is_critical_action = any(k in q for k in ["切換繼電器", "切斷", "泵浦", "泵", "relay", "clear dtc", "清除故障碼", "清除"])
+    is_confirming = any(k in q for k in ["確認執行", "confirm", "確定"])
+    
+    if is_confirming:
+        allowed, msg, next_st = safety_supervisor.evaluate_request("actuate_relay", {"confirmation_spoken": q})
+        return {
+            "target_intents": ["safety_guard"],
+            "safe_state": next_st.value,
+            "safety_audit_msg": msg,
+            "spoken_response": msg
+        }
+    elif is_critical_action:
+        allowed, msg, next_st = safety_supervisor.evaluate_request("actuate_relay", {"desc": "切換冷卻泵高壓繼電器"})
+        return {
+            "target_intents": ["safety_guard"],
+            "safe_state": next_st.value,
+            "safety_audit_msg": msg,
+            "spoken_response": msg
+        }
+
+    # 檢查 FTTI 超時
+    if safety_supervisor.check_ftti_timeout():
+        st_val = safety_supervisor.current_state.value
+        return {
+            "target_intents": ["safety_guard"],
+            "safe_state": st_val,
+            "safety_audit_msg": "FTTI 超時觸發緊急安全關斷",
+            "spoken_response": "緊急安全警告：故障容忍時間 (FTTI 15s) 已逾時！ISO 26262 安全監督器已自主鎖死高壓輸出並接管冷卻系統。"
+        }
+        
     if any(k in q for k in ["溫度", "temperature", "coolant", "冷卻液", "水溫", "壓力", "電壓", "voltage", "telemetry"]):
         intents.append("telemetry")
     if any(k in q for k in ["故障", "dtc", "code", "錯誤", "代碼", "碼"]):
@@ -50,7 +91,12 @@ def supervisor_node(state: DiagnosticState) -> Dict[str, Any]:
     if not intents:
         intents = ["telemetry"]
         
-    return {"target_intents": intents}
+    telem = safety_supervisor.get_telemetry_status()
+    return {
+        "target_intents": intents,
+        "safe_state": telem["safe_state"],
+        "safety_audit_msg": telem["last_reason"]
+    }
 
 
 def telemetry_agent_node(state: DiagnosticState) -> Dict[str, Any]:
@@ -92,11 +138,18 @@ def safety_agent_node(state: DiagnosticState) -> Dict[str, Any]:
 
 def synthesizer_node(state: DiagnosticState) -> Dict[str, Any]:
     """語音輸出合成節點：匯總各代理輸出，壓縮成適合 TTS 朗讀的精簡文本"""
+    # 若 safety_guard 已有攔截訊息，優先返回
+    intents = state.get("target_intents", [])
+    if "safety_guard" in intents and state.get("spoken_response"):
+        return {
+            "spoken_response": state.get("spoken_response"),
+            "active_nodes": ["supervisor", "safety_guard", "synthesizer"]
+        }
+
     parts = []
     t = state.get("telemetry_data", {})
     m = state.get("manual_data", {})
     d = state.get("dtc_data", {})
-    intents = state.get("target_intents", [])
 
     if "telemetry" in intents and t:
         parts.append(f"目前冷卻液溫度為 {t.get('coolant_temp_c')} 度。")
@@ -117,9 +170,11 @@ def synthesizer_node(state: DiagnosticState) -> Dict[str, Any]:
 # -----------------------------------------------------------------------------
 def route_intents(state: DiagnosticState) -> List[str]:
     """依據 Supervisor 識別的意圖清單，決定下發哪些節點（Fan-out）"""
-    target_nodes = []
     intents = state.get("target_intents", [])
-    
+    if "safety_guard" in intents:
+        return ["synthesizer"]
+
+    target_nodes = []
     if "telemetry" in intents:
         target_nodes.append("telemetry_agent")
     if "dtc" in intents:
@@ -127,7 +182,7 @@ def route_intents(state: DiagnosticState) -> List[str]:
     if "safety_manual" in intents:
         target_nodes.append("safety_agent")
         
-    return target_nodes
+    return target_nodes if target_nodes else ["telemetry_agent"]
 
 
 # -----------------------------------------------------------------------------
@@ -146,7 +201,7 @@ def build_diagnostic_graph():
     # 定義流程邊
     builder.add_edge(START, "supervisor")
 
-    # Supervisor 分發條件邊（支援並行啟動多個 Node - Fan-out）
+    # Supervisor 分發條件邊（支援並行啟動多個 Node - Fan-out 及安全直接攔截）
     builder.add_conditional_edges(
         "supervisor",
         route_intents,
@@ -154,6 +209,7 @@ def build_diagnostic_graph():
             "telemetry_agent": "telemetry_agent",
             "dtc_agent": "dtc_agent",
             "safety_agent": "safety_agent",
+            "synthesizer": "synthesizer",
         },
     )
 
@@ -183,6 +239,8 @@ async def arun_diagnostic(query: str) -> DiagnosticState:
         "telemetry_data": {},
         "dtc_data": {},
         "manual_data": {},
+        "safe_state": "INIT",
+        "safety_audit_msg": "",
         "spoken_response": "",
         "execution_duration_ms": 0.0,
         "active_nodes": []

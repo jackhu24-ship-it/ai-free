@@ -385,6 +385,29 @@ col_telemetry, col_agent = st.columns([5, 7])
 with col_telemetry:
     st.subheader("📊 即時遙測數據 (CAN Bus)")
     
+    # ISO 26262 ASIL-D 功能安全狀態機監控卡
+    try:
+        try:
+            from .asil_safety_core import safety_supervisor
+        except (ImportError, ValueError):
+            from asil_safety_core import safety_supervisor
+        safe_info = safety_supervisor.get_telemetry_status()
+        st_color = "#22c55e" if safe_info["safe_state"] == "NORMAL_RUN" else ("#eab308" if safe_info["safe_state"] == "WAITING_CONFIRMATION" else "#ef4444")
+        st.markdown(f"""
+        <div style="background:#13151c; border:1px solid {st_color}; border-radius:8px; padding:10px; margin-bottom:12px;">
+            <div style="display:flex; justify-content:space-between;">
+                <b>🛡️ ISO 26262 ASIL-D 安全狀態</b>
+                <span style="background:{st_color}; color:#000; padding:2px 8px; border-radius:4px; font-weight:800; font-size:0.75rem;">{safe_info['safe_state']}</span>
+            </div>
+            <div style="font-size:0.8rem; color:#94a3b8; margin-top:4px;">
+                高壓互鎖：<b>{safe_info['hv_interlock']}</b> | FTTI 剩餘：<b>{safe_info['ftti_remaining_s']}s</b> | 水泵 PWM：<b>{safe_info['coolant_pump_pwm']}%</b>
+            </div>
+            <div style="font-size:0.75rem; color:#64748b; margin-top:2px;">最新轉移原因：{safe_info['last_reason']}</div>
+        </div>
+        """, unsafe_allow_html=True)
+    except Exception:
+        pass
+
     t = st.session_state.telemetry
     c1, c2, c3 = st.columns(3)
     c1.metric("冷卻液溫度", f"{t['coolant_temp_c']} °C", delta=f"{round(t['coolant_temp_c'] - 100, 1)} °C", delta_color="inverse")
