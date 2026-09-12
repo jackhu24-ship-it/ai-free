@@ -82,14 +82,20 @@ def bundle_safety_case(output_zip: str = "safety_case_bundle.zip") -> Dict[str, 
         {"id": "DOC-SOTIF-01", "name": "ISO/TC 22 & ISO 21448 EDSC Proposal", "rel_path": "docs/ISO_TC22_SOTIF_SAFETY_CAGE_PROPOSAL.md", "target": "Global Standard Revision"},
         {"id": "DOC-EXIT-01", "name": "Final Exit & Stewardship Blueprint", "rel_path": "docs/FINAL_EXIT_AND_STEWARDSHIP_BLUEPRINT.md", "target": "M&A, IPO & IP Trust Blueprint"},
         {"id": "SRC-TEST-STEW", "name": "Final Exit & Stewardship Test Suite", "rel_path": "test_final_stewardship_suite.py", "target": "Milestone 94 Full Green Suite"},
+        {"id": "SRC-CROSS-01", "name": "Cross-Domain Mission-Critical Framework", "rel_path": "cross_domain_mission_critical_framework.py", "target": "Robotics/Satcom/Medical Core"},
+        {"id": "DOCKER-ASIL-01", "name": "Deterministic Docker Sandbox Spec", "rel_path": "Dockerfile.reproducible_asil_d", "target": "ISO 26262-8 Tool Qualification"},
+        {"id": "DAT-VAULT-01", "name": "Master Cold Vault Manifest", "rel_path": "master_cold_vault_manifest.json", "target": "Cryptographic Vault Signatures"},
+        {"id": "SRC-RESTORE-01", "name": "Cold Vault 15-Min Bare-Metal Restorer", "rel_path": "restore_cold_vault.py", "target": "Disaster Recovery SLA"},
+        {"id": "DOC-PLAYBOOK-01", "name": "Founder Post-Mortem Playbook", "rel_path": "docs/POST_MORTEM_FOUNDER_PLAYBOOK.md", "target": "Founder Capital & Strategy"},
+        {"id": "SRC-TEST-LEGACY", "name": "Legacy & Master Archive Test Suite", "rel_path": "test_legacy_and_archive_suite.py", "target": "Milestone 95 41/41 Green Suite"},
     ]
 
     manifest = {
         "assessment_title": "AutoCopilot ISO 26262:2018 ASIL-D Functional Safety Assessment Dossier",
         "generated_at": datetime.now().isoformat(),
-        "standard_scope": "ISO 26262:2018 Parts 2, 3, 4, 6, 8 / AIAG PPAP Level 3 / ISO 24089 / AUTOSAR / ARTC / Eclipse SDV / SOTIF",
+        "standard_scope": "ISO 26262:2018 Parts 2, 3, 4, 6, 8 / AIAG PPAP Level 3 / ISO 24089 / AUTOSAR / ARTC / Eclipse SDV / SOTIF / DO-178C",
         "target_level": "ASIL-D",
-        "release_tag": "v6.0.0-final-stewardship-ready",
+        "release_tag": "v7.0.0-final-legacy-sealed",
         "artifacts": []
     }
 
