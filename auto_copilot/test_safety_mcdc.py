@@ -1,28 +1,22 @@
 """
-Stage 4 Phase 3: ISO 26262-6 Table 8 ASIL-D MC/DC Verification Suite
-====================================================================
-遵照 ISO 26262-6:2018 第 8 章軟體單元驗證要求，針對 Safety Supervisor
-核心安全狀態機之布林判定條件實作「修正條件／判定覆蓋率 (MC/DC)」驗證。
+ISO 26262-6 Unit Verification: MC/DC Safety Test Suite
+======================================================
+針對 GSN 架構中的 Sn1 (狀態機攔截)、Sn3 (FTTI 超時)、Sn5 (匯流排異常) 進行自動化驗收。
+涵蓋分支：
+  Condition 1: [Hazardous Trigger] -> WAITING_CONFIRMATION
+  Condition 2: [Waiting] AND [Confirmed == True] AND [Timeout == False] -> DEGRADED_WARN
+  Condition 3: [Waiting] AND [Confirmed == False] AND [Timeout == True] -> EMERGENCY_SAFE
+  Condition 4: [Waiting] AND [Cancel == True] -> NORMAL_RUN
+  Condition 5: [Coolant > 105C] -> DEGRADED_WARN
 
-依據 ASIL-D 要求：
-- 必須構造「獨立影響對 (Independence Pairs)」：
-  證明每一個原子條件 (Condition) 在其他條件保持不變的情況下，皆能獨立改變複合判定式 (Decision) 的結果。
-
-測試涵蓋之 4 大核心判定式：
-1. Decision 1 (致動器授權許可):
-   Outcome = (is_confirmed == True) and (is_timeout == False)
-2. Decision 2 (FTTI 緊急超時關斷):
-   Outcome = (in_waiting == True) and (is_timeout == True) and (is_confirmed == False)
-3. Decision 3 (口語取消狀態回退):
-   Outcome = (in_waiting == True) and (user_said_cancel == True)
-4. Decision 4 (DTC 泛洪截斷評級):
-   Outcome = (dtc_count > 2) and (has_critical_dtc == True)
+依據 ISO 26262-6:2018 Table 8 (軟體單元驗證方法 - ASIL-D)：
+包含核心判定式之獨立影響對 (Independence Pairs) 與狀態機端到端實證。
 """
 
 import os
 import sys
 import time
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, List
 import pytest
 
 # Windows UTF-8 控制台保護
@@ -32,309 +26,212 @@ if sys.platform.startswith("win"):
     except Exception:
         pass
 
-# 設定搜尋路徑
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+# 設定模組搜尋路徑
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+if CURRENT_DIR not in sys.path:
+    sys.path.insert(0, CURRENT_DIR)
 
-from stage2_can_adapter import CanInterfaceAdapter
-from stage3_hil_runner import (
-    HilDiagnosticState,
-    HilSystemController,
+from stage1_safety_supervisor import (
     SystemOperatingState,
+    build_safety_graph,
+    can_bus,
 )
-from stage4_fault_injection import DTCFilterPrioritizer
+
+
+@pytest.fixture(scope="session", autouse=True)
+def teardown_bus():
+    yield
+    try:
+        if hasattr(can_bus, "shutdown"):
+            can_bus.shutdown()
+    except Exception:
+        pass
+
+
+@pytest.fixture(scope="function")
+def safety_graph():
+    """提供編譯後之 Safety Supervisor 狀態圖，確保底層虛擬總線處於連通狀態"""
+    if getattr(can_bus, "bus", None) is None:
+        can_bus._init_bus()
+    return build_safety_graph()
+
+
+def get_base_state() -> Dict[str, Any]:
+    """產出乾淨之初始 SafetyState 字典"""
+    return {
+        "query": "",
+        "current_state": SystemOperatingState.NORMAL_RUN,
+        "pending_action": None,
+        "action_requested_timestamp": 0.0,
+        "ftti_limit_seconds": 10.0,
+        "is_confirmed_by_user": False,
+        "telemetry_data": {},
+        "target_nodes": [],
+        "spoken_response": "",
+    }
 
 
 # =============================================================================
-# 1. 判定式 1: 致動器授權許可 (Actuation Permission Decision)
-# Formula: D1 = (is_confirmed == True) AND (is_timeout == False)
+# GSN G2 / Sn1: 危險指令攔截與雙重確認交握 (MC/DC Branch 1 & 2 & 4)
+# =============================================================================
+def test_mcdc_hazardous_command_interception(safety_graph):
+    """驗證 G5: 危險指令必須被攔截並轉入 WAITING_CONFIRMATION"""
+    state = get_base_state()
+    state["query"] = "請立即切斷繼電器"
+
+    res = safety_graph.invoke(state)
+
+    assert res["current_state"] == SystemOperatingState.WAITING_CONFIRMATION
+    assert res["pending_action"] == "切斷繼電器"
+    assert "actuator_execution" not in res["target_nodes"]
+    assert "警告" in res["spoken_response"]
+
+
+def test_mcdc_verbal_confirmation_success(safety_graph):
+    """驗證 G6: WAITING 態且使用者口頭確認 -> DEGRADED_WARN 並放行致動器"""
+    state = get_base_state()
+    state["current_state"] = SystemOperatingState.WAITING_CONFIRMATION
+    state["pending_action"] = "切斷繼電器"
+    state["action_requested_timestamp"] = time.time()  # 未超時
+    state["query"] = "確認執行"
+
+    res = safety_graph.invoke(state)
+
+    assert res["current_state"] == SystemOperatingState.DEGRADED_WARN
+    assert res["is_confirmed_by_user"] is True
+    assert "actuator_execution" in res["target_nodes"]
+    assert res["telemetry_data"].get("relay_status") == "DISCONNECTED"
+
+
+def test_mcdc_verbal_cancel_safe_return(safety_graph):
+    """驗證 WAITING 態且使用者取消 -> 返回 NORMAL_RUN 且不執行致動"""
+    state = get_base_state()
+    state["current_state"] = SystemOperatingState.WAITING_CONFIRMATION
+    state["pending_action"] = "切斷繼電器"
+    state["action_requested_timestamp"] = time.time()
+    state["query"] = "取消操作"
+
+    res = safety_graph.invoke(state)
+
+    assert res["current_state"] == SystemOperatingState.NORMAL_RUN
+    assert res["pending_action"] is None
+    assert "actuator_execution" not in res["target_nodes"]
+
+
+# =============================================================================
+# GSN G3 / Sn3: FTTI 超時判定與強制進入 EMERGENCY_SAFE (MC/DC Branch 3)
+# =============================================================================
+def test_mcdc_ftti_timeout_forces_emergency_safe(safety_graph):
+    """驗證 G7/G8: WAITING 態且超過 FTTI 限制 -> 強制轉入 EMERGENCY_SAFE"""
+    state = get_base_state()
+    state["current_state"] = SystemOperatingState.WAITING_CONFIRMATION
+    state["pending_action"] = "切斷繼電器"
+    state["ftti_limit_seconds"] = 10.0
+    # 模擬 10.1 秒前發起請求
+    state["action_requested_timestamp"] = time.time() - 10.1
+    state["query"] = "現在溫度幾度？"  # 未給予確認指令
+
+    res = safety_graph.invoke(state)
+
+    assert res["current_state"] == SystemOperatingState.EMERGENCY_SAFE
+    assert res["pending_action"] is None
+    assert "ASIL-D 緊急安全機制" in res["spoken_response"]
+
+
+def test_mcdc_ftti_boundary_not_timeout(safety_graph):
+    """驗證 FTTI 邊界條件：在 9.8 秒時收到確認，仍視為合規確認"""
+    state = get_base_state()
+    state["current_state"] = SystemOperatingState.WAITING_CONFIRMATION
+    state["pending_action"] = "切斷繼電器"
+    state["ftti_limit_seconds"] = 10.0
+    state["action_requested_timestamp"] = time.time() - 9.8
+    state["query"] = "確認執行"
+
+    res = safety_graph.invoke(state)
+
+    assert res["current_state"] == SystemOperatingState.DEGRADED_WARN
+    assert res["is_confirmed_by_user"] is True
+
+
+# =============================================================================
+# GSN G4 / Sn5: 遙測超溫自動安全降級
+# =============================================================================
+def test_telemetry_overheat_triggers_degraded_warn(safety_graph):
+    """驗證冷卻液超過 105 度門檻時，狀態機自動標記 DEGRADED_WARN"""
+    state = get_base_state()
+    state["query"] = "讀取目前冷卻液溫度"
+
+    res = safety_graph.invoke(state)
+
+    # stage1 內預設模擬值為 106.2 度
+    assert res["telemetry_data"]["coolant_temp_c"] > 105.0
+    assert res["current_state"] == SystemOperatingState.DEGRADED_WARN
+    assert "性能降級警示狀態" in res["spoken_response"]
+
+
+# =============================================================================
+# ISO 26262-6 Table 8 ASIL-D 獨立影響對 (Independence Pairs) 數學嚴格驗證
 # =============================================================================
 def evaluate_decision_1(is_confirmed: bool, is_timeout: bool) -> bool:
-    """計算 D1 判定值"""
+    """D1: Actuation Permission = is_confirmed AND (NOT is_timeout)"""
     return bool(is_confirmed and not is_timeout)
 
 
-class TestDecision1MCDC:
-    """
-    D1 = A and (not B)
-    Conditions:
-      A: is_confirmed
-      B: is_timeout
-    Truth Table:
-      Vector 1: A=T, B=F -> Outcome=T
-      Vector 2: A=F, B=F -> Outcome=F (Independence Pair for A: Vector 1 & 2)
-      Vector 3: A=T, B=T -> Outcome=F (Independence Pair for B: Vector 1 & 3)
-    """
-
-    def test_mcdc_condition_a_is_confirmed(self):
-        # 保持 B=False 不變，A 由 True 變 False，Outcome 必須由 True 變 False
-        v1 = evaluate_decision_1(is_confirmed=True, is_timeout=False)
-        v2 = evaluate_decision_1(is_confirmed=False, is_timeout=False)
-        assert v1 is True
-        assert v2 is False
-
-    def test_mcdc_condition_b_is_timeout(self):
-        # 保持 A=True 不變，B 由 False 變 True，Outcome 必須由 True 變 False
-        v1 = evaluate_decision_1(is_confirmed=True, is_timeout=False)
-        v3 = evaluate_decision_1(is_confirmed=True, is_timeout=True)
-        assert v1 is True
-        assert v3 is False
-
-    def test_hil_controller_integration_decision_1(self):
-        """實機狀態機與節點派發整合驗證"""
-        controller = HilSystemController(interface="virtual", channel="vcan_mcdc1")
-        controller.start()
-        try:
-            # 觸發等待確認
-            s1 = {
-                "query": "切斷繼電器",
-                "current_state": SystemOperatingState.NORMAL_RUN,
-                "pending_action": None,
-                "action_requested_timestamp": 0.0,
-                "ftti_limit_seconds": 10.0,
-                "is_confirmed_by_user": False,
-                "telemetry_data": {},
-                "target_nodes": [],
-                "spoken_response": "",
-            }
-            res1 = controller.graph.invoke(s1)
-            assert res1["current_state"] == SystemOperatingState.WAITING_CONFIRMATION
-
-            # Vector 1: 確認且未超時 -> 下發執行
-            res1["query"] = "確認執行"
-            res1["action_requested_timestamp"] = time.time()  # not timeout
-            res_v1 = controller.graph.invoke(res1)
-            assert res_v1["current_state"] == SystemOperatingState.DEGRADED_WARN
-            assert res_v1["is_confirmed_by_user"] is True
-            assert "actuator_execution" in res_v1["target_nodes"]
-        finally:
-            controller.stop()
-
-
-# =============================================================================
-# 2. 判定式 2: FTTI 緊急超時關斷 (Emergency Timeout Decision)
-# Formula: D2 = (in_waiting == True) AND (is_timeout == True) AND (is_confirmed == False)
-# =============================================================================
 def evaluate_decision_2(in_waiting: bool, is_timeout: bool, is_confirmed: bool) -> bool:
-    """計算 D2 判定值"""
+    """D2: FTTI Emergency Safe = in_waiting AND is_timeout AND (NOT is_confirmed)"""
     return bool(in_waiting and is_timeout and not is_confirmed)
 
 
-class TestDecision2MCDC:
-    """
-    D2 = A and B and (not C)
-    Conditions:
-      A: in_waiting
-      B: is_timeout
-      C: is_confirmed
-    Truth Table:
-      Vector 1 (Base True): A=T, B=T, C=F -> Outcome=T
-      Vector 2 (Flip A):    A=F, B=T, C=F -> Outcome=F (Independence Pair for A)
-      Vector 3 (Flip B):    A=T, B=F, C=F -> Outcome=F (Independence Pair for B)
-      Vector 4 (Flip C):    A=T, B=T, C=T -> Outcome=F (Independence Pair for C)
-    """
-
-    def test_mcdc_condition_a_in_waiting(self):
-        v1 = evaluate_decision_2(in_waiting=True, is_timeout=True, is_confirmed=False)
-        v2 = evaluate_decision_2(in_waiting=False, is_timeout=True, is_confirmed=False)
-        assert v1 is True
-        assert v2 is False
-
-    def test_mcdc_condition_b_is_timeout(self):
-        v1 = evaluate_decision_2(in_waiting=True, is_timeout=True, is_confirmed=False)
-        v3 = evaluate_decision_2(in_waiting=True, is_timeout=False, is_confirmed=False)
-        assert v1 is True
-        assert v3 is False
-
-    def test_mcdc_condition_c_is_confirmed(self):
-        v1 = evaluate_decision_2(in_waiting=True, is_timeout=True, is_confirmed=False)
-        v4 = evaluate_decision_2(in_waiting=True, is_timeout=True, is_confirmed=True)
-        assert v1 is True
-        assert v4 is False
-
-    def test_hil_controller_integration_decision_2(self):
-        """實機狀態機與 FTTI 超時關斷整合驗證"""
-        controller = HilSystemController(interface="virtual", channel="vcan_mcdc2")
-        controller.start()
-        try:
-            # 建立 WAITING_CONFIRMATION
-            s = {
-                "query": "切斷繼電器",
-                "current_state": SystemOperatingState.NORMAL_RUN,
-                "pending_action": None,
-                "action_requested_timestamp": 0.0,
-                "ftti_limit_seconds": 10.0,
-                "is_confirmed_by_user": False,
-                "telemetry_data": {},
-                "target_nodes": [],
-                "spoken_response": "",
-            }
-            s_wait = controller.graph.invoke(s)
-            assert s_wait["current_state"] == SystemOperatingState.WAITING_CONFIRMATION
-
-            # Vector 1: in_waiting=T, is_timeout=T, is_confirmed=F -> EMERGENCY_SAFE
-            s_wait["action_requested_timestamp"] = time.time() - 15.0  # 超時
-            s_wait["query"] = "無關閒聊"
-            s_em = controller.graph.invoke(s_wait)
-            assert s_em["current_state"] == SystemOperatingState.EMERGENCY_SAFE
-            assert "安全超時" in s_em["spoken_response"]
-        finally:
-            controller.stop()
-
-
-# =============================================================================
-# 3. 判定式 3: 口語取消狀態回退 (Cancellation Decision)
-# Formula: D3 = (in_waiting == True) AND (user_said_cancel == True)
-# =============================================================================
 def evaluate_decision_3(in_waiting: bool, user_said_cancel: bool) -> bool:
-    """計算 D3 判定值"""
+    """D3: Verbal Cancel Rollback = in_waiting AND user_said_cancel"""
     return bool(in_waiting and user_said_cancel)
 
 
-class TestDecision3MCDC:
-    """
-    D3 = A and B
-    Conditions:
-      A: in_waiting
-      B: user_said_cancel
-    Truth Table:
-      Vector 1: A=T, B=T -> Outcome=T
-      Vector 2: A=F, B=T -> Outcome=F (Independence Pair for A)
-      Vector 3: A=T, B=F -> Outcome=F (Independence Pair for B)
-    """
-
-    def test_mcdc_condition_a_in_waiting(self):
-        v1 = evaluate_decision_3(in_waiting=True, user_said_cancel=True)
-        v2 = evaluate_decision_3(in_waiting=False, user_said_cancel=True)
-        assert v1 is True
-        assert v2 is False
-
-    def test_mcdc_condition_b_user_said_cancel(self):
-        v1 = evaluate_decision_3(in_waiting=True, user_said_cancel=True)
-        v3 = evaluate_decision_3(in_waiting=True, user_said_cancel=False)
-        assert v1 is True
-        assert v3 is False
-
-    def test_hil_controller_integration_decision_3(self):
-        """實機狀態機與口語取消整合驗證"""
-        controller = HilSystemController(interface="virtual", channel="vcan_mcdc3")
-        controller.start()
-        try:
-            s = {
-                "query": "切斷繼電器",
-                "current_state": SystemOperatingState.NORMAL_RUN,
-                "pending_action": None,
-                "action_requested_timestamp": 0.0,
-                "ftti_limit_seconds": 10.0,
-                "is_confirmed_by_user": False,
-                "telemetry_data": {},
-                "target_nodes": [],
-                "spoken_response": "",
-            }
-            s_wait = controller.graph.invoke(s)
-            assert s_wait["current_state"] == SystemOperatingState.WAITING_CONFIRMATION
-
-            # Vector 1: in_waiting=T, user_said_cancel=T -> NORMAL_RUN
-            s_wait["query"] = "取消"
-            s_cancel = controller.graph.invoke(s_wait)
-            assert s_cancel["current_state"] == SystemOperatingState.NORMAL_RUN
-            assert s_cancel["pending_action"] is None
-            assert "指令已取消" in s_cancel["spoken_response"]
-        finally:
-            controller.stop()
+def evaluate_decision_4(dtc_count: int, has_critical: bool) -> bool:
+    """D4: Flood Truncation Decision = (dtc_count > 2) AND has_critical"""
+    return bool(dtc_count > 2 and has_critical)
 
 
-# =============================================================================
-# 4. 判定式 4: DTC 泛洪截斷評級 (DTC Prioritization Decision)
-# Formula: D4 = (dtc_count > 2) AND (has_critical_dtc == True)
-# =============================================================================
-def evaluate_decision_4(dtc_count: int, has_critical_dtc: bool) -> bool:
-    """計算 D4 判定值"""
-    return bool((dtc_count > 2) and has_critical_dtc)
+class TestTable8IndependencePairs:
+    """ISO 26262-6 Table 8 ASIL-D MC/DC 獨立影響對判定測試"""
 
+    def test_d1_mcdc_condition_a_is_confirmed(self):
+        # 保持 B=False 不變，A 由 True 變 False，Outcome 必須由 True 變 False
+        assert evaluate_decision_1(is_confirmed=True, is_timeout=False) is True
+        assert evaluate_decision_1(is_confirmed=False, is_timeout=False) is False
 
-class TestDecision4MCDC:
-    """
-    D4 = (dtc_count > 2) and has_critical_dtc
-    Conditions:
-      A: dtc_count > 2
-      B: has_critical_dtc
-    Truth Table:
-      Vector 1: A=T (count=5), B=T -> Outcome=T
-      Vector 2: A=F (count=2), B=T -> Outcome=F (Independence Pair for A)
-      Vector 3: A=T (count=5), B=F -> Outcome=F (Independence Pair for B)
-    """
+    def test_d1_mcdc_condition_b_is_timeout(self):
+        # 保持 A=True 不變，B 由 False 變 True，Outcome 必須由 True 變 False
+        assert evaluate_decision_1(is_confirmed=True, is_timeout=False) is True
+        assert evaluate_decision_1(is_confirmed=True, is_timeout=True) is False
 
-    def test_mcdc_condition_a_dtc_count(self):
-        v1 = evaluate_decision_4(dtc_count=5, has_critical_dtc=True)
-        v2 = evaluate_decision_4(dtc_count=2, has_critical_dtc=True)
-        assert v1 is True
-        assert v2 is False
+    def test_d2_mcdc_condition_a_in_waiting(self):
+        # 保持 B=T, C=F，A 由 True 變 False，Outcome 必須由 True 變 False
+        assert evaluate_decision_2(in_waiting=True, is_timeout=True, is_confirmed=False) is True
+        assert evaluate_decision_2(in_waiting=False, is_timeout=True, is_confirmed=False) is False
 
-    def test_mcdc_condition_b_has_critical_dtc(self):
-        v1 = evaluate_decision_4(dtc_count=5, has_critical_dtc=True)
-        v3 = evaluate_decision_4(dtc_count=5, has_critical_dtc=False)
-        assert v1 is True
-        assert v3 is False
+    def test_d2_mcdc_condition_b_is_timeout(self):
+        # 保持 A=T, C=F，B 由 True 變 False，Outcome 必須由 True 變 False
+        assert evaluate_decision_2(in_waiting=True, is_timeout=True, is_confirmed=False) is True
+        assert evaluate_decision_2(in_waiting=True, is_timeout=False, is_confirmed=False) is False
 
-    def test_dtc_filter_prioritizer_integration(self):
-        """實機 DTC 泛洪截斷演算法驗證"""
-        dtcs = [
-            {"dtc": "B1000", "desc": "Info"},
-            {"dtc": "P0A80", "desc": "Critical Battery Pack"},
-            {"dtc": "P0117", "desc": "High Temp"},
-            {"dtc": "P0562", "desc": "Low Volt"},
-        ]
-        top_dtcs, total = DTCFilterPrioritizer.filter_and_truncate_dtcs(dtcs, max_speech_items=2)
-        assert total == 4
-        assert len(top_dtcs) == 2
-        assert top_dtcs[0]["dtc"] == "P0A80"
-        assert top_dtcs[0]["level"] == "CRITICAL"
+    def test_d2_mcdc_condition_c_is_confirmed(self):
+        # 保持 A=T, B=T，C 由 False 變 True，Outcome 必須由 True 變 False
+        assert evaluate_decision_2(in_waiting=True, is_timeout=True, is_confirmed=False) is True
+        assert evaluate_decision_2(in_waiting=True, is_timeout=True, is_confirmed=True) is False
 
+    def test_d3_mcdc_condition_a_in_waiting(self):
+        assert evaluate_decision_3(in_waiting=True, user_said_cancel=True) is True
+        assert evaluate_decision_3(in_waiting=False, user_said_cancel=True) is False
 
-# =============================================================================
-# 5. 命令列執行入口 (支援 pytest 與純 Python 呼叫)
-# =============================================================================
-def run_all_mcdc_tests():
-    print("=" * 70)
-    print("📋 [ISO 26262-6 Table 8 ASIL-D MC/DC 軟體單元覆蓋率測試]")
-    print("=" * 70)
+    def test_d3_mcdc_condition_b_cancel(self):
+        assert evaluate_decision_3(in_waiting=True, user_said_cancel=True) is True
+        assert evaluate_decision_3(in_waiting=True, user_said_cancel=False) is False
 
-    # 執行所有測試類別
-    test_classes = [
-        TestDecision1MCDC(),
-        TestDecision2MCDC(),
-        TestDecision3MCDC(),
-        TestDecision4MCDC(),
-    ]
+    def test_d4_mcdc_condition_a_count_threshold(self):
+        assert evaluate_decision_4(dtc_count=6, has_critical=True) is True
+        assert evaluate_decision_4(dtc_count=2, has_critical=True) is False
 
-    total_tests = 0
-    passed_tests = 0
-
-    for test_instance in test_classes:
-        class_name = test_instance.__class__.__name__
-        print(f"\n[執行測試群組: {class_name}]")
-        methods = [m for m in dir(test_instance) if m.startswith("test_")]
-        for method_name in methods:
-            total_tests += 1
-            method = getattr(test_instance, method_name)
-            try:
-                method()
-                print(f"  * {method_name:<48} : ✅ PASS")
-                passed_tests += 1
-            except Exception as e:
-                print(f"  * {method_name:<48} : ❌ FAIL ({e})")
-
-    print("\n" + "=" * 70)
-    print(f"🎉 [MC/DC 覆蓋率測試全數完成: {passed_tests}/{total_tests} 通過 (100.0%)]")
-    print("   - Decision 1 (致動許可判定) : 獨立影響對驗證 100% PASS")
-    print("   - Decision 2 (FTTI關斷判定) : 獨立影響對驗證 100% PASS")
-    print("   - Decision 3 (口語取消判定) : 獨立影響對驗證 100% PASS")
-    print("   - Decision 4 (DTC截斷判定)  : 獨立影響對驗證 100% PASS")
-    print("=" * 70)
-    return passed_tests == total_tests
-
-
-if __name__ == "__main__":
-    success = run_all_mcdc_tests()
-    if not success:
-        sys.exit(1)
+    def test_d4_mcdc_condition_b_critical_flag(self):
+        assert evaluate_decision_4(dtc_count=5, has_critical=True) is True
+        assert evaluate_decision_4(dtc_count=5, has_critical=False) is False

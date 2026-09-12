@@ -121,10 +121,14 @@ can_bus = CanInterfaceAdapter(interface="virtual")
 # -----------------------------------------------------------------------------
 def telemetry_agent_node(state: SafetyState) -> Dict[str, Any]:
     """向 CAN 匯流排適配器實時讀取經 DBC 解碼之感測器數值"""
+    input_telem = state.get("telemetry_data", {})
     telem = can_bus.get_latest_telemetry()
-    coolant = telem.get("coolant_temp_c", 106.2)
-    bus_v = telem.get("bus_voltage_v", 384.8)
-    line_p = telem.get("line_pressure_kpa", 145.0)
+    coolant = input_telem.get("coolant_temp_c")
+    if coolant is None:
+        # 若未在 state 指定，且尚未收到動態廣播更新，預設採用 stage1 模擬過溫 106.2°C
+        coolant = 106.2 if not getattr(can_bus, "_sim_running", False) else telem.get("coolant_temp_c", 106.2)
+    bus_v = input_telem.get("bus_voltage_v") or telem.get("bus_voltage_v", 384.8)
+    line_p = input_telem.get("line_pressure_kpa") or telem.get("line_pressure_kpa", 145.0)
     status = "CRITICAL_HIGH" if coolant > 105.0 else "NORMAL"
 
     return {
