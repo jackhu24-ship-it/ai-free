@@ -86,14 +86,77 @@ class HilSystemController:
             bitrate=bitrate
         )
         self.graph = self._build_graph()
+        self._sim_thread = None
+        self._resp_thread = None
+        self._sim_bus = None
+        self._resp_bus = None
+        self._stop_sim = threading.Event()
 
     def start(self):
-        """啟動底層 CAN 監聽器"""
+        """啟動底層 CAN 監聽器與台架模擬"""
         self.adapter.start()
+        if self.interface == "virtual":
+            self._start_virtual_ecu()
 
     def stop(self):
         """釋放 CAN 資源"""
+        self._stop_sim.set()
+        if self._sim_thread and self._sim_thread.is_alive():
+            self._sim_thread.join(timeout=1.0)
+        if self._resp_thread and self._resp_thread.is_alive():
+            self._resp_thread.join(timeout=1.0)
+        if self._sim_bus:
+            self._sim_bus.shutdown()
+        if self._resp_bus:
+            self._resp_bus.shutdown()
         self.adapter.stop()
+
+    def _start_virtual_ecu(self):
+        """在虛擬模式下啟動 ECU 遙測廣播 (0x120, 20Hz) 與 UDS 0x19 診斷響應 (0x7E8)"""
+        try:
+            self._sim_bus = can.interface.Bus(channel=self.channel, interface="virtual", receive_own_messages=False)
+            self._resp_bus = can.interface.Bus(channel=self.channel, interface="virtual", receive_own_messages=False)
+        except Exception:
+            return
+
+        def telemetry_worker():
+            coolant = 104.2
+            while not self._stop_sim.is_set():
+                try:
+                    data = self.adapter.db.encode_message(
+                        "Vehicle_Telemetry",
+                        {
+                            "Coolant_Temp": coolant,
+                            "Bus_Voltage": 384.5,
+                            "Line_Pressure": 14.2,
+                        },
+                    )
+                    self._sim_bus.send(can.Message(arbitration_id=0x120, data=data, is_extended_id=False))
+                except Exception:
+                    pass
+                time.sleep(0.05)
+
+        def uds_worker():
+            while not self._stop_sim.is_set():
+                try:
+                    msg = self._resp_bus.recv(timeout=0.05)
+                    if msg and msg.arbitration_id == 0x7E0:
+                        time.sleep(0.018)  # 模擬 18ms 實體 ECU 響應延遲
+                        resp = can.Message(
+                            arbitration_id=0x7E8,
+                            data=bytes([0x06, 0x59, 0x02, 0x01, 0x17, 0x00, 0x08, 0x00]),
+                            is_extended_id=False,
+                        )
+                        self._resp_bus.send(resp)
+                except Exception:
+                    pass
+
+        self._sim_thread = threading.Thread(target=telemetry_worker, daemon=True)
+        self._sim_thread.start()
+        self._resp_thread = threading.Thread(target=uds_worker, daemon=True)
+        self._resp_thread.start()
+        time.sleep(0.12)  # 等待首包廣播抵達快取
+
 
     def _build_graph(self):
         builder = StateGraph(HilDiagnosticState)
