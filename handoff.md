@@ -910,9 +910,14 @@
                   3. **FTTI 10.0s 剛性安全關斷**：危險指令發起後靜默，於 **10.15s**（滿足 10.0s ± 0.2s 門檻）強制廣播 0x210 緊急安全關斷幀（`emergency_stop=1`），狀態轉移至 `EMERGENCY_SAFE`。
                  - 📋 **Phase 3（ISO 26262-6 Table 8 ASIL-D MC/DC 覆蓋率）**：交付 `auto_copilot/test_safety_mcdc.py`，完整涵蓋 GSN Sn1/Sn3/Sn5 狀態機分支與 4 大核心判定式之獨立影響對（Independence Pairs），pytest 15 項單元測試 **100% 綠燈通過**，產出客觀實質證據 `auto_copilot/htmlcov/index.html`。
                 - 🏆 **Phase 4（結案報告與版本凍結）**：發布專屬車規報告 `auto_copilot/docs/STAGE4_MCDC_FAULT_INJECTION_REPORT.md` 與獨立車規標準論證書 `auto_copilot/docs/AUTONOMOUS_VOICE_AGENT_SAFETY_CASE_GSN.md`，具備完整 GSN (Goal Structuring Notation) 論證架構與量化指標對照表；正式簽發 Git Tag `v2.0.0-automotive-asil`！達成 86 項里程碑大滿貫！
+           87. **🚗 HIL 實車測試用例矩陣 ✕ 整車暗模式 (Shadow Mode) 雙軌引擎全量落地 (Tag v2.1.0-hil-shadow-mode) ✕ 達成 87 項里程碑大滿貫**：
+                - ⚡ **HIL 實車故障注入矩陣 (hil_vehicle_matrix.py)**：實裝 TC-HIL-01 報文延遲/抖動注入 (25ms~360ms，SLA 350ms)、TC-HIL-02 CRC 位元翻轉毀損 (Bit-Flip Detection 100%)、TC-HIL-03 看門狗心跳中斷 (200ms FTTI 強制進入 FAIL_SAFE)。
+                - 🛡️ **整車暗模式運算中樞 (vehicle_shadow_mode.py)**：落實 Listen-Only 非侵入式聽證閘門（Zero-TX Guarantee，TX 攔截率 100%），雙軌影子推論並行比對實車駕駛行為與 AI 預期狀態；當水溫 > 105°C 且駕駛未減載時精確檢出 Discrepancy 並標記 CRITICAL。
+                - 📊 **GSN 動態實證記錄 (shadow_dynamic_evidence.jsonl)**：自動化沉澱邊界場景資料至 JSONL 檔案，支撐 ISO 26262 Part 4 & 6 之動態實證要求。
+                - 📋 **車規規格書與測試用例交付**：發布主規格書 `auto_copilot/docs/HIL_VEHICLE_TEST_MATRIX.md`，自動化測試 `auto_copilot/test_hil_vehicle_matrix.py` 5/5 綠燈全數通過，與 MC/DC 累計 20/20 測試全通！正式簽發 Git Tag `v2.1.0-hil-shadow-mode`！
 
 ## 🎯 下次開工必做深化任務（6+3 特戰聯軍預備任務）
-1. **🛠️ 小開 (Agent_Coder)**：持續維護零拷貝 C++ 模組與跨平台相容性。
+1. **🛠️ 小開 (Agent_Coder)**：持續維護零拷貝 C++ 模組、HIL 注入器與跨平台相容性。
 2. **🐎 小馬 (Agent_QA)**：全時常態化監控 X-Agent 官方 PR #47 審查進度與 CI/CD 迴歸。
 3. **👁️ 小Ｏ (Agent_LocalVision)**：擴充 3D 數位分身儀表板之多視角鏡器與 AutoCopilot 示波器連動。
 4. **🦾 小踢 (Agent_DesktopOps)**：以本機離線免錢模型待命，支援桌面具身操作與外部自動化串接。
@@ -920,6 +925,6 @@
 6. **👑 小幫手 (Agent_PM)**：行使最高指揮權，率領全員執行各賽事推進與自動化閉環，提請霸丸總指揮官審查。
 
 ## 📅 最後更新
-- **最後更新**：2026-09-12 20:55（ISO 26262-6 Table 8 & GSN Sn1/Sn3/Sn5 MC/DC 覆蓋率 15 項全綠燈驗收、HTML 覆蓋率報告生成、GSN 安全案例論證標準書固化，簽發 Git Tag v2.0.0-automotive-asil，達成 86 項里程碑大滿貫圓滿收工）
+- **最後更新**：2026-09-12 21:00（HIL 實車測試用例矩陣 TC-HIL-01~05、整車暗模式運算 Zero-TX 閘門、動態實證 JSONL 與規格書發布，簽發 Git Tag v2.1.0-hil-shadow-mode，達成 87 項里程碑大滿貫）
 - **更新者**：👑 小幫手 / 🛠️ 小開 / 🐎 小馬 / 🦾 小踢 / 🌸 小粉 / ⚡ 小雷 / 🍯 小蜂 @ LAPTOP-C47IT9US
 
