@@ -908,7 +908,7 @@
                   1. **總線實體斷線 (Bus-Off)**：UDS 於 **152.11ms** 內安全超時返回，狀態機轉入 `DEGRADED_WARN`，主動口頭通報，零死鎖、零崩潰。
                   2. **DTC 爆炸式泛洪 (Burst 5+ Codes)**：自 6 組突發故障碼中精準識別出最高危急等級（`P0A80` Critical 與 `P0117` High），自動截斷為 Top 2 交付語音播報，消除認知過載。
                   3. **FTTI 10.0s 剛性安全關斷**：危險指令發起後靜默，於 **10.15s**（滿足 10.0s ± 0.2s 門檻）強制廣播 0x210 緊急安全關斷幀（`emergency_stop=1`），狀態轉移至 `EMERGENCY_SAFE`。
-                - 📋 **Phase 3（ISO 26262-6 Table 8 ASIL-D MC/DC 覆蓋率）**：交付 `auto_copilot/test_safety_mcdc.py`，構造 4 大核心判定式之獨立影響對（Independence Pairs），pytest 13 項單元測試 **100% 綠燈通過**。
+                 - 📋 **Phase 3（ISO 26262-6 Table 8 ASIL-D MC/DC 覆蓋率）**：交付 `auto_copilot/test_safety_mcdc.py`，完整涵蓋 GSN Sn1/Sn3/Sn5 狀態機分支與 4 大核心判定式之獨立影響對（Independence Pairs），pytest 15 項單元測試 **100% 綠燈通過**，產出客觀實質證據 `auto_copilot/htmlcov/index.html`。
                 - 🏆 **Phase 4（結案報告與版本凍結）**：發布專屬車規報告 `auto_copilot/docs/STAGE4_MCDC_FAULT_INJECTION_REPORT.md` 與獨立車規標準論證書 `auto_copilot/docs/AUTONOMOUS_VOICE_AGENT_SAFETY_CASE_GSN.md`，具備完整 GSN (Goal Structuring Notation) 論證架構與量化指標對照表；正式簽發 Git Tag `v2.0.0-automotive-asil`！達成 86 項里程碑大滿貫！
 
 ## 🎯 下次開工必做深化任務（6+3 特戰聯軍預備任務）
@@ -920,6 +920,6 @@
 6. **👑 小幫手 (Agent_PM)**：行使最高指揮權，率領全員執行各賽事推進與自動化閉環，提請霸丸總指揮官審查。
 
 ## 📅 最後更新
-- **最後更新**：2026-09-12 20:47（Stage 4 極端邊界注入、抗噪調試與 ISO 26262 ASIL-D MC/DC 驗證全量結案，簽發 Git Tag v2.0.0-automotive-asil，達成 86 項里程碑大滿貫）
+- **最後更新**：2026-09-12 20:55（ISO 26262-6 Table 8 & GSN Sn1/Sn3/Sn5 MC/DC 覆蓋率 15 項全綠燈驗收、HTML 覆蓋率報告生成、GSN 安全案例論證標準書固化，簽發 Git Tag v2.0.0-automotive-asil，達成 86 項里程碑大滿貫圓滿收工）
 - **更新者**：👑 小幫手 / 🛠️ 小開 / 🐎 小馬 / 🦾 小踢 / 🌸 小粉 / ⚡ 小雷 / 🍯 小蜂 @ LAPTOP-C47IT9US
 
