@@ -1,9 +1,9 @@
 {
-  "eol_certificate_id": "EOL-CERT-1789219047799",
+  "eol_certificate_id": "EOL-CERT-1789219226591",
   "ecu_serial": "ECU-TEST-2028",
   "vin": "VIN-TEST-9999",
-  "timestamp": "2026-09-12T21:17:27.799275",
-  "total_inspection_time_ms": 6.93,
+  "timestamp": "2026-09-12T21:20:26.591533",
+  "total_inspection_time_ms": 31.8,
   "overall_verdict": "PASS",
   "ppap_level": "Level 3 PPAP Compliant",
   "tests": {
@@ -20,13 +20,13 @@
     },
     "rapid_e2e_trip": {
       "status": "PASS",
-      "response_time_ms": 4.517,
+      "response_time_ms": 4.797,
       "max_allowed_ms": 10.0,
       "mitigation": "FRAME_SUPPRESSED_STO_ENGAGED"
     },
     "rapid_sto_cutoff": {
       "status": "PASS",
-      "response_time_ms": 2.073,
+      "response_time_ms": 2.529,
       "max_allowed_ms": 10.0,
       "hw_bridge_state": "PULL_DOWN_DISCONNECTED"
     }

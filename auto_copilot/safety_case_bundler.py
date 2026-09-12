@@ -69,14 +69,20 @@ def bundle_safety_case(output_zip: str = "safety_case_bundle.zip") -> Dict[str, 
         {"id": "SRC-CAGE-01", "name": "Safe AI Cage & SOME/IP Ethernet", "rel_path": "safe_ai_cage.py", "target": "Safety over Ethernet & AI Cage"},
         {"id": "DOC-INDUS-01", "name": "Industrialization & Fleet SOTA Spec", "rel_path": "docs/INDUSTRIALIZATION_AND_FLEET_SOTA_SPEC.md", "target": "SOP & SOTA Master Spec"},
         {"id": "SRC-TEST-IND", "name": "Industrialization Automated Tests", "rel_path": "test_industrialization_suite.py", "target": "SOP 26/26 Green Suite"},
+        {"id": "SRC-MCAL-01", "name": "MCAL Safety Extension for Silicon", "rel_path": "mcal_safety_extension.py", "target": "Infineon/NXP/ST Silicon Binding"},
+        {"id": "SRC-EMBOD-01", "name": "Embodied AI Safety Interlock", "rel_path": "embodied_ai_safety_interlock.py", "target": "Robotics & High-DoF Valve"},
+        {"id": "SRC-VTB-01", "name": "Virtual Testbed Cloud Engine", "rel_path": "virtual_testbed_cloud.py", "target": "10k Scenarios Fast Regression"},
+        {"id": "SRC-LESSON-01", "name": "Lessons Learned Knowledge Graph DB", "rel_path": "lessons_learned_db.py", "target": "Failure Ontology & KG"},
+        {"id": "DOC-STAND-01", "name": "Standardization & Embodied Spec", "rel_path": "docs/STANDARDIZATION_ECOSYSTEM_AND_EMBODIED_AI_SPEC.md", "target": "Global Standard Proposal"},
+        {"id": "SRC-TEST-ECO", "name": "Ecosystem & Embodied Tests", "rel_path": "test_ecosystem_and_embodied_suite.py", "target": "Full 30/30 Green Suite"},
     ]
 
     manifest = {
         "assessment_title": "AutoCopilot ISO 26262:2018 ASIL-D Functional Safety Assessment Dossier",
         "generated_at": datetime.now().isoformat(),
-        "standard_scope": "ISO 26262:2018 Parts 2, 3, 4, 6, 8 / AIAG PPAP Level 3 / ISO 24089",
+        "standard_scope": "ISO 26262:2018 Parts 2, 3, 4, 6, 8 / AIAG PPAP Level 3 / ISO 24089 / AUTOSAR / ARTC",
         "target_level": "ASIL-D",
-        "release_tag": "v4.0.0-industrial-sop-ready",
+        "release_tag": "v5.0.0-ecosystem-standard-ready",
         "artifacts": []
     }
 

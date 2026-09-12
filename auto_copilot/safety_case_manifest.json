@@ -1,9 +1,9 @@
 {
   "assessment_title": "AutoCopilot ISO 26262:2018 ASIL-D Functional Safety Assessment Dossier",
-  "generated_at": "2026-09-12T21:17:42.561894",
-  "standard_scope": "ISO 26262:2018 Parts 2, 3, 4, 6, 8 / AIAG PPAP Level 3 / ISO 24089",
+  "generated_at": "2026-09-12T21:20:36.094642",
+  "standard_scope": "ISO 26262:2018 Parts 2, 3, 4, 6, 8 / AIAG PPAP Level 3 / ISO 24089 / AUTOSAR / ARTC",
   "target_level": "ASIL-D",
-  "release_tag": "v4.0.0-industrial-sop-ready",
+  "release_tag": "v5.0.0-ecosystem-standard-ready",
   "artifacts": [
     {
       "id": "DOC-GSN-01",
@@ -165,6 +165,60 @@
       "target": "SOP 26/26 Green Suite",
       "sha256": "56a555dd1dc798d8cc32efd9ce09e02da68f86ed07d853510c034828470d171f",
       "size_bytes": 3970,
+      "status": "VERIFIED_PRESENT"
+    },
+    {
+      "id": "SRC-MCAL-01",
+      "name": "MCAL Safety Extension for Silicon",
+      "path": "mcal_safety_extension.py",
+      "target": "Infineon/NXP/ST Silicon Binding",
+      "sha256": "dd2ccf4ece2c4bb10bffa7b3711a244067413783dbe51a2bea9022d17ba95197",
+      "size_bytes": 4202,
+      "status": "VERIFIED_PRESENT"
+    },
+    {
+      "id": "SRC-EMBOD-01",
+      "name": "Embodied AI Safety Interlock",
+      "path": "embodied_ai_safety_interlock.py",
+      "target": "Robotics & High-DoF Valve",
+      "sha256": "ff37fd816a4101f187cb69d78f5aa455a9d62e897614e4b04780ac1305118286",
+      "size_bytes": 5181,
+      "status": "VERIFIED_PRESENT"
+    },
+    {
+      "id": "SRC-VTB-01",
+      "name": "Virtual Testbed Cloud Engine",
+      "path": "virtual_testbed_cloud.py",
+      "target": "10k Scenarios Fast Regression",
+      "sha256": "6f7bacfa5528abc4645ab65ad6f5462504963d814eee15e42ad0b5bcc793a486",
+      "size_bytes": 4267,
+      "status": "VERIFIED_PRESENT"
+    },
+    {
+      "id": "SRC-LESSON-01",
+      "name": "Lessons Learned Knowledge Graph DB",
+      "path": "lessons_learned_db.py",
+      "target": "Failure Ontology & KG",
+      "sha256": "9e7ace244e33acd9d493e1ca1801b68d2df4616ca96c2db4eb8c624a0d21ee5c",
+      "size_bytes": 5476,
+      "status": "VERIFIED_PRESENT"
+    },
+    {
+      "id": "DOC-STAND-01",
+      "name": "Standardization & Embodied Spec",
+      "path": "docs/STANDARDIZATION_ECOSYSTEM_AND_EMBODIED_AI_SPEC.md",
+      "target": "Global Standard Proposal",
+      "sha256": "48c0ce1eb68e013083c373ea21f0bf071314a2cb576488f9ab02d9afe6d567e2",
+      "size_bytes": 6965,
+      "status": "VERIFIED_PRESENT"
+    },
+    {
+      "id": "SRC-TEST-ECO",
+      "name": "Ecosystem & Embodied Tests",
+      "path": "test_ecosystem_and_embodied_suite.py",
+      "target": "Full 30/30 Green Suite",
+      "sha256": "20c3ee01681157e073558a0304695f8896510552e05aaddd3381775f977f770c",
+      "size_bytes": 3129,
       "status": "VERIFIED_PRESENT"
     },
     {
