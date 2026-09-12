@@ -129,7 +129,7 @@ graph TD
 | **Part 3, Clause 7** | 定義危害事件與安全目標（Safety Goals） | 建立防誤觸與過溫降級之 ASIL-D 狀態機 | GSN G1 / G2 / G3 / G4 | 🟢 COMPLIANT |
 | **Part 4, Clause 6** | 故障容忍時間間隔（FTTI）滿足 | 10.0 秒逾時硬體安全強制關斷（廣播 Frame 0x210） | Solution Sn3, Sn4 (`stage4_fault_injection.py`) | 🟢 COMPLIANT |
 | **Part 6, Clause 7** | 軟體架構設計中的安全狀態遷移機制 | 四階狀態機：NORMAL / WAITING / DEGRADED / SAFE | Solution Sn1 (`stage1_safety_supervisor.py`) | 🟢 COMPLIANT |
-| **Part 6, Clause 9** | 軟體單元測試覆蓋率（MC/DC 要求 Table 8） | 覆蓋「口頭確認、逾時、使用者取消、DTC截斷」四大關鍵判定式 | Solution Sn3 (`test_safety_mcdc.py` 13/13 PASS) | 🟢 COMPLIANT |
+| **Part 6, Clause 9** | 軟體單元測試覆蓋率（MC/DC 要求 Table 8） | 覆蓋「口頭確認、逾時、使用者取消、DTC截斷、過溫降級」關鍵判定式 | Solution Sn3 (`test_safety_mcdc.py` 15/15 PASS, `htmlcov/`) | 🟢 COMPLIANT |
 | **Part 6, Clause 10** | 軟硬體整合測試與故障注入（Fault Injection） | 拔除實體 CAN 線束，驗證 150ms 逾時保護與降級 | Solution Sn5, Sn6 (`stage4_fault_injection.py`) | 🟢 COMPLIANT |
 
 ---
