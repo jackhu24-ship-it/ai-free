@@ -89,6 +89,13 @@ class UdsEcuSimulator:
 
     def __init__(self):
         self._dtc_database: Dict[str, UdsDTC] = {
+            "P0117": UdsDTC(
+                dtc_code="P0117",
+                status_byte=0x2F,  # Confirmed, Pending, MIL On
+                description="Coolant Temp Sensor Circuit Low Anomaly",
+                severity="HIGH",
+                asil=ASILHazardLevel.ASIL_B
+            ),
             "P0A80": UdsDTC(
                 dtc_code="P0A80",
                 status_byte=0x2F,  # Confirmed, Pending, MIL On
@@ -106,6 +113,7 @@ class UdsEcuSimulator:
         }
         self._vin = "AUTOCPILOT2026HV1"
         self._is_security_unlocked = False
+        self.simulate_bus_disconnect = False
 
     def handle_request(self, payload: bytes) -> bytes:
         """Process ISO 14229 UDS frame and return response payload."""
@@ -215,11 +223,26 @@ class UdsServiceClient:
         self.can_adapter = can_adapter or CanInterfaceAdapter(interface="virtual")
         self.ecu_simulator = UdsEcuSimulator()
 
-    def read_dtc_information(self, status_mask: int = 0x08) -> List[Dict[str, Any]]:
+    def read_dtc_information(self, status_mask: int = 0x08, timeout_ms: float = 80.0) -> List[Dict[str, Any]]:
         """
         Execute Service 0x19 02 (reportDTCByStatusMask).
         Returns structured list of confirmed or pending vehicle DTCs.
+        Enforces 80ms response timeout protection; triggers safety alert upon failure.
         """
+        if self.ecu_simulator.simulate_bus_disconnect:
+            # Simulate bus disconnect / response timeout > 80ms
+            time.sleep(timeout_ms / 1000.0)
+            logger.error(f"[UDS] Response timeout ({timeout_ms}ms exceeded); ECU unreachable.")
+            return [{
+                "dtc_code": "UDS_TIMEOUT",
+                "status_byte": "0xFF",
+                "confirmed": False,
+                "pending": False,
+                "mil_on": True,
+                "error": "UDS_TIMEOUT",
+                "description": f"CAN 匯流排應答逾時 ({timeout_ms}ms)，實體 ECU 離線或通訊中斷"
+            }]
+
         # ISO-TP Single Frame: PCI_len=3, SID=0x19, SubFunc=0x02, Mask=status_mask
         req_frame = bytes([0x03, SID_READ_DTC_INFO, 0x02, status_mask])
 

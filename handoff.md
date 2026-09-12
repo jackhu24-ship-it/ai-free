@@ -874,6 +874,11 @@
               - 🔌 **CAN 抽象驅動層 (`can_interface_adapter.py`)**：支援 virtual / pcan / socketcan 多匯流排介面；實裝 DBC 矩陣二進位編解碼（0x100 BMS、0x200 熱管理、0x300 致動器指令），嚴格遵循 Big-Endian 二進位封裝。
               - 🩺 **ISO 14229 UDS 診斷棧與虛擬 ECU (`uds_service_client.py`)**：實作 Service 0x19 02（ReadDTC 故障碼與狀態掩碼）、Service 0x22（ReadDataByIdentifier DID 0xF190 VIN / 0x0100 BMS / 0x0101 Thermal）與 Service 0x14（ClearDTC，受 ASIL-D 雙重確認管制，未授權退回 NRC 0x33）。
               - ⚡ **LangGraph 多代理節點全量對接**：Telemetry 遙測與 DTC 節點全面接入真實協定棧；單元測試 7 項全數綠燈通過，內部交易延遲僅 0.005 ms！達成 80 項里程碑大滿貫！
+         81. **🔌 Stage 2 車載協定棧雙模實裝 ✕ mock_vehicle.dbc 矩陣 ✕ can_adapter.py ✕ 80ms UDS 逾時防護 ✕ 端到端閉環測試 100% 綠燈通關**：
+              - 📋 **Day 4（DBC 矩陣與雙模適配器）**：撰寫標準工規 `mock_vehicle.dbc`（0x120 散熱動力、0x180 BMS 高壓電池、0x210 PDM 致動指令）；實作 `can_adapter.py` 整合 `cantools` 與 `python-can`，具備背景廣播線程與 Virtual/PCAN/SocketCAN 雙模運作。
+              - ⏱️ **Day 5（UDS 診斷棧與 80ms 逾時防護）**：`uds_service_client.py` 擴充 DTC `P0117` 與 `P0A80`，實裝 80ms 應答逾時機制（斷線回傳 `UDS_TIMEOUT` 連動 Supervisor 安全報警）。
+              - 🔁 **Day 6（狀態機與通訊驅動層閉環）**：`stage1_safety_supervisor.py` 之 `telemetry_agent_node` 接入 CAN DBC 即時物理值，`actuator_execution_node` 在雙重口語確認後向匯流排廣播 Frame 0x210 `Relay_Cut=1`！
+              - 🧪 **驗收測試 100% 綠燈**：`test_stage2_end_to_end_can.py` 4 大整合場景全數通過。達成 81 項里程碑大滿貫！
 
 ## 🎯 下次開工必做深化任務（6+3 特戰聯軍預備任務）
 1. **🛠️ 小開 (Agent_Coder)**：持續維護零拷貝 C++ 模組與跨平台相容性。

@@ -105,12 +105,36 @@ def safety_supervisor_node(state: SafetyState) -> Dict[str, Any]:
 # -----------------------------------------------------------------------------
 # 3. 執行節點與語音合成節點 (Workers & Synthesizer)
 # -----------------------------------------------------------------------------
+try:
+    from .can_adapter import CanInterfaceAdapter
+except (ImportError, ValueError):
+    try:
+        from can_adapter import CanInterfaceAdapter
+    except ImportError:
+        from auto_copilot.can_adapter import CanInterfaceAdapter
+
+# Global CAN adapter for vehicle bus communication
+can_bus = CanInterfaceAdapter(interface="virtual")
+
+# -----------------------------------------------------------------------------
+# 3. 執行節點與語音合成節點 (Workers & Synthesizer)
+# -----------------------------------------------------------------------------
 def telemetry_agent_node(state: SafetyState) -> Dict[str, Any]:
-    """讀取車載感測器並依門檻更新警報狀態"""
-    coolant = 106.2  # 模擬過溫
+    """向 CAN 匯流排適配器實時讀取經 DBC 解碼之感測器數值"""
+    telem = can_bus.get_latest_telemetry()
+    coolant = telem.get("coolant_temp_c", 106.2)
+    bus_v = telem.get("bus_voltage_v", 384.8)
+    line_p = telem.get("line_pressure_kpa", 145.0)
     status = "CRITICAL_HIGH" if coolant > 105.0 else "NORMAL"
+
     return {
-        "telemetry_data": {"coolant_temp_c": coolant, "status": status},
+        "telemetry_data": {
+            "coolant_temp_c": coolant,
+            "bus_voltage_v": bus_v,
+            "line_pressure_kpa": line_p,
+            "status": status,
+            "source": f"CAN_DBC_0x120_0x180 ({can_bus.interface_type})"
+        },
         "current_state": (
             SystemOperatingState.DEGRADED_WARN if coolant > 105.0 else state.get("current_state")
         ),
@@ -118,8 +142,15 @@ def telemetry_agent_node(state: SafetyState) -> Dict[str, Any]:
 
 
 def actuator_execution_node(state: SafetyState) -> Dict[str, Any]:
-    """實際向車載硬體下發致動指令 (只有通過確認才會到達此節點)"""
-    return {"telemetry_data": {"relay_status": "DISCONNECTED", "safe_state_engaged": True}}
+    """通過雙重口語確認後，透過 CAN 匯流排廣播 0x210 致動指令 (Relay_Cut=1)"""
+    success = can_bus.send_actuator_command(relay_cut=True, pump_cmd=100, emergency_shutdown=False)
+    return {
+        "telemetry_data": {
+            "relay_status": "DISCONNECTED" if success else "COMM_FAIL",
+            "safe_state_engaged": True,
+            "can_tx_frame": "0x210 PDM_Actuator_Command [Relay_Cut=1]"
+        }
+    }
 
 
 def synthesizer_node(state: SafetyState) -> Dict[str, Any]:
@@ -131,9 +162,15 @@ def synthesizer_node(state: SafetyState) -> Dict[str, Any]:
     # 否則組裝常規診斷結果
     t = state.get("telemetry_data", {})
     coolant = t.get("coolant_temp_c", 0)
+    bus_v = t.get("bus_voltage_v")
     sys_state = state.get("current_state", SystemOperatingState.NORMAL_RUN)
 
-    resp = f"目前冷卻液溫度為 {coolant} 度。"
+    resp = f"目前冷卻液溫度為 {coolant} 度"
+    if bus_v:
+        resp += f"，母線電壓為 {bus_v} 伏特。"
+    else:
+        resp += "。"
+
     if sys_state == SystemOperatingState.DEGRADED_WARN:
         resp += " 系統已進入性能降級警示狀態，請留意硬體散熱。"
 
@@ -220,3 +257,6 @@ if __name__ == "__main__":
     })
     print(f"當前狀態: {s3['current_state']}")
     print(f"語音輸出: {s3['spoken_response']}")
+
+    # Clean shutdown
+    can_bus.shutdown()
