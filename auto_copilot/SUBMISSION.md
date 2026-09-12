@@ -1,7 +1,8 @@
 # AutoCopilot — Official lablab.ai Submission Packet
 > **Hackathon**: AssemblyAI Real-Time Voice Agent Hackathon (lablab.ai)  
 > **Team**: AutoCopilot Engineering Team  
-> **Repository**: [https://github.com/jackhu24-ship-it/ai-free](https://github.com/jackhu24-ship-it/ai-free)  
+> **Repository**: [https://github.com/jackhu24-ship-it/AutoCopilot-Voice-Agent](https://github.com/jackhu24-ship-it/AutoCopilot-Voice-Agent) (Primary) | [https://github.com/jackhu24-ship-it/ai-free](https://github.com/jackhu24-ship-it/ai-free)  
+> **Official Showcase**: [https://lablab.ai/ai-hackathons/assemblyai-voice-agent-hackathon/phantom-grid/autocopilot](https://lablab.ai/ai-hackathons/assemblyai-voice-agent-hackathon/phantom-grid/autocopilot)  
 > **License**: MIT License  
 
 ---
@@ -15,7 +16,7 @@
 `Real-time, safety-critical diagnostic voice copilot powered by AssemblyAI with sub-second parallel telemetry retrieval and instant barge-in support.`
 
 ### Tags
-`AssemblyAI`, `Real-Time Voice`, `Automotive`, `Voice Agent`, `Python`, `WebRTC`, `Streamlit`, `FastAPI`, `ISO 26262`, `CAN-FD`
+`LangGraph`, `AssemblyAI`, `Real-Time Voice`, `Multi-Agent`, `Automotive/Edge`, `Python`, `WebRTC`, `Streamlit`, `FastAPI`, `ISO 26262`, `CAN-FD`
 
 ---
 
@@ -100,4 +101,4 @@ AutoCopilot is built on a full-duplex, event-driven async architecture:
 ---
 
 ## 🧰 Built With
-`AssemblyAI Universal-3 Pro`, `AssemblyAI Streaming WebSocket API`, `Word Boost`, `Python 3.10+`, `Streamlit`, `streamlit-webrtc`, `PyAV (av)`, `FastAPI`, `WebSockets`, `asyncio`, `Pandas`
+`AssemblyAI Universal-3 Pro`, `AssemblyAI Streaming WebSocket API`, `LangGraph StateGraph`, `LangChain Core`, `Word Boost`, `Python 3.10+`, `Streamlit`, `streamlit-webrtc`, `PyAV (av)`, `FastAPI`, `WebSockets`, `asyncio`, `Pandas`

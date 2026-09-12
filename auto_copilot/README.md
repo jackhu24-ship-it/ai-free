@@ -79,6 +79,12 @@ flowchart TD
 2. **Zero-Coupling Modularity**: New specialist agents (e.g. `BMS_Agent`, `Dispatch_Agent`) can be plugged in with a single conditional edge without touching legacy code.
 3. **Sub-10ms Latency Overhead**: LangGraph compiled state graph invokes parallel nodes in under 8 milliseconds, maintaining end-to-end turn-taking well below human perception thresholds.
 
+📖 **Detailed Documentation**:
+- [LangGraph Multi-Agent Architecture Specification & Latency Benchmark](docs/LANGGRAPH_MULTIAGENT_SPEC.md)
+- [Top Finalists Q&A Playbook & Defense Strategy](docs/FINALIST_QA_PLAYBOOK.md)
+- [Official Hackathon Submission Packet](SUBMISSION.md)
+- [Community & Social Promotion Playbook](SOCIAL_PROMOTION.md)
+
 ---
 
 ## 🛠️ How We Built It
