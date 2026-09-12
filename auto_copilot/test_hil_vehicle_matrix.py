@@ -78,7 +78,7 @@ def test_hil_tc01_message_latency_and_jitter(fault_injector):
     # 超時延遲注入 (400ms > 350ms SLA)
     res_violated = fault_injector.inject_latency(
         frame_id=0x120,
-        base_delay_ms=360.0,
+        base_delay_ms=400.0,
         jitter_pct=0.05,
         sla_threshold_ms=350.0
     )

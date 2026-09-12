@@ -75,14 +75,21 @@ def bundle_safety_case(output_zip: str = "safety_case_bundle.zip") -> Dict[str, 
         {"id": "SRC-LESSON-01", "name": "Lessons Learned Knowledge Graph DB", "rel_path": "lessons_learned_db.py", "target": "Failure Ontology & KG"},
         {"id": "DOC-STAND-01", "name": "Standardization & Embodied Spec", "rel_path": "docs/STANDARDIZATION_ECOSYSTEM_AND_EMBODIED_AI_SPEC.md", "target": "Global Standard Proposal"},
         {"id": "SRC-TEST-ECO", "name": "Ecosystem & Embodied Tests", "rel_path": "test_ecosystem_and_embodied_suite.py", "target": "Full 30/30 Green Suite"},
+        {"id": "SRC-OPEN-01", "name": "Open SDV Apache 2.0 Core", "rel_path": "open_sdv_core.py", "target": "Eclipse SDV / Linux Foundation AGL"},
+        {"id": "HDL-RTL-01", "name": "Synthesizable Silicon Fast Abort RTL", "rel_path": "hardware_ip_core_rtl.v", "target": "Infineon/NXP Silicon Hardware Core"},
+        {"id": "SRC-RTLM-01", "name": "RTL Cycle Simulator & Royalty Model", "rel_path": "rtl_hardware_model.py", "target": "Silicon Hardening Verification & Financials"},
+        {"id": "SRC-STEW-01", "name": "Autonomous Generational Stewardship Engine", "rel_path": "autonomous_stewardship_engine.py", "target": "Unmanned CI/CD & Leak Prevention"},
+        {"id": "DOC-SOTIF-01", "name": "ISO/TC 22 & ISO 21448 EDSC Proposal", "rel_path": "docs/ISO_TC22_SOTIF_SAFETY_CAGE_PROPOSAL.md", "target": "Global Standard Revision"},
+        {"id": "DOC-EXIT-01", "name": "Final Exit & Stewardship Blueprint", "rel_path": "docs/FINAL_EXIT_AND_STEWARDSHIP_BLUEPRINT.md", "target": "M&A, IPO & IP Trust Blueprint"},
+        {"id": "SRC-TEST-STEW", "name": "Final Exit & Stewardship Test Suite", "rel_path": "test_final_stewardship_suite.py", "target": "Milestone 94 Full Green Suite"},
     ]
 
     manifest = {
         "assessment_title": "AutoCopilot ISO 26262:2018 ASIL-D Functional Safety Assessment Dossier",
         "generated_at": datetime.now().isoformat(),
-        "standard_scope": "ISO 26262:2018 Parts 2, 3, 4, 6, 8 / AIAG PPAP Level 3 / ISO 24089 / AUTOSAR / ARTC",
+        "standard_scope": "ISO 26262:2018 Parts 2, 3, 4, 6, 8 / AIAG PPAP Level 3 / ISO 24089 / AUTOSAR / ARTC / Eclipse SDV / SOTIF",
         "target_level": "ASIL-D",
-        "release_tag": "v5.0.0-ecosystem-standard-ready",
+        "release_tag": "v6.0.0-final-stewardship-ready",
         "artifacts": []
     }
 

@@ -1,6 +1,6 @@
 {
   "baseline_title": "AutoCopilot ASIL-D Multi-Vehicle Calibration Baseline",
-  "frozen_at": "2026-09-12T21:20:26.592562",
+  "frozen_at": "2026-09-12T21:25:03.291758",
   "asild_safety_invariants": {
     "MAX_ALLOWED_FTTI_MS": 40.0,
     "MAX_CRC_FAULT_THRESHOLD": 3,

@@ -132,10 +132,13 @@ class HILVehicleFaultInjector:
         raw_data = bytearray([0x55, 0xAA, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06])
         corrupted_data = bytearray(raw_data)
         
-        # 翻轉指定位元
-        for _ in range(corrupt_bits):
+        # 翻轉指定位元（確保翻轉相異位元，避免同一位元翻轉兩次互相抵消）
+        flipped = set()
+        while len(flipped) < corrupt_bits:
             byte_idx = random.randint(0, len(corrupted_data) - 1)
             bit_idx = random.randint(0, 7)
+            flipped.add((byte_idx, bit_idx))
+        for byte_idx, bit_idx in flipped:
             corrupted_data[byte_idx] ^= (1 << bit_idx)
 
         # 在 CAN 總線發送帶有錯誤特徵之訊框 (或標記為 Error Frame)

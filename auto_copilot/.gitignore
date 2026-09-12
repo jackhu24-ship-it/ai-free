@@ -1,4 +1,4 @@
-﻿# Environment & API Keys
+# Environment & API Keys
 .env
 .env.*
 *.env
@@ -57,3 +57,4 @@ orig_*.png
 raw_*.png
 sample_*.png
 test_*.png
+blackbox_snapshots/*.json

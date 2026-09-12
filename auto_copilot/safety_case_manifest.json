@@ -1,9 +1,9 @@
 {
   "assessment_title": "AutoCopilot ISO 26262:2018 ASIL-D Functional Safety Assessment Dossier",
-  "generated_at": "2026-09-12T21:20:36.094642",
-  "standard_scope": "ISO 26262:2018 Parts 2, 3, 4, 6, 8 / AIAG PPAP Level 3 / ISO 24089 / AUTOSAR / ARTC",
+  "generated_at": "2026-09-12T21:25:14.868561",
+  "standard_scope": "ISO 26262:2018 Parts 2, 3, 4, 6, 8 / AIAG PPAP Level 3 / ISO 24089 / AUTOSAR / ARTC / Eclipse SDV / SOTIF",
   "target_level": "ASIL-D",
-  "release_tag": "v5.0.0-ecosystem-standard-ready",
+  "release_tag": "v6.0.0-final-stewardship-ready",
   "artifacts": [
     {
       "id": "DOC-GSN-01",
@@ -91,7 +91,7 @@
       "name": "HIL Vehicle Matrix Test Suite",
       "path": "test_hil_vehicle_matrix.py",
       "target": "TC-HIL-01~05",
-      "sha256": "8630af16fdca73b9ea8b60de76a54bf22f805be6dc30207553dbbadb6e7a91b9",
+      "sha256": "ba703e29379f7b2f6d9f109ab838fa365ad18c941c8992e13096c406ef8e1f06",
       "size_bytes": 6792,
       "status": "VERIFIED_PRESENT"
     },
@@ -219,6 +219,69 @@
       "target": "Full 30/30 Green Suite",
       "sha256": "20c3ee01681157e073558a0304695f8896510552e05aaddd3381775f977f770c",
       "size_bytes": 3129,
+      "status": "VERIFIED_PRESENT"
+    },
+    {
+      "id": "SRC-OPEN-01",
+      "name": "Open SDV Apache 2.0 Core",
+      "path": "open_sdv_core.py",
+      "target": "Eclipse SDV / Linux Foundation AGL",
+      "sha256": "cec221187e14a58832bcfbd38d3d2771b0f883838a529bd2f414d37fbff4c5d4",
+      "size_bytes": 3925,
+      "status": "VERIFIED_PRESENT"
+    },
+    {
+      "id": "HDL-RTL-01",
+      "name": "Synthesizable Silicon Fast Abort RTL",
+      "path": "hardware_ip_core_rtl.v",
+      "target": "Infineon/NXP Silicon Hardware Core",
+      "sha256": "db0d7da95a7c51fcaa12b58a4ff6e0a9b2e7203f292120c70b79b5efde71ad8a",
+      "size_bytes": 5041,
+      "status": "VERIFIED_PRESENT"
+    },
+    {
+      "id": "SRC-RTLM-01",
+      "name": "RTL Cycle Simulator & Royalty Model",
+      "path": "rtl_hardware_model.py",
+      "target": "Silicon Hardening Verification & Financials",
+      "sha256": "6ec4f00b01e543bb087c873f6f4b256b125104c29ecd17c35bfed1d6ebc979e6",
+      "size_bytes": 5146,
+      "status": "VERIFIED_PRESENT"
+    },
+    {
+      "id": "SRC-STEW-01",
+      "name": "Autonomous Generational Stewardship Engine",
+      "path": "autonomous_stewardship_engine.py",
+      "target": "Unmanned CI/CD & Leak Prevention",
+      "sha256": "68fa4426144872e4b0218cf47328b7ab7a02bb7ad9c26afbfd07818ea0be8f86",
+      "size_bytes": 6605,
+      "status": "VERIFIED_PRESENT"
+    },
+    {
+      "id": "DOC-SOTIF-01",
+      "name": "ISO/TC 22 & ISO 21448 EDSC Proposal",
+      "path": "docs/ISO_TC22_SOTIF_SAFETY_CAGE_PROPOSAL.md",
+      "target": "Global Standard Revision",
+      "sha256": "52dc54ac3c5c4d2f37e6016d839e799e416336c01420b7b41964871c18d2eba4",
+      "size_bytes": 5084,
+      "status": "VERIFIED_PRESENT"
+    },
+    {
+      "id": "DOC-EXIT-01",
+      "name": "Final Exit & Stewardship Blueprint",
+      "path": "docs/FINAL_EXIT_AND_STEWARDSHIP_BLUEPRINT.md",
+      "target": "M&A, IPO & IP Trust Blueprint",
+      "sha256": "4979f08daa5118a27c1f3525fc6d75ba9e93fccecf3d58f112ef61183f293455",
+      "size_bytes": 6454,
+      "status": "VERIFIED_PRESENT"
+    },
+    {
+      "id": "SRC-TEST-STEW",
+      "name": "Final Exit & Stewardship Test Suite",
+      "path": "test_final_stewardship_suite.py",
+      "target": "Milestone 94 Full Green Suite",
+      "sha256": "ec69b682b84642286e2190de3846223f2ffe937fd0f93abd8871adf1b102a81f",
+      "size_bytes": 5870,
       "status": "VERIFIED_PRESENT"
     },
     {
