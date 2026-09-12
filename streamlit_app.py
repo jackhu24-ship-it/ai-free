@@ -185,7 +185,10 @@ class AgentOrchestrator:
     async def route_and_execute(transcript: str, tool_logs: list, telemetry_holder: list, dtc_holder: list) -> str:
         # 優先嘗試調用 LangGraph StateGraph 多代理架構
         try:
-            from auto_copilot.agent_graph import arun_diagnostic
+            try:
+                from auto_copilot.agent_graph import arun_diagnostic
+            except ImportError:
+                from agent_graph import arun_diagnostic
             final_state = await arun_diagnostic(transcript)
             duration_ms = final_state.get("execution_duration_ms", 5.0)
             intents = final_state.get("target_intents", [])
