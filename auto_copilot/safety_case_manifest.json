@@ -1,9 +1,9 @@
 {
   "assessment_title": "AutoCopilot ISO 26262:2018 ASIL-D Functional Safety Assessment Dossier",
-  "generated_at": "2026-09-12T21:13:42.265176",
-  "standard_scope": "ISO 26262:2018 Parts 2, 3, 4, 6, 8",
+  "generated_at": "2026-09-12T21:17:42.561894",
+  "standard_scope": "ISO 26262:2018 Parts 2, 3, 4, 6, 8 / AIAG PPAP Level 3 / ISO 24089",
   "target_level": "ASIL-D",
-  "release_tag": "v3.1.0-audit-dossier-ready",
+  "release_tag": "v4.0.0-industrial-sop-ready",
   "artifacts": [
     {
       "id": "DOC-GSN-01",
@@ -99,9 +99,9 @@
       "id": "SRC-FLEET-01",
       "name": "Fleet Telemetry Blackbox Engine",
       "path": "fleet_telemetry_blackbox.py",
-      "target": "200ms Pre-Trigger FIFO",
-      "sha256": "bc7c9fa63606a3dd83c78f408a7923e618a3f693e449794d9b15f8b286d66f78",
-      "size_bytes": 5734,
+      "target": "700ms Incident FIFO",
+      "sha256": "8251d54b1da6fa76b8c2312d3cde26030beb545102b97f2a985e2b43a886edce",
+      "size_bytes": 7821,
       "status": "VERIFIED_PRESENT"
     },
     {
@@ -120,6 +120,51 @@
       "target": "Auditor Dry Run & Checklist",
       "sha256": "d506e5e35d6a8503595d38cf9a9b3ad310d217991da8cf1119ffdb3db8d24d08",
       "size_bytes": 8239,
+      "status": "VERIFIED_PRESENT"
+    },
+    {
+      "id": "SRC-EOL-01",
+      "name": "EOL Production Line Rapid Tester",
+      "path": "eol_production_tester.py",
+      "target": "PPAP Level 3 / EOL Test",
+      "sha256": "9be1e6b75f223be233498df98ec52b18627ac0bd6d1f13f12c2eb877443897ce",
+      "size_bytes": 7298,
+      "status": "VERIFIED_PRESENT"
+    },
+    {
+      "id": "SRC-CALIB-01",
+      "name": "A2L / CDF Calibration Manager",
+      "path": "calibration_manager.py",
+      "target": "ASAM MCD-2 MC Baseline",
+      "sha256": "abba5f41ebfae0e4aada553b9c0b8dd01447bf6896b8d7141716a864edcac683",
+      "size_bytes": 6769,
+      "status": "VERIFIED_PRESENT"
+    },
+    {
+      "id": "SRC-CAGE-01",
+      "name": "Safe AI Cage & SOME/IP Ethernet",
+      "path": "safe_ai_cage.py",
+      "target": "Safety over Ethernet & AI Cage",
+      "sha256": "26862243a76a4e20c00ada087e2000f4cf72f0583119823dd3bf636ab051a6ee",
+      "size_bytes": 7751,
+      "status": "VERIFIED_PRESENT"
+    },
+    {
+      "id": "DOC-INDUS-01",
+      "name": "Industrialization & Fleet SOTA Spec",
+      "path": "docs/INDUSTRIALIZATION_AND_FLEET_SOTA_SPEC.md",
+      "target": "SOP & SOTA Master Spec",
+      "sha256": "25a70bd7e1f4611ee0488c6fb84ab2e6fc86a301974a55784e4bfc171dfe867d",
+      "size_bytes": 8429,
+      "status": "VERIFIED_PRESENT"
+    },
+    {
+      "id": "SRC-TEST-IND",
+      "name": "Industrialization Automated Tests",
+      "path": "test_industrialization_suite.py",
+      "target": "SOP 26/26 Green Suite",
+      "sha256": "56a555dd1dc798d8cc32efd9ce09e02da68f86ed07d853510c034828470d171f",
+      "size_bytes": 3970,
       "status": "VERIFIED_PRESENT"
     },
     {
