@@ -51,6 +51,7 @@ AI 教學工具鏈建置：安裝並熟悉 AI 工具鏈（OpenCode 懶人包 13 
 - [x] 階段二附加：Ollama 本地執行操作手冊撰寫歸檔（ollama-operation-manual.md）
 - [x] 階段二附加：OI 實戰操作與專案管理驗證（OI-AutoLoad 自動化日常工作流）
 - [x] 階段二附加：Hermes Agent 與 Hermes Desktop 桌面應用建置（v0.20.4，Electron GUI、82 個技能庫、桌面捷徑已建立）
+- [x] 階段二附加：手機隨身行動指揮部即時刷新與 24H 雲端大腦（Netlify Serverless + Groq Qwen 3.8-27B 多模型容錯，commander-jackhu24.netlify.app 已正式發布上線）
 - [ ] 階段三：實際運用於教學備課
 
 ## 資料夾結構
