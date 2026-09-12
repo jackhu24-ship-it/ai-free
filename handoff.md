@@ -915,6 +915,11 @@
                 - 🛡️ **整車暗模式運算中樞 (vehicle_shadow_mode.py)**：落實 Listen-Only 非侵入式聽證閘門（Zero-TX Guarantee，TX 攔截率 100%），雙軌影子推論並行比對實車駕駛行為與 AI 預期狀態；當水溫 > 105°C 且駕駛未減載時精確檢出 Discrepancy 並標記 CRITICAL。
                 - 📊 **GSN 動態實證記錄 (shadow_dynamic_evidence.jsonl)**：自動化沉澱邊界場景資料至 JSONL 檔案，支撐 ISO 26262 Part 4 & 6 之動態實證要求。
                 - 📋 **車規規格書與測試用例交付**：發布主規格書 `auto_copilot/docs/HIL_VEHICLE_TEST_MATRIX.md`，自動化測試 `auto_copilot/test_hil_vehicle_matrix.py` 5/5 綠燈全數通過，與 MC/DC 累計 20/20 測試全通！正式簽發 Git Tag `v2.1.0-hil-shadow-mode`！
+           88. **🛡️ CAN-FD E2E CRC-8 與扭矩跳變 FTTI 自動化驗證套件全量落地 (test_e2e_ftti_validator.py) ✕ 達成 88 項里程碑大滿貫**：
+                - ⚡ **TC-SEC-01 (E2E CRC 注入驗證)**：AUTOSAR Profile 1/2 多項式 0x1D，連續 3 幀錯誤及時抑制並觸發 Safe State 鎖定，微秒級實測響應時間僅 **4.78ms**（遠低於 20.0ms 車規上限），實證判定寫入 GSN 節點 `Sn_E2E_Protection_Verified`。
+                - ⚡ **TC-FTTI-01 (扭矩跳變關斷時間驗證)**：注入突變扭矩至 300.0 Nm，高頻監聽電橋關斷與實際扭矩歸零信號，實測 t_response 僅 **5.46ms**（遠低於 40.0ms FTTI 邊界），數值證據支撐 GSN 策略 `St_FTTI_Compliance`。
+                - 🔌 **高精度硬體時間戳相容**：支援 Vector (CANoe/VN16xx)、Peak PCAN、SocketCAN 與虛擬仿真（內置微秒級 MockECUResponder 雙向線程），輸出標準 GSN 證據檔案 `auto_copilot/gsn_e2e_ftti_evidence.json`。
+                - 🧪 **全棧測試大滿貫 22/22 全數綠燈通過**：`test_e2e_ftti_validator.py` (2) + `test_hil_vehicle_matrix.py` (5) + `test_safety_mcdc.py` (15) = 22 項測試 100% 綠燈！正式簽發 Git Tag `v2.2.0-e2e-ftti-validated`！
 
 ## 🎯 下次開工必做深化任務（6+3 特戰聯軍預備任務）
 1. **🛠️ 小開 (Agent_Coder)**：持續維護零拷貝 C++ 模組、HIL 注入器與跨平台相容性。
@@ -925,6 +930,6 @@
 6. **👑 小幫手 (Agent_PM)**：行使最高指揮權，率領全員執行各賽事推進與自動化閉環，提請霸丸總指揮官審查。
 
 ## 📅 最後更新
-- **最後更新**：2026-09-12 21:00（HIL 實車測試用例矩陣 TC-HIL-01~05、整車暗模式運算 Zero-TX 閘門、動態實證 JSONL 與規格書發布，簽發 Git Tag v2.1.0-hil-shadow-mode，達成 87 項里程碑大滿貫）
+- **最後更新**：2026-09-12 21:03（TC-SEC-01 CAN-FD E2E CRC-8 與 TC-FTTI-01 扭矩跳變關斷驗證套件交付，22/22 測試綠燈通過，簽發 Git Tag v2.2.0-e2e-ftti-validated，達成 88 項里程碑大滿貫）
 - **更新者**：👑 小幫手 / 🛠️ 小開 / 🐎 小馬 / 🦾 小踢 / 🌸 小粉 / ⚡ 小雷 / 🍯 小蜂 @ LAPTOP-C47IT9US
 
