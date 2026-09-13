@@ -107,3 +107,8 @@ padlet-assets/
 
 # Playwright MCP 快照
 .playwright-mcp/
+
+# PHANTOM 模擬生成輸出檔
+export_paraview/
+vtk_output/
+
