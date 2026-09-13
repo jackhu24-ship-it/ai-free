@@ -13,14 +13,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Add to GitHub Project (When configured)
-        if: vars.PROJECT_URL != '' && secrets.PROJECT_PAT != ''
+        if: vars.PROJECT_URL != ''
         uses: actions/add-to-project@v1
         with:
           project-url: ${{ vars.PROJECT_URL }}
           github-token: ${{ secrets.PROJECT_PAT }}
 
       - name: Standby Notice (When unconfigured)
-        if: vars.PROJECT_URL == '' || secrets.PROJECT_PAT == ''
+        if: vars.PROJECT_URL == ''
         run: |
-          echo "ℹ️ [STANDBY] 尚未配置 PROJECT_URL 或 PROJECT_PAT，安全略過專案看板自動關聯。"
-          echo "💡 如需啟用：請至 Repo Settings -> Secrets/Variables 設定 PROJECT_URL 與 PROJECT_PAT。"
+          echo "ℹ️ [STANDBY] 尚未配置 PROJECT_URL，安全略過專案看板自動關聯。"
+          echo "💡 如需啟用：請至 Repo Settings -> Variables 設定 PROJECT_URL。"
