@@ -23,7 +23,7 @@ jobs:
             const title = context.payload.pull_request.title;
             const match = title.match(/^([a-zA-Z0-9_-]+)(\(.*\))?!?:\s*.+/);
             if (!match) {
-              console.log(標題未符合 Conventional 前綴格式:  ，跳過打標籤。);
+              console.log(`標題未符合 Conventional 前綴格式: "${title}"，跳過打標籤。`);
               return;
             }
             const type = match[1].toLowerCase();
@@ -39,12 +39,12 @@ jobs:
             };
             const targetLabel = labelMap[type];
             if (!targetLabel) {
-              console.log(未設定對應標籤的前綴: );
+              console.log(`未設定對應標籤的前綴: "${type}"`);
               return;
             }
             const currentLabels = context.payload.pull_request.labels.map(l => l.name);
             if (currentLabels.includes(targetLabel)) {
-              console.log(標籤  已存在於 PR 中。);
+              console.log(`標籤 "${targetLabel}" 已存在於 PR 中。`);
               return;
             }
             await github.rest.issues.addLabels({
@@ -53,4 +53,4 @@ jobs:
               issue_number: context.payload.pull_request.number,
               labels: [targetLabel]
             });
-            console.log(成功將標籤  加至 PR #);
+            console.log(`成功將標籤 "${targetLabel}" 加至 PR #${context.payload.pull_request.number}`);
