@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <title>手機隨身行動指揮艙 - QR Code 掃描入口</title>
+  <style>
+    body {
+      background-color: #0b0f19;
+      color: #f1f5f9;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+    .card {
+      background: #111827;
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      border-radius: 16px;
+      padding: 30px;
+      text-align: center;
+      max-width: 420px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+    h2 {
+      color: #38bdf8;
+      margin-top: 0;
+      font-size: 1.4rem;
+    }
+    p {
+      color: #94a3b8;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+    .qr-wrap {
+      background: #ffffff;
+      padding: 16px;
+      border-radius: 12px;
+      display: inline-block;
+      margin: 20px 0;
+    }
+    img {
+      width: 260px;
+      height: 260px;
+      display: block;
+    }
+    .btn {
+      display: inline-block;
+      background: linear-gradient(135deg, #0284c7, #38bdf8);
+      color: #ffffff;
+      text-decoration: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-top: 10px;
+      transition: opacity 0.2s;
+    }
+    .btn:hover {
+      opacity: 0.9;
+    }
+    .url-text {
+      color: #10b981;
+      word-break: break-all;
+      font-size: 0.85rem;
+      font-family: monospace;
+      margin-top: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>📱 隨身行動指揮艙 · 賽事版面</h2>
+    <p>請使用手機相機掃描下方 QR Code，立即開啟「三大梯次 13 大賽事作戰版面」：</p>
+    
+    <div class="qr-wrap">
+      <img src="./firebase-mobile-app.png" alt="QR Code">
+    </div>
+
+    <div>
+      <a href="https://myfirebase-project-2026-3a8bc.web.app" target="_blank" class="btn">
+        💻 電腦版直接開啟
+      </a>
+    </div>
+
+    <div class="url-text">
+      https://myfirebase-project-2026-3a8bc.web.app
+    </div>
+  </div>
+</body>
+</html>
