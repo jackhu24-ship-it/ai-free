@@ -998,3 +998,8 @@
 - **GitHub Actions Run #3 (692e619)**：全數通過，耗時 14s。
 - **測試覆蓋率**：stellaris_portfolio.py 達 76% (3 passed)。
 - **關鍵修復**：注入 PYTHONPATH: '.:src:ai' 解決雲端 Runner 模組載入問題。
+
+### [2026-09-16] Stellaris Portfolio 單元測試達 100% 覆蓋率
+- **Commit (21f19bc)**: 5 項測試全數通過（5 passed in 0.64s）。
+- **覆蓋率提升**: stellaris_portfolio.py 達成 100% (29/29 stmts, Miss 0)。
+- **修復重點**: 補齊 win32 終端編碼分支與 __main__ 入口測試，調整測試調用簽名。
