@@ -114,3 +114,14 @@ padlet-assets/
 .playwright-mcp/
 OneDrive/
 **/OneDrive/**
+
+# Local DB and reports
+survey_responses.db
+*.db
+*.sqlite3
+trivy-report-high.yml
+stellaris_ai_report.json
+.coverage
+.pytest_cache/
+__pycache__/
+*.pyc
