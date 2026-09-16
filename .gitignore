@@ -112,3 +112,5 @@ padlet-assets/
 
 # Playwright MCP 快照
 .playwright-mcp/
+OneDrive/
+**/OneDrive/**

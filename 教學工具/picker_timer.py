@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-作者：小幫手（A03）
+"""作者：小幫手（A03）
 用途：學生座號抽籤 + 課堂倒數計時器
 功能說明：
 1. 抽籤區域會隨機顯示 1~35 的座號，點擊「抽籤」按鈕時會以動畫方式快速跳動 1 秒後停在一個座號。
@@ -12,9 +10,9 @@
 
 from __future__ import annotations
 
-import tkinter as tk
 import random
 import time
+import tkinter as tk
 from typing import Optional
 
 # ---------------------------------------------------------------------------
@@ -28,6 +26,7 @@ ANIMATION_DURATION = 1.0
 # 抽籤動畫更新頻率（毫秒）
 ANIMATION_DELAY = 50
 # ---------------------------------------------------------------------------
+
 
 class SeatPicker(tk.Frame):
     """座號抽籤小工具"""
@@ -85,7 +84,9 @@ class SeatPicker(tk.Frame):
         self.result_var.set(str(final_seat))
         self.is_animating = False
 
+
 # ---------------------------------------------------------------------------
+
 
 class CountdownTimer(tk.Frame):
     """課堂倒數計時器"""
@@ -214,7 +215,9 @@ class CountdownTimer(tk.Frame):
         self.start_button.config(state="normal")
         self.pause_button.config(state="disabled")
 
+
 # ---------------------------------------------------------------------------
+
 
 class App(tk.Tk):
     """主程式，整合抽籤與倒數計時器"""
@@ -229,6 +232,7 @@ class App(tk.Tk):
         SeatPicker(self)
         # 倒數計時器模組
         CountdownTimer(self)
+
 
 if __name__ == "__main__":
     app = App()
