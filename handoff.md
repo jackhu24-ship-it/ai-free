@@ -1018,3 +1018,8 @@
 - **Commit (1af69b1)**: 4 項測試全數通過（4 passed in 0.54s）。
 - **覆蓋率提升**: energy_budger.py 達成 100% (28/28 stmts, Miss 0)。
 - **驗收重點**: 覆蓋 EnergyBudgetController 預設/自訂目標能耗、綠色自動擴展負載計算、CSV 紀錄寫入驗證與 __main__ 入口執行。
+
+### [2026-09-16] ZK Sovereign Clearing 單元測試達 100% 覆蓋率
+- **Commit (4ee9238)**: 4 項測試全數通過（4 passed in 0.47s）。
+- **覆蓋率提升**: zk_sovereign_clearing.py 達成 100% (27/27 stmts, Miss 0)。
+- **驗收重點**: 覆蓋 ClearingTransaction 欄位完整性、ZKSovereignClearing 遵循協議初始化、Blake2b ZK 證明產生、結算紀錄寫入與 __main__ 入口執行。
