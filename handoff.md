@@ -1023,3 +1023,9 @@
 - **Commit (4ee9238)**: 4 項測試全數通過（4 passed in 0.47s）。
 - **覆蓋率提升**: zk_sovereign_clearing.py 達成 100% (27/27 stmts, Miss 0)。
 - **驗收重點**: 覆蓋 ClearingTransaction 欄位完整性、ZKSovereignClearing 遵循協議初始化、Blake2b ZK 證明產生、結算紀錄寫入與 __main__ 入口執行。
+- [x] src/stellaris_portfolio.py (100%)
+- [x] src/buzz_acp_bridge.py (100%)
+- [x] src/astro_ai_risk.py (100%)
+- [x] src/energy_budger.py (100%)
+- [x] src/clearing/zk_sovereign_clearing.py (100%, 7d18d2d)
+- [x] src/security/ppm_vault.py (100%, 178fd43)
