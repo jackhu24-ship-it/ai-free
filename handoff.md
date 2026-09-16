@@ -1003,3 +1003,8 @@
 - **Commit (21f19bc)**: 5 項測試全數通過（5 passed in 0.64s）。
 - **覆蓋率提升**: stellaris_portfolio.py 達成 100% (29/29 stmts, Miss 0)。
 - **修復重點**: 補齊 win32 終端編碼分支與 __main__ 入口測試，調整測試調用簽名。
+
+### [2026-09-16] Buzz ACP Bridge 單元測試達 100% 覆蓋率
+- **Commit (f1e02fc)**: 5 項測試全數通過（5 passed in 0.56s）。
+- **覆蓋率提升**: buzz_acp_bridge.py 達成 100% (21/21 stmts, Miss 0)。
+- **修復重點**: 補齊 dotenv 兼容 mock、BUZZ_PRIVATE_KEY 缺漏異常分支、Nostr 連線及 Agent 部署驗收，以及 __main__ 入口執行驗證。
