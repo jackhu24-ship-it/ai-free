@@ -123,4 +123,5 @@ G:\???脩垢蝖祉?\260803_opencode\    ??撌乩???寧??git repo嚗�
 15. **評測線具（Harness）防作弊與時區夏令防坑鐵律（Holdout 隔離／IANA ZoneInfo fold=0）**：
     - **Holdout 隔絕驗證原則**：嚴格禁止為了通過測試而修改 `tests/` 或 `harness/` 檔案（一律設為 Read-Only 並以 SHA-256 驗證防篡改），違者視同 Overfitting 致命失格！
     - **歐美 DST 夏令時重複小時防護**：涉及跨時區預約或事件調度，遇秋季切回冬令時間（Fall-back）重複小時，必須採用 Python 3.9+ `zoneinfo.ZoneInfo` 並明確指定 `fold=0`（選擇第一個發生的小時），徹底杜絕時鐘錯位與重疊預約衝突！
+16. **賽事專案命名標準格式鐵律（PHANTOM GRID :: 專案名稱 全域規範）**：凡霸丸總指揮官 Jack 哥率領 PHANTOM GRID 參與之任何黑客松與國際賽事，在任何平台（Devpost、Lablab.ai、Hack2skill、DoraHacks、Kaggle 等）填寫作品/專案名稱（Project Name）時，格式一律強制鎖定為：`PHANTOM GRID :: 專案名稱`（例如 `PHANTOM GRID :: Alexa+ Autonomous SRE Hub`），徹底將 PHANTOM GRID 官方戰隊品牌化與一致化，嚴禁隨意變更前綴，此條文永久生效！
 
