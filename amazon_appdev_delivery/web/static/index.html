@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phantom Alexa+ Autonomous Operations Hub</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090d16;
+      --card-bg: rgba(16, 24, 40, 0.75);
+      --border: rgba(0, 229, 255, 0.2);
+      --accent-cyan: #00e5ff;
+      --accent-blue: #0088ff;
+      --accent-green: #00ff88;
+      --accent-red: #ff3366;
+      --accent-gold: #ffb800;
+      --text: #e2e8f0;
+      --text-dim: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(0, 229, 255, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 85% 85%, rgba(0, 136, 255, 0.08) 0%, transparent 40%);
+    }
+    header {
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(12px);
+      background: rgba(9, 13, 22, 0.8);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .brand-logo {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 18px;
+      color: #000;
+      box-shadow: 0 0 15px rgba(0, 229, 255, 0.5);
+    }
+    .brand-title {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+    .badge-track {
+      background: rgba(0, 229, 255, 0.15);
+      color: var(--accent-cyan);
+      border: 1px solid var(--accent-cyan);
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+    }
+    main {
+      flex: 1;
+      padding: 30px 40px;
+      max-width: 1440px;
+      margin: 0 auto;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 28px;
+    }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 12px;
+    }
+    .card-title {
+      font-size: 15px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--accent-cyan);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    /* Alexa Orb Section */
+    .alexa-stage {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 0;
+      position: relative;
+    }
+    .alexa-orb {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #00ffff 20%, #0077ff 60%, transparent 90%);
+      box-shadow: 0 0 40px rgba(0, 229, 255, 0.7), 0 0 80px rgba(0, 119, 255, 0.4);
+      animation: pulse 2.5s infinite ease-in-out;
+      margin-bottom: 20px;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); filter: brightness(1); }
+      50% { transform: scale(1.08); filter: brightness(1.25); }
+    }
+    .voice-bubble {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(0, 229, 255, 0.3);
+      border-radius: 12px;
+      padding: 16px;
+      font-size: 14px;
+      line-height: 1.6;
+      min-height: 70px;
+    }
+    .voice-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--accent-cyan);
+      font-weight: 700;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .command-palette {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      width: 100%;
+    }
+    .cmd-btn {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--text);
+      padding: 12px 14px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .cmd-btn:hover {
+      background: rgba(0, 229, 255, 0.12);
+      border-color: var(--accent-cyan);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(0, 229, 255, 0.2);
+    }
+    /* Fleet Services Matrix */
+    .services-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .service-row {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      padding: 14px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.3s ease;
+    }
+    .service-info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .service-name {
+      font-weight: 700;
+      font-size: 14px;
+    }
+    .service-meta {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--text-dim);
+    }
+    .status-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+    .tag-healthy { background: rgba(0, 255, 136, 0.15); color: var(--accent-green); border: 1px solid var(--accent-green); }
+    .tag-degraded { background: rgba(255, 51, 102, 0.15); color: var(--accent-red); border: 1px solid var(--accent-red); animation: blink 1.2s infinite; }
+    @keyframes blink { 50% { opacity: 0.5; } }
+    /* Terminal Console */
+    .terminal-box {
+      background: #05070d;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 14px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      height: 240px;
+      overflow-y: auto;
+      color: #94a3b8;
+      line-height: 1.5;
+    }
+    .log-line { margin-bottom: 4px; }
+    .log-cyan { color: var(--accent-cyan); }
+    .log-green { color: var(--accent-green); }
+    .log-gold { color: var(--accent-gold); }
+    .log-red { color: var(--accent-red); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="brand-logo">A+</div>
+      <div>
+        <div class="brand-title">Phantom Alexa+ Autonomous Operations Hub</div>
+        <div style="font-size: 11px; color: var(--text-dim);">FastMCP Server ＋ Amazon Bedrock Integration</div>
+      </div>
+    </div>
+    <div style="display: flex; gap: 12px; align-items: center;">
+      <span class="badge-track">ALEXA+ TRACK</span>
+      <span class="badge-track" style="border-color: var(--accent-gold); color: var(--accent-gold); background: rgba(255, 184, 0, 0.1);">AWS BUILDER CHALLENGE</span>
+    </div>
+  </header>
+
+  <main>
+    <!-- Left Column: Alexa+ Voice Simulator -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">🎙️ Alexa+ Voice Agent Simulator</span>
+        <span style="font-size: 11px; font-family: 'JetBrains Mono'; color: var(--accent-green);">● ONLINE</span>
+      </div>
+
+      <div class="alexa-stage">
+        <div class="alexa-orb" id="alexaOrb"></div>
+        <div class="voice-bubble">
+          <div class="voice-label"><span>▶</span> ALEXA+ VOICE OUTPUT:</div>
+          <div id="alexaSpeech" style="color: #fff;">"Ready. Say a command or select an autonomous operation below."</div>
+        </div>
+      </div>
+
+      <div style="font-size: 12px; font-weight: 700; color: var(--text-dim); text-transform: uppercase;">
+        ⚡ Instant Voice Commands (Simulated)
+      </div>
+      <div class="command-palette">
+        <button class="cmd-btn" onclick="sendVoice('Alexa, check fleet health')">
+          <span>📊</span> "Check fleet health"
+        </button>
+        <button class="cmd-btn" onclick="sendVoice('Alexa, diagnose checkout incident')">
+          <span>🔍</span> "Diagnose checkout incident"
+        </button>
+        <button class="cmd-btn" onclick="sendVoice('Alexa, autonomously heal checkout service')">
+          <span>🛠️</span> "Heal checkout service"
+        </button>
+        <button class="cmd-btn" onclick="sendVoice('Alexa, run chaos stress verifier')">
+          <span>⚡</span> "Run chaos stress verifier"
+        </button>
+      </div>
+
+      <div style="font-size: 12px; font-weight: 700; color: var(--text-dim); text-transform: uppercase; margin-top: 10px;">
+        📜 FastMCP Execution Trace
+      </div>
+      <div class="terminal-box" id="terminalBox">
+        <div class="log-line log-cyan">[SYSTEM] AlexaOpsMCPServer initialized with 4 tools.</div>
+        <div class="log-line log-gold">[BEDROCK] Amazon Bedrock model provider connected.</div>
+        <div class="log-line">[IDLE] Awaiting incoming voice intent...</div>
+      </div>
+    </div>
+
+    <!-- Right Column: Cloud Microservices State & Bedrock Insights -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">🌐 Microservice Fleet Topology</span>
+        <button onclick="refreshTelemetry()" style="background: none; border: 1px solid var(--border); color: var(--text-dim); padding: 4px 10px; border-radius: 6px; cursor: pointer; font-size: 11px; font-family: 'JetBrains Mono';">REFRESH</button>
+      </div>
+
+      <div class="services-grid" id="servicesGrid">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <div class="card-header" style="margin-top: 10px;">
+        <span class="card-title">🧠 Amazon Bedrock Reasoning Stream</span>
+      </div>
+      <div class="voice-bubble" style="background: rgba(0,0,0,0.5); min-height: 120px;" id="bedrockInsightBox">
+        <div class="voice-label" style="color: var(--accent-gold);">[MODEL: CLAUDE 3.5 SONNET / NOVA PRO]</div>
+        <div id="bedrockInsightText" style="font-family: 'JetBrains Mono'; font-size: 12px; color: #cbd5e1;">
+          Telemetry stream active. No active healing request in queue.
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    async function refreshTelemetry() {
+      try {
+        const res = await fetch('/api/telemetry');
+        const data = await res.json();
+        renderServices(data.services);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    function renderServices(services) {
+      const grid = document.getElementById('servicesGrid');
+      grid.innerHTML = '';
+      for (const [name, s] of Object.entries(services)) {
+        const isHealthy = s.status === 'HEALTHY';
+        const tagClass = isHealthy ? 'tag-healthy' : 'tag-degraded';
+        grid.innerHTML += `
+          <div class="service-row" style="border-left: 4px solid ${isHealthy ? 'var(--accent-green)' : 'var(--accent-red)'}">
+            <div class="service-info">
+              <div class="service-name">${name}</div>
+              <div class="service-meta">LATENCY: ${s.latency_ms}ms | ERR_RATE: ${(s.error_rate * 100).toFixed(1)}% | REPLICAS: ${s.replicas || 4}</div>
+            </div>
+            <div class="status-tag ${tagClass}">${s.status}</div>
+          </div>
+        `;
+      }
+    }
+
+    async function sendVoice(command) {
+      const speechElem = document.getElementById('alexaSpeech');
+      const terminal = document.getElementById('terminalBox');
+      const bedrockBox = document.getElementById('bedrockInsightText');
+      const orb = document.getElementById('alexaOrb');
+
+      orb.style.boxShadow = '0 0 60px rgba(0, 255, 136, 0.9)';
+      speechElem.innerHTML = `<span style="color: var(--accent-cyan);">Listening:</span> "${command}"...`;
+
+      terminal.innerHTML += `<div class="log-line log-cyan">[VOICE] User: "${command}"</div>`;
+      terminal.scrollTop = terminal.scrollHeight;
+
+      try {
+        const res = await fetch('/api/alexa/voice', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ voice_command: command })
+        });
+        const data = await res.json();
+
+        speechElem.innerHTML = `"${data.alexa_speech_response}"`;
+        terminal.innerHTML += `<div class="log-line log-gold">[MCP_TOOL] Invoked: ${data.mcp_tool_invoked}()</div>`;
+        terminal.innerHTML += `<div class="log-line log-green">[ALEXA_REPLY] ${data.alexa_speech_response}</div>`;
+        terminal.scrollTop = terminal.scrollHeight;
+
+        if (data.mcp_payload && data.mcp_payload.bedrock_analysis) {
+          bedrockBox.innerText = data.mcp_payload.bedrock_analysis;
+        } else if (data.mcp_payload && data.mcp_payload.patch_details) {
+          bedrockBox.innerText = data.mcp_payload.patch_details;
+        }
+
+        renderServices(data.current_fleet_state.services);
+      } catch (err) {
+        terminal.innerHTML += `<div class="log-line log-red">[ERROR] ${err.message}</div>`;
+      } finally {
+        setTimeout(() => {
+          orb.style.boxShadow = '0 0 40px rgba(0, 229, 255, 0.7), 0 0 80px rgba(0, 119, 255, 0.4)';
+        }, 800);
+      }
+    }
+
+    // Initial load
+    refreshTelemetry();
+  </script>
+</body>
+</html>
