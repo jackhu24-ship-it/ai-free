@@ -5,8 +5,9 @@
 > **總指揮官**：Jack Hu (霸丸哥)  
 > **參賽身分**：Solo Developer + 特化 Agent 軍團  
 > **官方平臺**：Devpost (https://amazonappdev2026.devpost.com/)  
-> **報名狀態**：已報名成功（具備專案建立與編輯資格）  
-> **截止時間**：2026 年 10 月 24 日 上午 03:00 GMT+8（尚有 26 天）  
+> **專案公開展台**：https://devpost.com/software/phantom-grid-alexa-autonomous-sre-hub  
+> **交卷狀態**：✅ **已正式成功交卷（Project submitted!）**（超前 25 天滿分鎖定評選資格）  
+> **截止時間**：2026 年 10 月 24 日 上午 03:00 GMT+8（October 23, 2026 at 03:00pm EDT）  
 > **總獎金池**：,000 美元現金 ＋ ,000 AWS 抵用金（總值 ,000 美元）  
 
 ---
