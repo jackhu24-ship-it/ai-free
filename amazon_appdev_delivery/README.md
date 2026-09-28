@@ -90,5 +90,16 @@ During the development of this autonomous agent system on AWS Bedrock and Alexa+
 
 ---
 
+## 📝 Developer Friction Log (Hackathon Evaluation Bonus)
+
+| Task Attempted | Steps Taken | Expected Result | Actual Result | Severity | Workaround Used | Actionable Suggestion |
+| :--- | :--- | :--- | :--- | :---: | :--- | :--- |
+| **FastMCP Tool Integration with Alexa+** | Registered 4 custom tools via FastMCP JSON-RPC schema. | Seamless dynamic tool discovery by Alexa+ LLM runtime. | Schema validation strictly required explicit top-level type definitions for empty parameters. | Low | Added explicit `{"type": "object", "properties": {}}` to all zero-arg tools. | Enhance Alexa+ MCP client parser to accept empty parameter objects by default. |
+| **Bedrock Converse API Streaming with Claude 3.5 & Nova Pro** | Streamed telemetry payload for concurrent incident RCA. | Single-pass tool calling decision across distributed services. | Minor throttling when batching large stack traces concurrently. | Medium | Implemented exponential backoff with jitter and token budgeting. | Provide higher default quota tiers for verified Hackathon & Developer accounts on Amazon Bedrock. |
+| **Offline Evaluation & Unit Testing** | Ran 6 automated Pytest regression gates without live AWS credentials. | Clean deterministic mock testing for CI/CD pipeline. | Initial boto3 client initialization threw botocore NoCredentialsError. | Medium | Built dual-mode mock fallback directly inside Bedrock client wrapper. | Offer an official `@bedrock.mock` decorator in the AWS SDK for local unit testing. |
+
+---
+
 ## 📜 License
 MIT License. Developed for Build, Ship, Shape: Amazon Developer Hackathon 2026.
+

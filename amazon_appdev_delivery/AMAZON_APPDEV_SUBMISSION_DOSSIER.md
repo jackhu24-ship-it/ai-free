@@ -61,6 +61,7 @@
    - 需附上詳細的 README.md，清楚列出環境建置步驟、依賴套件、架構說明以及如何本機運行或測試的指示。
 3. **展示影片（Demo Video）**：
    - 時長限制：3 分鐘以內（上傳至 YouTube/Vimeo 公開/不公開連結）。
+   - **官方 Demo 影片直達連結**：`https://youtu.be/svW3_FiVXPs`（片長 1:55，1080P）
    - 影片內容：需說明專案欲解決的問題、系統/代理（Agent）技術架構，以及完整 End-to-End 的操作流程示範。
    - 嚴格遵守憲法第 13 條 hackathon-demo-video-pipeline（文字動態算距零重疊、底部逐字稿全景字幕列、講到那指到那動態指引）。
 4. **Amazon 工具產品反饋（Product Feedback）**：
