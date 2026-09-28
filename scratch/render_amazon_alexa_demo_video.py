@@ -31,27 +31,35 @@ try:
     font_mono_lg = ImageFont.truetype("consolab.ttf", 20)
     font_mono_md = ImageFont.truetype("consola.ttf", 17)
     font_mono_sm = ImageFont.truetype("consola.ttf", 14)
-    font_title = ImageFont.truetype("arialbd.ttf", 28)
+    font_title = ImageFont.truetype("arialbd.ttf", 34)  # Protagonist: bold and prominent!
+    font_act = ImageFont.truetype("arialbd.ttf", 24)    # Supporting role: larger than before (24pt), but smaller than protagonist!
     font_h2 = ImageFont.truetype("arialbd.ttf", 24)
     font_sub_bold = ImageFont.truetype("arialbd.ttf", 20)
     font_sub = ImageFont.truetype("arial.ttf", 18)
     font_badge = ImageFont.truetype("segoeuib.ttf", 16)
 except Exception:
-    font_mono_xl = font_mono_lg = font_mono_md = font_mono_sm = font_title = font_h2 = font_sub_bold = font_sub = font_badge = ImageFont.load_default()
+    font_mono_xl = font_mono_lg = font_mono_md = font_mono_sm = font_title = font_act = font_h2 = font_sub_bold = font_sub = font_badge = ImageFont.load_default()
 
 def draw_header(draw, act_num, act_title):
-    draw.rectangle([0, 0, 1920, 85], fill=(10, 16, 28))
-    draw.line([(0, 85), (1920, 85)], fill=(0, 229, 255), width=2)
-    draw.text((40, 24), "PHANTOM GRID :: ALEXA+ AUTONOMOUS SRE HUB", font=font_title, fill=(255, 255, 255))
+    draw.rectangle([0, 0, 1920, 92], fill=(10, 16, 28))
+    draw.line([(0, 92), (1920, 92)], fill=(0, 229, 255), width=2)
     
-    # Calculate safe dynamic offset for Act title
-    bbox = font_title.getbbox("PHANTOM GRID :: ALEXA+ AUTONOMOUS SRE HUB")
-    title_w = bbox[2] - bbox[0]
-    draw.text((40 + title_w + 30, 28), f"ACT {act_num}: {act_title}", font=font_sub_bold, fill=(0, 229, 255))
+    # White protagonist (34pt Bold) - starts at y=24
+    w_title = "PHANTOM GRID :: ALEXA+ AUTONOMOUS SRE HUB"
+    draw.text((40, 24), w_title, font=font_title, fill=(255, 255, 255))
+    bbox_w = font_title.getbbox(w_title)
+    w_w = bbox_w[2] - bbox_w[0]
+    
+    # Blue supporting role (24pt Bold) - larger than before, but smaller than protagonist!
+    act_text = f"ACT {act_num}: {act_title}"
+    bbox_a = font_act.getbbox(act_text)
+    # Align baseline with protagonist
+    y_a = 24 + (bbox_w[3] - bbox_a[3])
+    draw.text((40 + w_w + 30, y_a), act_text, font=font_act, fill=(0, 229, 255))
     
     # Right badge with 100% EQUAL left and right padding!
     badge_text = "AUTONOMOUS AGENT ACTIVE"
-    bbox_b = font_sub_bold.getbbox(badge_text)
+    bbox_b = font_badge.getbbox(badge_text)
     b_text_w = bbox_b[2] - bbox_b[0]
     
     pad_x = 22  # Identical padding on left and right!
@@ -61,16 +69,17 @@ def draw_header(draw, act_num, act_title):
     
     badge_right = 1920 - 40
     badge_left = badge_right - badge_w
+    badge_y = 24
     
-    draw.rounded_rectangle([badge_left, 18, badge_right, 68], radius=6, outline=(0, 255, 128), width=2)
+    draw.rounded_rectangle([badge_left, badge_y, badge_right, badge_y + 44], radius=6, outline=(0, 255, 128), width=2)
     
     # Dot positioned with pad_x
     dot_x1 = badge_left + pad_x
-    draw.ellipse([dot_x1, 36, dot_x1 + dot_w, 50], fill=(0, 255, 128))
+    draw.ellipse([dot_x1, badge_y + 15, dot_x1 + dot_w, badge_y + 29], fill=(0, 255, 128))
     
     # Text positioned with equal right margin
     text_x = dot_x1 + dot_w + gap
-    draw.text((text_x, 28), badge_text, font=font_sub_bold, fill=(0, 255, 128))
+    draw.text((text_x, badge_y + 11), badge_text, font=font_badge, fill=(0, 255, 128))
 
 def draw_subtitles(draw, current_text):
     draw.rounded_rectangle([40, 940, 1880, 1050], radius=10, fill=(10, 16, 28), outline=(0, 200, 255), width=2)
@@ -118,7 +127,7 @@ def draw_pointer(draw, x, y, text, color=(251, 191, 36), bg_color=(35, 25, 10)):
 def render_act1_frame(t, s_idx, sentence_text):
     img = Image.new("RGB", (1920, 1080), (7, 10, 19))
     draw = ImageDraw.Draw(img)
-    draw_header(draw, "I", "MIDNIGHT ON-CALL INCIDENT CRISIS")
+    draw_header(draw, "I", "ON-CALL INCIDENT CRISIS")
     
     # Left Card: Traditional Hell
     left_active = (s_idx == 0)
@@ -245,7 +254,7 @@ def render_act2_frame(t, s_idx, sentence_text):
 def render_act3_frame(t, s_idx, sentence_text):
     img = Image.new("RGB", (1920, 1080), (7, 10, 19))
     draw = ImageDraw.Draw(img)
-    draw_header(draw, "III", "LIVE END-TO-END AUTONOMOUS HEALING")
+    draw_header(draw, "III", "END-TO-END AUTONOMOUS HEALING")
     
     # Left: Alexa+ Voice Interaction Console
     draw.rounded_rectangle([40, 105, 930, 920], radius=12, fill=(13, 19, 33), outline=(0, 229, 255), width=2)
@@ -312,7 +321,7 @@ def render_act3_frame(t, s_idx, sentence_text):
 def render_act4_frame(t, s_idx, sentence_text):
     img = Image.new("RGB", (1920, 1080), (7, 10, 19))
     draw = ImageDraw.Draw(img)
-    draw_header(draw, "IV", "CHAOS VERIFICATION & PYTEST")
+    draw_header(draw, "IV", "CHAOS VERIFIER & PYTEST")
     
     # Left: Chaos Monkey Engine
     draw.rounded_rectangle([40, 105, 930, 920], radius=12, fill=(13, 19, 33), outline=(16, 185, 129), width=2)
