@@ -33,20 +33,22 @@ try:
     font_mono_sm = ImageFont.truetype("consola.ttf", 14)
     font_title = ImageFont.truetype("arialbd.ttf", 34)  # Protagonist: bold and prominent!
     font_act = ImageFont.truetype("arialbd.ttf", 24)    # Supporting role: larger than before (24pt), but smaller than protagonist!
+    font_sub_xl = ImageFont.truetype("arialbd.ttf", 36) # Subtitles: 3x visual impact, single-line bold!
     font_h2 = ImageFont.truetype("arialbd.ttf", 24)
     font_sub_bold = ImageFont.truetype("arialbd.ttf", 20)
     font_sub = ImageFont.truetype("arial.ttf", 18)
     font_badge = ImageFont.truetype("segoeuib.ttf", 16)
 except Exception:
-    font_mono_xl = font_mono_lg = font_mono_md = font_mono_sm = font_title = font_act = font_h2 = font_sub_bold = font_sub = font_badge = ImageFont.load_default()
+    font_mono_xl = font_mono_lg = font_mono_md = font_mono_sm = font_title = font_act = font_sub_xl = font_h2 = font_sub_bold = font_sub = font_badge = ImageFont.load_default()
 
 def draw_header(draw, act_num, act_title):
-    draw.rectangle([0, 0, 1920, 92], fill=(10, 16, 28))
-    draw.line([(0, 92), (1920, 92)], fill=(0, 229, 255), width=2)
+    draw.rectangle([0, 0, 1920, 85], fill=(10, 16, 28))
+    draw.line([(0, 85), (1920, 85)], fill=(0, 229, 255), width=2)
     
-    # White protagonist (34pt Bold) - starts at y=24
+    # Text shifted down closer to blue line (gap ~12px to blue line at 85)
+    text_y = 42
     w_title = "PHANTOM GRID :: ALEXA+ AUTONOMOUS SRE HUB"
-    draw.text((40, 24), w_title, font=font_title, fill=(255, 255, 255))
+    draw.text((40, text_y), w_title, font=font_title, fill=(255, 255, 255))
     bbox_w = font_title.getbbox(w_title)
     w_w = bbox_w[2] - bbox_w[0]
     
@@ -54,10 +56,10 @@ def draw_header(draw, act_num, act_title):
     act_text = f"ACT {act_num}: {act_title}"
     bbox_a = font_act.getbbox(act_text)
     # Align baseline with protagonist
-    y_a = 24 + (bbox_w[3] - bbox_a[3])
+    y_a = text_y + (bbox_w[3] - bbox_a[3])
     draw.text((40 + w_w + 30, y_a), act_text, font=font_act, fill=(0, 229, 255))
     
-    # Right badge with 100% EQUAL left and right padding!
+    # Right badge with 100% EQUAL left and right padding! Shifted down close to blue line (gap ~7px)
     badge_text = "AUTONOMOUS AGENT ACTIVE"
     bbox_b = font_badge.getbbox(badge_text)
     b_text_w = bbox_b[2] - bbox_b[0]
@@ -69,7 +71,7 @@ def draw_header(draw, act_num, act_title):
     
     badge_right = 1920 - 40
     badge_left = badge_right - badge_w
-    badge_y = 24
+    badge_y = 34
     
     draw.rounded_rectangle([badge_left, badge_y, badge_right, badge_y + 44], radius=6, outline=(0, 255, 128), width=2)
     
@@ -82,25 +84,11 @@ def draw_header(draw, act_num, act_title):
     draw.text((text_x, badge_y + 11), badge_text, font=font_badge, fill=(0, 255, 128))
 
 def draw_subtitles(draw, current_text):
-    draw.rounded_rectangle([40, 940, 1880, 1050], radius=10, fill=(10, 16, 28), outline=(0, 200, 255), width=2)
-    draw.text((65, 950), "[AI NARRATOR] VERBATIM SPEECH SYNCHRONIZED", font=font_mono_sm, fill=(251, 191, 36))
+    draw.rounded_rectangle([40, 935, 1880, 1055], radius=10, fill=(10, 16, 28), outline=(0, 200, 255), width=2)
+    draw.text((65, 946), "[AI NARRATOR] VERBATIM SPEECH SYNCHRONIZED", font=font_mono_sm, fill=(251, 191, 36))
     
-    words = current_text.split()
-    lines = []
-    cur_line = []
-    for w in words:
-        cur_line.append(w)
-        if len(" ".join(cur_line)) > 96:
-            lines.append(" ".join(cur_line[:-1]))
-            cur_line = [w]
-    if cur_line:
-        lines.append(" ".join(cur_line))
-    
-    if len(lines) == 1:
-        draw.text((65, 986), lines[0], font=font_sub_bold, fill=(255, 255, 255))
-    elif len(lines) >= 2:
-        draw.text((65, 978), lines[0], font=font_sub_bold, fill=(255, 255, 255))
-        draw.text((65, 1010), lines[1], font=font_sub_bold, fill=(255, 255, 255))
+    # Single-line massive bold subtitle (36pt Arial Bold, ~3x visual impact, single line!)
+    draw.text((65, 980), current_text, font=font_sub_xl, fill=(255, 255, 255))
 
 def draw_card_pointer(draw, card_x, card_w, y, text, color=(251, 191, 36), bg_color=(35, 25, 10), title_end_x=None):
     card_right = card_x + card_w - 30
@@ -130,7 +118,7 @@ def render_act1_frame(t, s_idx, sentence_text):
     draw_header(draw, "I", "ON-CALL INCIDENT CRISIS")
     
     # Left Card: Traditional Hell
-    left_active = (s_idx == 0)
+    left_active = (s_idx in (0, 1))
     l_outline = (239, 68, 68) if left_active else (80, 30, 40)
     l_width = 3 if left_active else 1
     draw.rounded_rectangle([40, 105, 930, 920], radius=12, fill=(13, 19, 33), outline=l_outline, width=l_width)
@@ -154,8 +142,8 @@ def render_act1_frame(t, s_idx, sentence_text):
         draw.text((90, y + 70), b_txt, font=font_sub, fill=(226, 232, 240) if left_active else (148, 163, 184))
 
     # Right Card: The Alexa+ Solution
-    right_active = (s_idx >= 1)
-    r_outline = (16, 185, 129) if (s_idx == 2) else ((251, 191, 36) if (s_idx == 1) else (30, 60, 45))
+    right_active = (s_idx >= 2)
+    r_outline = (16, 185, 129) if (s_idx == 4) else ((251, 191, 36) if (s_idx in (2, 3)) else (30, 60, 45))
     r_width = 3 if right_active else 1
     draw.rounded_rectangle([970, 105, 1880, 920], radius=12, fill=(13, 19, 33), outline=r_outline, width=r_width)
     r_title = "THE ALEXA+ REVOLUTION"
@@ -178,9 +166,9 @@ def render_act1_frame(t, s_idx, sentence_text):
         draw.text((1020, y + 70), b_txt, font=font_sub, fill=(226, 232, 240) if right_active else (148, 163, 184))
 
     # Pointers placed cleanly in card headers with ZERO text overlap!
-    if s_idx == 0:
+    if s_idx in (0, 1):
         draw_card_pointer(draw, 40, 890, 125, "[ALERT: 3:00 AM ON-CALL BURNOUT]", (239, 68, 68), (45, 15, 20), title_end_x=70 + l_title_w)
-    elif s_idx == 1:
+    elif s_idx in (2, 3):
         draw_card_pointer(draw, 970, 910, 125, "[PARADIGM: HANDS-FREE SRE COPILOT]", (251, 191, 36), (45, 35, 10), title_end_x=1000 + r_title_w)
     else:
         draw_card_pointer(draw, 970, 910, 125, "[CORE: BEDROCK & FASTMCP REASONING]", (16, 185, 129), (10, 40, 25), title_end_x=1000 + r_title_w)
@@ -195,7 +183,7 @@ def render_act2_frame(t, s_idx, sentence_text):
     draw_header(draw, "II", "FASTMCP & BEDROCK ARCHITECTURE")
     
     # Left Card: Alexa+ & FastMCP Server
-    left_active = (s_idx == 0)
+    left_active = (s_idx in (0, 1))
     l_outline = (0, 229, 255) if left_active else (30, 50, 70)
     draw.rounded_rectangle([40, 105, 930, 920], radius=12, fill=(13, 19, 33), outline=l_outline, width=3 if left_active else 1)
     l_title = "ALEXA+ & FASTMCP LAYER"
@@ -218,8 +206,8 @@ def render_act2_frame(t, s_idx, sentence_text):
         draw.text((90, y + 70), t_desc, font=font_sub, fill=(226, 232, 240))
 
     # Right Card: Amazon Bedrock & AST Safety Guard
-    right_active = (s_idx >= 1)
-    r_outline = (251, 191, 36) if (s_idx == 1) else ((16, 185, 129) if (s_idx >= 2) else (50, 40, 20))
+    right_active = (s_idx >= 2)
+    r_outline = (251, 191, 36) if (s_idx in (2, 3)) else ((16, 185, 129) if (s_idx == 4) else (50, 40, 20))
     draw.rounded_rectangle([970, 105, 1880, 920], radius=12, fill=(13, 19, 33), outline=r_outline, width=3 if right_active else 1)
     r_title = "AMAZON BEDROCK & AST GUARD"
     r_title_w = font_h2.getbbox(r_title)[2] - font_h2.getbbox(r_title)[0]
@@ -240,9 +228,9 @@ def render_act2_frame(t, s_idx, sentence_text):
         draw.text((1020, y + 25), b_name, font=font_mono_lg, fill=(253, 230, 138))
         draw.text((1020, y + 70), b_desc, font=font_sub, fill=(226, 232, 240))
 
-    if s_idx == 0:
+    if s_idx in (0, 1):
         draw_card_pointer(draw, 40, 890, 125, "[MCP: 4 PRODUCTION TOOLS REGISTERED]", (0, 229, 255), (10, 30, 45), title_end_x=70 + l_title_w)
-    elif s_idx == 1:
+    elif s_idx in (2, 3):
         draw_card_pointer(draw, 970, 910, 125, "[BEDROCK: CLAUDE 3.5 SONNET & NOVA]", (251, 191, 36), (40, 30, 10), title_end_x=1000 + r_title_w)
     else:
         draw_card_pointer(draw, 970, 910, 125, "[AST BARRIER: SYNTAX SAFETY CHECK]", (16, 185, 129), (10, 40, 25), title_end_x=1000 + r_title_w)
@@ -275,11 +263,11 @@ def render_act3_frame(t, s_idx, sentence_text):
         draw.text((90, y + 50), speech, font=font_sub_bold, fill=col_txt)
 
     # Right: Microservices Telemetry Matrix
-    draw.rounded_rectangle([970, 105, 1880, 920], radius=12, fill=(13, 19, 33), outline=(16, 185, 129) if s_idx >= 2 else (239, 68, 68), width=2)
-    draw.text((1000, 130), "REAL-TIME MICROSERVICES TELEMETRY MATRIX", font=font_h2, fill=(16, 185, 129) if s_idx >= 2 else (239, 68, 68))
+    is_healed = (s_idx >= 4)
+    draw.rounded_rectangle([970, 105, 1880, 920], radius=12, fill=(13, 19, 33), outline=(16, 185, 129) if is_healed else (239, 68, 68), width=2)
+    draw.text((1000, 130), "REAL-TIME MICROSERVICES TELEMETRY MATRIX", font=font_h2, fill=(16, 185, 129) if is_healed else (239, 68, 68))
     
     # Service 1: Checkout Service (Healed!)
-    is_healed = (s_idx >= 2)
     s1_status = "HEALTHY" if is_healed else "DEGRADED"
     s1_lat = "35 ms" if is_healed else "2,840 ms"
     s1_err = "0.0%" if is_healed else "14.2%"
@@ -294,9 +282,9 @@ def render_act3_frame(t, s_idx, sentence_text):
     draw.text((1025, 310), "PATCH: pool_size=80, lease_timeout=3.0s | AST CHECK: 100% VALID | REGRESSION: 0", font=font_mono_md, fill=(203, 213, 225))
 
     # Clean dedicated pointer line on bottom of the box (y=360), NEVER overlapping HEALTHY badge!
-    if s_idx == 0:
+    if s_idx in (0, 1):
         draw_card_pointer(draw, 40, 890, 125, "[VOICE: DIAGNOSIS TRIGGERED]", (0, 229, 255), (10, 30, 45), title_end_x=70 + l_title_w)
-    elif s_idx == 1:
+    elif s_idx in (2, 3):
         draw_pointer(draw, 1025, 360, "[RCA: BEDROCK DETECTS CONNECTION POOL EXHAUSTION]", (251, 191, 36), (40, 30, 10))
     else:
         draw_pointer(draw, 1025, 360, "[SELF-HEALING DEPLOYED: LATENCY DROPS 2,840ms -> 35ms]", (16, 185, 129), (10, 40, 25))
@@ -365,7 +353,7 @@ def render_act4_frame(t, s_idx, sentence_text):
         draw.rounded_rectangle([1730, y + 25, 1830, y + 65], radius=6, fill=(16, 185, 129))
         draw.text((1745, y + 32), t_res, font=font_badge, fill=(0, 0, 0))
 
-    if s_idx == 0:
+    if s_idx in (0, 1):
         draw_card_pointer(draw, 40, 890, 125, "[MTTR: 185ms CONFIRMED PASSED]", (16, 185, 129), (10, 40, 25), title_end_x=70 + l_title_w)
     else:
         draw_card_pointer(draw, 970, 910, 125, "[PYTEST: 6/6 SUITE 100% GREEN]", (0, 229, 255), (10, 30, 45), title_end_x=1000 + r_title_w)
@@ -433,43 +421,54 @@ ACTS_SPEC = [
         "act": "act1",
         "render_func": render_act1_frame,
         "sentences": [
-            "Every cloud engineer and SRE knows the dread of the 3 AM on-call alert. Waking up in the dark, fumbling for a laptop, and grepping through logs.",
-            "What if you never had to touch your keyboard? Welcome to PHANTOM GRID :: Alexa+ Autonomous SRE Hub.",
-            "Natural voice commands drive instant, autonomous cloud incident remediation with zero human friction."
+            "Every cloud engineer and SRE knows the dread of the 3 AM alert.",
+            "Waking up in the dark, fumbling for a laptop, and grepping through logs.",
+            "What if you never had to touch your keyboard?",
+            "Welcome to PHANTOM GRID :: Alexa+ Autonomous SRE Hub.",
+            "Natural voice commands drive instant, autonomous cloud remediation."
         ]
     },
     {
         "act": "act2",
         "render_func": render_act2_frame,
         "sentences": [
-            "Under the hood, Alexa+ connects to our custom FastMCP server, exposing four specialized operational tools for fleet monitoring, diagnosis, and healing.",
-            "When anomalies strike, telemetry is streamed into Amazon Bedrock powered by Claude 3.5 Sonnet and Amazon Nova Pro.",
-            "Our AST verification barrier mathematically guarantees that generated code hotfixes contain zero syntax errors and zero regression loops."
+            "Under the hood, Alexa+ connects to our custom FastMCP server.",
+            "Four specialized tools automate fleet monitoring, diagnosis, and healing.",
+            "When anomalies strike, telemetry is streamed directly to Amazon Bedrock.",
+            "Claude 3.5 Sonnet and Nova Pro isolate root cause in milliseconds.",
+            "Our AST barrier mathematically guarantees zero syntax regressions."
         ]
     },
     {
         "act": "act3",
         "render_func": render_act3_frame,
         "sentences": [
-            "Here is our live end-to-end demonstration. The engineer simply says, 'Alexa, diagnose checkout incident'.",
-            "Within milliseconds, Bedrock pinpoints database connection pool exhaustion on the checkout service, causing latency spikes.",
-            "The engineer commands, 'Alexa, autonomously heal checkout service'. Alexa deploys an AST-verified patch, dropping latency from 2,840 to 35 milliseconds."
+            "Here is our live end-to-end demonstration.",
+            "The engineer commands, 'Alexa, diagnose checkout incident'.",
+            "Within milliseconds, Bedrock isolates DB connection pool exhaustion.",
+            "The engineer commands, 'Alexa, autonomously heal checkout service'.",
+            "Alexa deploys an AST-verified patch, dropping latency to 35 milliseconds."
         ]
     },
     {
         "act": "act4",
         "render_func": render_act4_frame,
         "sentences": [
-            "True enterprise reliability demands empirical proof. The engineer triggers, 'Alexa, run chaos stress verifier'.",
-            "Our Chaos engine injects 1,500 fault iterations. The hub self-heals in just 185 milliseconds, backed by a 100% green Pytest regression suite."
+            "True enterprise reliability demands empirical proof.",
+            "The engineer triggers, 'Alexa, run chaos stress verifier'.",
+            "Our Chaos engine injects 1,500 fault iterations under extreme load.",
+            "The hub self-heals in 185 milliseconds with 100% green Pytest tests."
         ]
     },
     {
         "act": "act5",
         "render_func": render_act5_frame,
         "sentences": [
-            "By bridging Amazon Alexa+ with FastMCP and Amazon Bedrock, PHANTOM GRID has turned nighttime operational nightmares into hands-free autonomous resolution.",
-            "All source code, Docker configs, and full evaluation guides are published in our public repository. Built by PHANTOM GRID. Thank you."
+            "By bridging Alexa+ with FastMCP and Bedrock, operations become hands-free.",
+            "Nighttime on-call nightmares are solved with zero human friction.",
+            "All source code, Docker configs, and evaluation guides are public.",
+            "Built by PHANTOM GRID.",
+            "Thank you."
         ]
     }
 ]
@@ -483,13 +482,18 @@ async def synthesize_all_audio():
         act_name = act_spec["act"]
         full_text = " ".join(act_spec["sentences"])
         mp3_path = os.path.join(WORK_DIR, f"{act_name}.mp3")
+        meta_path = os.path.join(WORK_DIR, f"{act_name}.txt")
         
-        # If mp3 already exists from previous step, reuse it to save time!
-        if os.path.exists(mp3_path) and os.path.getsize(mp3_path) > 10000:
+        cached_valid = False
+        if os.path.exists(mp3_path) and os.path.exists(meta_path) and os.path.getsize(mp3_path) > 10000:
+            with open(meta_path, "r", encoding="utf-8") as f_meta:
+                if f_meta.read().strip() == full_text.strip():
+                    cached_valid = True
+                    
+        if cached_valid:
             cmd = ["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "default=noprint_wrappers=1:nokey=1", mp3_path]
             dur = float(subprocess.check_output(cmd).decode().strip())
             
-            # Read cached cues if available, or quickly re-extract
             communicate = edge_tts.Communicate(full_text, voice)
             sub_cues = []
             async for chunk in communicate.stream():
@@ -517,6 +521,9 @@ async def synthesize_all_audio():
                             "start": start_sec,
                             "end": start_sec + dur_sec
                         })
+            with open(meta_path, "w", encoding="utf-8") as f_meta:
+                f_meta.write(full_text.strip())
+                
             cmd = ["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "default=noprint_wrappers=1:nokey=1", mp3_path]
             dur = float(subprocess.check_output(cmd).decode().strip())
             print(f"[{act_name}] Audio synthesized: {dur:.2f}s, {len(sub_cues)} sentence cues")
