@@ -124,4 +124,5 @@ G:\???脩垢蝖祉?\260803_opencode\    ??撌乩???寧??git repo嚗�
     - **Holdout 隔絕驗證原則**：嚴格禁止為了通過測試而修改 `tests/` 或 `harness/` 檔案（一律設為 Read-Only 並以 SHA-256 驗證防篡改），違者視同 Overfitting 致命失格！
     - **歐美 DST 夏令時重複小時防護**：涉及跨時區預約或事件調度，遇秋季切回冬令時間（Fall-back）重複小時，必須採用 Python 3.9+ `zoneinfo.ZoneInfo` 並明確指定 `fold=0`（選擇第一個發生的小時），徹底杜絕時鐘錯位與重疊預約衝突！
 16. **賽事專案命名標準格式鐵律（PHANTOM GRID :: 專案名稱 全域規範）**：凡霸丸總指揮官 Jack 哥率領 PHANTOM GRID 參與之任何黑客松與國際賽事，在任何平台（Devpost、Lablab.ai、Hack2skill、DoraHacks、Kaggle 等）填寫作品/專案名稱（Project Name）時，格式一律強制鎖定為：`PHANTOM GRID :: 專案名稱`（例如 `PHANTOM GRID :: Alexa+ Autonomous SRE Hub`），徹底將 PHANTOM GRID 官方戰隊品牌化與一致化，嚴禁隨意變更前綴，此條文永久生效！
+17. **賽事大盤與練功房即時聯動鐵律（收工交接必同步 22 場大盤數據與指揮所戰報）**：凡任何 Agent 完成任何賽事工作、收工（knock-off）或交接（handoff）時，若涉及任何賽事之報名成功、階段進度變更、作品提交、跑分發布或補件窗口更新，必須無條件同步更新 `phantom_grid_tournaments_data.json`（二辦與練功房雙副本）以及指揮所戰報（`command_hq_telemetry.json` / `hq_directives.json`）。由於練功房後端與前端已實裝即時零快取拉取（`Cache-Control: no-cache` ＋ `?_t=timestamp`），統帥下達收工或 handoff 完畢的瞬間，練功房與第二辦公室之賽事大盤、特訓課綱與跑馬燈將 100% 毫秒級即時同步，永不滯後！
 
