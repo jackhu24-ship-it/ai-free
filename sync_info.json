@@ -1,0 +1,12 @@
+{
+  "project": "PHANTOM_GRID",
+  "last_sync_timestamp": "2026-10-01T09:52:54.179231",
+  "agents_sha256": "eec696a3748756a020729121fb440bb0c0ea5ae6b08e5e27f6a4909dc1a075e6",
+  "installer_template_synced": true,
+  "status": "ALREADY_UP_TO_DATE",
+  "targets_updated": [
+    "C:\\Users\\user\\.gemini\\antigravity\\worktrees\\260803_opencode\\ping_assistant\\工具安裝包\\template\\AGENTS.md",
+    "G:\\我的雲端硬碟\\260803_opencode\\工具安裝包\\template\\AGENTS.md",
+    "C:\\260728-code\\工具安裝包\\template\\AGENTS.md"
+  ]
+}
