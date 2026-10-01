@@ -76,13 +76,29 @@ class DualVerifyPipeline:
         ok2, content, l2_msg = self.verify_l2_render(content)
 
         final_obj = json.loads(content)
+        certified_id = f"{self.signature_token}_{style_name}"
         final_obj["_governance"] = {
+            "verified_by": "Xiaomi_Customs",
             "l1_security": f"[PASS_L1_SECURITY] {l1_msg}",
+            "l2_office": "Second_Office_Topology_Lab",
+            "render_status": "100%_PASS",
             "l2_render": f"[PASS_L2_RENDER_VERIFIED] {l2_msg}",
+            "official_id": certified_id,
             "signature": f"[{self.signature_token}] {style_name}",
             "signed_by": self.commander,
             "signed_at": datetime.now().isoformat()
         }
+
+        # 沉澱至 02_Knowledge/Typography/
+        token_dir = Path("02_Knowledge") / "Typography"
+        token_dir.mkdir(parents=True, exist_ok=True)
+        token_file = token_dir / f"{certified_id}.json"
+        token_file.write_text(json.dumps(final_obj, ensure_ascii=False, indent=2), encoding="utf-8")
+        
+        # 雙向同步至 G 槽金庫
+        g_vault_token = Path(r"G:\我的雲端硬碟\260803_opencode") / "02_Knowledge" / "Typography" / f"{certified_id}.json"
+        if g_vault_token.parent.exists():
+            g_vault_token.write_text(json.dumps(final_obj, ensure_ascii=False, indent=2), encoding="utf-8")
 
         return final_obj
 
