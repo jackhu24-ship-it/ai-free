@@ -184,6 +184,28 @@ class WarRoomHandler(BaseHTTPRequestHandler):
                 self.send_error(500, str(e))
             return
 
+        # 1.5. 觸發 Bob Playwright 無頭自動化工兵 (路線 B)
+        elif parsed.path == "/api/bob-cinema-run-worker":
+            def _run_worker():
+                try:
+                    worker_script = r"C:\ibm-bob\PROJECTS\PROJECT-001-AI-CINEMA\bob_browser_worker.py"
+                    subprocess.run(["python", "-X", "utf8", worker_script], capture_output=True, text=True)
+                    event_queue.put({
+                        "type": "LOG",
+                        "source": "Bob_Headless_Worker",
+                        "message": "Bob Playwright 無頭自動化工兵已完成當日配額巡檢！"
+                    })
+                except Exception as e:
+                    event_queue.put({
+                        "type": "LOG",
+                        "source": "Bob_Headless_Worker",
+                        "message": f"Bob 無頭工兵運行異常: {e}"
+                    })
+            threading.Thread(target=_run_worker).start()
+            self._set_headers()
+            self.wfile.write(json.dumps({"status": "LAUNCHED", "message": "Bob Playwright 無頭自動化工兵已於背景啟動！"}).encode("utf-8"))
+            return
+
         # 2. 接收手機端指令輸入 (Command Dispatch)
         elif parsed.path == "/api/command":
             body = json.loads(post_data.decode("utf-8"))

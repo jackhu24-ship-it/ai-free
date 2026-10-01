@@ -57,6 +57,16 @@ async def get_bob_cinema_progress():
     return JSONResponse({"error": "Progress ledger not found"}, status_code=404)
 
 
+@app.post("/api/bob-cinema-run-worker")
+async def run_bob_cinema_worker():
+    """背景喚醒 Bob Playwright 無頭自動化工兵 (路線 B)。"""
+    worker_script = os.path.join(r"C:\ibm-bob\PROJECTS\PROJECT-001-AI-CINEMA", "bob_browser_worker.py")
+    if os.path.exists(worker_script):
+        asyncio.create_task(asyncio.to_thread(subprocess.run, ["python", "-X", "utf8", worker_script]))
+        return JSONResponse({"status": "LAUNCHED", "message": "Bob Playwright 無頭自動化工兵已於背景啟動！"})
+    return JSONResponse({"error": "Worker script not found"}, status_code=404)
+
+
 @app.get("/api/apex-verdict")
 async def get_apex_verdict():
     """終局簽發：Phantom Grid 天頂戰力認證對照表 — 霸丸總指揮官 Jack 哥親頒。"""
