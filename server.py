@@ -874,5 +874,6 @@ async def get_index():
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
 if __name__ == "__main__":
-    print("啟動第二辦公室真機 Agent 伺服器 (支援手機局域網連線): http://0.0.0.0:8765")
-    uvicorn.run(app, host="0.0.0.0", port=8765, log_level="warning")
+    print("啟動第二辦公室真機 Agent 伺服器 (127.0.0.1 本機安全迴路): http://127.0.0.1:8765")
+    uvicorn.run(app, host="127.0.0.1", port=8765, log_level="warning")
+
