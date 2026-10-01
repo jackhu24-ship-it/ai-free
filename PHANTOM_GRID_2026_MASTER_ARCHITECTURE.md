@@ -141,9 +141,12 @@
 這張架構圖將**指揮鏈、兩大辦公室視圖實體、邊境 Bob 雙層認證、G 槽真身動態定錨、無人值守哨兵與全格式 Solo 生成軍火庫**全部緊密咬合在一起。
 
 每個箭頭都有實體代碼作為支撐：
-- `dual_verify_pipeline.py`（小米 L1 安全驗證 ＋ 二辦 L2 渲染驗證 ＋ 統帥落款）
+- `dual_verify_pipeline.py`（小米 L1 安全驗證 ＋ 二辦 L2 渲染驗證 ＋ 統帥 Jack 哥落款）
+- `office2_server.py`（8766 聯動服務：Mobile HUI 截圖上傳、SSE 毫秒廣播、指令派遣、ThreadingHTTPServer）
+- `office2_dashboard_patch.js`（二辦前端注入模組：手機拖曳感應、海關展台跳轉、雙軌健康指示燈）
+- `path_resolver.py`（全域動態尋標器：遍歷 A-Z 盤符鎖定真身、G 槽優先、根目錄定錨 `C:\260728-code\`）
 - `server.py`（第二辦公室 8765 核心服務與 SSE 串流大盤）
 - `auto_watchdog_pipeline.py`（無人值守目錄哨兵監聽器）
 - `grid_shield.py`（五大鐵壁開工自檢護甲）
 - `phantom_shutdown_hook.py`（收工動態差異比對與一鍵安裝反向同步）
-- `install_opencode_complete.py`（雙模一鍵安裝與自適應配置凍結器）
+- `install_opencode_complete.py` / `install_oi_complete.py`（雙模一鍵安裝與配置凍結，5 分鐘原地滿血復活）
