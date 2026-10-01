@@ -87,6 +87,7 @@ AI 自學工具箱建置：完整具備 13 庫之 AI 工具箱（OpenCode 懶人
 | **4. 試算表/成績冊 (Excel/XLSX)** | **第三辦公室** | openpyxl / xlsxwriter<br>Pandas (數據結構化) | • 自動凍結首行 (Freeze Panes)、帶入計算公式<br>• 嚴格落實 CWE-1236 公式注入防護 (`sanitizeCell_`) |
 | **5. 教學問卷 & 滿意度調查** | **第三辦公室** | Google Apps Script (GAS) API<br>Typeform / HTML5 輕量互動問卷 | • 自動生成 Google 表單 (Google Forms) 或 JSON<br>• 回傳數據直通 Supabase / 試算表即時儀表板 |
 | **6. 教學考試題庫 (Exam / Quiz)** | **第一辦公室** | RDQ 題庫爬蟲與組卷器<br>Python 題庫洗牌隨機引擎 (Shuffle) | • 支援單選、多選、判斷、實作代碼填空題<br>• 自動配分、產出學生測驗卷 (無答案) 與教師解答 |
+| **7. 1080P 技術實機展示影片** | **第三辦公室** | Edge-TTS + FFmpeg + Playwright Headless<br>規格化字卡與無損封裝 | • 1080P/30-60FPS 深黑畫布 (#0B0F19)，半透明卡片 rgba(15,23,42,0.88)<br>• 雙行字級差 (標題48pt白/副標題32pt藍)，直通 Videos_1080P 零桌面污染 |
 
 - **PDF/HTML 引擎**：以 Playwright + CSS Paged Media 實現向量級 A4 講義與考卷渲染。
 - **PPTX 簡報規格**：以 PptxGenJS 為核心，統一 16:9 版型，鎖定母片色票，杜絕字體換行斷裂。
@@ -173,3 +174,15 @@ AI 自學工具箱建置：完整具備 13 庫之 AI 工具箱（OpenCode 懶人
   - **截圖投放**：前端/客戶端上傳截圖，第一時間寫入 G 槽真身金庫（`G:\我的雲端硬碟\260803_opencode\samples\`），隨後單向二進位投影至 C 槽高速鏡像（`C:\260728-code\samples\`）。
   - **落款資產**：統帥最高落款簽發之資產，強制第一時間寫入 G 槽真身與 G 槽一鍵安裝包母體，最後才單向投影至 C 槽戰鬥鏡像。
   - **災難復原 (5分鐘滿血原地復活)**：在新電腦掛載 Google 雲端硬碟後，執行 `python install_opencode_complete.py`，動態尋標器秒級定位真身，自動建立根目錄 `C:\260728-code\`，完成 SHA256 雙軌對齊，路徑 100% 解耦使用者帳號！
+
+## 3.11 影音自動化雙軌作戰矩陣 (Dual-Track AI Video Arsenal)
+
+| 方案軌道 | 核心引擎 / 工具棧 | 適用情境與產出成果 | 自動化程度 |
+| :--- | :--- | :--- | :--- |
+| **方案 A<br>[旗艦級路演]** | CapCut Web API / JSON 橋接器<br>(`capcut_bridge.py` + SRT 字幕自動化) | • 黑客松/商業路演、行銷宣傳影片<br>• 轉場特效、動態圖表卡片、多軌音效 BGM | 80% (代碼生成分鏡+字幕，剪映內一鍵套用，人工調微距) |
+| **方案 B<br>[全自動純工程]** | 無人值守純代碼流水線 (Headless)<br>Edge-TTS + Playwright + FFmpeg 壓制 | • 終端實機操作錄製、架構圖動態展示、技術教學手冊<br>• 1080P/60FPS 示範影片直出，零桌面污染入庫 G 槽 | 100% 全自動 (Zero-Touch)<br>丟指令 ➔ 30 秒自動生出 MP4 |
+
+- **方案 B 核心實作 (`tools/auto_video_producer.py`)**：
+  1. **自然神經網路語音**：調用 Edge-TTS 生成廣播級配音（美式 `en-US-ChristopherNeural` 或中文 `zh-TW-YunJheNeural`）。
+  2. **規格化字卡排版**：底色 `#0B0F19`，底部安全半透明卡片 `rgba(15, 23, 42, 0.88)`，雙行字級差（48pt 白 ＋ 32pt 科技藍），杜絕微型字體。
+  3. **FFmpeg 1080P/60FPS 無損封裝**：成品直通真身金庫 `G:\我的雲端硬碟\AI產出成品總庫\Videos_1080P\`，並單向投影至 C 槽鏡像，100% 遵守 Zero-Desktop Pollution！

@@ -205,6 +205,31 @@ class WarRoomHandler(BaseHTTPRequestHandler):
                     "source": "SyncChecker",
                     "message": f"雙向校驗結果: {sync_info['status_text']} (C:{sync_info['c_hash']} / G:{sync_info['g_hash']})"
                 })
+            elif "video" in cmd.lower() or "影片" in cmd:
+                event_queue.put({
+                    "type": "EXPORT_PROGRESS",
+                    "message": "正在啟動方案 B 無人化 1080P 影片生成流水線 (Edge-TTS + FFmpeg)..."
+                })
+                def _bg_video():
+                    try:
+                        from auto_video_producer import produce_video
+                        res = produce_video(
+                            title="【PHANTOM GRID】全域雙層認證架構落地",
+                            subtitle="雙軌架構實時監控，25項極限驗收全數通過",
+                            text_script="PHANTOM GRID 雙層認證全域架構已完成部署，所有指標全數綠燈。",
+                            output_name=f"phantom_demo_{int(time.time())}.mp4"
+                        )
+                        event_queue.put({
+                            "type": "EXPORT_COMPLETE",
+                            "message": f"🎬 1080P 影片已出爐並直通金庫: {res['g_path']}"
+                        })
+                    except Exception as err:
+                        event_queue.put({
+                            "type": "LOG",
+                            "source": "VideoProducer",
+                            "message": f"⚠️ 影片生成異常: {err}"
+                        })
+                threading.Thread(target=_bg_video, daemon=True).start()
             elif "Solo" in cmd or "發布" in cmd:
                 event_queue.put({
                     "type": "EXPORT_COMPLETE",

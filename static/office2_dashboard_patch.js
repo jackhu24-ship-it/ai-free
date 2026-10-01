@@ -357,6 +357,7 @@
       'xlsx': '📈 試算表/成績冊 XLSX (Office 3)',
       'survey': '📋 線上問卷腳本 (Office 3)',
       'exam': '🎯 隨機題庫 Quiz (Office 1)',
+      'video': '🎬 方案 B 1080P 影片直出 (Headless AI Video)',
       'all': '🚀 Solo 全格式一鍵全套導出'
     };
     const title = formatNames[formatType] || formatType;

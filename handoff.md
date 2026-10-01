@@ -4,6 +4,8 @@
 
 ## ⏯️ 目前做到哪
 
+- **[特助小幫手全自動同步 · 宣傳部與旗艦展示炮艇點火 · AI 影音全自動生成工段（L3.11）入冊 ＋ auto_video_producer.py 落地 ＋ 方案 B 1080P 影片直出 ＋ 雙向金庫固化]** (2026-10-01 11:36 CST): 🎬【里程碑 291 · AI 影音自動化雙軌作戰矩陣 ✕ 方案 B 全自動純工程流水線 100% 落地】依霸丸總指揮官軍令：①【影音自動化雙軌作戰矩陣確立（AGENTS.md 第 3.11 條）】：1. 方案 A [旗艦級路演]：CapCut Web API / JSON 橋接器（`capcut_bridge.py` ＋ SRT 字幕自動化），主打商業路演與炫技展示；2. 方案 B [全自動純工程]：無人值守純代碼流水線（`tools/auto_video_producer.py`），Edge-TTS ＋ Playwright ＋ FFmpeg 壓制，30 秒直出 1080P/60FPS 示範影片；②【實體生成引擎落地（tools/auto_video_producer.py）】：1. 廣播級神經語音合成（支援美式 `en-US-ChristopherNeural` 與中文 `zh-TW-YunJheNeural`）；2. 規格化深色字卡排版（畫布 `#0B0F19`，底部安全半透明卡片 `rgba(15,23,42,0.88)`，大標題 48pt 純白 ＋ 副標題 32pt 科技藍，字元轉義安全閥防崩潰）；3. FFmpeg 1080P 無損壓制，直通 `G:\我的雲端硬碟\AI產出成品總庫\Videos_1080P\`，單向投影至 C 槽戰鬥目錄，100% 遵守 Zero-Desktop Pollution；③【第二辦公室大盤與 Mobile HUI 深度聯動】：1. Solo 全格式導出下拉選單正式追加「🎬 7. 方案 B 1080P 影片直出 (Office 3)」；2. Mobile HUI 支援直接發布「video」指令，後端 `office2_server.py` 非同步觸發生成並以 SSE 即時推播進度與金庫路徑；④【四軌同步推播與真機校驗 100% PASS】：已實機生成 `phantom_demo_01.mp4`、`phantom_demo_en.mp4` 與 API 觸發之 `phantom_demo_{timestamp}.mp4`，四軌同步至本機工作區、`C:\260728-code\`、`G:\我的雲端硬碟\260803_opencode\` 與遠端 GitHub 倉庫！
+
 - **[第二辦公室 APP UI 同步收工]** (2026-10-01 11:30:35): 第二辦公室 APP UI 完成真機工具庫擴充與 3D 活頁翻頁書真機調用對齊。
 
 - **[第二辦公室 APP UI 同步收工]** (2026-10-01 11:29:51): 第二辦公室 APP UI 完成真機工具庫擴充與 3D 活頁翻頁書真機調用對齊。
