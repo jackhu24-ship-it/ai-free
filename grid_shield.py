@@ -52,6 +52,8 @@ class GridShield:
             return False
 
         checks = []
+        command_hq = Path(r"G:\我的雲端硬碟\260803_opencode\00_Command_HQ")
+        if command_hq.exists(): checks.append("00號指揮所: OK")
         if vault_root.exists(): checks.append("AI產出成品總庫: OK")
         if hall_of_fame.exists(): checks.append("13號榮譽殿堂: OK")
         if manual_vault.exists(): checks.append("08號手冊專區: OK")

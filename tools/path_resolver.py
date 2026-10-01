@@ -57,6 +57,7 @@ G_KNOWLEDGE_TYPO = TRUTH_ROOT / "02_Knowledge" / "Typography"
 G_INSTALLER_TPL = TRUTH_ROOT / "工具安裝包" / "template"
 G_HANDOFF = TRUTH_ROOT / "handoff.md"
 G_AGENTS = TRUTH_ROOT / "AGENTS.md"
+G_COMMAND_HQ = TRUTH_ROOT / "00_Command_HQ"
 
 C_SAMPLES = COMBAT_ROOT / "samples"
 C_INBOX = COMBAT_ROOT / "inbox" / "bob_drafts"
@@ -64,11 +65,12 @@ C_KNOWLEDGE_TYPO = COMBAT_ROOT / "02_Knowledge" / "Typography"
 C_INSTALLER_TPL = COMBAT_ROOT / "工具安裝包" / "template"
 C_HANDOFF = COMBAT_ROOT / "handoff.md"
 C_AGENTS = COMBAT_ROOT / "AGENTS.md"
+C_COMMAND_HQ = COMBAT_ROOT / "00_Command_HQ"
 
 def ensure_all_dirs():
     """保證真身與鏡像目錄雙向存在"""
-    for p in [G_SAMPLES, G_INBOX, G_KNOWLEDGE_TYPO, G_INSTALLER_TPL,
-              C_SAMPLES, C_INBOX, C_KNOWLEDGE_TYPO, C_INSTALLER_TPL]:
+    for p in [G_SAMPLES, G_INBOX, G_KNOWLEDGE_TYPO, G_INSTALLER_TPL, G_COMMAND_HQ,
+              C_SAMPLES, C_INBOX, C_KNOWLEDGE_TYPO, C_INSTALLER_TPL, C_COMMAND_HQ]:
         try:
             p.mkdir(parents=True, exist_ok=True)
         except Exception:
