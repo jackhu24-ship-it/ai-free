@@ -76,3 +76,36 @@ AI 自學工具箱建置：完整具備 13 庫之 AI 工具箱（OpenCode 懶人
     - **第三道（幽靈端口 Ghost Port）**：二辦（8765）、練功房（8080）及內部端口嚴格鎖定本機迴路 `127.0.0.1`，不對公開互聯網開放任何暴露端口，外部掃描呈現完全不回應之「死牆」。
     - **第四道（統帥權杖 Sovereign Seal）**：實體指揮所（Command HQ）獨立非對稱密鑰落款，系統只認統帥 Jack 哥專屬權杖指紋；內建 Emergency Kill-Switch，遇實體威脅一鍵抹除本地敏感快取，資產縮回金庫深處。
     - **帝國軍令狀**：全軍恪守三大鐵壁承諾——**打不垮**（斷網能打、當機重啟 5 分鐘滿血復活）；**攻不破**（外部攻擊被沙盒吃掉，核心邏輯黑盒子化）；**奪不走**（所有知識庫、立繪、影音母帶、自學演算法焊死在真身金庫，誰也抄不走）！此條文永久生效！
+
+## 3.4 Solo 全格式內容生成規格 (Multi-Format Production Engine)
+
+| 產出目標 | 主責辦公室 | 底層驅動引擎 / 工具鏈 | 自動化規範與防禦標準 |
+| :--- | :--- | :--- | :--- |
+| **1. 向量級 PDF** | **第二辦公室** | Playwright Headless + CSS Paged Media<br>Python ReportLab / WeasyPrint | • A4 直式/橫式精確排版，CMYK/RGB 色彩校正<br>• 自動注入頁碼、頁首頁尾與目錄錨點 |
+| **2. 簡報 PPTX** | **第二辦公室** | PptxGenJS (Node.js)<br>python-pptx | • 16:9 寬螢幕黃金比例，科技深色/簡約淺色雙模<br>• 自動圖表向量化，嚴禁文字溢出 (Overflow Guard) |
+| **3. 教學文件 (Word/DOCX)** | **第三辦公室** | python-docx + Jinja2 樣板引擎<br>Pandoc 萬能格式轉換器 | • 規範級階層樣式 (Heading 1~4)、程式碼區塊高亮<br>• 自動生成表格斑馬紋，符合官方標案/講義格式 |
+| **4. 試算表/成績冊 (Excel/XLSX)** | **第三辦公室** | openpyxl / xlsxwriter<br>Pandas (數據結構化) | • 自動凍結首行 (Freeze Panes)、帶入計算公式<br>• 嚴格落實 CWE-1236 公式注入防護 (`sanitizeCell_`) |
+| **5. 教學問卷 & 滿意度調查** | **第三辦公室** | Google Apps Script (GAS) API<br>Typeform / HTML5 輕量互動問卷 | • 自動生成 Google 表單 (Google Forms) 或 JSON<br>• 回傳數據直通 Supabase / 試算表即時儀表板 |
+| **6. 教學考試題庫 (Exam / Quiz)** | **第一辦公室** | RDQ 題庫爬蟲與組卷器<br>Python 題庫洗牌隨機引擎 (Shuffle) | • 支援單選、多選、判斷、實作代碼填空題<br>• 自動配分、產出學生測驗卷 (無答案) 與教師解答 |
+
+- **PDF/HTML 引擎**：以 Playwright + CSS Paged Media 實現向量級 A4 講義與考卷渲染。
+- **PPTX 簡報規格**：以 PptxGenJS 為核心，統一 16:9 版型，鎖定母片色票，杜絕字體換行斷裂。
+- **Word/Excel 規格**：採用 python-docx 與 openpyxl，試算表一律實施 CWE-1236 公式清洗防護。
+- **題庫與考評模組**：整合 RDQ 自動化組卷邏輯，支援「學生卷 / 教師解析卷 / 線上問卷腳本」三軌並發。
+- **成品落盤路徑**：全數強制導流至 `G:\我的雲端硬碟\AI產出成品總庫\`，嚴格遵循 Zero-Desktop Pollution。
+
+## 3.5 視覺排版與字體美學鐵律 (Typography & Layout Standards)
+
+| 媒介 / 格式 | 推薦字型家族 (Font Stack) | 階層字級與字重 (Size & Weight) | 行距與空間呼吸感 (Spacing) |
+| :--- | :--- | :--- | :--- |
+| **1. A4 講義/考卷 (PDF / Word)** | 中文：微軟正黑體 / 思源黑體 (Noto Sans TC)<br>英文：Segoe UI / Inter<br>代碼：Consolas / JetBrains Mono | • 大標 (H1)：20pt / 粗體 (Bold)<br>• 中標 (H2)：15pt / 中粗 (SemiBold)<br>• 正文：10.5pt (五號字) / 常規 | • 行距：1.5 ~ 1.6 倍 (行高)<br>• 段落後間距：6pt ~ 8pt (空半行)<br>• 單行字數：嚴格控制 32~40 字 |
+| **2. 商業簡報 (PPTX)** | 科技深色 / 乾淨白色母片<br>中文：思源黑體 / 蘋方 / 微軟正黑體<br>英文：Roboto / Arial Black / Montserrat | • 投影片標題：28pt ~ 32pt (Bold)<br>• 核心論點：18pt ~ 20pt (Medium)<br>• 補充說明：12pt ~ 14pt (Regular) | • 行距：1.3 ~ 1.4 倍<br>• 一頁原則：不超過 3 個重點卡片<br>• 避頭尾字元：禁止逗號單獨換行 |
+| **3. 教學考試卷 (Exam Quiz)** | 雙欄排版 (Two-Column Layout)<br>中文：思源黑體 (Noto Sans TC)<br>英文/數字：Arial | • 大題名稱：12pt (Bold)<br>• 題目題幹：10pt (Medium)<br>• 選項 (A/B/C/D)：9.5pt (Regular) | • 題目間距：段後 12pt (留白作答)<br>• 選項間距：水平間隔 4 個空白字<br>• 欄寬：每欄約 22~26 個中文字 |
+| **4. 試算表/成績冊 (Excel)** | 中文：微軟正黑體<br>數字：Segoe UI / Aptos | • 標題列：11pt / 粗體 / 深色底白字<br>• 資料列：10pt / 等寬數字對齊 | • 列高 (Row Height)：24pt (透氣)<br>• 對齊：文字靠左、數值靠右 |
+
+- **字型家族**：優先採用 Noto Sans TC / 微軟正黑體，英文搭配 Segoe UI，等寬代碼採用 JetBrains Mono / Consolas。
+- **色彩溫潤原則**：正文顏色一律採用 `#2D3748` (柔和石墨黑)，禁用純黑 `#000000`，降低視覺疲勞度。
+- **閱讀呼吸感**：PDF 正文固定 10.5pt、行距 1.55 倍、段後留白 6pt；PPTX 單頁嚴守「3 核心觀點卡片」原則。
+- **考卷與試算表**：試算表列高強制 24pt 起跳 (文字靠左、數值靠右)；考卷強制雙欄 A4 排版，嚴格控制單行 24 字。
+- **避頭尾字元法規 (Kinsoku Shori)**：行首禁止句號、逗號、問號、右括號；行尾禁止左括號、引號開頭。
+
