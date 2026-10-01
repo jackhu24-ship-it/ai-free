@@ -47,6 +47,16 @@ async def get_calendar_ics():
     return Response("Calendar not found", status_code=404)
 
 
+@app.get("/api/bob-cinema-progress")
+async def get_bob_cinema_progress():
+    """取得 Bob 影視製作進度、逆向工程技能進化與指揮所素材清單。"""
+    ledger_path = os.path.join(r"C:\ibm-bob\PROJECTS\PROJECT-001-AI-CINEMA", "progress_ledger.json")
+    if os.path.exists(ledger_path):
+        with open(ledger_path, "r", encoding="utf-8") as f:
+            return JSONResponse(json.load(f))
+    return JSONResponse({"error": "Progress ledger not found"}, status_code=404)
+
+
 @app.get("/api/apex-verdict")
 async def get_apex_verdict():
     """終局簽發：Phantom Grid 天頂戰力認證對照表 — 霸丸總指揮官 Jack 哥親頒。"""

@@ -132,6 +132,17 @@ class WarRoomHandler(BaseHTTPRequestHandler):
             self.wfile.write(json.dumps(run_outbox_extraction(), ensure_ascii=False).encode("utf-8"))
             return
 
+        # 4. 取得 Bob 影視製作進度與項目表
+        elif parsed.path == "/api/bob-cinema-progress":
+            ledger_path = Path(r"C:\ibm-bob\PROJECTS\PROJECT-001-AI-CINEMA\progress_ledger.json")
+            if ledger_path.exists():
+                data = json.loads(ledger_path.read_text(encoding="utf-8"))
+            else:
+                data = {"error": "Progress ledger not found"}
+            self._set_headers()
+            self.wfile.write(json.dumps(data, ensure_ascii=False).encode("utf-8"))
+            return
+
         self.send_error(404, "Not Found")
 
     def do_POST(self):

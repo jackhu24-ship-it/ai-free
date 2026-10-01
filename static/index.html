@@ -1018,6 +1018,7 @@ header {
     <div class="console-tabs">
       <button class="tab-btn active" id="tabBtnTests" onclick="switchTab('tests')">🧪 測試驗收戰報</button>
       <button class="tab-btn" id="tabBtnTournaments" style="border-color:rgba(245,158,11,0.5); color:#fde047;" onclick="switchTab('tournaments')">🏆 賽事大盤總表 (22場)</button>
+      <button class="tab-btn" id="tabBtnBobCinema" style="border-color:rgba(236,72,153,0.7); color:#f472b6; background:rgba(236,72,153,0.12); font-weight:bold; transition:all 0.3s ease;" onclick="switchTab('bobcinema')">🎬 Bob 影視項目表</button>
       <button class="tab-btn" id="tabBtnBobCustoms" style="border-color:rgba(16,185,129,0.5); color:#10b981;" onclick="switchTab('bobcustoms')">🛡️ Bob 視覺海關</button>
       <button class="tab-btn" id="tabBtnHallOfFame" style="border-color:rgba(217,119,6,0.6); color:#fcd34d;" onclick="window.open('file:///G:/我的雲端硬碟/AI產出成品總庫/13_🏆_PHANTOMGRID_全球戰績與榮譽殿堂總庫/index.html', '_blank')">🎖️ 全球榮譽殿堂 (7大勳章)</button>
       <button class="tab-btn" id="tabBtnFiles" onclick="switchTab('files')">📦 產出建檔履歷</button>
@@ -1047,6 +1048,186 @@ header {
     <!-- Panel: Core Acceptance Test Matrix -->
     
     <!-- Panel: Bob 視覺海關 (Bob DMZ Pipeline) -->
+    
+    <!-- Tab: Bob 影視製作進度與解題項目表 -->
+    <div class="tab-panel" id="panelBobCinema">
+      <div style="background:#0f172a; border:1px solid #ec4899; border-radius:14px; padding:24px; box-shadow:0 10px 30px rgba(236,72,153,0.15);">
+        
+        <!-- Header Banner -->
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:20px; border-bottom:1px solid rgba(236,72,153,0.3); padding-bottom:16px;">
+          <div>
+            <div style="display:flex; align-items:center; gap:12px;">
+              <span style="font-size:1.4rem;">🎬</span>
+              <h2 style="margin:0; font-size:1.3rem; color:#f472b6; font-weight:800; letter-spacing:0.5px;">Bob 影視製作進度 ✕ 逆向工程自學進化項目表</h2>
+              <span id="bobCinemaBadgeStatus" style="background:rgba(234,179,8,0.2); border:1px solid #eab308; color:#fef08a; padding:4px 12px; border-radius:20px; font-size:0.75rem; font-weight:bold;">
+                🟡 今日免費額度已用盡，等待明日 00:00 回血
+              </span>
+            </div>
+            <div style="font-size:0.85rem; color:#94a3b8; margin-top:6px;">
+              專案代號：<span style="color:#00f2fe; font-family:monospace; font-weight:bold;" id="bobCinemaProjectId">PROJECT-001-AI-CINEMA</span> | 
+              專案名稱：《PHANTOM GRID 基地日常樂趣短片：一人成軍的極致偷懶指南》 | 
+              監督長：<span style="color:#a78bfa; font-weight:bold;">🤖 特助小幫手 (即時監軍與質檢)</span>
+            </div>
+          </div>
+          <div style="display:flex; gap:10px;">
+            <button class="action-btn" style="background:#ec4899; color:#fff; border:none; padding:8px 16px; border-radius:8px; font-weight:bold; cursor:pointer;" onclick="fetchBobCinemaProgress()">🔄 刷新實時進度</button>
+          </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div style="background:#1e293b; border-radius:10px; padding:14px 18px; margin-bottom:24px;">
+          <div style="display:flex; justify-content:space-between; font-size:0.85rem; margin-bottom:8px;">
+            <span style="color:#cbd5e1; font-weight:bold;">全案分鏡完成度：<span id="bobCinemaProgressPctText" style="color:#f472b6; font-size:1rem;">[2/6] 33.3%</span></span>
+            <span style="color:#94a3b8;">完成門禁：全數 6 分鏡無損壓制後方可向海關與指揮所結案</span>
+          </div>
+          <div style="background:#334155; height:12px; border-radius:6px; overflow:hidden; position:relative;">
+            <div id="bobCinemaProgressBar" style="background:linear-gradient(90deg, #ec4899, #8b5cf6, #00f2fe); width:33.3%; height:100%; border-radius:6px; transition:width 0.5s ease;"></div>
+          </div>
+        </div>
+
+        <!-- 3 Tactical Metric Cards -->
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:16px; margin-bottom:24px;">
+          
+          <!-- Card 1: Production Engine & Methodology -->
+          <div style="background:rgba(30,41,59,0.7); border:1px solid rgba(236,72,153,0.4); border-radius:10px; padding:16px;">
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+              <span style="font-size:1.1rem;">🛠️</span>
+              <span style="color:#f472b6; font-weight:bold; font-size:0.85rem; text-transform:uppercase;">目前製作方式 (Methodology)</span>
+            </div>
+            <div id="bobCinemaCurrentMethod" style="color:#f1f5f9; font-size:0.9rem; font-weight:600; line-height:1.4;">
+              快手可靈 Kling AI v1.5 (電影運鏡) + Hedra Character-1 (神經擬真對嘴) + FFmpeg 無損總裝
+            </div>
+            <div style="margin-top:8px; font-size:0.75rem; color:#94a3b8;">
+              調用策略：每日免費 66 靈感值 + Hedra 每日免費額度，零成本閉環推進。
+            </div>
+          </div>
+
+          <!-- Card 2: Date Markers & Schedule -->
+          <div style="background:rgba(30,41,59,0.7); border:1px solid rgba(0,242,254,0.4); border-radius:10px; padding:16px;">
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+              <span style="font-size:1.1rem;">📅</span>
+              <span style="color:#00f2fe; font-weight:bold; font-size:0.85rem; text-transform:uppercase;">排程與完成日期標式 (Schedule & Dates)</span>
+            </div>
+            <div style="color:#e2e8f0; font-size:0.85rem; line-height:1.5;">
+              <div>• 立項日期：<span style="color:#f8fafc; font-family:monospace;">2026-10-01 21:30</span></div>
+              <div>• 預計全案竣工日：<span id="bobCinemaTargetEta" style="color:#fde047; font-family:monospace; font-weight:bold;">2026-10-03 18:00 (Target ETA)</span></div>
+              <div>• 下次額度回血：<span id="bobCinemaNextRecharge" style="color:#38bdf8; font-family:monospace;">2026-10-02 00:00 CST (每日凌晨自動重置)</span></div>
+            </div>
+          </div>
+
+          <!-- Card 3: Reverse Engineering Level -->
+          <div style="background:rgba(30,41,59,0.7); border:1px solid rgba(168,85,247,0.4); border-radius:10px; padding:16px;">
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+              <span style="font-size:1.1rem;">⚡</span>
+              <span style="color:#c084fc; font-weight:bold; font-size:0.85rem; text-transform:uppercase;">Bob 逆向工程戰力評級 (Learning Rank)</span>
+            </div>
+            <div style="color:#e2e8f0; font-size:0.85rem; line-height:1.5;">
+              <div>• 綜合戰力階級：<span style="color:#f472b6; font-weight:bold;" id="bobCinemaSkillRank">Level 4 (資深逆向特戰級)</span></div>
+              <div>• 逆向自學進度：<span style="color:#4ade80; font-weight:bold;" id="bobCinemaSkillPct">74%</span></div>
+              <div>• 指揮所監軍狀態：<span style="color:#38bdf8;">實時心跳稽核中 • 0 偏差</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section: Command HQ Golden Baseline Assets Checklist -->
+        <div style="margin-bottom:24px; background:#1e293b; border:1px solid rgba(0,242,254,0.3); border-radius:10px; padding:18px;">
+          <h3 style="margin:0 0 12px 0; font-size:0.95rem; color:#00f2fe; display:flex; align-items:center; gap:8px;">
+            <span>🏛️</span> 指揮所法定素材基線與驗收清單 (Command HQ Golden Baseline Assets)
+          </h3>
+          <div style="font-size:0.8rem; color:#94a3b8; margin-bottom:12px;">
+            依據統帥軍規：指揮所素材為唯一真理錨點！Bob 必須進行逆向對標，逐字、逐圖、逐音軌嚴格驗收，嚴禁擅自篡改！
+          </div>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:12px;">
+            <div style="background:#0f172a; padding:10px 14px; border-radius:6px; border-left:3px solid #f59e0b;">
+              <div style="color:#f59e0b; font-weight:bold; font-size:0.8rem;">👑 總指揮官 Jack 哥</div>
+              <div style="color:#cbd5e1; font-size:0.75rem;">立繪：avatar_jack.png (✔ 吻合)</div>
+              <div style="color:#94a3b8; font-size:0.75rem;">音軌：voice_1_Jack_哥.mp3 (5.33s)</div>
+              <div style="color:#4ade80; font-size:0.75rem;">質檢：PASS (100% 忠實對齊)</div>
+            </div>
+            <div style="background:#0f172a; padding:10px 14px; border-radius:6px; border-left:3px solid #fb923c;">
+              <div style="color:#fb923c; font-weight:bold; font-size:0.8rem;">🛠️ 特戰工兵 Bob</div>
+              <div style="color:#cbd5e1; font-size:0.75rem;">立繪：avatar_bob.png (✔ 吻合)</div>
+              <div style="color:#94a3b8; font-size:0.75rem;">音軌：voice_2_Bob.mp3 (7.01s)</div>
+              <div style="color:#4ade80; font-size:0.75rem;">質檢：PASS (100% 忠實對齊)</div>
+            </div>
+            <div style="background:#0f172a; padding:10px 14px; border-radius:6px; border-left:3px solid #38bdf8;">
+              <div style="color:#38bdf8; font-weight:bold; font-size:0.8rem;">📋 執行秘書 小米</div>
+              <div style="color:#cbd5e1; font-size:0.75rem;">立繪：avatar_xiaomi.png (✔ 吻合)</div>
+              <div style="color:#94a3b8; font-size:0.75rem;">音軌：voice_3_小米.mp3 (6.38s)</div>
+              <div style="color:#fde047; font-size:0.75rem;">質檢：待明日回血生成驗收</div>
+            </div>
+            <div style="background:#0f172a; padding:10px 14px; border-radius:6px; border-left:3px solid #34d399;">
+              <div style="color:#34d399; font-weight:bold; font-size:0.8rem;">🗺️ 二辦戰情官</div>
+              <div style="color:#cbd5e1; font-size:0.75rem;">立繪：avatar_office2.png (✔ 吻合)</div>
+              <div style="color:#94a3b8; font-size:0.75rem;">音軌：voice_4_戰情官.mp3 (8.04s)</div>
+              <div style="color:#fde047; font-size:0.75rem;">質檢：待明日回血生成驗收</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section: Bob Reverse Engineering Learning Ledger -->
+        <div style="margin-bottom:24px; background:#1e293b; border:1px solid rgba(168,85,247,0.3); border-radius:10px; padding:18px;">
+          <h3 style="margin:0 0 12px 0; font-size:0.95rem; color:#c084fc; display:flex; align-items:center; gap:8px;">
+            <span>🛠️</span> 特戰工兵 Bob 逆向工程技能進化與學習清單 (Reverse Engineering Skill Ledger)
+          </h3>
+          <div style="font-size:0.8rem; color:#94a3b8; margin-bottom:12px;">
+            統帥最高指示：「Bob 要把逆向工程的東西學起來，才會越做越好！」以下為 Bob 即時進化檔案：
+          </div>
+          <div id="bobCinemaSkillsList" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:12px;">
+            <!-- Injected dynamically -->
+          </div>
+        </div>
+
+        <!-- Section: Active Problem Solving Intelligence -->
+        <div style="margin-bottom:24px; background:#1e293b; border:1px solid rgba(255,255,255,0.1); border-radius:10px; padding:18px;">
+          <h3 style="margin:0 0 12px 0; font-size:0.95rem; color:#38bdf8; display:flex; align-items:center; gap:8px;">
+            <span>🔍</span> Bob 當前攻堅難題與自主解題方式 (Autonomous Problem Resolution Strategy)
+          </h3>
+          <div id="bobCinemaResolutionsList" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:12px;">
+            <!-- Injected dynamically -->
+          </div>
+        </div>
+
+        <!-- Section: Scene Itemized Matrix Table -->
+        <div style="margin-bottom:24px;">
+          <h3 style="margin:0 0 14px 0; font-size:1rem; color:#f8fafc; display:flex; align-items:center; gap:8px;">
+            <span>📋</span> 6 大分鏡項目明細表（含製作方式、解題方案、完工日期標式與基線質檢）
+          </h3>
+          <div style="overflow-x:auto;">
+            <table style="width:100%; border-collapse:collapse; text-align:left; font-size:0.8rem; background:#1e293b; border-radius:8px; overflow:hidden;">
+              <thead>
+                <tr style="background:#334155; color:#cbd5e1; border-bottom:2px solid #ec4899;">
+                  <th style="padding:10px 12px;">#</th>
+                  <th style="padding:10px 12px;">出場角色</th>
+                  <th style="padding:10px 12px;">劇本台詞</th>
+                  <th style="padding:10px 12px; width:20%;">製作方式 (Engine)</th>
+                  <th style="padding:10px 12px; width:24%;">遭遇問題與自主解題方式 (Problem & Solution)</th>
+                  <th style="padding:10px 12px;">狀態</th>
+                  <th style="padding:10px 12px; width:13%;">完成日期標式 (Date)</th>
+                  <th style="padding:10px 12px;">基線質檢</th>
+                  <th style="padding:10px 12px;">產出與預覽</th>
+                </tr>
+              </thead>
+              <tbody id="bobCinemaScenesTableBody">
+                <!-- Injected dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Section: Daily Quota Audit Ledger -->
+        <div>
+          <h3 style="margin:0 0 12px 0; font-size:0.95rem; color:#94a3b8; display:flex; align-items:center; gap:8px;">
+            <span>📜</span> 每日免費額度心跳流水審計表 (Daily Quota Harvest Logs)
+          </h3>
+          <div id="bobCinemaQuotaLogsList" style="background:#1e293b; border-radius:8px; padding:12px; font-family:monospace; font-size:0.75rem; color:#cbd5e1;">
+            <!-- Injected dynamically -->
+          </div>
+        </div>
+
+      </div>
+    </div>
+
     <div class="tab-panel" id="panelBobCustoms">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid rgba(16,185,129,0.3); padding-bottom:8px;">
         <div>
@@ -1563,6 +1744,7 @@ function switchTab(tabName) {
     'tests': 'tabBtnTests',
     'tournaments': 'tabBtnTournaments',
     'bobcustoms': 'tabBtnBobCustoms',
+    'bobcinema': 'tabBtnBobCinema',
     'files': 'tabBtnFiles',
     'diagrams': 'tabBtnDiagrams',
     'flipbook': 'tabBtnFlipbook',
@@ -1575,6 +1757,7 @@ function switchTab(tabName) {
     'tests': 'panelTests',
     'tournaments': 'panelTournaments',
     'bobcustoms': 'panelBobCustoms',
+    'bobcinema': 'panelBobCinema',
     'files': 'panelFiles',
     'diagrams': 'panelDiagrams',
     'flipbook': 'panelFlipbook',
