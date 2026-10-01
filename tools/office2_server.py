@@ -238,28 +238,28 @@ class WarRoomHandler(BaseHTTPRequestHandler):
                         })
                 threading.Thread(target=_bg_video, daemon=True).start()
             elif "outbox" in cmd.lower() or "提取" in cmd:
-                from outbox_review_engine import run_outbox_extraction
-                res = run_outbox_extraction()
+                from office2_ui_controller import handle_btn_outbox_review
+                ui_res = handle_btn_outbox_review()
                 event_queue.put({
                     "type": "OUTBOX_REVIEW_DONE",
-                    "result": res,
-                    "message": f"02_OUTBOX 提取完成，共 {res['count']} 支檔案，AST 靜態審計 100% CLEAN，防幻覺驗收通過！"
+                    "result": ui_res,
+                    "message": ui_res.get("copilot_chat", "02_OUTBOX 成果審查與核心庫同步完成！")
                 })
             elif "批准" in cmd or "同步核心庫" in cmd:
-                from outbox_review_engine import sync_staging_to_core
-                res = sync_staging_to_core()
+                from office2_engine import Office2AuditEngine
+                res = Office2AuditEngine.execute_sync_core()
                 event_queue.put({
                     "type": "OUTBOX_SYNC_DONE",
                     "result": res,
                     "message": res.get("delivery_summary", "🎉 核心庫已成功同步審查合規檔案！")
                 })
-            elif "落款" in cmd or "封版" in cmd or "commander-sign" in cmd.lower():
-                from commander_sign import sign_all_core_modules
-                res = sign_all_core_modules()
+            elif "落款" in cmd or "封版" in cmd or "驗票" in cmd or "commander-sign" in cmd.lower() or "commander-seal" in cmd.lower():
+                from office2_ui_controller import handle_btn_commander_seal
+                ui_res = handle_btn_commander_seal()
                 event_queue.put({
                     "type": "COMMANDER_SIGN_DONE",
-                    "result": res,
-                    "message": res.get("notice_text", "👑 指揮所權威落款已生效！")
+                    "result": ui_res,
+                    "message": ui_res.get("copilot_chat", "👑 指揮所權威落款已全數完成！")
                 })
             elif "Solo" in cmd or "發布" in cmd:
                 event_queue.put({
@@ -272,9 +272,9 @@ class WarRoomHandler(BaseHTTPRequestHandler):
             return
 
         # 3. 執行 02_OUTBOX Staging 一鍵同步核心庫
-        elif parsed.path == "/api/outbox-sync":
-            from outbox_review_engine import sync_staging_to_core
-            res = sync_staging_to_core()
+        elif parsed.path in ("/api/outbox-sync", "/api/outbox-sync-core"):
+            from office2_engine import Office2AuditEngine
+            res = Office2AuditEngine.execute_sync_core()
             event_queue.put({
                 "type": "OUTBOX_SYNC_DONE",
                 "result": res,
@@ -284,15 +284,18 @@ class WarRoomHandler(BaseHTTPRequestHandler):
             self.wfile.write(json.dumps(res, ensure_ascii=False).encode("utf-8"))
             return
 
-        # 4. 執行指揮所權威落款 (Commander Sign & Stamp Header)
-        elif parsed.path == "/api/commander-sign":
-            from commander_sign import sign_all_core_modules
-            res = sign_all_core_modules()
+        # 4. 執行指揮所權威落款 (Commander Sign & Stamp Header / CommanderSealer)
+        elif parsed.path in ("/api/commander-sign", "/api/commander-seal"):
+            from commander_seal import CommanderSealer
+            res = CommanderSealer.verify_and_stamp()
+            notice = res.get("msg", "👑 指揮所已對核心庫完成權威落款！")
             event_queue.put({
                 "type": "COMMANDER_SIGN_DONE",
                 "result": res,
-                "message": res.get("notice_text", f"👑 指揮所已對核心庫 {res.get('signed_count', 0)} 支模組完成權威落款！")
+                "message": notice
             })
+            res["notice_text"] = notice
+            res["signed_count"] = res.get("total_sealed", len(res.get("sealed_files", [])))
             self._set_headers()
             self.wfile.write(json.dumps(res, ensure_ascii=False).encode("utf-8"))
             return

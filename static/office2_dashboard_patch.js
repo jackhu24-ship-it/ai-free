@@ -658,7 +658,7 @@
       signChip.style.borderColor = "#f59e0b";
       signChip.style.background = "rgba(245, 158, 11, 0.2)";
       signChip.style.fontWeight = "bold";
-      signChip.textContent = "👑 [執行指揮所權威落款]";
+      signChip.textContent = "🖋️ 指揮所驗票落款";
       signChip.onclick = () => {
         window.triggerCommanderSign();
       };

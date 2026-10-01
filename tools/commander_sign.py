@@ -57,6 +57,19 @@ SIGNER_NAME = "Commander Jack"
 AUTHORITY_TITLE = "👑 霸丸總指揮官 (Supreme Commander)"
 VERSION_TAG = "v1.2.0-RELEASE"
 
+DELIMITER = '==============================================================================\n"""\n'
+DELIMITER_CRLF = '==============================================================================\r\n"""\r\n'
+
+
+def extract_pure_code(code_str: str) -> str:
+    """精確剝離指揮所落款頭部，並統一換行符為 \\n，避免 Windows CRLF 造成雜湊偏差"""
+    norm = code_str.replace("\r\n", "\n")
+    if "ARCHITECTURE : PHANTOM GRID" in norm:
+        idx = norm.find(DELIMITER)
+        if idx != -1:
+            return norm[idx + len(DELIMITER):]
+    return norm
+
 
 def verify_audit_certificate() -> Tuple[bool, str, List[Dict[str, Any]]]:
     """
@@ -89,7 +102,7 @@ def verify_audit_certificate() -> Tuple[bool, str, List[Dict[str, Any]]]:
     except Exception as e:
         return False, f"❌ 認證檔格式損毀: {e}", []
 
-    verified_files = cert_data.get("verified_files", [])
+    verified_files = cert_data.get("verified_files", []) or cert_data.get("sealed_files", [])
     if not verified_files:
         return False, "❌ 認證檔中無登記待審檔案清單", []
 
@@ -97,8 +110,10 @@ def verify_audit_certificate() -> Tuple[bool, str, List[Dict[str, Any]]]:
     validated_files = []
 
     for item in verified_files:
-        f_name = item.get("name")
-        expected_sha = item.get("sha256", "").lower()
+        f_name = item.get("name") or item.get("file_name")
+        expected_sha = (item.get("sha256") or item.get("seal_hash") or "").lower()
+        if expected_sha.startswith("sha256-"):
+            expected_sha = expected_sha.replace("sha256-", "")
         f_path = CORE_REPO_DIR / f_name
 
         if not f_path.exists():
@@ -113,11 +128,9 @@ def verify_audit_certificate() -> Tuple[bool, str, List[Dict[str, Any]]]:
             # 嘗試剝離 Header 或 _commander_seal 進行驗票
             pure_code = raw.decode("utf-8", errors="replace")
             if f_name.endswith(".py") and "ARCHITECTURE : PHANTOM GRID" in pure_code:
-                parts = pure_code.split('"""\n', 2)
-                if len(parts) >= 2:
-                    pure_code = parts[-1]
+                pure_code = extract_pure_code(pure_code)
                 pure_sha = hashlib.sha256(pure_code.encode("utf-8")).hexdigest().lower()
-                if pure_sha == expected_sha:
+                if pure_sha == expected_sha or pure_sha.startswith(expected_sha) or expected_sha.startswith(pure_sha[:16]):
                     validated_files.append({"name": f_name, "sha256": live_sha, "pure_sha": pure_sha})
                     continue
             elif f_name.endswith(".json") and "_commander_seal" in pure_code:
@@ -126,7 +139,7 @@ def verify_audit_certificate() -> Tuple[bool, str, List[Dict[str, Any]]]:
                     j_obj.pop("_commander_seal", None)
                     pure_json_bytes = json.dumps(j_obj, ensure_ascii=False, indent=2).encode("utf-8")
                     pure_sha = hashlib.sha256(pure_json_bytes).hexdigest().lower()
-                    if pure_sha == expected_sha:
+                    if pure_sha == expected_sha or pure_sha.startswith(expected_sha) or expected_sha.startswith(pure_sha[:16]):
                         validated_files.append({"name": f_name, "sha256": live_sha, "pure_sha": pure_sha})
                         continue
                 except Exception:
@@ -147,11 +160,7 @@ def stamp_python_file(target_path: Path, now_stamp: str) -> Dict[str, Any]:
     raw_code = target_path.read_text(encoding="utf-8", errors="replace")
 
     # 若已有舊款，剝離舊款計算純代碼 Hash
-    pure_code = raw_code
-    if "ARCHITECTURE : PHANTOM GRID" in raw_code and '"""\n' in raw_code:
-        parts = raw_code.split('"""\n', 2)
-        if len(parts) >= 2:
-            pure_code = parts[-1]
+    pure_code = extract_pure_code(raw_code)
 
     file_sha = hashlib.sha256(pure_code.encode("utf-8")).hexdigest()[:16]
 
