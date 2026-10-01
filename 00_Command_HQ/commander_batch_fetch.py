@@ -96,8 +96,9 @@ def commander_batch_fetch_and_verify(verbose: bool = True) -> Tuple[bool, str, L
                 try:
                     j_data = json.loads(pure_str)
                     j_seal = j_data.pop("_commander_seal", {})
+                    base_sha = (j_seal.get("base_sha256") or j_seal.get("integrity_hash") or "").lower()
                     pure_sha = hashlib.sha256(json.dumps(j_data, ensure_ascii=False, indent=2).encode("utf-8")).hexdigest().lower()
-                    if (expected_hash and expected_hash[:16] in j_seal.get("integrity_hash", "")) or pure_sha == expected_hash or pure_sha.startswith(expected_hash) or expected_hash.startswith(pure_sha[:16]):
+                    if expected_hash and (base_sha == expected_hash or expected_hash.startswith(base_sha[:16]) or base_sha.startswith(expected_hash[:16]) or pure_sha == expected_hash or pure_sha.startswith(expected_hash) or expected_hash.startswith(pure_sha[:16])):
                         matched_fallback = True
                 except Exception:
                     pass
