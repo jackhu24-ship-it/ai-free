@@ -1,0 +1,25 @@
+{
+  "theme_name": "Visual_Learned_Test_mockup_card",
+  "font_family": "Inter, 'Noto Sans TC', Segoe UI",
+  "font_size": {
+    "h1": "22pt",
+    "body": "10.5pt"
+  },
+  "colors": {
+    "primary": "#1A202C",
+    "body": "#2D3748"
+  },
+  "layout_rules": {
+    "line_height": 1.55,
+    "margin": "2.2cm",
+    "hanging_indent": "1.8em"
+  },
+  "source_asset": "test_mockup_card.png",
+  "_signature": {
+    "verified_by_l1": "Xiaomi_Customs_PASSED",
+    "verified_by_l2": "Office2_Renderer_PASSED",
+    "final_signoff": "👑 Commander Jack 哥 (Auto-Pilot)",
+    "timestamp": "2026-10-01 10:40:07",
+    "status": "OFFICIALLY_CERTIFIED"
+  }
+}
