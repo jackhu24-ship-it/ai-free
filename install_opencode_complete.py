@@ -20,7 +20,23 @@ if sys.stdout and hasattr(sys.stdout, "reconfigure"):
 if sys.stderr and hasattr(sys.stderr, "reconfigure"):
     sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 
-G_VAULT_ROOT = Path(r"G:\我的雲端硬碟\260803_opencode")
+def find_g_drive_truth() -> Path:
+    """自動探測 Google 雲端硬碟真身根目錄，無視硬碟代號 (G:/H:/D:) 飄移"""
+    import string
+    custom = os.environ.get("PHANTOM_TRUTH_DIR")
+    if custom and Path(custom).exists():
+        return Path(custom)
+    default_target = Path(r"G:\我的雲端硬碟\260803_opencode")
+    if (default_target / "AGENTS.md").exists():
+        return default_target
+    for letter in string.ascii_uppercase:
+        for sub in ["我的雲端硬碟/260803_opencode", "My Drive/260803_opencode", "260803_opencode"]:
+            cand = Path(f"{letter}:/{sub}")
+            if (cand / "AGENTS.md").exists():
+                return cand
+    return default_target
+
+G_VAULT_ROOT = find_g_drive_truth()
 C_MIRROR_ROOT = Path(r"C:\260728-code")
 LOCAL_ROOT = Path(__file__).resolve().parent
 

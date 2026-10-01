@@ -1,8 +1,14 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
+r"""
 PHANTOM GRID - Office 2 Dynamic War Room Backend
 整合 Mobile HUI 輸入、截圖丟檔、SSE 串流與雙層認證落款管線
+
+【核心定錨原則】
+1. G 槽（唯一真理來源 Single Source of Truth）：截圖投放與落款資產第一時間寫入 G 槽真身金庫。
+2. C 槽（純高速戰鬥鏡像 NVMe Combat Mirror）：單向投影至 C 槽供極速讀取與計算。
+3. 動態路徑解耦：杜絕寫死 C:\Users\，定錨 C:\260728-code\ 與動態探測 G 槽盤符。
+4. 高並發架構：採用 ThreadingHTTPServer，徹底解決單執行緒 SSE 串流阻塞上傳/指令之問題。
 """
 
 import os
@@ -12,8 +18,9 @@ import time
 import queue
 import hashlib
 import threading
+import shutil
 from pathlib import Path
-from http.server import HTTPServer, BaseHTTPRequestHandler
+from http.server import ThreadingHTTPServer, BaseHTTPRequestHandler
 from urllib.parse import parse_qs, urlparse
 
 # Windows UTF-8 強制防護
@@ -22,21 +29,29 @@ if sys.stdout and hasattr(sys.stdout, "reconfigure"):
 if sys.stderr and hasattr(sys.stderr, "reconfigure"):
     sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 
-# 確保 tools 目錄在 sys.path 中
+# 確保 tools 目錄在 sys.path
 tools_dir = str(Path(__file__).resolve().parent)
 if tools_dir not in sys.path:
     sys.path.insert(0, tools_dir)
 
-# 引用先前制定的雙層認證引擎
-from dual_verify_pipeline import DualVerificationEngine, DMZ_INBOX
+from path_resolver import (
+    TRUTH_ROOT,
+    COMBAT_ROOT,
+    G_SAMPLES,
+    G_INBOX,
+    G_KNOWLEDGE_TYPO,
+    G_INSTALLER_TPL,
+    G_AGENTS,
+    C_SAMPLES,
+    C_INBOX,
+    C_KNOWLEDGE_TYPO,
+    C_AGENTS,
+    ensure_all_dirs
+)
+from dual_verify_pipeline import DualVerificationEngine
 
-# 路徑定義
-BASE_DIR = Path(r"C:\260728-code")
-SAMPLES_DIR = BASE_DIR / "samples"
-SAMPLES_DIR.mkdir(parents=True, exist_ok=True)
-AGENTS_C = BASE_DIR / "AGENTS.md"
-AGENTS_G = Path(r"G:\我的雲端硬碟\260803_opencode\AGENTS.md")
-INSTALLER_TPL = Path(r"G:\我的雲端硬碟\260803_opencode\工具安裝包\template\AGENTS.md")
+# 確保目錄結構完整
+ensure_all_dirs()
 
 # 全域 SSE 事件隊列
 event_queue = queue.Queue()
@@ -51,9 +66,9 @@ def get_sha256(filepath: Path) -> str:
     return h.hexdigest()
 
 def check_sync_status():
-    sha_c = get_sha256(AGENTS_C)
-    sha_g = get_sha256(AGENTS_G)
-    sha_tpl = get_sha256(INSTALLER_TPL)
+    sha_c = get_sha256(C_AGENTS)
+    sha_g = get_sha256(G_AGENTS)
+    sha_tpl = get_sha256(G_INSTALLER_TPL / "AGENTS.md")
     
     in_sync = (sha_c == sha_g == sha_tpl) and (sha_c != "NOT_FOUND")
     return {
@@ -118,26 +133,35 @@ class WarRoomHandler(BaseHTTPRequestHandler):
         post_data = self.rfile.read(content_length)
 
         # 1. 接收手機端 (Mobile HUI) 截圖拖曳上傳
+        # 嚴格落實：真身在 G，C 只作投影
         if parsed.path == "/api/upload-layout":
             try:
-                # 儲存截圖至 samples/
                 timestamp = int(time.time())
-                img_path = SAMPLES_DIR / f"drop_{timestamp}.png"
-                with open(img_path, "wb") as f:
+                img_name = f"drop_{timestamp}.png"
+
+                # 1. 真身落地：優先寫入 G 槽真身金庫 samples
+                g_img_path = G_SAMPLES / img_name
+                g_img_path.parent.mkdir(parents=True, exist_ok=True)
+                with open(g_img_path, "wb") as f:
                     f.write(post_data)
+
+                # 2. 戰鬥鏡像：單向投影回 C 槽 samples (供本地極速讀取)
+                c_img_path = C_SAMPLES / img_name
+                c_img_path.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(g_img_path, c_img_path)
                 
                 # 推送日誌至右側大盤
                 event_queue.put({
                     "type": "LOG",
                     "source": "Mobile_HUI",
-                    "message": f"截圖已自動投遞至 {img_path.name}，觸發 Bob 逆向解析中..."
+                    "message": f"截圖已於 G 槽真身落地並鏡像至 {c_img_path.name}，喚醒 Bob 逆向解析中..."
                 })
 
                 # 觸發雙層檢驗引擎 (非同步執行，避免阻塞)
                 threading.Thread(target=self._run_pipeline, args=(f"auto_drop_{timestamp}.json",)).start()
 
                 self._set_headers()
-                self.wfile.write(json.dumps({"status": "SUCCESS", "file": str(img_path)}).encode("utf-8"))
+                self.wfile.write(json.dumps({"status": "SUCCESS", "g_file": str(g_img_path), "c_file": str(c_img_path)}).encode("utf-8"))
             except Exception as e:
                 self.send_error(500, str(e))
             return
@@ -194,9 +218,13 @@ class WarRoomHandler(BaseHTTPRequestHandler):
         self.send_error(404, "Not Found")
 
     def _run_pipeline(self, draft_name: str):
-        time.sleep(1.5) # 模擬 Bob 逆向耗時
-        draft_file = DMZ_INBOX / draft_name
-        if not draft_file.exists():
+        time.sleep(1.0) # 模擬 Bob 逆向耗時
+        
+        # 1. 草案於 G 槽真身 inbox 落地
+        g_draft_file = G_INBOX / draft_name
+        c_draft_file = C_INBOX / draft_name
+
+        if not g_draft_file.exists():
             dummy = {
                 "theme_name": f"Mobile_Dropped_{draft_name.replace('.json', '')}",
                 "font_family": "Inter, 'Noto Sans TC', Segoe UI",
@@ -204,8 +232,13 @@ class WarRoomHandler(BaseHTTPRequestHandler):
                 "colors": {"primary": "#1A202C", "body": "#2D3748"},
                 "layout_rules": {"line_height": 1.55, "margin": "2.2cm", "hanging_indent": "1.8em"}
             }
-            with open(draft_file, "w", encoding="utf-8") as f:
+            g_draft_file.parent.mkdir(parents=True, exist_ok=True)
+            with open(g_draft_file, "w", encoding="utf-8") as f:
                 json.dump(dummy, f, ensure_ascii=False, indent=2)
+            
+            # 單向投影至 C 槽 DMZ
+            c_draft_file.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(g_draft_file, c_draft_file)
 
         engine = DualVerificationEngine(draft_name)
         
@@ -217,17 +250,19 @@ class WarRoomHandler(BaseHTTPRequestHandler):
             if engine.verify_l2_office2_sandbox():
                 event_queue.put({"type": "VERIFY_STEP", "step": "L2_OFFICE2", "status": "PASS"})
                 
-                # 自動落款
+                # 自動落款 (真身寫入 G，母體回寫 G，鏡像投影 C)
                 engine.commander_signoff(commander_name="Jack 哥")
                 event_queue.put({
                     "type": "SIGNOFF_COMPLETE",
                     "status": "OFFICIALLY_CERTIFIED",
-                    "message": "資產已由 Jack 哥落款生效，並同步至一鍵安裝庫存！"
+                    "message": "資產已由 Jack 哥落款生效，固化於 G 槽並同步安裝母體！"
                 })
 
-                # 讀取樣式推播至前端
+                # 讀取最新已落款樣式推播至前端
                 try:
-                    with open(draft_file, "r", encoding="utf-8") as f:
+                    theme_id = engine.data["theme_name"].lower().replace(" ", "_")
+                    g_target = G_KNOWLEDGE_TYPO / f"theme_{theme_id}.json"
+                    with open(g_target, "r", encoding="utf-8") as f:
                         theme_data = json.load(f)
                     event_queue.put({
                         "type": "THEME_UPDATED",
@@ -237,8 +272,10 @@ class WarRoomHandler(BaseHTTPRequestHandler):
                     pass
 
 def run_server(port=8766):
-    server = HTTPServer(("127.0.0.1", port), WarRoomHandler)
-    print(f"🛡️ [第二辦公室聯動核心] 監聽啟動於 http://127.0.0.1:{port}")
+    server = ThreadingHTTPServer(("127.0.0.1", port), WarRoomHandler)
+    print(f"🛡️ [第二辦公室聯動核心] 多執行緒伺服器啟動於 http://127.0.0.1:{port}")
+    print(f"   • 真身金庫根目錄 : {TRUTH_ROOT}")
+    print(f"   • 戰鬥鏡像根目錄 : {COMBAT_ROOT}")
     server.serve_forever()
 
 if __name__ == "__main__":

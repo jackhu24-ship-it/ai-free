@@ -161,3 +161,15 @@ AI 自學工具箱建置：完整具備 13 庫之 AI 工具箱（OpenCode 懶人
   3. **第三階段：第二辦公室進行渲染拓撲認證 (L2)**：二辦於隔離沙盒以該 JSON 試跑 A4 樣張，檢驗避頭尾字元法規與 30~40 字呼吸區間，通過後核發報告 `render_status: "100%_PASS"` 與 `[PASS_L2_RENDER_VERIFIED]` 呈報指揮所。
   4. **第四階段：指揮所最高落款與資產固化**：霸丸總指揮官 Jack 哥檢視雙重綠燈後下達落款令，系統正式賦予正式 ID（如 `Theme_Grid_Certified_01`），寫入 `02_Knowledge/Typography/`，並依收工 Hook 自動反向回寫至 `template/AGENTS.md` 一鍵安裝資產庫！
 
+## 3.10 雙軌架構核心定錨與動態路徑解耦鐵律 (Single Source of Truth & Dynamic Path Abstraction)
+
+| 核心維度 | G 槽真身金庫 (Single Source of Truth) | C 槽戰鬥鏡像 (NVMe Combat Mirror) | 跨電腦動態解耦標準 (Path Abstraction) |
+| :--- | :--- | :--- | :--- |
+| **本體定位** | • **唯一真理來源 (Single Source of Truth)**<br>• 所有永久資產、官方認證版型、知識庫、安裝包母體之神聖本體 | • **純高速戰鬥鏡像 (Combat Mirror)**<br>• 專供 NVMe 高速極速運算、編譯、無頭渲染，隨時可格式化重建 | • **杜絕寫死 `C:\Users\{username}`**<br>• 定錨根目錄 `C:\260728-code\` 或動態調用 `Path.home()` |
+| **資料流向** | • **第一時間真身落地**<br>• 截圖投放、Bob 逆向草案、統帥落款產物一律第一時間寫入 G 槽 | • **單向受控投影**<br>• 僅作為本地讀取與執行使用，絕不在未經 G 槽真身固化前孤立落盤 | • **動態磁碟尋標 (`find_g_drive_truth`)**<br>• 無視 Google 雲端硬碟盤符 (G:/H:/D:) 飄移，遍歷 A-Z 自動捕獲 |
+| **落款順序** | 1. 寫入 G 槽真身金庫 (`02_Knowledge/Typography/`)<br>2. 回寫 G 槽安裝包母體 (`工具安裝包/template/`) | 3. 單向鏡像至 C 槽戰鬥目錄 (`C:\260728-code\`) | 4. 登記進 G/C 雙軌 `handoff.md`，比對 SHA256 一致性綠燈 |
+
+- **「真身在 G，戰鬥在 C，桌面為零」黃金基線**：
+  - **截圖投放**：前端/客戶端上傳截圖，第一時間寫入 G 槽真身金庫（`G:\我的雲端硬碟\260803_opencode\samples\`），隨後單向二進位投影至 C 槽高速鏡像（`C:\260728-code\samples\`）。
+  - **落款資產**：統帥最高落款簽發之資產，強制第一時間寫入 G 槽真身與 G 槽一鍵安裝包母體，最後才單向投影至 C 槽戰鬥鏡像。
+  - **災難復原 (5分鐘滿血原地復活)**：在新電腦掛載 Google 雲端硬碟後，執行 `python install_opencode_complete.py`，動態尋標器秒級定位真身，自動建立根目錄 `C:\260728-code\`，完成 SHA256 雙軌對齊，路徑 100% 解耦使用者帳號！

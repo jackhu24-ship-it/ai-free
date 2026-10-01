@@ -1,10 +1,15 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""PHANTOM GRID - Dual-Verification & Commander Sign-Off Engine
+r"""PHANTOM GRID - Dual-Verification & Commander Sign-Off Engine
 
 Author: 執行秘書處 小米
 Authority: 👑 霸丸總指揮官 Jack 哥
 Pipeline: Bob (DMZ) -> Xiaomi (L1 Security) -> Office 2 (L2 Render) -> Jack (Sign-off)
+
+【核心定錨原則】
+1. G 槽（唯一真理來源 Single Source of Truth）：所有真身資產、落款產物第一時間寫入 G 槽。
+2. C 槽（純高速戰鬥鏡像 NVMe Combat Mirror）：僅作為讀取與極速測試投影。
+3. 動態路徑解耦：杜絕寫死 C:\Users\，定錨 C:\260728-code\ 與動態探測 G 槽盤符。
 """
 
 import hashlib
@@ -21,25 +26,43 @@ if sys.stdout and hasattr(sys.stdout, "reconfigure"):
 if sys.stderr and hasattr(sys.stderr, "reconfigure"):
     sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 
-# ==========================================
-# 0. 路徑與基礎配置 (C/G 雙軌政策)
-# ==========================================
-BASE_DIR = Path(r"C:\260728-code")
-DMZ_INBOX = BASE_DIR / "inbox" / "bob_drafts"
-KNOWLEDGE_TYPO = Path(r"G:\我的雲端硬碟\260803_opencode\02_Knowledge\Typography")
-INSTALLER_TEMPLATE_DIR = Path(r"G:\我的雲端硬碟\260803_opencode\工具安裝包\template")
-HANDOFF_FILE = Path(r"G:\我的雲端硬碟\260803_opencode\handoff.md")
+# 確保 tools 目錄在 sys.path
+tools_dir = str(Path(__file__).resolve().parent)
+if tools_dir not in sys.path:
+    sys.path.insert(0, tools_dir)
 
-# 確保目錄結構完整
-DMZ_INBOX.mkdir(parents=True, exist_ok=True)
-KNOWLEDGE_TYPO.mkdir(parents=True, exist_ok=True)
-INSTALLER_TEMPLATE_DIR.mkdir(parents=True, exist_ok=True)
+from path_resolver import (
+    TRUTH_ROOT,
+    COMBAT_ROOT,
+    G_KNOWLEDGE_TYPO,
+    G_INSTALLER_TPL,
+    G_HANDOFF,
+    G_INBOX,
+    C_KNOWLEDGE_TYPO,
+    C_INSTALLER_TPL,
+    C_HANDOFF,
+    C_INBOX,
+    ensure_all_dirs
+)
+
+# 確保目錄完整
+ensure_all_dirs()
+DMZ_INBOX = C_INBOX
 
 
 class DualVerificationEngine:
 
   def __init__(self, draft_filename: str):
-    self.draft_path = DMZ_INBOX / draft_filename
+    # 支援傳入純檔名或相對路徑
+    self.draft_filename = Path(draft_filename).name
+    # 讀取優先以 C 槽戰鬥鏡像極速讀取 (若不存在則從 G 槽鏡像過來)
+    self.c_draft_path = C_INBOX / self.draft_filename
+    self.g_draft_path = G_INBOX / self.draft_filename
+
+    if not self.c_draft_path.exists() and self.g_draft_path.exists():
+        shutil.copy2(self.g_draft_path, self.c_draft_path)
+
+    self.draft_path = self.c_draft_path
     self.data = {}
     self.l1_passed = False
     self.l2_passed = False
@@ -123,6 +146,7 @@ class DualVerificationEngine:
 
   # ==========================================
   # 最高落款：👑 Jack 哥終審蓋印與自動閉環回寫
+  # 嚴格落實：G 槽真身，C 槽鏡像
   # ==========================================
   def commander_signoff(self, commander_name: str = "Jack 哥") -> bool:
     if not (self.l1_passed and self.l2_passed):
@@ -133,7 +157,6 @@ class DualVerificationEngine:
         f"\n👑 [指揮所最高審批] 呈報 👑 霸丸總指揮官 {commander_name} 審閱..."
     )
     theme_id = self.data["theme_name"].lower().replace(" ", "_")
-    target_file = KNOWLEDGE_TYPO / f"theme_{theme_id}.json"
 
     # 1. 注入官方認證數位戳記
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -145,33 +168,53 @@ class DualVerificationEngine:
         "status": "OFFICIALLY_CERTIFIED",
     }
 
-    # 2. 實體落款至金庫 (G 槽)
-    with open(target_file, "w", encoding="utf-8") as f:
+    # ==========================================
+    # 核心步驟 1：真身固化 (第一時間寫入 G 槽真身金庫)
+    # ==========================================
+    g_target_file = G_KNOWLEDGE_TYPO / f"theme_{theme_id}.json"
+    g_target_file.parent.mkdir(parents=True, exist_ok=True)
+    with open(g_target_file, "w", encoding="utf-8") as f:
       json.dump(self.data, f, ensure_ascii=False, indent=2)
-    print(f"🎖️ [官方落款生效] 資產已固化至: {target_file}")
+    print(f"🎖️ [真身固化] 資產已寫入 G 槽真身金庫: {g_target_file}")
 
-    # 雙向同步至 C 槽戰鬥鏡像
-    c_mirror_token = BASE_DIR / "02_Knowledge" / "Typography" / f"theme_{theme_id}.json"
-    c_mirror_token.parent.mkdir(parents=True, exist_ok=True)
-    shutil.copy2(target_file, c_mirror_token)
+    # ==========================================
+    # 核心步驟 2：母體封裝 (同步回寫 G 槽安裝包母體)
+    # ==========================================
+    g_installer_tpl = G_INSTALLER_TPL / f"theme_{theme_id}.json"
+    g_installer_tpl.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(g_target_file, g_installer_tpl)
+    print(f"⚡ [母體封裝] 最新版型已同步回寫 G 槽安裝包母體: {g_installer_tpl}")
 
-    # 3. 觸發自動反向同步至一鍵安裝資產庫
-    installer_asset = INSTALLER_TEMPLATE_DIR / f"theme_{theme_id}.json"
-    shutil.copy2(target_file, installer_asset)
-    print(f"⚡ [安裝包同步] 最新版型已鏡像至一鍵安裝庫: {installer_asset}")
+    # ==========================================
+    # 核心步驟 3：戰鬥鏡像 (單向投影回 C 槽極速鏡像)
+    # ==========================================
+    c_mirror_file = C_KNOWLEDGE_TYPO / f"theme_{theme_id}.json"
+    c_mirror_file.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(g_target_file, c_mirror_file)
+    print(f"🚀 [戰鬥鏡像] 已單向投影至 C 槽戰鬥鏡像: {c_mirror_file}")
 
-    # 同步至工作區 template
-    local_installer_asset = Path(__file__).resolve().parent / "工具安裝包" / "template" / f"theme_{theme_id}.json"
-    if local_installer_asset.parent.exists():
-        shutil.copy2(target_file, local_installer_asset)
+    # 同步鏡像至 C 槽安裝包模板
+    c_installer_tpl = C_INSTALLER_TPL / f"theme_{theme_id}.json"
+    c_installer_tpl.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(g_target_file, c_installer_tpl)
 
-    # 4. 登記進當日 handoff.md
-    with open(HANDOFF_FILE, "a", encoding="utf-8") as hf:
-      hf.write(
-          f"\n- **[Style Certified]** `{timestamp}` 統帥落款核准"
-          f" `{theme_id}`，已完成雙層認證並寫入安裝庫存。\n"
-      )
-    print("📝 [工作日誌登記] 已自動同步寫入 handoff.md！全鏈路閉環完成！")
+    # ==========================================
+    # 核心步驟 4：工作日誌雙軌登記 (G 槽真身優先)
+    # ==========================================
+    log_entry = (
+        f"\n- **[Style Certified]** `{timestamp}` 統帥落款核准"
+        f" `{theme_id}`，已完成雙層認證並寫入安裝庫存。\n"
+    )
+    try:
+        with open(G_HANDOFF, "a", encoding="utf-8") as hf:
+            hf.write(log_entry)
+        if C_HANDOFF.exists():
+            with open(C_HANDOFF, "a", encoding="utf-8") as hf:
+                hf.write(log_entry)
+        print("📝 [工作日誌登記] 已同步寫入 G/C 雙軌 handoff.md！全鏈路閉環完成！")
+    except Exception as e:
+        print(f"⚠️ 日誌寫入提示: {e}")
+
     return True
 
 

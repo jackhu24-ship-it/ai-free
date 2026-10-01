@@ -21,14 +21,30 @@ if sys.stdout and hasattr(sys.stdout, "reconfigure"):
 if sys.stderr and hasattr(sys.stderr, "reconfigure"):
     sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 
+# 確保 tools 目錄在 sys.path
+tools_dir = str(Path(__file__).resolve().parent)
+if tools_dir not in sys.path:
+    sys.path.insert(0, tools_dir)
+
+from path_resolver import (
+    TRUTH_ROOT,
+    COMBAT_ROOT,
+    G_SAMPLES,
+    C_SAMPLES,
+    G_INBOX,
+    C_INBOX,
+    ensure_all_dirs
+)
+
 # 引入雙層認證引擎
 from dual_verify_pipeline import DualVerificationEngine, DMZ_INBOX
 
-# 監聽目錄：C 槽高速鏡像 samples/ 與 工作區 samples/
-WATCH_DIR_C = Path(r"C:\260728-code\samples")
-WATCH_DIR_LOCAL = Path(__file__).resolve().parent / "samples"
+ensure_all_dirs()
 
-WATCH_DIR_C.mkdir(parents=True, exist_ok=True)
+# 監聽目錄：G 槽真身 samples/ 與 C 槽高速鏡像 samples/
+WATCH_DIR_G = G_SAMPLES
+WATCH_DIR_C = C_SAMPLES
+WATCH_DIR_LOCAL = Path(__file__).resolve().parent / "samples"
 WATCH_DIR_LOCAL.mkdir(parents=True, exist_ok=True)
 
 
@@ -88,15 +104,18 @@ def start_watchdog_daemon(run_once: bool = False):
   observer = Observer()
   handler = AutoPipelineHandler()
   
-  # 同時監聽 C 槽 samples 與 工作區 samples
-  observer.schedule(handler, path=str(WATCH_DIR_C), recursive=False)
-  if WATCH_DIR_LOCAL.exists() and WATCH_DIR_LOCAL.resolve() != WATCH_DIR_C.resolve():
+  # 同時監聽 G 槽真身 samples、C 槽鏡像 samples 與 工作區 samples
+  if WATCH_DIR_G.exists():
+    observer.schedule(handler, path=str(WATCH_DIR_G), recursive=False)
+  if WATCH_DIR_C.exists() and WATCH_DIR_C.resolve() != WATCH_DIR_G.resolve():
+    observer.schedule(handler, path=str(WATCH_DIR_C), recursive=False)
+  if WATCH_DIR_LOCAL.exists() and WATCH_DIR_LOCAL.resolve() not in [WATCH_DIR_C.resolve(), WATCH_DIR_G.resolve()]:
     observer.schedule(handler, path=str(WATCH_DIR_LOCAL), recursive=False)
 
   observer.start()
   print("=" * 80)
   print("🛡️ [PHANTOM GRID 哨兵就位] Zero-Touch Auto Watchdog Daemon 啟動！")
-  print(f"👀 正在自動監聽目錄: {WATCH_DIR_C} (丟檔即自動處理)...")
+  print(f"👀 正在自動監聽目錄: G 槽真身 [{WATCH_DIR_G}] 與 C 槽鏡像 [{WATCH_DIR_C}] (丟檔即自動處理)...")
   print("=" * 80)
   try:
     while True:
