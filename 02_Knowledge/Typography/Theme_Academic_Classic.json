@@ -1,0 +1,16 @@
+{
+  "name": "Academic Classic (旗艦出版社級學術典藏風)",
+  "font_family_tc": "\"Noto Sans TC\", \"Microsoft JhengHei\", sans-serif",
+  "font_family_en": "\"Segoe UI\", \"Georgia\", serif",
+  "font_family_code": "\"Consolas\", monospace",
+  "font_variation_settings": "'wght' 400, 'wdth' 100, 'opsz' 10",
+  "font_feature_settings": "'tnum' 1, 'pnum' 0",
+  "line_height": 1.6,
+  "paragraph_spacing_pt": 8.0,
+  "color_body": "#2D3748",
+  "color_heading": "#1E293B",
+  "color_secondary": "#6B7280",
+  "x_height_ratio": 0.7,
+  "description": "段落呼吸留白充足，嚴格雙欄 A4 排版，單行字數嚴鎖 32~40 字。",
+  "frozen_at": "2026-10-01T10:23:16.158276"
+}

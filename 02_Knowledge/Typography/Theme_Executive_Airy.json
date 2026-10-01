@@ -1,0 +1,16 @@
+{
+  "name": "Executive Airy (矽谷高階透氣商務風)",
+  "font_family_tc": "\"Noto Sans TC\", \"Microsoft JhengHei\", \"PingFang TC\", sans-serif",
+  "font_family_en": "\"Inter\", \"Segoe UI\", sans-serif",
+  "font_family_code": "\"JetBrains Mono\", Consolas, monospace",
+  "font_variation_settings": "'wght' 450, 'wdth' 100, 'opsz' 14",
+  "font_feature_settings": "'tnum' 1, 'ss01' 1, 'zero' 1",
+  "line_height": 1.55,
+  "paragraph_spacing_pt": 7.0,
+  "color_body": "#2D3748",
+  "color_heading": "#1A202C",
+  "color_secondary": "#718096",
+  "x_height_ratio": 0.72,
+  "description": "中文字盤以思源黑體為底，西文完美對齊 Inter 字腹高度，數值等寬切齊。",
+  "frozen_at": "2026-10-01T10:23:16.133168"
+}

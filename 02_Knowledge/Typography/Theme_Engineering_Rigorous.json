@@ -1,0 +1,16 @@
+{
+  "name": "Engineering Rigorous (航太與軍工嚴謹工程風)",
+  "font_family_tc": "\"Noto Sans TC\", \"Microsoft JhengHei\", sans-serif",
+  "font_family_en": "\"Inter\", \"Consolas\", sans-serif",
+  "font_family_code": "\"JetBrains Mono\", Consolas, monospace",
+  "font_variation_settings": "'wght' 500, 'wdth' 100, 'opsz' 12",
+  "font_feature_settings": "'tnum' 1, 'zero' 1, 'liga' 1",
+  "line_height": 1.5,
+  "paragraph_spacing_pt": 6.0,
+  "color_body": "#1A202C",
+  "color_heading": "#0F172A",
+  "color_secondary": "#64748B",
+  "x_height_ratio": 0.75,
+  "description": "數字 0 帶斜線區隔字母 O，開啟程式碼連字特性 (Ligatures)，報表小數點絕對對齊。",
+  "frozen_at": "2026-10-01T10:23:16.144930"
+}

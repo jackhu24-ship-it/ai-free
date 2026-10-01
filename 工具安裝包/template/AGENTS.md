@@ -109,3 +109,14 @@ AI 自學工具箱建置：完整具備 13 庫之 AI 工具箱（OpenCode 懶人
 - **考卷與試算表**：試算表列高強制 24pt 起跳 (文字靠左、數值靠右)；考卷強制雙欄 A4 排版，嚴格控制單行 24 字。
 - **避頭尾字元法規 (Kinsoku Shori)**：行首禁止句號、逗號、問號、右括號；行尾禁止左括號、引號開頭。
 
+## 3.6 高階字體工程與動態美學演進 (Type Engineering & Dynamic Typography)
+
+| 進化維度 | 技術核心 / 標準名詞 | 傳統做法 vs PHANTOM GRID 升級規格 | 帶來的體感昇華 |
+| :--- | :--- | :--- | :--- |
+| **1. 可變字型無段調諧** | Variable Fonts (OpenType-VF)<br>CSS: `font-variation-settings` | 傳統：靜態切換 Regular / Bold<br>升級：字重 (wght: 100~900)、字寬 (wdth)、光學尺寸 (opsz) 連續無段調諧 | • 小字體自動增寬筆畫，大標題自動收縮細節<br>• 徹底消除縮放模糊與厚重鈍感 |
+| **2. 中西混排黃金比例** | 複合字體配對 (Composite Font Pairing)<br>X-Height (字腹高度) 精確校準 | 傳統：系統預設字體直接混排，西文比例矮小怪異<br>升級：中文字盤以思源/蘋方為骨架，挑選完美對齊 X-Height 之英文字型 (如 Inter) | • 中英文穿插時視線完全平穩，不再高低起伏震盪<br>• 專屬配對：Noto Sans TC ＋ Inter (科技) / 思源 ＋ Segoe UI (學術) |
+| **3. 數值與工程對齊特性** | OpenType 數值特性 (OpenType Features)<br>`font-feature-settings: "tnum" 1, "zero" 1` | 傳統：數字寬度不一，上下行小數點錯位扭曲<br>升級：報表與暫存器一律強制等寬數值 (`tnum`)，數字 0 帶斜線 (`zero`) | • 表格小數點縱向絕對切齊，如同機械精密加工<br>• 徹底杜絕 0 與字母 O 視覺混淆 |
+| **4. 學習與沉澱自動演進** | 字樣風格庫 (Font Style Guide Token)<br>CSS Custom Properties / Design Tokens | 傳統：每次寫死字型設定，靈感無法沉澱重用<br>升級：建立自學反饋庫，收工自動沉澱至 `02_Knowledge/Typography/` | • 系統每次吸收優秀版型，下一次生成自動具名套用<br>• 預置三大神級資產：Executive Airy / Engineering Rigorous / Academic Classic |
+
+- **自動化演進四步閉環**：1. 視覺樣式採樣 ➔ 2. 秘書處逆向工程 (解構 wght/opsz/行距/色彩) ➔ 3. 沉澱為 Design Token (JSON) ➔ 4. 一三辦工段即時調用。
+
