@@ -4,6 +4,8 @@
 
 ## ⏯️ 目前做到哪
 
+- **[特助小幫手全自動同步 · 頒布憲法鐵律第 20 條 · 帝國立國之本與四道鐵閘 ＋ 帝國軍令狀（打不垮、攻不破、奪不走） ＋ PHANTOM STUDIO 影視軍工庫雙軌就緒 ＋ 雙向金庫固化]** (2026-10-01 09:31 CST): 🛡️【里程碑 275 · 帝國立國之本 ✕ 四道鐵閘 ✕ 影視軍工庫自動部署全線完成】依霸丸總指揮官最高指示：①【憲法鐵律第 20 條正式頒布（AGENTS.md）】：確立「四大終極防禦鐵閘」（第一道：主權金庫 Vault Fortress、第二道：邊界隔離 DMZ Quarantine、第三道：幽靈端口 Ghost Port、第四道：統帥權杖 Sovereign Seal）與「帝國軍令狀」（打不垮、攻不破、奪不走）；②【PHANTOM STUDIO 影視軍工庫一鍵部署】：於 G 槽真身金庫（`G:\我的雲端硬碟\260803_opencode\02_Knowledge\Studio_Cinema\`）與 C 槽鏡像（`C:\260728-code\02_Knowledge\Studio_Cinema\`）雙軌建立 4 大專屬目錄（`01_Scripts_Teleprompter`、`02_Avatars_Characters`、`03_Voice_Masters`、`04_Master_Renders`），角色立繪、錄音母帶、分鏡劇本與成品影片全部各就各位；③【四軌同步推播入庫】：`grid_shield.py` 自檢護甲 5/5 全綠，GitHub Commit 雙向推播完畢！
+
 - **[特助小幫手全自動同步 · IBM BOB 完工產出 5 大演算法代碼 ＋ 憲法鐵律第 19 條六部曲生效 ＋ 今日 5 大新踩坑手冊入庫 ＋ NVIDIA 企劃書五章就緒 ＋ 圓滿收工雙向固化]** (2026-10-01 09:15 CST): 🏆【里程碑 273 · 外部傭兵全自動完工產出 ✕ 憲法鐵律 19 條六部曲 ✕ 雙向金庫圓滿收工】依霸丸總指揮官收工軍令，特助小幫手全量檢視與閉環收攏：①【傭兵 TASK-002 產出全數就緒】：經檢驗 `C:\ibm-bob\02_OUTBOX\`，IBM Bob 運用外部免費算力已成功產出全數 5 大交付物（`fault_injector.py` 2.7KB、`kinematics_gate.py` 2.8KB、`lww_register_set.py` 3.7KB、`telemetry_digest.py` 3.4KB、`test_primitives.py` 20.2KB 完整測試套件），0 指揮所 Token 消耗！②【憲法鐵律第 19 條六部曲正式入冊】：於 `AGENTS.md` 確立「二辦草案 ➔ 指揮所空投 ➔ Bob施工 ➔ 海關去毒 ➔ 三辦混沌驗收 ➔ 統帥雙簽落款」六部曲作戰閉環；③【今日 5 大新踩坑經驗全景入庫】：更新《踩坑與實戰經驗全景手冊》（增列坑 10 至坑 14：路徑防污染、OAuth 回調、270k 上下文容量正確認知、Approve for task 授權、三辦混沌驗收閉環），四軌同步至 G 槽手冊專區與學習金庫；④【NVIDIA 參賽企劃提案書五大章節定稿】：`C:\nvidia-edge-agent\NVIDIA_AGENTIC_AI_EDGE_PROPOSAL.md` 包含背景挑戰、架構圖、選型矩陣、里程碑、風險管理五大章節，雙向固化至 G 槽 `NVIDIA_EDGE_AI_2026_DELIVERY\`，隨時一鍵複製交卷；⑤【全軌固化推播】：全量變更 100% 固化入庫，GitHub Commit 雙向同步完畢，圓滿收工！
 
 - **[第二辦公室 APP UI 同步收工]** (2026-09-30 11:49:06): 第二辦公室 APP UI 完成全域代碼反查驗證引擎升級與雙軌對齊。
