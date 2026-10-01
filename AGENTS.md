@@ -120,3 +120,20 @@ AI 自學工具箱建置：完整具備 13 庫之 AI 工具箱（OpenCode 懶人
 
 - **自動化演進四步閉環**：1. 視覺樣式採樣 ➔ 2. 秘書處逆向工程 (解構 wght/opsz/行距/色彩) ➔ 3. 沉澱為 Design Token (JSON) ➔ 4. 一三辦工段即時調用。
 
+## 3.7 語意排版與自律佈局演算法 (Adaptive Layout & Indentation Engine)
+
+| 內容類型 | 識別特徵 (特徵抽取器識別點) | 最佳排版佈局決策 (Optimal Layout) | 幾何參數 (CSS / Print Engine) |
+| :--- | :--- | :--- | :--- |
+| **1. 一級主題 (H1/H2)** | 章節開頭、核心概念、少於 15 字，帶「第一章」、「一、」編號 | • 頂部大留白、底部分隔線<br>• **絕不縮排** (Margin: 0)，頂格定錨 | • 邊距：上 24pt / 下 12pt<br>• 字重：Bold (700)，行高 1.25 |
+| **2. 項次 / 清單 (Lists)** | 帶數字/字母/符號 (1. / a. / •)，標號與內文有序列關係 | • **懸掛縮排 (Hanging Indent)**<br>• 標號凸出左側，文字換行時靠齊內文 | • `padding-left: 1.8em`<br>• `text-indent: -1.8em` |
+| **3. 子說明 / 註解 (Explanations)** | 接在項次後、段落較長，含「注意：」、「說明：」或延伸細節 | • **區塊內縮排 (Block Indent)**<br>• 左側加 2px 科技灰裝飾線 (Border) | • 左右各內縮 1.5em ~ 2.0em<br>• 背景色：#F8FAFC (淺灰透氣底) |
+| **4. 緊湊定義對 (Key-Value)** | 鍵值對形式 (如「規格：1080P」)，主題短、說明短，條目超過 3 項 | • **左右對齊側邊欄 (DL / Side-by-Side)**<br>• 不用直列縮排，改為雙欄對齊網格 | • 左側鍵名寬度固定 8em (靠右)<br>• 右側說明靠左，避免垂直浪費 |
+
+- **項次懸掛標準**：所有序列標號強制啟用 Hanging Indent (負首行凸排)，文字折行縱向絕對齊平。
+- **深度安全閥**：階層深度限制最多 2 次向右縮排；超過 3 層自動降維轉為「左側 2px 灰線裝飾微卡片」，杜絕版面邊界坍塌。
+- **純文字環境三大排版自學方案**：
+  - **方案 A (主流/路徑指引)**：本地丟圖，終端傳路徑 `python tools/learn_layout.py --image samples/layout.png --name <名稱>`，後台自動降維為 JSON。
+  - **方案 B (極速/文字風格令)**：自然語意命令 `python tools/learn_layout.py --style "簡約大廠風, 雙欄, 懸掛縮排"`，秒級映射參數。
+  - **方案 C (沉澱/風格代號)**：呼叫預置代號 `python tools/learn_layout.py --token executive-airy`，零 Token 消耗直取知識庫。
+- **自學習閉環**：排版樣式反饋即時沉澱至 `02_Knowledge/Layout_Rules.json`，收工自動反向同步至安裝包資產庫。
+

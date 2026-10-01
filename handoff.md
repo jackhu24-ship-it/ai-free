@@ -4,6 +4,8 @@
 
 ## ⏯️ 目前做到哪
 
+- **[特助小幫手全自動同步 · 語意排版與自律佈局演算法（L3.7）入冊 ＋ learn_layout.py 純文字三大自學方案落地 ＋ 02_Knowledge/Layout_Rules.json 固化]** (2026-10-01 10:28 CST): 👁️【里程碑 283 · 純文字環境看圖學樣三大旁路方案 ✕ 語意區塊排版決策矩陣實裝】針對二辦純文字環境無法直接貼圖之特性，特助小幫手全鏈路實裝三大排版自學方案：①【三大純文字輸入旁路通道確立（AGENTS.md 第 3.7 條）】：1. 方案 A（主流/路徑指引）：截圖存硬碟，終端輸入 `python tools/learn_layout.py --image samples/layout.png` 讀圖拆解；2. 方案 B（極速/文字風格令）：終端輸入 `python tools/learn_layout.py --style "簡約大廠風, 雙欄, 懸掛縮排"` 秒級映射；3. 方案 C（沉澱/風格代號）：終端輸入 `python tools/learn_layout.py --token executive-airy` 零消耗載入；②【語意區塊排版決策矩陣落盤】：H1/H2 頂格絕不縮排、項次清單強制負首行懸掛（Hanging Indent）、深層說明超過 3 層啟用微卡片邊框容器化（深度安全閥）；③【實體工具與規則庫雙向固化】：落盤 `tools/learn_layout.py` 與 `02_Knowledge/Layout_Rules.json`，四軌同步至 C 槽鏡像、G 槽真身與遠端倉庫！
+
 - **[第二辦公室 APP UI 同步收工]** (2026-10-01 10:28:11): 第二辦公室 APP UI 完成真機工具庫擴充與 3D 活頁翻頁書真機調用對齊。
 
 - **[特助小幫手全自動同步 · 高階字體工程學（L3.6）入冊 ＋ typography_evolution_engine.py 落地 ＋ 02_Knowledge/Typography 三大風格資產庫固化]** (2026-10-01 10:24 CST): 🏛️【里程碑 282 · 動態字型美學與自學演進工作流實裝】依霸丸總指揮官指示跨入字體工程學（Type Engineering）高維領域：①【四大高階工程維度入冊（AGENTS.md 第 3.6 條）】：1. 可變字型無段調諧（Variable Fonts `wght`/`wdth`/`opsz`）、2. 中西混排黃金比例（X-Height 字腹對齊：Noto Sans TC ＋ Inter / Segoe UI）、3. 數值與工程對齊特性（OpenType Features `tnum` 1 等寬數值 ＋ `zero` 1 零帶斜線）、4. 學習與沉澱自動演進（Style Guide Design Tokens）；②【三大預置神級字樣固化】：於 `02_Knowledge/Typography/` 部署 `Theme_Executive_Airy.json`（矽谷高階透氣商務風）、`Theme_Engineering_Rigorous.json`（航太軍工嚴謹工程風）、`Theme_Academic_Classic.json`（出版級學術典藏風）；③【實體引擎落地（typography_evolution_engine.py）】：實裝「採樣 ➔ 逆向工程 ➔ 沉澱 ➔ 動態調用」四步自學閉環，四軌同步至 C 槽鏡像、G 槽真身與遠端倉庫！
