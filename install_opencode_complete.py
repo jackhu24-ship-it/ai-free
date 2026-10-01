@@ -35,7 +35,7 @@ def sync_agents_to_installer() -> dict:
     """收工與凍結核心：比對 SHA256，有變更才更新安裝庫與 sync_info.json"""
     # 決定當前運行的 AGENTS.md
     runtime_agents = None
-    for cand in [G_VAULT_ROOT / "AGENTS.md", LOCAL_ROOT / "AGENTS.md", C_MIRROR_ROOT / "AGENTS.md"]:
+    for cand in [LOCAL_ROOT / "AGENTS.md", G_VAULT_ROOT / "AGENTS.md", C_MIRROR_ROOT / "AGENTS.md"]:
         if cand.exists():
             runtime_agents = cand
             break

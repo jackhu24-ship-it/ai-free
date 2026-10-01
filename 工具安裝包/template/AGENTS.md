@@ -137,3 +137,12 @@ AI 自學工具箱建置：完整具備 13 庫之 AI 工具箱（OpenCode 懶人
   - **方案 C (沉澱/風格代號)**：呼叫預置代號 `python tools/learn_layout.py --token executive-airy`，零 Token 消耗直取知識庫。
 - **自學習閉環**：排版樣式反饋即時沉澱至 `02_Knowledge/Layout_Rules.json`，收工自動反向同步至安裝包資產庫。
 
+## 3.8 Bob 視覺逆向排版工段 (Bob Vision-to-Layout Protocol)
+- **定位與職責**：將外部傭兵節點 Bob（IBM Bob / Coder Agent）編制為「視覺排版逆向工兵」，負責高負擔之多模態視覺圖像逆向工程，徹底解耦第二辦公室純文字終端與主腦 Token。
+- **作戰工作流 (Workflow)**：
+  1. **本機圖檔投放**：統帥將參考截圖存放於 `samples/` 目錄（如 `samples/target_layout.png`）。
+  2. **傭兵逆向解析**：由 Bob 於隔離區直接讀取圖檔，萃取字型家族、wght 字重、行距比例、懸掛縮排（hanging indent）及邊框幾何，自動產出標準純文字 JSON（`02_Knowledge/Typography/bob_style.json`）。
+  3. **海關檢驗去毒**：特助小幫手於 `03_QUARANTINE` 執行語義消毒與參數防禦審計（CWE-1236 檢查、色碼柔和化 `#2D3748`、非 ASCII 字元防炸裂），杜絕任何惡意載荷。
+  4. **二辦即時調用**：第二辦公室透過方案 C 或 CLI 命令 `python tools/learn_layout.py --token bob_style` 零消耗載入，秒級產出向量級 PDF / 簡報 / HTML。
+- **邊界鐵律**：Bob 僅負責「圖像逆向與 CSS/JSON 樣式代碼生成」，嚴禁將核心機密、API 金鑰或通訊協議逆向注入樣式檔案中；作業完畢由海關即時重置沙盒，核心金庫永保零污染！
+
