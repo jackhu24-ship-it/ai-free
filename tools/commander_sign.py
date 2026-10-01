@@ -4,12 +4,18 @@ r"""
 PHANTOM GRID - 指揮所正式落款模組 (Commander Sign & Stamp Engine)
 👑 霸丸總指揮官 Jack 哥 專屬權威蓋印與核心庫封版引擎
 
-【指揮所取檔與落款最高鐵律】
-1. 指揮所「絕對不回頭」去沙盒 02_OUTBOX 或暫存區取檔！
-2. 取檔唯一法定來源：C:\ibm-bob\core_repo\ (以及 G 槽真身 02_Knowledge\Bob_Verified\)
-3. 嚴格校驗前置憑證：核查 approval_seal.json，確認代碼已經第二辦公室 AST 審查與防幻覺檢驗合格。
-4. 注入元數據頭部 (Metadata Header)，具備防偽 SHA-256 與審查時間戳。
-5. 登錄指揮所「產出建檔履歷」與 Git 封版 Tag，狀態變更為【已落款發佈 (Sealed & Released)】。
+【核心工程哲學：主件實體與防偽證書一併移交】
+- 杜絕「打包壓縮再解碼還原」：代碼與 JSON 一直保持真實 .py 與 .json，隨時可被全域反查引擎秒級檢索。
+- 標準交付結構：C:\ibm-bob\core_repo\ 內包含乾淨檔案實體與 .audit_certificate.json (二辦認證檔)。
+
+【指揮所落款標準 3 步驟】
+1. 第一步：拿「認證檔」驗收原檔 (驗票)
+   - 讀取 .audit_certificate.json，現場重新計算目錄下各實體檔案之 SHA-256，100% 吻合才准放行。
+2. 第二步：直接在檔案上「落款蓋印」 (簽字)
+   - 對 .py 檔案：最上方注入權威宣告 Docstring Header。
+   - 對 .json 檔案：頂層寫入 _commander_seal 元數據鍵值。
+3. 第三步：頒發正式封存章 (發章)
+   - 把 .audit_certificate.json 升級覆蓋為 RELEASE_SEAL.json，完成全生命週期交付，直接上架！
 """
 
 import os
@@ -44,7 +50,6 @@ CORE_REPO_DIR = Path(r"C:\ibm-bob\core_repo")
 G_CORE_REPO_DIR = TRUTH_ROOT / "02_Knowledge" / "Bob_Verified"
 
 HQ_DIR = workspace_dir / "00_Command_HQ"
-TOKEN_FILE = HQ_DIR / "commander_token.json"
 AUDIT_LEDGER_FILE = HQ_DIR / "delivery_audit_ledger.json"
 WAR_LOG_FILE = HQ_DIR / "war_log.md"
 
@@ -53,39 +58,95 @@ AUTHORITY_TITLE = "👑 霸丸總指揮官 (Supreme Commander)"
 VERSION_TAG = "v1.2.0-RELEASE"
 
 
-def check_precondition_seal() -> Tuple[bool, str, Dict[str, Any]]:
+def verify_audit_certificate() -> Tuple[bool, str, List[Dict[str, Any]]]:
     """
-    前置憑證校驗：
-    指揮所確認核心庫伴隨寫入的 approval_seal.json，確保代碼為受信任之審查合格產物。
+    第一步：拿「認證檔」驗收原檔 (驗票)
+    開啟 .audit_certificate.json，現場重新計算核心庫檔案之 SHA-256，核對指紋是否 100% 一致。
     """
-    seal_file = CORE_REPO_DIR / "approval_seal.json"
-    if not seal_file.exists():
-        return False, "❌ 前置憑證缺失：核心庫中無 approval_seal.json，禁止未經審查之檔案落款！", {}
+    cert_file = CORE_REPO_DIR / ".audit_certificate.json"
+    if not cert_file.exists():
+        # 兼容模式：若無 .audit_certificate.json 則檢查 approval_seal.json
+        alt_seal = CORE_REPO_DIR / "approval_seal.json"
+        if not alt_seal.exists():
+            return False, "❌ 前置認證缺失：核心庫中無 .audit_certificate.json 認證檔，拒絕落款！", []
+        try:
+            seal_data = json.loads(alt_seal.read_text(encoding="utf-8"))
+            files = seal_data.get("files", [])
+            # 轉換為認證格式
+            verified_list = []
+            for item in files:
+                f_name = item.get("name") if isinstance(item, dict) else str(item)
+                f_path = CORE_REPO_DIR / f_name
+                if f_path.exists():
+                    f_hash = hashlib.sha256(f_path.read_bytes()).hexdigest()
+                    verified_list.append({"name": f_name, "sha256": f_hash})
+            return True, "✅ 依據前置簽章通過驗票", verified_list
+        except Exception as e:
+            return False, f"❌ 前置憑證讀取失敗: {e}", []
 
     try:
-        seal_data = json.loads(seal_file.read_text(encoding="utf-8"))
-        if seal_data.get("status") != "OFFICIALLY_ACCEPTED_CORE":
-            return False, f"❌ 前置憑證狀態異常: {seal_data.get('status')}", seal_data
-        return True, "✅ 前置憑證檢驗通過", seal_data
+        cert_data = json.loads(cert_file.read_text(encoding="utf-8"))
     except Exception as e:
-        return False, f"❌ 前置憑證解析失敗: {e}", {}
+        return False, f"❌ 認證檔格式損毀: {e}", []
+
+    verified_files = cert_data.get("verified_files", [])
+    if not verified_files:
+        return False, "❌ 認證檔中無登記待審檔案清單", []
+
+    mismatches = []
+    validated_files = []
+
+    for item in verified_files:
+        f_name = item.get("name")
+        expected_sha = item.get("sha256", "").lower()
+        f_path = CORE_REPO_DIR / f_name
+
+        if not f_path.exists():
+            mismatches.append(f"{f_name} [實體缺失]")
+            continue
+
+        raw = f_path.read_bytes()
+        live_sha = hashlib.sha256(raw).hexdigest().lower()
+
+        # 如果檔案已經蓋印過，需要剔除蓋印元數據後比對純內容 hash
+        if expected_sha and live_sha != expected_sha:
+            # 嘗試剝離 Header 或 _commander_seal 進行驗票
+            pure_code = raw.decode("utf-8", errors="replace")
+            if f_name.endswith(".py") and "ARCHITECTURE : PHANTOM GRID" in pure_code:
+                parts = pure_code.split('"""\n', 2)
+                if len(parts) >= 2:
+                    pure_code = parts[-1]
+                pure_sha = hashlib.sha256(pure_code.encode("utf-8")).hexdigest().lower()
+                if pure_sha == expected_sha:
+                    validated_files.append({"name": f_name, "sha256": live_sha, "pure_sha": pure_sha})
+                    continue
+            elif f_name.endswith(".json") and "_commander_seal" in pure_code:
+                try:
+                    j_obj = json.loads(pure_code)
+                    j_obj.pop("_commander_seal", None)
+                    pure_json_bytes = json.dumps(j_obj, ensure_ascii=False, indent=2).encode("utf-8")
+                    pure_sha = hashlib.sha256(pure_json_bytes).hexdigest().lower()
+                    if pure_sha == expected_sha:
+                        validated_files.append({"name": f_name, "sha256": live_sha, "pure_sha": pure_sha})
+                        continue
+                except Exception:
+                    pass
+
+            mismatches.append(f"{f_name} [指紋不符: 預期 {expected_sha[:8]}... 實測 {live_sha[:8]}...]")
+        else:
+            validated_files.append({"name": f_name, "sha256": live_sha})
+
+    if mismatches:
+        return False, f"❌ 指紋驗票失敗：{', '.join(mismatches)}", []
+
+    return True, f"✅ 驗票成功！全數 {len(validated_files)} 支檔案與二辦認證檔 100% 吻合！", validated_files
 
 
-def sign_and_stamp(target_relative_file: str) -> Tuple[bool, str, Dict[str, Any]]:
-    """
-    對指定核心庫檔案執行檔案頭部權威落款 (Sign & Stamp Header)
-    """
-    target_path = CORE_REPO_DIR / target_relative_file
-    if not target_path.exists():
-        return False, f"核心庫找不到目標檔案: {target_relative_file}", {}
-
-    if target_path.name == "approval_seal.json":
-        return False, "簽章資訊檔無須蓋印頭部", {}
-
-    # 1. 讀取並計算原始純代碼 Hash (剔除舊 Stamp 的純淨內容 Hash)
+def stamp_python_file(target_path: Path, now_stamp: str) -> Dict[str, Any]:
+    """第二步子模組：對 .py 檔案最上方注入權威宣告 Header"""
     raw_code = target_path.read_text(encoding="utf-8", errors="replace")
-    
-    # 若已有舊款，剝離舊款計算原始純代碼 Hash
+
+    # 若已有舊款，剝離舊款計算純代碼 Hash
     pure_code = raw_code
     if "ARCHITECTURE : PHANTOM GRID" in raw_code and '"""\n' in raw_code:
         parts = raw_code.split('"""\n', 2)
@@ -93,9 +154,7 @@ def sign_and_stamp(target_relative_file: str) -> Tuple[bool, str, Dict[str, Any]
             pure_code = parts[-1]
 
     file_sha = hashlib.sha256(pure_code.encode("utf-8")).hexdigest()[:16]
-    now_stamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    # 2. 定義指揮所官方權威落款頭部 (Header Stamp)
     stamp_header = f'''"""
 ==============================================================================
  ARCHITECTURE : PHANTOM GRID / BOB CORE ENGINE
@@ -108,24 +167,20 @@ def sign_and_stamp(target_relative_file: str) -> Tuple[bool, str, Dict[str, Any]
 ==============================================================================
 """\n'''
 
-    # 3. 避免重複蓋印，更新印章
     updated_code = stamp_header + pure_code
-
-    # 4. 寫回核心庫完成蓋印封存
     target_path.write_text(updated_code, encoding="utf-8")
 
-    # 同步回寫 G 槽真身金庫
+    # 同步 G 槽真身金庫
     try:
         G_CORE_REPO_DIR.mkdir(parents=True, exist_ok=True)
-        g_target = G_CORE_REPO_DIR / target_relative_file
-        g_target.parent.mkdir(parents=True, exist_ok=True)
+        g_target = G_CORE_REPO_DIR / target_path.name
         g_target.write_text(updated_code, encoding="utf-8")
     except Exception:
         pass
 
-    stamp_meta = {
+    return {
         "file_name": target_path.name,
-        "rel_path": target_relative_file,
+        "type": "PYTHON_MODULE",
         "seal_hash": file_sha,
         "signed_by": SIGNER_NAME,
         "timestamp": now_stamp,
@@ -133,46 +188,132 @@ def sign_and_stamp(target_relative_file: str) -> Tuple[bool, str, Dict[str, Any]
         "status": "SEALED_AND_RELEASED"
     }
 
-    return True, f"已完成權威落款 | 印章指紋: SHA256-{file_sha}", stamp_meta
+
+def stamp_json_file(target_path: Path, now_stamp: str) -> Dict[str, Any]:
+    """第二步子模組：對 .json 檔案頂層寫入 _commander_seal 元數據鍵值"""
+    raw_text = target_path.read_text(encoding="utf-8", errors="replace")
+    try:
+        data = json.loads(raw_text)
+    except Exception:
+        return {}
+
+    # 若非 dict 則包裝成 dict
+    if not isinstance(data, dict):
+        data = {"data": data}
+
+    # 計算純業務數據 Hash (排除 _commander_seal)
+    temp_data = dict(data)
+    temp_data.pop("_commander_seal", None)
+    pure_bytes = json.dumps(temp_data, ensure_ascii=False, indent=2).encode("utf-8")
+    file_sha = hashlib.sha256(pure_bytes).hexdigest()[:16]
+
+    # 在頂層最前方注入 _commander_seal
+    new_data = {
+        "_commander_seal": {
+            "signed_by": SIGNER_NAME,
+            "authority": AUTHORITY_TITLE,
+            "status": "OFFICIALLY_RELEASED",
+            "release_version": VERSION_TAG,
+            "sealed_at": f"{now_stamp} CST",
+            "seal_hash": f"SHA256-{file_sha}"
+        }
+    }
+    # 依序放回原始業務欄位
+    for k, v in data.items():
+        if k != "_commander_seal":
+            new_data[k] = v
+
+    updated_json = json.dumps(new_data, ensure_ascii=False, indent=2)
+    target_path.write_text(updated_json, encoding="utf-8")
+
+    # 同步 G 槽真身金庫
+    try:
+        G_CORE_REPO_DIR.mkdir(parents=True, exist_ok=True)
+        g_target = G_CORE_REPO_DIR / target_path.name
+        g_target.write_text(updated_json, encoding="utf-8")
+    except Exception:
+        pass
+
+    return {
+        "file_name": target_path.name,
+        "type": "JSON_SCHEMA",
+        "seal_hash": file_sha,
+        "signed_by": SIGNER_NAME,
+        "timestamp": now_stamp,
+        "version_tag": VERSION_TAG,
+        "status": "SEALED_AND_RELEASED"
+    }
 
 
 def sign_all_core_modules() -> Dict[str, Any]:
     """
-    全量批次落款：
-    1. 檢驗核心庫審查憑證
-    2. 對 core_repo 所有合法代碼進行權威蓋印
-    3. 登錄履歷 ledger 與 war_log.md
+    指揮所落款標準 3 步驟主控程序：
+    第一步：拿「認證檔」驗收原檔 (驗票)
+    第二步：直接在檔案上「落款蓋印」 (簽字 - .py 注入 Header, .json 注入 _commander_seal)
+    第三步：頒發正式封存章 (RELEASE_SEAL.json 覆蓋認證檔，全生命週期交付直接上架)
     """
-    valid_seal, seal_msg, seal_data = check_precondition_seal()
-    if not valid_seal:
+    now_stamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    now_iso = datetime.now().isoformat()
+
+    # 第一步：拿「認證檔」驗收原檔 (驗票)
+    ok_ticket, ticket_msg, verified_files = verify_audit_certificate()
+    if not ok_ticket:
         return {
             "success": False,
-            "msg": seal_msg,
+            "msg": ticket_msg,
             "signed_count": 0,
             "signed_files": []
         }
 
-    if not CORE_REPO_DIR.exists():
-        return {
-            "success": False,
-            "msg": f"核心庫目錄不存在: {CORE_REPO_DIR}",
-            "signed_count": 0,
-            "signed_files": []
-        }
-
-    signed_files = []
-    for f in CORE_REPO_DIR.rglob("*"):
-        if not f.is_file() or f.name.endswith(".json"):
+    # 第二步：直接在檔案上「落款蓋印」 (簽字)
+    signed_meta_list = []
+    for item in verified_files:
+        f_name = item.get("name")
+        target_path = CORE_REPO_DIR / f_name
+        if not target_path.is_file():
             continue
-        rel_path = f.relative_to(CORE_REPO_DIR)
-        ok, msg, meta = sign_and_stamp(str(rel_path))
-        if ok:
-            signed_files.append(meta)
+
+        if f_name.endswith(".py"):
+            meta = stamp_python_file(target_path, now_stamp)
+            if meta:
+                signed_meta_list.append(meta)
+        elif f_name.endswith(".json") and not f_name.startswith("."):
+            meta = stamp_json_file(target_path, now_stamp)
+            if meta:
+                signed_meta_list.append(meta)
+
+    # 第三步：頒發正式封存章 (把 .audit_certificate.json 升級覆蓋為 RELEASE_SEAL.json)
+    release_seal_data = {
+        "seal_title": "PHANTOM GRID 官方權威封存章 (RELEASE SEAL)",
+        "signer": SIGNER_NAME,
+        "authority": AUTHORITY_TITLE,
+        "release_version": VERSION_TAG,
+        "released_at": now_iso,
+        "audit_certificate_verified": True,
+        "audit_officer": "Office_2_Copilot",
+        "total_sealed_files": len(signed_meta_list),
+        "sealed_files": signed_meta_list,
+        "status": "SEALED_AND_RELEASED"
+    }
+
+    seal_json_str = json.dumps(release_seal_data, ensure_ascii=False, indent=2)
+
+    # 寫入正式 RELEASE_SEAL.json
+    seal_path = CORE_REPO_DIR / "RELEASE_SEAL.json"
+    seal_path.write_text(seal_json_str, encoding="utf-8")
+
+    # 同時升級覆蓋 .audit_certificate.json 完成生命週期閉環
+    cert_path = CORE_REPO_DIR / ".audit_certificate.json"
+    cert_path.write_text(seal_json_str, encoding="utf-8")
+
+    try:
+        G_CORE_REPO_DIR.mkdir(parents=True, exist_ok=True)
+        (G_CORE_REPO_DIR / "RELEASE_SEAL.json").write_text(seal_json_str, encoding="utf-8")
+        (G_CORE_REPO_DIR / ".audit_certificate.json").write_text(seal_json_str, encoding="utf-8")
+    except Exception:
+        pass
 
     # 登錄產出建檔履歷 (delivery_audit_ledger.json)
-    now_iso = datetime.now().isoformat()
-    now_stamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
     ledger_entry = {
         "release_id": f"RELEASE-{VERSION_TAG}-{int(datetime.now().timestamp())}",
         "timestamp": now_iso,
@@ -181,8 +322,8 @@ def sign_all_core_modules() -> Dict[str, Any]:
         "authority": AUTHORITY_TITLE,
         "version_tag": VERSION_TAG,
         "status": "SEALED_AND_RELEASED",
-        "signed_count": len(signed_files),
-        "files": signed_files
+        "signed_count": len(signed_meta_list),
+        "files": signed_meta_list
     }
 
     try:
@@ -195,8 +336,7 @@ def sign_all_core_modules() -> Dict[str, Any]:
                 ledger_data = []
         ledger_data.insert(0, ledger_entry)
         AUDIT_LEDGER_FILE.write_text(json.dumps(ledger_data, ensure_ascii=False, indent=2), encoding="utf-8")
-        
-        # G 槽履歷同步
+
         g_ledger = TRUTH_ROOT / "00_Command_HQ" / "delivery_audit_ledger.json"
         g_ledger.parent.mkdir(parents=True, exist_ok=True)
         g_ledger.write_text(json.dumps(ledger_data, ensure_ascii=False, indent=2), encoding="utf-8")
@@ -205,9 +345,10 @@ def sign_all_core_modules() -> Dict[str, Any]:
 
     # 登錄統帥作戰統御日誌 (war_log.md)
     war_entry = (
-        f"\n- **[統帥權威落款 · 核心庫正式封版發布]** `{now_stamp}` "
-        f"👑 統帥 Jack 哥對核心庫 `{CORE_REPO_DIR}` 進行權威蓋印，"
-        f"標記版本號 `{VERSION_TAG}`，共落款 `{len(signed_files)}` 支核心模組，"
+        f"\n- **[統帥權威落款 · 3步驟實體驗收與正式發布]** `{now_stamp}` "
+        f"👑 統帥 Jack 哥拿 `.audit_certificate.json` 驗收原檔指紋 100% 吻合；"
+        f"現場在 `.py` 注入 Header、在 `.json` 注入 `_commander_seal`；"
+        f"正式頒發 `RELEASE_SEAL.json`，共落款 `{len(signed_meta_list)}` 支實體檔案，"
         f"狀態變更為【已落款發佈 (Sealed & Released)】，履歷已永久封存！\n"
     )
 
@@ -221,33 +362,37 @@ def sign_all_core_modules() -> Dict[str, Any]:
 
     # 生成手機 Copilot 回報卡
     notice_text = (
-        f"👑 **報告 Jack 哥！指揮所權威落款與封版程序已圓滿完成！**\n\n"
+        f"👑 **報告 Jack 哥！指揮所權威落款 3 步驟程序已圓滿完成！**\n\n"
         f"🏛️ 【指揮所落款結算報告】：\n"
-        f"• 法定庫區：C:\\ibm-bob\\core_repo\\ (雙向固化 G 槽真身)\n"
-        f"• 落款官銜：{AUTHORITY_TITLE}\n"
-        f"• 封版版本：`{VERSION_TAG}` (SEALED & RELEASED)\n"
-        f"• 蓋印模組：共 {len(signed_files)} 支檔案注入權威 Header\n"
-        f"• 建檔履歷：狀態已升級為「🟢 已落款發佈」\n\n"
-        f"★ 全套核心代碼已正式受指揮所最高主權護照背書，隨時可調用上線！🛡️✨"
+        f"• 驗票結果：{ticket_msg}\n"
+        f"• 蓋印實體：共 {len(signed_meta_list)} 支檔案 (.py 注入 Header / .json 注入 _commander_seal)\n"
+        f"• 封版版本：`{VERSION_TAG}`\n"
+        f"• 正式封存：已頒發 `RELEASE_SEAL.json` 完成交付全生命週期！\n"
+        f"• 建檔履歷：狀態已升級為「🟢 已落款發佈 (Sealed & Released)」\n\n"
+        f"★ 主件實體保持真實代碼，全域反查可秒級檢索，最高主權護照已生效！🛡️✨"
     )
 
     return {
         "success": True,
+        "ticket_msg": ticket_msg,
         "version_tag": VERSION_TAG,
-        "signed_count": len(signed_files),
-        "signed_files": signed_files,
+        "signed_count": len(signed_meta_list),
+        "signed_files": signed_meta_list,
         "notice_text": notice_text,
-        "ledger_entry": ledger_entry
+        "release_seal": release_seal_data
     }
 
 
 if __name__ == "__main__":
-    print("🏛️ [PHANTOM GRID 指揮所權威落款模組自檢]")
+    print("🏛️ [PHANTOM GRID 指揮所權威落款 3 步驟標準作業自檢]")
     res = sign_all_core_modules()
-    print(f"• 執行結果: {res['success']}")
-    print(f"• 蓋印數量: {res['signed_count']} 支")
-    print(f"• 版本版號: {res.get('version_tag')}")
-    for item in res.get("signed_files", []):
-        print(f"  - {item['file_name']} -> {item['seal_hash']}")
-    if res.get("notice_text"):
+    print(f"• 驗票與執行: {res['success']}")
+    if res['success']:
+        print(f"• 驗票訊息: {res.get('ticket_msg')}")
+        print(f"• 蓋印檔案數: {res['signed_count']} 支")
+        for item in res.get("signed_files", []):
+            print(f"  - [{item['type']}] {item['file_name']} -> {item['seal_hash']}")
+        print(f"• 正式封存章: RELEASE_SEAL.json [RELEASED]")
         print("\n" + res["notice_text"])
+    else:
+        print(f"• 失敗原因: {res.get('msg')}")

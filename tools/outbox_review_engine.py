@@ -523,7 +523,28 @@ def sync_staging_to_core() -> Dict[str, Any]:
             "size": len(raw)
         })
 
-    # 2. 寫入統帥 Approval 簽章檔
+    # 2. 寫入第二辦公室官方【認證檔】 (.audit_certificate.json) 與統帥 Approval 簽章檔
+    audit_cert = {
+        "audit_officer": "Office_2_Copilot",
+        "audit_passed_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "ast_status": "CLEAN",
+        "verified_files": [
+            {
+                "name": item["name"],
+                "sha256": item["sha256"]
+            }
+            for item in synced_files_meta
+        ]
+    }
+    cert_json = json.dumps(audit_cert, ensure_ascii=False, indent=2)
+    with open(CORE_REPO_DIR / ".audit_certificate.json", "w", encoding="utf-8") as f:
+        f.write(cert_json)
+    try:
+        with open(G_CORE_REPO_DIR / ".audit_certificate.json", "w", encoding="utf-8") as f:
+            f.write(cert_json)
+    except Exception:
+        pass
+
     approval_data = {
         "approved_by": "👑 霸丸總指揮官 Jack 哥",
         "authority": "LEVEL_OMEGA_SOVEREIGN",
