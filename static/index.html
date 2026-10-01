@@ -1,0 +1,2093 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第二辦公室 ✕ Mobile 端 SSE 協議解析展示中心</title>
+<style>
+:root {
+  --bg-dark: #070a12;
+  --panel-bg: #0e1526;
+  --phone-bg: #000000;
+  --cyan-accent: #00f2fe;
+  --cyan-glow: rgba(0, 242, 254, 0.4);
+  --gold-accent: #f59e0b;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --border-subtle: rgba(255, 255, 255, 0.1);
+  --success-green: #10b981;
+  --danger-red: #ef4444;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", "PingFang TC", "Microsoft JhengHei", sans-serif;
+  background: var(--bg-dark);
+  color: var(--text-main);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-x: hidden;
+  background-image: 
+    radial-gradient(circle at 20% 30%, rgba(0, 242, 254, 0.06) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(245, 158, 11, 0.05) 0%, transparent 50%),
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 36px 36px, 36px 36px;
+}
+
+/* Header */
+header {
+  width: 100%;
+  max-width: 1400px;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-subtle);
+  background: rgba(14, 21, 38, 0.85);
+  backdrop-filter: blur(10px);
+}
+
+.header-title-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.badge-hq {
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid var(--gold-accent);
+  color: var(--gold-accent);
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: 1px;
+}
+
+.header-title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #fff, var(--cyan-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.header-meta {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-family: monospace;
+}
+
+/* Main Split Arena */
+.arena-container {
+  flex: 1;
+  width: 100%;
+  max-width: 1400px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 40px;
+  padding: 30px 20px;
+}
+
+/* Left: Phone Chassis */
+.phone-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.phone-label {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--cyan-accent);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.phone-frame {
+  width: 380px;
+  height: 740px;
+  background: var(--phone-bg);
+  border-radius: 46px;
+  border: 10px solid #27272a;
+  box-shadow: 
+    0 0 0 2px rgba(255, 255, 255, 0.1),
+    0 25px 60px -10px rgba(0, 0, 0, 0.9),
+    0 0 35px rgba(0, 242, 254, 0.15);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Dynamic Island */
+.dynamic-island {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 110px;
+  height: 26px;
+  background: #000;
+  border-radius: 20px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px;
+  box-shadow: 0 0 2px rgba(255,255,255,0.2);
+}
+
+.island-camera {
+  width: 10px;
+  height: 10px;
+  background: #111;
+  border-radius: 50%;
+  border: 1px solid #333;
+}
+
+.island-sensor {
+  width: 6px;
+  height: 6px;
+  background: #091a28;
+  border-radius: 50%;
+}
+
+/* Phone Status Bar */
+.phone-status-bar {
+  height: 44px;
+  padding: 12px 24px 0 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #fff;
+  z-index: 90;
+}
+
+/* Phone App Header */
+.phone-app-header {
+  padding: 10px 18px;
+  background: rgba(18, 24, 38, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.app-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.app-logo-pill {
+  width: 28px;
+  height: 28px;
+  background: linear-gradient(135deg, var(--gold-accent), var(--cyan-accent));
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+}
+
+.app-name {
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.app-status-badge {
+  font-size: 0.65rem;
+  color: var(--success-green);
+  background: rgba(16, 185, 129, 0.15);
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+/* Chat Scroll Area */
+.phone-chat-scroll {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Chat Bubbles */
+.msg-user {
+  align-self: flex-end;
+  max-width: 85%;
+  background: #2563eb;
+  color: #fff;
+  padding: 10px 14px;
+  border-radius: 16px 16px 4px 16px;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.msg-ai-card {
+  align-self: flex-start;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Thought Card */
+.card-thought {
+  background: rgba(30, 41, 59, 0.5);
+  border: 1px solid rgba(0, 242, 254, 0.25);
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-size: 0.78rem;
+  color: #cbd5e1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  position: relative;
+  overflow: hidden;
+}
+
+.thought-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--cyan-accent);
+  font-weight: 700;
+  font-size: 0.75rem;
+}
+
+.thought-spinner {
+  width: 12px;
+  height: 12px;
+  border: 2px solid rgba(0, 242, 254, 0.2);
+  border-top-color: var(--cyan-accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Tool Card */
+.card-tool {
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-radius: 12px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.tool-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tool-title {
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--gold-accent);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: monospace;
+}
+
+.tool-badge-done {
+  font-size: 0.65rem;
+  color: var(--success-green);
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid var(--success-green);
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+.tool-input-row {
+  font-size: 0.72rem;
+  color: #94a3b8;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-family: monospace;
+}
+
+/* AI Answer Bubble */
+.card-answer {
+  background: rgba(22, 30, 49, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px 16px 16px 4px;
+  padding: 12px 14px;
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: #f1f5f9;
+  white-space: pre-wrap;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+/* Interrupt Modal Inside Phone */
+.phone-interrupt-modal {
+  display: none;
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(6px);
+  z-index: 200;
+  justify-content: center;
+  align-items: flex-end;
+  padding: 18px;
+}
+
+.phone-interrupt-modal.active {
+  display: flex;
+}
+
+.interrupt-sheet {
+  width: 100%;
+  background: #1e293b;
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  border-radius: 20px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.8);
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.sheet-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sheet-icon-box {
+  width: 36px;
+  height: 36px;
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid var(--danger-red);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+
+.sheet-title {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #fff;
+}
+
+.sheet-subtitle {
+  font-size: 0.72rem;
+  color: #ef4444;
+  font-family: monospace;
+}
+
+.sheet-prompt-box {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px dashed rgba(239, 68, 68, 0.3);
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  color: #f8fafc;
+  line-height: 1.45;
+}
+
+.sheet-btn-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.btn-sheet {
+  flex: 1;
+  padding: 10px 0;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+}
+
+.btn-approve {
+  background: var(--danger-red);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+}
+
+.btn-approve:hover {
+  background: #dc2626;
+  transform: translateY(-1px);
+}
+
+.btn-cancel {
+  background: rgba(255, 255, 255, 0.1);
+  color: #cbd5e1;
+}
+
+.btn-cancel:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+/* Phone Bottom Input Bar */
+.phone-bottom-bar {
+  padding: 12px 14px 20px 14px;
+  background: rgba(18, 24, 38, 0.95);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.input-mock {
+  flex: 1;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 8px 14px;
+  font-size: 0.8rem;
+  color: #fff;
+  outline: none;
+}
+
+.btn-send {
+  width: 36px;
+  height: 36px;
+  background: var(--cyan-accent);
+  color: #000;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  font-weight: 900;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.btn-send:hover {
+  transform: scale(1.08);
+}
+
+
+.console-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.tab-btn {
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.tab-btn.active {
+  background: rgba(0, 242, 254, 0.15);
+  border-color: var(--cyan-accent);
+  color: #fff;
+  box-shadow: 0 0 10px rgba(0, 242, 254, 0.3);
+}
+.tab-panel {
+  display: none;
+  flex: 1;
+  height: 740px;
+}
+.tab-panel.active {
+  display: flex;
+  flex-direction: column;
+}
+.flipbook-container-box {
+  flex: 1;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 242, 254, 0.35);
+  background: #000;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.85);
+}
+
+.flipbook-frame {
+  width: 154%;
+  height: 154%;
+  transform: scale(0.65);
+  transform-origin: top left;
+  border: none;
+}
+.quick-chips {
+  display: flex;
+  gap: 6px;
+  padding: 8px 14px;
+  overflow-x: auto;
+  background: rgba(18, 24, 38, 0.6);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+.quick-chip {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #e2e8f0;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+.quick-chip:hover {
+  background: rgba(0, 242, 254, 0.2);
+  border-color: var(--cyan-accent);
+  color: #fff;
+}
+
+/* Right: Raw Telemetry Stream Monitor */
+.console-wrapper {
+  flex: 1;
+  max-width: 920px;
+  display: flex;
+  flex-direction: column;
+}
+
+.console-label {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--gold-accent);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.console-box {
+  height: 740px;
+  background: #090d16;
+  border: 1px solid rgba(0, 242, 254, 0.25);
+  border-radius: 16px;
+  padding: 16px 20px;
+  font-family: 'Consolas', 'Courier New', monospace;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  overflow-y: auto;
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8);
+  display: flex;
+  flex-direction: column;
+}
+
+.console-header-line {
+  color: #64748b;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+  font-size: 0.75rem;
+}
+
+.log-event {
+  color: var(--cyan-accent);
+  font-weight: 700;
+}
+
+.log-data {
+  color: #a7f3d0;
+}
+
+.log-json-key {
+  color: #fca5a5;
+}
+
+.log-json-str {
+  color: #fde047;
+}
+
+.log-block {
+  margin-bottom: 12px;
+  background: rgba(15, 23, 42, 0.5);
+  padding: 8px 12px;
+  border-radius: 6px;
+  border-left: 3px solid var(--cyan-accent);
+  animation: fadeIn 0.25s ease;
+}
+
+.log-block.interrupt {
+  border-left-color: var(--danger-red);
+  background: rgba(239, 68, 68, 0.08);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.clear-btn {
+  background: transparent;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  color: var(--gold-accent);
+  padding: 3px 10px;
+  border-radius: 4px;
+  font-size: 0.72rem;
+  cursor: pointer;
+}
+.clear-btn:hover {
+  background: rgba(245, 158, 11, 0.15);
+}
+
+/* Inspection Tab Styles */
+.inspect-card {
+  background: #090d16;
+  border: 1px solid rgba(0, 242, 254, 0.3);
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.6);
+  animation: fadeIn 0.3s ease;
+}
+.inspect-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+}
+.inspect-badge {
+  font-size: 0.8rem;
+  font-weight: 800;
+  padding: 6px 14px;
+  border-radius: 20px;
+  letter-spacing: 0.5px;
+}
+.badge-missing {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid var(--danger-red);
+  color: #f87171;
+}
+.badge-found {
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid var(--success-green);
+  color: #34d399;
+}
+.badge-warning {
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid var(--gold-accent);
+  color: #fbbf24;
+}
+.inspect-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.inspect-metric-box {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  padding: 12px;
+  text-align: center;
+}
+.metric-num {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #fff;
+  font-family: monospace;
+}
+.metric-lbl {
+  font-size: 0.7rem;
+  color: #94a3b8;
+  margin-top: 4px;
+}
+.inspect-notice-box {
+  background: rgba(245, 158, 11, 0.06);
+  border-left: 4px solid var(--gold-accent);
+  border-radius: 6px;
+  padding: 12px 16px;
+  font-size: 0.85rem;
+  color: #e2e8f0;
+  line-height: 1.6;
+}
+
+/* Test Matrix Styles */
+.test-matrix-card {
+  background: #090d16;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  border-radius: 14px;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  height: 100%;
+  overflow-y: auto;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.6);
+  animation: fadeIn 0.3s ease;
+}
+.test-stage-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.test-stage-item {
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 10px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.2s;
+}
+.test-stage-item:hover {
+  border-color: rgba(16, 185, 129, 0.4);
+  background: rgba(16, 185, 129, 0.05);
+}
+.stage-num-badge {
+  font-size: 0.7rem;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: rgba(0, 242, 254, 0.15);
+  color: var(--cyan-accent);
+  border: 1px solid var(--cyan-accent);
+  margin-right: 8px;
+}
+.stage-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #fff;
+}
+.stage-detail {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  margin-top: 3px;
+}
+.stage-status-pass {
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid var(--success-green);
+  color: #34d399;
+  font-weight: 800;
+  font-size: 0.75rem;
+  padding: 4px 10px;
+  border-radius: 20px;
+  letter-spacing: 0.5px;
+}
+.raw-log-box {
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-family: monospace;
+  font-size: 0.74rem;
+  color: #6ee7b7;
+  max-height: 180px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+}
+
+/* Files Hub Styles */
+.file-item-card {
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 10px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.2s;
+}
+.file-item-card:hover {
+  border-color: rgba(0, 242, 254, 0.4);
+  background: rgba(0, 242, 254, 0.05);
+}
+.file-name {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--cyan-accent);
+  font-family: monospace;
+}
+.file-desc {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  margin-top: 2px;
+}
+.file-meta {
+  font-size: 0.72rem;
+  color: #64748b;
+  font-family: monospace;
+}
+.file-badge-synced {
+  font-size: 0.68rem;
+  font-weight: 700;
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid var(--success-green);
+  color: #34d399;
+  padding: 3px 8px;
+  border-radius: 12px;
+}
+
+/* Diagram Gallery Styles */
+.diag-nav-bar {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+  margin-bottom: 12px;
+}
+.diag-pill {
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #cbd5e1;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+.diag-pill.active {
+  background: rgba(245, 158, 11, 0.2);
+  border-color: var(--gold-accent);
+  color: #fff;
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.3);
+}
+.diagram-canvas {
+  flex: 1;
+  background: #000;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 16px;
+  overflow: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 480px;
+}
+
+</style>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ startOnLoad: false, theme: 'dark' });
+  }
+</script>
+</head>
+<body>
+
+<!-- Header -->
+<header>
+  <div class="header-title-box">
+    <span class="badge-hq">SECOND OFFICE EXPERIMENTAL LAB</span>
+    <h1 class="header-title">第二辦公室 ✕ Mobile 端 SSE 協議解密展示中心</h1>
+  </div>
+  <div class="header-meta">
+    PROTOCOL: HTTP/1.1 SSE (text/event-stream) // ZERO COMMERCIAL TOKEN ($0.00 USD)
+  </div>
+</header>
+
+<!-- Main Arena -->
+<div class="arena-container">
+
+  <!-- Left: Phone Simulator -->
+  <div class="phone-wrapper">
+    <div class="phone-label">
+      <span>📱 Mobile 客戶端視覺解析畫面 (HUI/GUI)</span>
+      <span style="font-size:0.75rem; color:var(--text-muted); font-weight:normal;">用戶看到的生動體驗</span>
+    </div>
+
+    <div class="phone-frame">
+      <!-- Dynamic Island -->
+      <div class="dynamic-island">
+        <div class="island-camera"></div>
+        <div class="island-sensor"></div>
+      </div>
+
+      <!-- Status Bar -->
+      <div class="phone-status-bar">
+        <span>04:47</span>
+        <span>5G 📶 100% 🔋</span>
+      </div>
+
+      <!-- App Header -->
+      <div class="phone-app-header">
+        <div class="app-brand">
+          <div class="app-logo-pill">⚡</div>
+          <div>
+            <div class="app-name">PHANTOMGRID Copilot</div>
+            <div style="font-size:0.65rem; color:#64748b;">第二辦公室特戰核心</div>
+          </div>
+        </div>
+        <div class="app-status-badge">ONLINE 🟢</div>
+      </div>
+
+      <!-- Chat Feed -->
+      <div class="phone-chat-scroll" id="chatScroll">
+        <!-- User Msg -->
+        <div class="msg-user" id="userMsgBubble">
+          請幫我分析 Q3 報表並整理檔案
+        </div>
+
+        <!-- AI Assistant Dynamic Container -->
+        <div class="msg-ai-card" id="aiContainer">
+          <!-- Dynamically populated by JS -->
+        </div>
+      </div>
+
+      <!-- Interrupt Modal Inside Phone -->
+      <div class="phone-interrupt-modal" id="interruptModal">
+        <div class="interrupt-sheet">
+          <div class="sheet-title-row">
+            <div class="sheet-icon-box">⚠️</div>
+            <div>
+              <div class="sheet-title">危險操作安全中斷請求</div>
+              <div class="sheet-subtitle">event: interrupt // HUMAN-IN-THE-LOOP</div>
+            </div>
+          </div>
+          <div class="sheet-prompt-box" id="interruptPrompt">
+            系統偵測到過期暫存檔。AI 請求授權：確認要刪除「cache_20260918_temp.log」嗎？
+          </div>
+          <div class="sheet-btn-row">
+            <button class="btn-sheet btn-cancel" id="btnReject">❌ 拒絕保留</button>
+            <button class="btn-sheet btn-approve" id="btnApprove">✅ 授權刪除</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Input Bar -->
+            <!-- Quick Chips Bar -->
+      <div class="quick-chips">
+        <div class="quick-chip" style="color:#00ff66; border-color:#00ff66; background:rgba(0,255,102,0.12); font-weight:bold;" onclick="window.triggerCommand('一鍵生成全套教學包')">⚡ [一鍵生成全套教學包]</div>
+        <div class="quick-chip" style="color:#00f2fe; border-color:#00f2fe; background:rgba(0,242,254,0.12); font-weight:bold;" onclick="window.triggerCommand('啟動後台哨兵熱監聽')">👁️ [啟動後台哨兵熱監聽]</div>
+        <div class="quick-chip" style="color:#fde047; border-color:#f59e0b; background:rgba(245,158,11,0.12); font-weight:bold;" onclick="window.triggerCommand('執行雙向 SHA256 校驗')">🛡️ [執行雙向 SHA256 校驗]</div>
+        <div class="quick-chip" style="color:#10b981; border-color:#10b981;" onclick="quickSend('🧪 查看測試戰報')">🧪 測試驗收戰報</div>
+        <div class="quick-chip" style="color:#fde047; border-color:#f59e0b;" onclick="quickSend('🏆 查看賽事大盤總表')">🏆 22場賽事總表</div>
+        <div class="quick-chip" style="color:#00f2fe; border-color:#00f2fe;" onclick="quickSend('📦 檢視建置檔案')">📦 產出建檔履歷</div>
+        <div class="quick-chip" style="color:#f59e0b; border-color:#f59e0b;" onclick="quickSend('📐 展開建構圖面')">📐 建構圖面展台</div>
+        <div class="quick-chip" onclick="quickSend('⚡ 自主建立實體類別 ArcGridOptimizer')">⚡ 自建 ArcGridOptimizer</div>
+        <div class="quick-chip" onclick="quickSend('❓ 為什麼第二辦公室app多無法修改呢')">❓ 為什麼無法修改？</div>
+        <div class="quick-chip" onclick="quickSend('🔍 反查 ARC2ProgramSynthesizer')">🔍 反查 ARC2Synthesizer</div>
+        <div class="quick-chip" onclick="quickSend('🌐 到網站找代碼並建立 code_inspection_search')">🌐 找代碼建立 code_inspection_search</div>
+        <div class="quick-chip" onclick="quickSend('🔍 反查 ARC3PolicyValueNet')">🔍 反查 ARC3PolicyValueNet</div>
+        <div class="quick-chip" onclick="quickSend('🔍 反查 ARCInteractiveEnv')">🔍 反查 ARCInteractiveEnv</div>
+        <div class="quick-chip" onclick="quickSend('🔍 反查 agent_core.py')">🔍 反查 agent_core.py</div>
+        <div class="quick-chip" onclick="quickSend('🎨 生圖：綠茵三連勝絕殺倒掛金鉤')">🎨 生圖：綠茵絕殺倒掛</div>
+        <div class="quick-chip" style="color:#00f2fe; border-color:#00f2fe;" onclick="quickSend('📱 更新手機賽事日曆與戰報')">📅 手機賽事同步</div>
+        <div class="quick-chip" onclick="quickSend('⚽ 檢查足球3D活頁書')">⚽ 檢查足球3D活頁書</div>
+        <div class="quick-chip" onclick="quickSend('🏁 一鍵收工交接')">🏁 一鍵收工交接</div>
+      </div>
+      <div class="phone-bottom-bar">
+        <input type="text" class="input-mock" id="inputQuery" value="🔍 反查 ARC3PolicyValueNet 是否存在" placeholder="輸入指令...">
+        <button class="btn-send" id="btnRun">▶</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right: Multi-Panel Workspace -->
+  <div class="console-wrapper">
+    <div class="console-tabs">
+      <button class="tab-btn active" id="tabBtnTests" onclick="switchTab('tests')">🧪 測試驗收戰報</button>
+      <button class="tab-btn" id="tabBtnTournaments" style="border-color:rgba(245,158,11,0.5); color:#fde047;" onclick="switchTab('tournaments')">🏆 賽事大盤總表 (22場)</button>
+      <button class="tab-btn" id="tabBtnBobCustoms" style="border-color:rgba(16,185,129,0.5); color:#10b981;" onclick="switchTab('bobcustoms')">🛡️ Bob 視覺海關</button>
+      <button class="tab-btn" id="tabBtnHallOfFame" style="border-color:rgba(217,119,6,0.6); color:#fcd34d;" onclick="window.open('file:///G:/我的雲端硬碟/AI產出成品總庫/13_🏆_PHANTOMGRID_全球戰績與榮譽殿堂總庫/index.html', '_blank')">🎖️ 全球榮譽殿堂 (7大勳章)</button>
+      <button class="tab-btn" id="tabBtnFiles" onclick="switchTab('files')">📦 產出建檔履歷</button>
+      <button class="tab-btn" id="tabBtnDiagrams" onclick="switchTab('diagrams')">📐 建構圖面展台</button>
+      <button class="tab-btn" id="tabBtnFlipbook" onclick="switchTab('flipbook')">📖 3D 活頁翻頁</button>
+      <button class="tab-btn" id="tabBtnInspect" onclick="switchTab('inspect')">🔍 程式碼全域反查</button>
+      <button class="tab-btn" id="tabBtnLogs" onclick="switchTab('logs')">📡 原始 SSE 串流</button>
+      <button class="tab-btn" id="tabBtnHandoff" onclick="switchTab('handoff')">🏁 一鍵收工交接</button>
+      <!-- Solo 全格式發布下拉選單 -->
+      <div style="position:relative; display:inline-block;">
+        <button class="tab-btn" id="btnSoloExport" style="border-color:rgba(0,242,254,0.6); color:#00f2fe; background:rgba(0,242,254,0.08);" onclick="toggleSoloMenu()">🚀 Solo 全格式發布 ▾</button>
+        <div id="soloExportMenu" style="display:none; position:absolute; right:0; top:110%; background:#0f172a; border:1px solid #00f2fe; border-radius:8px; box-shadow:0 8px 24px rgba(0,0,0,0.6); min-width:230px; z-index:9999; padding:6px 0; font-family:sans-serif;">
+          <div class="menu-item" style="padding:8px 16px; color:#00ff66; font-size:0.8rem; cursor:pointer; font-weight:bold;" onclick="triggerSoloExport('all'); toggleSoloMenu();">🚀 一鍵全套導出 (All 6 Formats)</div>
+          <div style="height:1px; background:rgba(255,255,255,0.1); margin:4px 0;"></div>
+          <div class="menu-item" style="padding:6px 16px; color:#cbd5e1; font-size:0.75rem; cursor:pointer;" onclick="triggerSoloExport('pdf'); toggleSoloMenu();">📄 1. 向量級 PDF (Office 2/3)</div>
+          <div class="menu-item" style="padding:6px 16px; color:#cbd5e1; font-size:0.75rem; cursor:pointer;" onclick="triggerSoloExport('pptx'); toggleSoloMenu();">📊 2. 商業簡報 PPTX (Office 2)</div>
+          <div class="menu-item" style="padding:6px 16px; color:#cbd5e1; font-size:0.75rem; cursor:pointer;" onclick="triggerSoloExport('docx'); toggleSoloMenu();">📝 3. 教學文件 DOCX (Office 3)</div>
+          <div class="menu-item" style="padding:6px 16px; color:#cbd5e1; font-size:0.75rem; cursor:pointer;" onclick="triggerSoloExport('xlsx'); toggleSoloMenu();">📈 4. 試算表/成績冊 XLSX (Office 3)</div>
+          <div class="menu-item" style="padding:6px 16px; color:#cbd5e1; font-size:0.75rem; cursor:pointer;" onclick="triggerSoloExport('survey'); toggleSoloMenu();">📋 5. 教學問卷 & 調查 (Office 3)</div>
+          <div class="menu-item" style="padding:6px 16px; color:#cbd5e1; font-size:0.75rem; cursor:pointer;" onclick="triggerSoloExport('exam'); toggleSoloMenu();">🎯 6. 隨機題庫 Quiz (Office 1)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Panel: Core Acceptance Test Matrix -->
+    
+    <!-- Panel: Bob 視覺海關 (Bob DMZ Pipeline) -->
+    <div class="tab-panel" id="panelBobCustoms">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid rgba(16,185,129,0.3); padding-bottom:8px;">
+        <div>
+          <span style="font-size:0.85rem; color:#10B981; font-family:monospace; font-weight:800; letter-spacing:0.5px;">
+            BOB VISION-TO-LAYOUT PROTOCOL // 外部特戰傭兵視覺排版雙層認證與統帥落款海關
+          </span>
+          <div style="font-size:0.7rem; color:var(--text-muted); margin-top:2px;">
+            多模態截圖逆向 ➔ 小米海關安檢 (L1) ➔ 二辦沙盒試跑 (L2) ➔ 統帥 Jack 哥雙簽落款固化
+          </div>
+        </div>
+        <div style="display:flex; align-items:center; gap:12px;">
+          <div id="customs-sync-indicator" style="font-size:0.75rem; font-family:monospace; background:rgba(0,0,0,0.5); padding:4px 10px; border-radius:6px; border:1px solid #334155;">
+            <span style="color:#10B981; font-weight:bold;">● 100% IN-SYNC</span>
+          </div>
+          <button class="clear-btn" style="border-color:#10B981; color:#10B981;" onclick="window.triggerCommand('執行雙向 SHA256 校驗')">🔄 刷新狀態</button>
+        </div>
+      </div>
+
+      <!-- 3-Stage Pipeline Cards -->
+      <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:12px; margin-bottom:16px;">
+        <!-- Step 1 -->
+        <div id="stepL1Card" style="background:rgba(15,23,42,0.8); border:1px solid #10B981; border-radius:10px; padding:12px; transition:all 0.3s ease;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <span style="font-size:0.75rem; color:#64748b; font-weight:bold; font-family:monospace;">STAGE 01 // DMZ QUARANTINE</span>
+            <span id="stepL1Status" style="font-size:0.75rem;"><span style="color:#10B981; font-weight:bold;">✅ 通過 (PASS)</span></span>
+          </div>
+          <div style="font-size:0.9rem; font-weight:bold; color:#f8fafc; margin-bottom:6px;">🛡️ 小米海關第一層安檢</div>
+          <div style="font-size:0.7rem; color:#94a3b8; line-height:1.4;">
+            • 無任何明文 API Key 與敏感憑證<br>
+            • 嚴格隔離外部非法連線請求<br>
+            • 規格純度審計與 DMZ 語意去毒
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div id="stepL2Card" style="background:rgba(15,23,42,0.8); border:1px solid #10B981; border-radius:10px; padding:12px; transition:all 0.3s ease;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <span style="font-size:0.75rem; color:#64748b; font-weight:bold; font-family:monospace;">STAGE 02 // SANDBOX TEST</span>
+            <span id="stepL2Status" style="font-size:0.75rem;"><span style="color:#10B981; font-weight:bold;">✅ 通過 (PASS)</span></span>
+          </div>
+          <div style="font-size:0.9rem; font-weight:bold; color:#f8fafc; margin-bottom:6px;">🎨 第二辦公室沙盒試跑</div>
+          <div style="font-size:0.7rem; color:#94a3b8; line-height:1.4;">
+            • CSS/排版字體渲染無溢出破版<br>
+            • 數值等寬 tnum & 懸掛縮排校準<br>
+            • 柔和石墨黑 (#2D3748) 呼吸感合規
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div id="stepL3Card" style="background:rgba(15,23,42,0.8); border:1px solid #FCD34D; border-radius:10px; padding:12px; box-shadow:0 0 15px rgba(245,158,11,0.15); transition:all 0.3s ease;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <span style="font-size:0.75rem; color:#d97706; font-weight:bold; font-family:monospace;">STAGE 03 // SOVEREIGN SEAL</span>
+            <span id="stepL3Status" style="font-size:0.75rem;"><span style="color:#FCD34D; font-weight:bold;">👑 已落款生效</span></span>
+          </div>
+          <div style="font-size:0.9rem; font-weight:bold; color:#fde047; margin-bottom:6px;">👑 統帥 Jack 哥雙簽落款</div>
+          <div style="font-size:0.7rem; color:#fde68a; line-height:1.4;">
+            • 霸丸最高權杖數位指紋簽名<br>
+            • 自動回寫一鍵安裝包 template<br>
+            • 四軌同步固化回流 G 槽真身金庫
+          </div>
+        </div>
+      </div>
+
+      <!-- Real-time Extracted Typography & Preview Grid -->
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px; margin-bottom:14px;">
+        <!-- Left: Extracted JSON -->
+        <div style="background:#090d16; border:1px solid #1e293b; border-radius:8px; padding:12px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+            <span style="font-size:0.75rem; color:#00f2fe; font-family:monospace; font-weight:bold;">EXTRACTED DESIGN TOKEN // 樣式逆向代碼</span>
+            <span style="font-size:0.65rem; color:#64748b;">JSON 規格</span>
+          </div>
+          <pre id="bob-theme-code" style="margin:0; font-family:monospace; font-size:0.75rem; color:#a7f3d0; background:#020617; padding:10px; border-radius:6px; max-height:200px; overflow-y:auto; border:1px solid #0f172a;">{
+  "theme_name": "theme_silicon_valley_airy",
+  "font_family": "Inter, 'Noto Sans TC', Segoe UI",
+  "font_size": { "h1": "22pt", "body": "10.5pt" },
+  "colors": { "primary": "#1A202C", "body": "#2D3748" },
+  "layout_rules": { "line_height": 1.55, "margin": "2.2cm", "hanging_indent": "1.8em" }
+}</pre>
+        </div>
+
+        <!-- Right: Live Render Preview -->
+        <div style="background:#090d16; border:1px solid #1e293b; border-radius:8px; padding:12px; display:flex; flex-direction:column;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+            <span style="font-size:0.75rem; color:#fde047; font-family:monospace; font-weight:bold;">LIVE RENDER PREVIEW // 實體渲染畫布</span>
+            <span style="font-size:0.65rem; color:#64748b;">A4 排版預覽</span>
+          </div>
+          <div id="bob-theme-preview-card" style="background:#f8fafc; border-radius:6px; padding:14px; flex:1; font-family:Inter, 'Noto Sans TC', Segoe UI; color:#2D3748; line-height:1.55; box-shadow:0 2px 8px rgba(0,0,0,0.2);">
+            <h4 style="color:#1A202C; margin:0 0 6px 0; font-size:16pt; font-weight:bold;">PHANTOM GRID 視覺逆向標準排版</h4>
+            <p style="margin:0; font-size:10.5pt; text-indent:1.8em;">
+              由外部傭兵 Bob 逆向提取截圖排版特性，歷經小米海關語義檢驗、第二辦公室沙盒試跑無溢出、並經霸丸總指揮官 Jack 哥正式落款入庫。
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Customs Activity Log -->
+      <div style="background:#090d16; border:1px solid #1e293b; border-radius:8px; padding:10px;">
+        <div style="font-size:0.72rem; color:#64748b; font-family:monospace; font-weight:bold; margin-bottom:6px;">
+          LOG REPOSITORY // 海關最新稽核軌跡
+        </div>
+        <div id="customs-recent-log" style="font-family:monospace; font-size:0.72rem; color:#cbd5e1; max-height:80px; overflow-y:auto; line-height:1.5;">
+          [系統初始] 雙層認證海關已連線就緒，等待 Mobile HUI 投遞截圖或後台目錄哨兵事件。<br>
+          [金庫狀態] 雙軌真身與一鍵安裝包 SHA256 比對 100% IN-SYNC。
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-panel active" id="panelTests">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <span style="font-size:0.8rem; color:var(--success-green); font-family:monospace; font-weight:800;">
+          TEST ACCEPTANCE MATRIX // 五道地獄級連環考驗真機驗收儀表板
+        </span>
+        <button class="clear-btn" id="btnRunTest" style="background:rgba(16,185,129,0.2); border-color:#10b981; color:#34d399; font-weight:800;" onclick="runTestMatrix(true)">
+          ▶ 一鍵真機重跑驗收
+        </button>
+      </div>
+
+      <div class="test-matrix-card">
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.08); padding-bottom:10px;">
+          <div>
+            <div style="font-size:0.75rem; color:#94a3b8;">測試套件 (TEST SUITE)</div>
+            <div style="font-size:1.15rem; font-weight:800; color:#fff;" id="testSuiteTitle">
+              五道地獄級連環考驗 (Hell-Fire Stress Matrix)
+            </div>
+          </div>
+          <div class="inspect-badge badge-found" id="testOverallBadge">✅ 100% 綠燈秒過 (0.11s)</div>
+        </div>
+
+        <!-- 4 Metric Cards -->
+        <div class="inspect-metrics-grid">
+          <div class="inspect-metric-box">
+            <div class="metric-num" style="color:var(--success-green);" id="testPassRate">100%</div>
+            <div class="metric-lbl">考驗通過率</div>
+          </div>
+          <div class="inspect-metric-box">
+            <div class="metric-num" style="color:var(--cyan-accent);" id="testPassedCount">5 / 5</div>
+            <div class="metric-lbl">通過關卡數</div>
+          </div>
+          <div class="inspect-metric-box">
+            <div class="metric-num" style="color:var(--gold-accent);" id="testDuration">0.11s</div>
+            <div class="metric-lbl">壓測總耗時</div>
+          </div>
+          <div class="inspect-metric-box">
+            <div class="metric-num" style="color:#a7f3d0;" id="testUnitCount">1,123</div>
+            <div class="metric-lbl">車載單元測試大滿貫</div>
+          </div>
+        </div>
+
+        <!-- 5 Stages List -->
+        <div>
+          <div style="font-size:0.85rem; font-weight:800; color:var(--cyan-accent); margin-bottom:8px;">
+            ⚡ 五大劫難實況攻防指標 (STAGE METRICS)
+          </div>
+          <div class="test-stage-list" id="testStageList">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+
+        <!-- Pytest Raw Terminal Output -->
+        <div style="margin-top:6px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+            <span style="font-size:0.78rem; font-weight:700; color:#94a3b8;">🖥️ 後台 Pytest 真機實跑終端輸出</span>
+            <span style="font-size:0.7rem; color:#64748b;" id="testLastUpdated">2026-09-19 21:40:00</span>
+          </div>
+          <div class="raw-log-box" id="testRawLogBox">正在載入最新測試輸出...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Panel: Created Files & Workspace Artifacts -->
+    <div class="tab-panel" id="panelFiles">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <span style="font-size:0.8rem; color:var(--cyan-accent); font-family:monospace; font-weight:800;">
+          WORKSPACE ASSET GENERATION // 實體模組建檔與版本資產看板
+        </span>
+        <button class="clear-btn" onclick="loadCreatedFiles()">🔄 重新掃描資產</button>
+      </div>
+
+      <div class="test-matrix-card" style="border-color:rgba(0,242,254,0.3);">
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.08); padding-bottom:10px;">
+          <div>
+            <div style="font-size:0.75rem; color:#94a3b8;">資產矩陣 (ARTIFACT MATRIX)</div>
+            <div style="font-size:1.15rem; font-weight:800; color:#fff;">近期產出與修改之實體代碼</div>
+          </div>
+          <div class="inspect-badge badge-found">🟢 四軌同步已就緒</div>
+        </div>
+
+        <!-- 4 Metric Cards -->
+        <div class="inspect-metrics-grid">
+          <div class="inspect-metric-box">
+            <div class="metric-num" style="color:var(--cyan-accent);" id="filesCount">9</div>
+            <div class="metric-lbl">最新落盤模組</div>
+          </div>
+          <div class="inspect-metric-box">
+            <div class="metric-num" style="color:var(--success-green);">4 軌</div>
+            <div class="metric-lbl">同步架構覆蓋</div>
+          </div>
+          <div class="inspect-metric-box">
+            <div class="metric-num" style="color:#a7f3d0;">100%</div>
+            <div class="metric-lbl">py_compile 語法編譯</div>
+          </div>
+          <div class="inspect-metric-box">
+            <div class="metric-num" style="color:var(--gold-accent);">$0.00</div>
+            <div class="metric-lbl">累計開銷 (USD)</div>
+          </div>
+        </div>
+
+        <!-- File List -->
+        <div>
+          <div style="font-size:0.85rem; font-weight:800; color:var(--cyan-accent); margin-bottom:8px;">
+            📂 實體模組清單 (PHYSICAL MODULES)
+          </div>
+          <div class="test-stage-list" id="createdFilesList">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+
+        <!-- Git Recent Commits -->
+        <div style="margin-top:6px;">
+          <div style="font-size:0.78rem; font-weight:700; color:#94a3b8; margin-bottom:6px;">
+            🌿 近期 Git 封裝提交 (RECENT COMMITS)
+          </div>
+          <div id="recentCommitsBox" style="background:rgba(0,0,0,0.6); border:1px solid rgba(255,255,255,0.08); border-radius:8px; padding:10px 12px; font-family:monospace; font-size:0.75rem; color:#cbd5e1;">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Panel: Construction Diagrams & Architecture Blueprints -->
+    <div class="tab-panel" id="panelDiagrams">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+        <span style="font-size:0.8rem; color:var(--gold-accent); font-family:monospace; font-weight:800;">
+          ARCHITECTURE BLUEPRINT GALLERY // 系統架構圖面與工程圖表展台
+        </span>
+        <span style="font-size:0.72rem; color:#94a3b8;">支援 Mermaid 拓撲 ✕ 300 DPI 實體圖表</span>
+      </div>
+
+      <!-- Diagram Filter Pills -->
+      <div class="diag-nav-bar" id="diagNavBar">
+        <!-- Dynamically populated pills -->
+      </div>
+
+      <div class="diagram-canvas" id="diagramCanvas">
+        <div style="color:#64748b; font-size:0.85rem;">正在渲染架構圖面...</div>
+      </div>
+    </div>
+
+    <!-- Panel 1: Live 3D Flipbook (原功能保留) -->
+    <div class="tab-panel" id="panelFlipbook">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+        <span style="font-size:0.8rem; color:var(--cyan-accent); font-family:monospace;">LIVE PREVIEW // 03_熱血賽事篇 3D 活頁翻頁書</span>
+        <button class="clear-btn" onclick="document.getElementById('flipFrame').src = '/preview/vol3?' + Date.now()">🔄 重新載入</button>
+      </div>
+      <iframe id="flipFrame" class="flipbook-frame" src="/preview/vol3"></iframe>
+    </div>
+
+        <!-- Panel: Code Inspection & Symbol Verification -->
+    <div class="tab-panel" id="panelInspect">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <span style="font-size:0.8rem; color:var(--cyan-accent); font-family:monospace;">CODE INSPECTION ENGINE // 全域實體反查與防幻覺驗證中心</span>
+        <div style="display:flex; gap:8px;">
+          <button class="clear-btn" style="background:rgba(0,242,254,0.15); border-color:var(--cyan-accent); color:#fff;" onclick="quickSend('🌐 到網站找代碼並建立 code_inspection_search')">🌐 找代碼建立 code_inspection_search</button>
+          <button class="clear-btn" onclick="quickSend('🔍 反查 ARC3PolicyValueNet')">🔍 反查 ARC3PolicyValueNet</button>
+          <button class="clear-btn" onclick="quickSend('🔍 反查 ARCInteractiveEnv')">🔍 反查 ARCInteractiveEnv</button>
+        </div>
+      </div>
+
+      <div id="inspectionReportContainer">
+        <div class="inspect-card">
+          <div class="inspect-header-row">
+            <div>
+              <div style="font-size:0.75rem; color:#94a3b8;">反查標的 (TARGET SYMBOL)</div>
+              <div style="font-size:1.3rem; font-weight:800; color:#fff;" id="inspectTargetName">ARC3PolicyValueNet</div>
+            </div>
+            <div id="inspectStatusBadge" class="inspect-badge badge-missing">❌ 查無實體 / 虛擬概念</div>
+          </div>
+          
+          <div class="inspect-metrics-grid">
+            <div class="inspect-metric-box">
+              <div class="metric-num" id="metricScanned">810</div>
+              <div class="metric-lbl">掃描檔案總數</div>
+            </div>
+            <div class="inspect-metric-box">
+              <div class="metric-num" id="metricDuration">3.89s</div>
+              <div class="metric-lbl">全域檢索耗時</div>
+            </div>
+            <div class="inspect-metric-box">
+              <div class="metric-num" id="metricDefs">0</div>
+              <div class="metric-lbl">class/def 定義</div>
+            </div>
+            <div class="inspect-metric-box">
+              <div class="metric-num" id="metricMatches">0</div>
+              <div class="metric-lbl">命中總數</div>
+            </div>
+          </div>
+
+          <div class="inspect-notice-box" id="inspectSummaryText">
+            【實體反查權威結論】：經特助小幫手全域掃描本地工作區 (ping_assistant) 與雲端成品總庫，完全未發現任何「ARC3PolicyValueNet」實體定義或引用。先前終端機模型推理中標紅的字樣純屬虛擬構想（Plan-only），尚未在本地磁碟落地建檔！
+          </div>
+
+          <div style="margin-top:16px;">
+            <div style="font-size:0.85rem; font-weight:700; color:var(--cyan-accent); margin-bottom:8px;">📂 實體驗證匹配清單 (MATCHING DETAILS)</div>
+            <div id="inspectMatchesList" style="background:#090d16; border:1px solid rgba(255,255,255,0.08); border-radius:8px; padding:12px; font-family:monospace; font-size:0.8rem; max-height:280px; overflow-y:auto; color:#94a3b8;">
+              （無實體匹配項目）
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Panel 2: Raw Logs -->
+    <div class="tab-panel" id="panelLogs">
+      <div class="console-label">
+        <span>📡 伺服器原始 SSE 串流封包</span>
+        <button class="clear-btn" id="btnClearLogs">清空日誌</button>
+      </div>
+      <div class="console-box" id="consoleBox">
+        <div class="console-header-line">
+          // 即時捕捉伺服器發送的每一行 SSE 數據（包含 thought、tool_start、token、preview）
+        </div>
+        <div id="logStream"></div>
+      </div>
+    </div>
+
+    <!-- Panel 3: Handoff & Status -->
+    <div class="tab-panel" id="panelHandoff">
+      <div style="background:#090d16; border:1px solid rgba(0,242,254,0.3); border-radius:12px; padding:20px; height:100%; display:flex; flex-direction:column; gap:16px;">
+        <div style="font-size:1.1rem; font-weight:800; color:#fff; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:10px;">
+          🏁 雙軌通訊與一鍵收工交接台
+        </div>
+        <div style="font-size:0.85rem; color:#cbd5e1; line-height:1.6;">
+          點擊下方按鈕即可一鍵觸發第一辦公室等級的交接同步：自動寫入 <code>handoff.md</code>，執行 <code>git commit</code>，達成桌面零污染與 0 元成本確認！
+        </div>
+        <button onclick="setQuery('🏁 一鍵收工同步交接'); startStream();" style="background:linear-gradient(135deg, #10b981, #00f2fe); border:none; color:#050811; font-weight:800; padding:12px 24px; border-radius:10px; cursor:pointer; font-size:1rem; box-shadow:0 0 20px rgba(16,185,129,0.4);">
+          🚀 立即一鍵收工同步交接
+        </button>
+        <div id="handoffStatusBox" style="background:rgba(0,0,0,0.5); border:1px solid rgba(255,255,255,0.08); border-radius:8px; padding:14px; font-family:monospace; font-size:0.78rem; color:#6ee7b7; flex:1; overflow-y:auto;">
+          系統監控：第一辦公室工具鏈全通狀態 · 綠燈 PASS<br>
+          目前已成功與 APP UI 建立雙向 SSE 管道。
+        </div>
+    <!-- Panel: PHANTOM GRID Tournaments Master Dashboard -->
+    <div class="tab-panel" id="panelTournaments">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <span style="font-size:0.8rem; color:var(--gold-accent); font-family:monospace; font-weight:800;">
+          PHANTOM GRID GLOBAL TOURNAMENTS // 全球 22 場黑客松與賽事大盤總表 (練功房作戰調度中心)
+        </span>
+        <div style="display:flex; gap:8px;">
+          <a href="/2026_competitions_calendar.ics" download style="text-decoration:none;">
+            <button class="clear-btn" style="border-color:#10b981; color:#34d399; font-weight:700;">📲 下載手機日曆 (.ics)</button>
+          </a>
+          <button class="clear-btn" onclick="loadTournamentsMaster()">🔄 刷新賽事實況</button>
+        </div>
+      </div>
+
+      <div class="test-matrix-card" style="border-color:rgba(245,158,11,0.35); flex:1; display:flex; flex-direction:column; overflow:hidden;">
+        <!-- Header Row -->
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.08); padding-bottom:10px;">
+          <div>
+            <div style="font-size:0.75rem; color:#94a3b8;">作戰梯隊大滿貫 (PHANTOM GRID SOLO CLOSED MODE)</div>
+            <div style="font-size:1.15rem; font-weight:800; color:#fff;" id="tournamentsMasterTitle">
+              🏆 全球頂級 AI Agent 賽事實時作戰大盤 (22 場戰役)
+            </div>
+          </div>
+          <div class="inspect-badge badge-found" id="tournamentsHeaderBadge">🟢 22 場 100% 掌握</div>
+        </div>
+
+        <!-- 4 Metric Cards -->
+        <div class="inspect-metrics-grid" style="margin-top:10px; margin-bottom:12px;">
+          <div class="inspect-metric-box">
+            <div class="metric-num" style="color:var(--gold-accent);" id="tournCountTotal">22</div>
+            <div class="metric-lbl">全球作戰賽事</div>
+          </div>
+          <div class="inspect-metric-box">
+            <div class="metric-num" style="color:var(--success-green);" id="tournCountSubmitted">4 場</div>
+            <div class="metric-lbl">已交卷 / 完賽領證</div>
+          </div>
+          <div class="inspect-metric-box">
+            <div class="metric-num" style="color:var(--cyan-accent);" id="tournCountReady">14 場</div>
+            <div class="metric-lbl">已報名 / 資格鎖定</div>
+          </div>
+          <div class="inspect-metric-box">
+            <div class="metric-num" style="color:#f43f5e;" id="tournCountSprint">4 場</div>
+            <div class="metric-lbl">企劃與激戰攻堅</div>
+          </div>
+        </div>
+
+        <!-- Tournaments Content List (Scrollable) -->
+        <div style="flex:1; overflow-y:auto; padding-right:6px;" id="tournamentsContainer">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+
+function setQuery(text) {
+  document.getElementById('inputQuery').value = text;
+}
+
+
+function quickSend(text) {
+  const inp = document.getElementById('inputQuery');
+  inp.value = text;
+  startStream();
+}
+
+function renderInspectionPanel(res) {
+  if (!res) return;
+  document.getElementById('inspectTargetName').textContent = res.target || '未知標的';
+  document.getElementById('metricScanned').textContent = res.files_scanned || '0';
+  document.getElementById('metricDuration').textContent = (res.duration_sec || '0') + 's';
+  document.getElementById('metricDefs').textContent = res.definition_count || '0';
+  document.getElementById('metricMatches').textContent = res.total_matches || '0';
+  document.getElementById('inspectSummaryText').textContent = res.summary || '';
+
+  const badge = document.getElementById('inspectStatusBadge');
+  if (!res.found) {
+    badge.className = 'inspect-badge badge-missing';
+    badge.textContent = '❌ 查無實體 / 虛擬概念';
+  } else if (!res.has_definition) {
+    badge.className = 'inspect-badge badge-warning';
+    badge.textContent = '⚠️ 僅文字提及 / 無類別定義';
+  } else {
+    badge.className = 'inspect-badge badge-found';
+    badge.textContent = '✅ 實體存在 / 已建置代碼';
+  }
+
+  const listDiv = document.getElementById('inspectMatchesList');
+  if (!res.matches || res.matches.length === 0) {
+    listDiv.innerHTML = '<div style="color:#ef4444;">❌ 掃描全域 800+ 檔案，無任何實體檔案匹配。</div>';
+  } else {
+    let itemsHtml = '';
+    res.matches.forEach((m, idx) => {
+      const defTag = m.is_definition ? '<span style="color:#34d399; font-weight:800;">[CLASS/DEF]</span> ' : '';
+      itemsHtml += `<div style="margin-bottom:8px; border-bottom:1px dashed rgba(255,255,255,0.05); padding-bottom:6px;">
+        <span style="color:var(--cyan-accent); font-weight:700;">${idx+1}. ${m.rel_file}</span> <span style="color:#f59e0b;">:L${m.line}</span><br>
+        ${defTag}<span style="color:#cbd5e1;">${escapeHtml(m.content)}</span>
+      </div>`;
+    });
+    listDiv.innerHTML = itemsHtml;
+  }
+}
+
+function escapeHtml(str) {
+  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+let allDiagrams = [];
+let currentDiagId = null;
+
+function switchTab(tabName) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+
+  const btnMap = {
+    'tests': 'tabBtnTests',
+    'tournaments': 'tabBtnTournaments',
+    'bobcustoms': 'tabBtnBobCustoms',
+    'files': 'tabBtnFiles',
+    'diagrams': 'tabBtnDiagrams',
+    'flipbook': 'tabBtnFlipbook',
+    'inspect': 'tabBtnInspect',
+    'logs': 'tabBtnLogs',
+    'handoff': 'tabBtnHandoff'
+  };
+  const panelMap = {
+    'tests': 'panelTests',
+    'tournaments': 'panelTournaments',
+    'bobcustoms': 'panelBobCustoms',
+    'files': 'panelFiles',
+    'diagrams': 'panelDiagrams',
+    'flipbook': 'panelFlipbook',
+    'inspect': 'panelInspect',
+    'logs': 'panelLogs',
+    'handoff': 'panelHandoff'
+  };
+
+  const btnId = btnMap[tabName];
+  const panelId = panelMap[tabName];
+
+  if (btnId && document.getElementById(btnId)) {
+    document.getElementById(btnId).classList.add('active');
+  }
+  if (panelId && document.getElementById(panelId)) {
+    document.getElementById(panelId).classList.add('active');
+  }
+
+  if (tabName === 'tests') loadTestMatrix(false);
+  if (tabName === 'tournaments') loadTournamentsMaster();
+  if (tabName === 'files') loadCreatedFiles();
+  if (tabName === 'diagrams') loadDiagrams();
+}
+
+async function loadTournamentsMaster() {
+  try {
+    const res = await fetch('/api/tournaments');
+    const data = await res.json();
+    if (!data.stages) return;
+
+    document.getElementById('tournCountTotal').textContent = data.total_count || '22';
+    const container = document.getElementById('tournamentsContainer');
+    if (!container) return;
+
+    let html = '';
+    data.stages.forEach((stage, sIdx) => {
+      html += `
+        <div style="margin-bottom:14px;">
+          <div style="font-size:0.85rem; font-weight:800; color:var(--gold-accent); margin-bottom:8px; display:flex; align-items:center; gap:8px;">
+            <span>${stage.tier}</span>
+            <span style="font-size:0.7rem; background:rgba(245,158,11,0.2); color:#fde047; padding:1px 6px; border-radius:4px;">${stage.tournaments.length} 場</span>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:8px;">
+      `;
+
+      stage.tournaments.forEach(t => {
+        let badgeColor = '#10b981';
+        let badgeBg = 'rgba(16,185,129,0.15)';
+        if (t.status.includes('激戰') || t.status.includes('攻堅')) {
+          badgeColor = '#f43f5e';
+          badgeBg = 'rgba(244,63,94,0.15)';
+        } else if (t.status.includes('Approved') || t.status.includes('卡位') || t.status.includes('待開賽') || t.status.includes('今日')) {
+          badgeColor = '#38bdf8';
+          badgeBg = 'rgba(56,189,248,0.15)';
+        }
+
+        // Xiaomi 4-dimension indicators
+        const readiness = t.artifact_readiness || { percent: 50, details: "評估中" };
+        const readinessPct = typeof readiness === 'object' ? (readiness.percent || 0) : (parseInt(readiness, 10) || 0);
+        const readinessDetails = typeof readiness === 'object' ? (readiness.details || "") : "";
+        const readinessBarColor = readinessPct >= 100 ? "#10b981" : (readinessPct >= 60 ? "#38bdf8" : "#f59e0b");
+
+        const tacticalVer = t.tactical_version || "v1.0-Default";
+        const sandboxPath = t.sandbox_binding || "未隔離綁定";
+        const nextCheckpoint = t.next_hard_checkpoint || "無硬性關卡";
+
+        html += `
+          <div class="test-stage-item" style="flex-direction:column; align-items:stretch; gap:8px; background:rgba(15,23,42,0.85); border:1px solid rgba(255,255,255,0.08); border-radius:10px; padding:12px 14px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span class="stage-num-badge" style="background:rgba(245,158,11,0.2); color:#fde047; border-color:#f59e0b;">${t.id}</span>
+                <span class="stage-title" style="font-size:0.92rem;">${t.name}</span>
+                <span style="font-size:0.72rem; color:#64748b; font-family:monospace;">[${t.platform}]</span>
+              </div>
+              <div style="display:flex; align-items:center; gap:6px;">
+                <span style="font-family:monospace; font-size:0.68rem; color:#a7f3d0; background:rgba(16,185,129,0.15); border:1px solid rgba(16,185,129,0.3); padding:2px 6px; border-radius:4px;">
+                  🏷️ ${tacticalVer}
+                </span>
+                <span style="font-size:0.75rem; font-weight:800; padding:3px 10px; border-radius:12px; color:${badgeColor}; background:${badgeBg}; border:1px solid ${badgeColor};">
+                  ${t.status}
+                </span>
+              </div>
+            </div>
+
+            <!-- Detail Grid -->
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; font-size:0.75rem; background:rgba(0,0,0,0.3); padding:8px 10px; border-radius:6px; border:1px solid rgba(255,255,255,0.04);">
+              <div><span style="color:#94a3b8;">📅 比賽時間：</span><span style="color:#e2e8f0; font-family:monospace;">${t.match_time}</span></div>
+              <div><span style="color:#fca5a5;">🚨 繳件/跑分截止：</span><span style="color:#f87171; font-weight:700; font-family:monospace;">${t.submission_deadline}</span></div>
+              <div style="grid-column:1/-1;"><span style="color:#fde047;">⏳ 補件與開獎窗口：</span><span style="color:#fef08a; font-family:monospace;">${t.supplement_deadline}</span></div>
+              <div style="grid-column:1/-1;"><span style="color:var(--cyan-accent);">🎯 核心方案戰力：</span><span style="color:#cbd5e1;">${t.training_focus}</span></div>
+            </div>
+
+            <!-- Artifact Readiness Indicator (Xiaomi Dim 1) -->
+            <div style="background: rgba(15, 23, 42, 0.95); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 6px; padding: 6px 10px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.72rem; margin-bottom: 4px;">
+                <span style="color: #38bdf8; font-weight: bold;">📦 交付物就緒度 (Artifact Readiness):</span>
+                <span style="color: ${readinessBarColor}; font-weight: bold; font-family: monospace;">${readinessPct}%</span>
+              </div>
+              <div style="background: rgba(255,255,255,0.08); border-radius: 4px; height: 5px; overflow: hidden; margin-bottom: 4px;">
+                <div style="width: ${readinessPct}%; height: 100%; background: ${readinessBarColor}; transition: width 0.3s ease;"></div>
+              </div>
+              <div style="font-size: 0.68rem; color: #cbd5e1; font-family: monospace;">
+                ${readinessDetails}
+              </div>
+            </div>
+
+            <!-- Next Hard Checkpoint (Xiaomi Dim 4) -->
+            <div style="font-size: 0.72rem; color: #fecdd3; background: rgba(225, 29, 72, 0.12); border-left: 3px solid #f43f5e; padding: 4px 8px; border-radius: 4px; display: flex; align-items: center; gap: 6px;">
+              <span style="color: #fb7185; font-weight: bold; white-space: nowrap;">🎯 下次硬性關卡:</span>
+              <span style="color: #fff1f2; font-weight: bold;">${nextCheckpoint}</span>
+            </div>
+
+            <!-- Sandbox Binding (Xiaomi Dim 3) -->
+            <div style="font-size: 0.70rem; color: #94a3b8; background: rgba(30, 41, 59, 0.5); padding: 4px 8px; border-radius: 4px; border-left: 2px solid #818cf8; word-break: break-all;">
+              <span style="color: #a5b4fc; font-weight: bold;">🔒 隔離環境/憑證:</span>
+              <span style="font-family: monospace; color: #e2e8f0;"> ${sandboxPath}</span>
+            </div>
+
+            <!-- Dojo Training Course Notice -->
+            <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.73rem; background:rgba(0,242,254,0.05); border-left:3px solid var(--cyan-accent); padding:4px 8px; border-radius:4px;">
+              <div>
+                <span style="color:#38bdf8; font-weight:700;">🥋 練功房對應訓練課程：</span>
+                <span style="color:#a7f3d0; font-family:monospace;">${t.dojo_course}</span>
+              </div>
+              <button class="clear-btn" style="padding:2px 8px; font-size:0.68rem;" onclick="quickSend('🥋 啟動練功房特訓：${t.id}')">🥋 啟動訓練</button>
+            </div>
+          </div>
+        `;
+      });
+
+      html += `
+          </div>
+        </div>
+      `;
+    });
+
+    container.innerHTML = html;
+  } catch (err) {
+    console.error('Failed to load tournaments master:', err);
+  }
+}
+
+async function loadTestMatrix(run = false) {
+  const btn = document.getElementById('btnRunTest');
+  if (btn && run) {
+    btn.disabled = true;
+    btn.textContent = '⏳ 正在執行真機壓測中...';
+  }
+  try {
+    const res = await fetch(`/api/test-matrix?run=${run ? 1 : 0}`);
+    const data = await res.json();
+    if (data.status === 'success') {
+      document.getElementById('testSuiteTitle').textContent = data.suite_name || '五道地獄級連環考驗';
+      document.getElementById('testOverallBadge').textContent = `✅ ${data.pass_rate} 綠燈 (${data.execution_time})`;
+      document.getElementById('testPassRate').textContent = data.pass_rate;
+      document.getElementById('testPassedCount').textContent = `${data.passed_stages} / ${data.total_stages}`;
+      document.getElementById('testDuration').textContent = data.execution_time;
+      document.getElementById('testUnitCount').textContent = Number(data.unit_tests_passed || 1123).toLocaleString();
+      document.getElementById('testLastUpdated').textContent = data.last_updated;
+      document.getElementById('testRawLogBox').textContent = data.raw_log;
+
+      const stageList = document.getElementById('testStageList');
+      if (stageList && data.stages) {
+        let html = '';
+        data.stages.forEach(s => {
+          html += `
+            <div class="test-stage-item">
+              <div>
+                <div class="stage-title">
+                  <span class="stage-num-badge">第 ${s.stage} 劫</span>
+                  <span>${s.name}</span>
+                </div>
+                <div class="stage-detail">
+                  <span style="color:#f87171;">注入: ${s.fault}</span> ➔ 
+                  <span style="color:#60a5fa;">防禦: ${s.defense}</span>
+                </div>
+                <div style="font-size:0.72rem; color:#a7f3d0; margin-top:2px; font-family:monospace;">
+                  📊 實測指標: ${s.metrics}
+                </div>
+              </div>
+              <div class="stage-status-pass">✅ ${s.status}</div>
+            </div>
+          `;
+        });
+        stageList.innerHTML = html;
+      }
+    }
+  } catch (err) {
+    console.error('Failed to load test matrix:', err);
+  } finally {
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = '▶ 一鍵真機重跑驗收';
+    }
+  }
+}
+
+async function runTestMatrix(run = true) {
+  await loadTestMatrix(run);
+}
+
+async function loadCreatedFiles() {
+  try {
+    const res = await fetch('/api/created-files');
+    const data = await res.json();
+    if (data.status === 'success') {
+      document.getElementById('filesCount').textContent = data.files ? data.files.length : '0';
+      const fileListDiv = document.getElementById('createdFilesList');
+      if (fileListDiv && data.files) {
+        let html = '';
+        data.files.forEach(f => {
+          html += `
+            <div class="file-item-card">
+              <div>
+                <div class="file-name">📄 ${f.name}</div>
+                <div class="file-desc">${f.desc}</div>
+                <div class="file-meta">${f.lines} 行 · ${f.size_display} · 更新於 ${f.updated_at}</div>
+              </div>
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span class="file-badge-synced">🟢 ${f.tag}</span>
+                <button class="clear-btn" style="padding:2px 8px; font-size:0.7rem;" onclick="quickSend('🔍 反查 ${f.name}')">👁️ 反查</button>
+              </div>
+            </div>
+          `;
+        });
+        fileListDiv.innerHTML = html;
+      }
+
+      const commitsBox = document.getElementById('recentCommitsBox');
+      if (commitsBox && data.recent_commits) {
+        let commitHtml = '';
+        data.recent_commits.forEach(c => {
+          commitHtml += `
+            <div style="display:flex; justify-content:space-between; margin-bottom:4px; padding-bottom:4px; border-bottom:1px dashed rgba(255,255,255,0.05);">
+              <span style="color:var(--gold-accent); font-weight:700;">[${c.hash}]</span>
+              <span style="flex:1; margin:0 8px; color:#e2e8f0;">${escapeHtml(c.msg)}</span>
+              <span style="color:#64748b; font-size:0.7rem;">${c.date}</span>
+            </div>
+          `;
+        });
+        commitsBox.innerHTML = commitHtml || '無近期提交記錄';
+      }
+    }
+  } catch (err) {
+    console.error('Failed to load created files:', err);
+  }
+}
+
+async function loadDiagrams() {
+  try {
+    const res = await fetch('/api/diagrams');
+    const data = await res.json();
+    if (data.status === 'success') {
+      allDiagrams = data.diagrams || [];
+      const navBar = document.getElementById('diagNavBar');
+      if (navBar && allDiagrams.length > 0) {
+        let html = '';
+        allDiagrams.forEach((d, idx) => {
+          const activeClass = idx === 0 ? 'active' : '';
+          html += `<button class="diag-pill ${activeClass}" id="diagPill_${d.id}" onclick="selectDiagram('${d.id}')">${d.title}</button>`;
+        });
+        navBar.innerHTML = html;
+        selectDiagram(allDiagrams[0].id);
+      }
+    }
+  } catch (err) {
+    console.error('Failed to load diagrams:', err);
+  }
+}
+
+async function selectDiagram(diagId) {
+  currentDiagId = diagId;
+  document.querySelectorAll('.diag-pill').forEach(p => p.classList.remove('active'));
+  const pill = document.getElementById(`diagPill_${diagId}`);
+  if (pill) pill.classList.add('active');
+
+  const diag = allDiagrams.find(d => d.id === diagId);
+  const canvas = document.getElementById('diagramCanvas');
+  if (!diag || !canvas) return;
+
+  if (diag.type === 'mermaid') {
+    canvas.innerHTML = `<div style="color:#64748b; font-size:0.8rem;">正在渲染拓撲圖...</div>`;
+    try {
+      if (window.mermaid) {
+        const uid = 'mm_' + Math.random().toString(36).substr(2, 9);
+        const { svg } = await mermaid.render(uid, diag.content);
+        canvas.innerHTML = `<div style="width:100%; max-width:850px; padding:10px;">${svg}</div>`;
+      } else {
+        canvas.innerHTML = `<pre style="color:#34d399; font-family:monospace; text-align:left; width:100%;">${escapeHtml(diag.content)}</pre>`;
+      }
+    } catch (e) {
+      canvas.innerHTML = `<pre style="color:#34d399; font-family:monospace; text-align:left; width:100%;">${escapeHtml(diag.content)}</pre>`;
+    }
+  } else if (diag.type === 'image') {
+    canvas.innerHTML = `
+      <div style="display:flex; flex-direction:column; align-items:center; gap:10px; padding:10px; width:100%;">
+        <div style="font-size:0.82rem; color:var(--cyan-accent); font-weight:700;">${diag.desc || ''}</div>
+        <img src="${diag.url}?t=${Date.now()}" style="max-width:100%; max-height:550px; border-radius:10px; border:1px solid rgba(0,242,254,0.3); box-shadow:0 8px 30px rgba(0,0,0,0.85);" alt="${diag.title}" />
+      </div>
+    `;
+  }
+}
+
+const aiContainer = document.getElementById('aiContainer');
+const chatScroll = document.getElementById('chatScroll');
+const logStream = document.getElementById('logStream');
+const consoleBox = document.getElementById('consoleBox');
+const btnRun = document.getElementById('btnRun');
+const inputQuery = document.getElementById('inputQuery');
+const interruptModal = document.getElementById('interruptModal');
+const interruptPrompt = document.getElementById('interruptPrompt');
+const btnApprove = document.getElementById('btnApprove');
+const btnReject = document.getElementById('btnReject');
+const btnClearLogs = document.getElementById('btnClearLogs');
+
+let currentTaskId = null;
+
+function appendRawLog(rawText, isInterrupt = false) {
+  const div = document.createElement('div');
+  div.className = 'log-block' + (isInterrupt ? ' interrupt' : '');
+  div.textContent = rawText;
+  logStream.appendChild(div);
+  consoleBox.scrollTop = consoleBox.scrollHeight;
+}
+
+btnClearLogs.addEventListener('click', () => {
+  logStream.innerHTML = '';
+});
+
+let currentAbortCtrl = null;
+
+async function startStream() {
+  const query = inputQuery.value.trim();
+  if (!query) return;
+
+  if (currentAbortCtrl) {
+    currentAbortCtrl.abort();
+  }
+  currentAbortCtrl = new AbortController();
+
+  if (query.includes('測試') || query.includes('考驗') || query.includes('hellfire') || query.includes('test')) {
+    switchTab('tests');
+  } else if (query.includes('賽事') || query.includes('黑客松') || query.includes('大盤') || query.includes('tournament') || query.includes('hackathon')) {
+    switchTab('tournaments');
+  } else if (query.includes('建檔') || query.includes('檔案') || query.includes('產出') || query.includes('artifact')) {
+    switchTab('files');
+  } else if (query.includes('圖面') || query.includes('架構') || query.includes('拓撲') || query.includes('消融') || query.includes('diagram')) {
+    switchTab('diagrams');
+  } else if (query.includes('反查') || query.includes('查') || query.includes('ARC') || query.includes('驗證') || query.includes('建立') || query.includes('修改') || query.includes('修補') || query.includes('class')) {
+    switchTab('inspect');
+  }
+
+  // 立即清空輸入框，杜絕訊息殘留！
+  inputQuery.value = '';
+
+  // 同步更新手機端用戶氣泡對話文字
+  const userMsgBubble = document.getElementById('userMsgBubble');
+  if (userMsgBubble) {
+    userMsgBubble.textContent = query;
+  }
+
+  // Reset UI
+  aiContainer.innerHTML = '';
+  interruptModal.classList.remove('active');
+  logStream.innerHTML = '';
+  chatScroll.scrollTop = chatScroll.scrollHeight;
+
+  appendRawLog(`>>> 連線至 GET /api/stream?query=${encodeURIComponent(query)}`);
+
+  // Setup DOM elements for AI
+  const thoughtCard = document.createElement('div');
+  thoughtCard.className = 'card-thought';
+  thoughtCard.innerHTML = `
+    <div class="thought-header">
+      <div class="thought-spinner" id="thoughtSpinner"></div>
+      <span>🧠 思考過程 (Thought)</span>
+    </div>
+    <div id="thoughtContent" style="line-height:1.4;">準備啟動神經推演...</div>
+  `;
+  aiContainer.appendChild(thoughtCard);
+
+  const toolCard = document.createElement('div');
+  toolCard.className = 'card-tool';
+  toolCard.style.display = 'none';
+  aiContainer.appendChild(toolCard);
+
+  const answerCard = document.createElement('div');
+  answerCard.className = 'card-answer';
+  answerCard.style.display = 'none';
+  aiContainer.appendChild(answerCard);
+
+  try {
+    const response = await fetch(`/api/stream?query=${encodeURIComponent(query)}`, { signal: currentAbortCtrl.signal });
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder('utf-8');
+    let buffer = '';
+
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) break;
+      buffer += decoder.decode(value, { stream: true });
+
+      // Split SSE packets by double newline
+      const packets = buffer.split('\n\n');
+      buffer = packets.pop(); // keep remainder
+
+      for (const packet of packets) {
+        if (!packet.trim()) continue;
+        
+        appendRawLog(packet, packet.includes('event: interrupt'));
+
+        // Parse event and data
+        let eventType = 'message';
+        let dataJson = {};
+
+        const lines = packet.split('\n');
+        for (const line of lines) {
+          if (line.startsWith('event:')) {
+            eventType = line.replace('event:', '').trim();
+          } else if (line.startsWith('data:')) {
+            try {
+              dataJson = JSON.parse(line.replace('data:', '').trim());
+            } catch (e) {
+              dataJson = { raw: line.replace('data:', '').trim() };
+            }
+          }
+        }
+
+        // Dispatch to Mobile UI
+        if (eventType === 'preview') {
+          if (dataJson.type === 'inspection') {
+            switchTab('inspect');
+            renderInspectionPanel(dataJson.result);
+          } else if (dataJson.type === 'tests') {
+            switchTab('tests');
+            loadTestMatrix(false);
+          } else if (dataJson.type === 'files') {
+            switchTab('files');
+            loadCreatedFiles();
+          } else if (dataJson.type === 'diagrams') {
+            switchTab('diagrams');
+            loadDiagrams();
+          } else {
+            switchTab('flipbook');
+            const ff = document.getElementById('flipFrame');
+            if (ff) ff.src = dataJson.url + '?' + Date.now();
+          }
+        }
+        if (eventType === 'thought') {
+          document.getElementById('thoughtContent').textContent = dataJson.text || '';
+        } else if (eventType === 'tool_start') {
+          toolCard.style.display = 'flex';
+          let inDesc = '';
+          if (dataJson.input?.target) inDesc = `🎯 反查標的: ${dataJson.input.target}`;
+          else if (dataJson.input?.cmd) inDesc = `⚡ 終端指令: ${dataJson.input.cmd}`;
+          else if (dataJson.input?.file) inDesc = `📄 檢視檔案: ${dataJson.input.file}`;
+          else inDesc = JSON.stringify(dataJson.input || {});
+          
+          toolCard.innerHTML = `
+            <div class="tool-header-row">
+              <div class="tool-title">
+                <div class="thought-spinner" style="border-top-color:var(--gold-accent);"></div>
+                <span>🛠️ ${dataJson.tool}</span>
+              </div>
+              <span style="font-size:0.65rem; color:var(--gold-accent);">RUNNING</span>
+            </div>
+            <div class="tool-input-row">${inDesc}</div>
+          `;
+        } else if (eventType === 'tool_end') {
+          const isOk = dataJson.output?.status === 'SUCCESS' || dataJson.output?.status === 'success';
+          const badgeColor = isOk ? 'background:rgba(16,185,129,0.2); color:#34d399;' : 'background:rgba(239,68,68,0.2); color:#f87171;';
+          const summaryStr = dataJson.output?.summary || JSON.stringify(dataJson.output || {});
+          
+          toolCard.innerHTML = `
+            <div class="tool-header-row">
+              <div class="tool-title">
+                <span style="color:${isOk ? 'var(--success-green)' : '#f87171'};">✓</span>
+                <span>🛠️ ${dataJson.tool}</span>
+              </div>
+              <span class="tool-badge-done" style="${badgeColor}">${dataJson.output?.status?.toUpperCase() || 'DONE'}</span>
+            </div>
+            <div class="tool-input-row" style="color:#cbd5e1; font-size:0.7rem; line-height:1.4;">${summaryStr}</div>
+          `;
+          const sp = document.getElementById('thoughtSpinner');
+          if (sp) sp.style.display = 'none';
+        } else if (eventType === 'token') {
+          answerCard.style.display = 'block';
+          answerCard.textContent += (dataJson.delta || '');
+        } else if (eventType === 'interrupt') {
+          currentTaskId = dataJson.task_id;
+          interruptPrompt.textContent = dataJson.prompt || '確認要執行此危險操作嗎？';
+          interruptModal.classList.add('active');
+        }
+
+        chatScroll.scrollTop = chatScroll.scrollHeight;
+      }
+    }
+  } catch (err) {
+    appendRawLog(`[ERROR] ${err.message}`);
+    const sp = document.getElementById('thoughtSpinner');
+    if (sp) sp.style.display = 'none';
+    const tc = document.getElementById('thoughtContent');
+    if (tc) tc.innerHTML = `<span style="color:#f87171;">⚠️ 通訊異常或已中斷：${err.message}</span>`;
+  }
+}
+
+async function handleConfirm(approved) {
+  interruptModal.classList.remove('active');
+  appendRawLog(`>>> 用戶在 Mobile 端點擊了: ${approved ? '✅ 允許執行' : '❌ 拒絕取消'}，向伺服器發送 POST /api/confirm`);
+
+  const answerCard = aiContainer.querySelector('.card-answer');
+
+  try {
+    const res = await fetch('/api/confirm', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ task_id: currentTaskId, approved: approved })
+    });
+
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder('utf-8');
+    let buffer = '';
+
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) break;
+      buffer += decoder.decode(value, { stream: true });
+
+      const packets = buffer.split('\n\n');
+      buffer = packets.pop();
+
+      for (const packet of packets) {
+        if (!packet.trim()) continue;
+        appendRawLog(packet);
+
+        const lines = packet.split('\n');
+        for (const line of lines) {
+          if (line.startsWith('data:')) {
+            try {
+              const d = JSON.parse(line.replace('data:', '').trim());
+              if (d.delta && answerCard) {
+                answerCard.textContent += d.delta;
+              }
+            } catch (e) {}
+          }
+        }
+        chatScroll.scrollTop = chatScroll.scrollHeight;
+      }
+    }
+  } catch (e) {
+    appendRawLog(`[ERROR] ${e.message}`);
+  }
+}
+
+btnApprove.addEventListener('click', () => handleConfirm(true));
+btnReject.addEventListener('click', () => handleConfirm(false));
+btnRun.addEventListener('click', startStream);
+inputQuery.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    startStream();
+  }
+});
+
+// Auto-run on load
+window.addEventListener('load', () => {
+  loadTestMatrix(false);
+  loadTournamentsMaster();
+  loadCreatedFiles();
+  loadDiagrams();
+});
+</script>
+<script src="/static/office2_dashboard_patch.js"></script>
+</body>
+</html>
