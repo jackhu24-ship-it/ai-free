@@ -47,6 +47,17 @@ async def get_calendar_ics():
     return Response("Calendar not found", status_code=404)
 
 
+@app.get("/api/tournaments")
+async def get_tournaments_data():
+    """取得全球 22 場頂級賽事實時作戰大盤數據。"""
+    tourn_path = os.path.join(STATIC_DIR, "phantom_grid_tournaments_data.json")
+    if os.path.exists(tourn_path):
+        with open(tourn_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+            return JSONResponse(data, headers={"Cache-Control": "no-cache, no-store, must-revalidate"})
+    return JSONResponse({"error": "Tournaments data not found"}, status_code=404)
+
+
 @app.get("/api/bob-cinema-progress")
 async def get_bob_cinema_progress():
     """取得 Bob 影視製作進度、逆向工程技能進化與指揮所素材清單。"""

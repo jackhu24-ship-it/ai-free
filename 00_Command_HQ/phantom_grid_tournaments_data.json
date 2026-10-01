@@ -1,0 +1,396 @@
+{
+  "total_count": 22,
+  "last_updated": "2026-10-02 02:25:00 CST",
+  "authority": "👑 霸丸總指揮官 Jack 哥 (PHANTOM GRID)",
+  "stages": [
+    {
+      "tier": "🥊 第一梯次：即刻突擊組 (正在開打 / 7天內極速衝刺)",
+      "tournaments": [
+        {
+          "id": "T01",
+          "name": "⚽ AWS Agentic Football Cup 2026 (League 4 開打)",
+          "platform": "AWS / Minds AI",
+          "status": "🔥 League 4 正在開打中 (OneFootball 贊助)",
+          "tactical_version": "v4.0-League4-WinningStreak",
+          "match_time": "10/02 (五) ~ 10/05 (一) 00:00 (UTC+8)",
+          "submission_deadline": "每週五開賽 / 前 24H 演練 Prompt",
+          "supplement_deadline": "通行代碼：C6867E4CBE1C411ED36F67E8A007BFB3",
+          "training_focus": "OneFootball 贊助最長連勝王 (Winning Streak) / 1-1-2 狂暴雙箭頭 ✕ 門線鐵鎖 / 直通 Vegas 總決賽",
+          "artifact_readiness": {
+            "percent": 95,
+            "details": "代碼已就緒，前24H練習賽熱身中"
+          },
+          "sandbox_binding": "https://agenticfootballcup.ai/mypage",
+          "next_hard_checkpoint": "10/02 演練 10 場練習賽並點擊 Deploy Changes"
+        },
+        {
+          "id": "T02",
+          "name": "⚡ X-Agent AI MCP Hackathon",
+          "platform": "X-Agent / GitHub",
+          "status": "🟢 100% 完工交卷 (開獎中)",
+          "tactical_version": "v1.0-TitanMCP",
+          "match_time": "09/19 截稿 ~ 10/04 評選",
+          "submission_deadline": "已交卷 (PR #47 綠燈)",
+          "supplement_deadline": "10/02 ~ 10/04 社群投票與評審開獎",
+          "training_focus": "Titan Edge MCP Server 雙核冗餘 FSM 自癒伺服器",
+          "artifact_readiness": {
+            "percent": 100,
+            "details": "代碼與文檔全量提交，等候官方揭曉"
+          },
+          "sandbox_binding": "C:\\ibm-bob\\01_WORKSPACE",
+          "next_hard_checkpoint": "社群票選與得獎名冊鎖定"
+        },
+        {
+          "id": "T03",
+          "name": "🥊 KeeperHub - The Agent Economy",
+          "platform": "DoraHacks",
+          "status": "🟢 資格確認已報名",
+          "tactical_version": "v1.2-FastMCP",
+          "match_time": "09/18 開賽",
+          "submission_deadline": "已完成首戰資格鎖定",
+          "supplement_deadline": "常態評審窗口",
+          "training_focus": "Phantom MCP Guard (FastMCP + SQLite 狀態機 + ReAct)",
+          "artifact_readiness": {
+            "percent": 90,
+            "details": "狀態機與帳本已就緒"
+          },
+          "sandbox_binding": "C:\\ibm-bob\\01_WORKSPACE",
+          "next_hard_checkpoint": "下一輪對抗賽"
+        },
+        {
+          "id": "T04",
+          "name": "🏭 MunichTech Innovation 2026",
+          "platform": "DoraHacks",
+          "status": "🟢 預報鎖定歐洲生態",
+          "tactical_version": "v1.0-PINN",
+          "match_time": "09/20 開賽",
+          "submission_deadline": "歐洲頂級企業對接中",
+          "supplement_deadline": "賽季深耕",
+          "training_focus": "Phantom PIDT (Navier-PINN ✕ UKF 工業 4.0 車載數位孿生微秒自癒)",
+          "artifact_readiness": {
+            "percent": 85,
+            "details": "數位孿生算法已收編"
+          },
+          "sandbox_binding": "C:\\ibm-bob\\01_WORKSPACE",
+          "next_hard_checkpoint": "歐洲組態聯調"
+        },
+        {
+          "id": "T05",
+          "name": "⚡ Evorozen Apex: NextGen AI",
+          "platform": "DoraHacks",
+          "status": "🟢 蜂巢游擊已報名",
+          "tactical_version": "v1.1-NeuralPulse",
+          "match_time": "09/21 開賽",
+          "submission_deadline": "6個月高級 API 贊助中",
+          "supplement_deadline": "長期生態對接",
+          "training_focus": "Phantom Flow 零代碼企業級 SaaS 工作流與 Neural Pulse 整合",
+          "artifact_readiness": {
+            "percent": 88,
+            "details": "API 串接已通過"
+          },
+          "sandbox_binding": "C:\\ibm-bob\\01_WORKSPACE",
+          "next_hard_checkpoint": "進階組件發布"
+        },
+        {
+          "id": "T06",
+          "name": "⚡ IBM Bob 2.0 Hackathon",
+          "platform": "Lablab.ai",
+          "status": "🏆 已完賽領證 (官方及格)",
+          "tactical_version": "v2.0-BobArsenal",
+          "match_time": "09/25 ~ 09/27",
+          "submission_deadline": "已圓滿交付",
+          "supplement_deadline": "官方證書已固化第 13 庫",
+          "training_focus": "Autonomous Coding Agent (AST 語法自癒機器人 + 7/7 Pytest 全綠)",
+          "artifact_readiness": {
+            "percent": 100,
+            "details": "官方認證及格，代碼全入金庫"
+          },
+          "sandbox_binding": "C:\\ibm-bob",
+          "next_hard_checkpoint": "已通關結案"
+        },
+        {
+          "id": "T07",
+          "name": "🎙️ AssemblyAI Voice Agent Hackathon",
+          "platform": "Lablab.ai",
+          "status": "🟢 超前17天交件 (評審中)",
+          "tactical_version": "v1.0-EduVoice",
+          "match_time": "09/30 截止",
+          "submission_deadline": "官方已發布展示",
+          "supplement_deadline": "評審開獎中 ($10,000 USD)",
+          "training_focus": "EduVoice Copilot (Universal-2 STT 說話者分離 + 備課智囊)",
+          "artifact_readiness": {
+            "percent": 100,
+            "details": "展台與影片已公開上線"
+          },
+          "sandbox_binding": "C:\\ibm-bob\\01_WORKSPACE",
+          "next_hard_checkpoint": "得獎公佈"
+        }
+      ]
+    },
+    {
+      "tier": "⚔️ 第二梯次：核心主攻組 (主力常規賽 / 10月中下旬交鋒)",
+      "tournaments": [
+        {
+          "id": "T08",
+          "name": "🎨 Anna AI App Builder",
+          "platform": "DoraHacks",
+          "status": "🟢 已報名蜂巢游擊",
+          "tactical_version": "v1.0-AnnaCopilot",
+          "match_time": "10/01 ~ 10/16",
+          "submission_deadline": "10/16 截止 ($20,000 USD)",
+          "supplement_deadline": "常態提交中",
+          "training_focus": "Anna Copilot (AI-Native 專業日常多模態智慧協同工作助理)",
+          "artifact_readiness": {
+            "percent": 80,
+            "details": "多模態組態已預備"
+          },
+          "sandbox_binding": "C:\\ibm-bob\\01_WORKSPACE",
+          "next_hard_checkpoint": "UI 原型發布"
+        },
+        {
+          "id": "T09",
+          "name": "💡 NVIDIA Agentic AI on Edge",
+          "platform": "NVIDIA 官方",
+          "status": "🔥 企劃衝刺攻堅中",
+          "tactical_version": "v2.0-NavierPINN",
+          "match_time": "10/02 企劃截止 ~ 10/22 決賽",
+          "submission_deadline": "10/02 今日企劃書截止",
+          "supplement_deadline": "10/22 決賽 (RTX 4080 SUPER + Thor)",
+          "training_focus": "Industrial Edge Agent (柱坐標 Navier-PINN ✕ ONNX-UKF 自癒智能體)",
+          "artifact_readiness": {
+            "percent": 90,
+            "details": "方案 B 與技術架構已完備"
+          },
+          "sandbox_binding": "C:\\ibm-bob\\01_WORKSPACE",
+          "next_hard_checkpoint": "企劃書推播與決賽通知"
+        },
+        {
+          "id": "T10",
+          "name": "🌾 Kaggriculture Agent Sim.",
+          "platform": "Kaggle",
+          "status": "🟢 已入列策略對抗",
+          "tactical_version": "v1.0-RLFarm",
+          "match_time": "10 月初開打",
+          "submission_deadline": "常態提交 ($10,000 USD)",
+          "supplement_deadline": "榜單刷新中",
+          "training_focus": "Kaggle RL Farm Agent (強化學習與對抗決策樹直接提交跑分)",
+          "artifact_readiness": {
+            "percent": 75,
+            "details": "Baseline 模型已對齊"
+          },
+          "sandbox_binding": "C:\\ibm-bob\\01_WORKSPACE",
+          "next_hard_checkpoint": "跑分爬榜"
+        },
+        {
+          "id": "T11",
+          "name": "⚡ AMD Developer Hackathon: ACT III",
+          "platform": "AMD ✕ Lablab",
+          "status": "✅ Approved 2327 資格鎖定",
+          "tactical_version": "v1.0-CyberTwin",
+          "match_time": "10/12 ~ 10/18",
+          "submission_deadline": "10/12 正式出征",
+          "supplement_deadline": "官方算力已發放",
+          "training_focus": "Project CYBER-TWIN (具身自主自癒智能體 ✕ ROCm 6.x 硬體閉環)",
+          "artifact_readiness": {
+            "percent": 85,
+            "details": "ROCm 算法架構已備妥"
+          },
+          "sandbox_binding": "C:\\ibm-bob\\01_WORKSPACE",
+          "next_hard_checkpoint": "10/12 開賽動員"
+        },
+        {
+          "id": "T12",
+          "name": "💰 WEEX AI Wars II",
+          "platform": "DoraHacks",
+          "status": "🟢 已報名超級金庫",
+          "tactical_version": "v1.0-PhantomQuant",
+          "match_time": "10/13 截止",
+          "submission_deadline": "$200,000 USD (約640萬台幣)",
+          "supplement_deadline": "量化信號測試中",
+          "training_focus": "Phantom Quant (微秒級信號過濾 ✕ 動態對沖 ✕ 最大回撤防禦)",
+          "artifact_readiness": {
+            "percent": 80,
+            "details": "策略引擎已就緒"
+          },
+          "sandbox_binding": "C:\\ibm-bob\\01_WORKSPACE",
+          "next_hard_checkpoint": "回測數據鎖定"
+        },
+        {
+          "id": "T13",
+          "name": "🚗 和泰 AI 黑客松初賽",
+          "platform": "實體企業",
+          "status": "🟡 商業提案架構備戰",
+          "tactical_version": "v1.0-ToyotaMaaS",
+          "match_time": "10/14 截止",
+          "submission_deadline": "百萬台幣級商業大獎",
+          "supplement_deadline": "初賽審查中",
+          "training_focus": "Toyota Next-MaaS (具身座艙 Copilot ✕ BMS 數位雙生車隊護航大腦)",
+          "artifact_readiness": {
+            "percent": 75,
+            "details": "商業路演簡報草案已定"
+          },
+          "sandbox_binding": "C:\\ibm-bob\\01_WORKSPACE",
+          "next_hard_checkpoint": "商業簡報與影片封裝"
+        },
+        {
+          "id": "T14",
+          "name": "🏆 ARC Prize 2026",
+          "platform": "Kaggle",
+          "status": "🟢 算法矩陣持盈保泰",
+          "tactical_version": "v1.5-ArcDSL",
+          "match_time": "10/26 截止 / 11/02 提交",
+          "submission_deadline": "$1,000,000 USD 獎池",
+          "supplement_deadline": "私有測試集驗證",
+          "training_focus": "ARC Grid DSL 幾何推理 ✕ 雙層搜索剪枝引擎",
+          "artifact_readiness": {
+            "percent": 82,
+            "details": "幾何變換單元測試全綠"
+          },
+          "sandbox_binding": "C:\\ibm-bob\\01_WORKSPACE",
+          "next_hard_checkpoint": "10/26 最終跑分封存"
+        },
+        {
+          "id": "T15",
+          "name": "🚀 Amazon Developer Hackathon 2026",
+          "platform": "Devpost",
+          "status": "🏆 超前25天滿分交卷 (Live公開中)",
+          "tactical_version": "v1.2-AlexaSREHub",
+          "match_time": "10/24 截止 (已提前搞定)",
+          "submission_deadline": "已交卷 Approved (官方回執收錄)",
+          "supplement_deadline": "10/24 之後評選開獎",
+          "training_focus": "PHANTOM GRID :: Alexa+ Autonomous SRE Hub (1080P影片 ✕ 1500次壓測 ✕ 4大MCP工具)",
+          "artifact_readiness": {
+            "percent": 100,
+            "details": "全流程五步滿分過關，展台公開上線"
+          },
+          "sandbox_binding": "C:\\ibm-bob\\01_WORKSPACE",
+          "next_hard_checkpoint": "評審揭曉"
+        }
+      ]
+    },
+    {
+      "tier": "🌐 第三梯次：戰略深耕組 (11月~12月全球決戰與生態推進)",
+      "tournaments": [
+        {
+          "id": "T16",
+          "name": "🇦🇪 Rise of AI Agents Hackathon",
+          "platform": "Lablab.ai / 杜拜閉幕",
+          "status": "✅ Approved 750 資格鎖定",
+          "tactical_version": "v1.0-AgentSwarm",
+          "match_time": "10/27 ~ 11/04",
+          "submission_deadline": "$60,000 USD (約195萬台幣)",
+          "supplement_deadline": "全員15位大將出征",
+          "training_focus": "Autonomous Multi-Agent Swarm (全域多 Agent 協同架構 ✕ 分散式工作流)",
+          "artifact_readiness": {
+            "percent": 80,
+            "details": "多節點通訊協議已對齊"
+          },
+          "sandbox_binding": "C:\\ibm-bob\\01_WORKSPACE",
+          "next_hard_checkpoint": "10/27 開幕"
+        },
+        {
+          "id": "T17",
+          "name": "🌐 Vultr: Agent Rush Hackathon",
+          "platform": "Lablab.ai",
+          "status": "🟢 已報名雲端決戰",
+          "tactical_version": "v1.0-CloudMesh",
+          "match_time": "11/03 ~ 11/08",
+          "submission_deadline": "官方贊助算力 + 現金獎池",
+          "supplement_deadline": "開賽倒數中",
+          "training_focus": "Distributed Cloud Agent Mesh (Vultr 千萬級消息隊列與高並發多 Agent 協同)",
+          "artifact_readiness": {
+            "percent": 75,
+            "details": "雲端部署架構就緒"
+          },
+          "sandbox_binding": "C:\\ibm-bob\\01_WORKSPACE",
+          "next_hard_checkpoint": "11/03 出擊"
+        },
+        {
+          "id": "T18",
+          "name": "🪙 Beyond Benchmark: Binance",
+          "platform": "DoraHacks",
+          "status": "🟢 已報名官方標竿",
+          "tactical_version": "v1.0-BinanceAgentX",
+          "match_time": "11/13 截止",
+          "submission_deadline": "$30,000 USD + 幣安種子孵化",
+          "supplement_deadline": "實盤對接中",
+          "training_focus": "Binance AgentX (Claude/GPT-4 實盤多步 Tool-Calling ✕ 滑點防護)",
+          "artifact_readiness": {
+            "percent": 75,
+            "details": "交易風控邏輯就緒"
+          },
+          "sandbox_binding": "C:\\ibm-bob\\01_WORKSPACE",
+          "next_hard_checkpoint": "模擬盤測試"
+        },
+        {
+          "id": "T19",
+          "name": "🎓 Lablab x AMD AI Academy Challenge",
+          "platform": "AMD ✕ Lablab",
+          "status": "✅ Approved 2423 火熱進行",
+          "tactical_version": "v1.0-AMDAcademy",
+          "match_time": "12/01 結算",
+          "submission_deadline": "$5,000 USD 個人成長賽",
+          "supplement_deadline": "常態學習推進",
+          "training_focus": "AMD AI Academy Solo Track (ROCm 算子加速與邊緣輕量化模型優化)",
+          "artifact_readiness": {
+            "percent": 80,
+            "details": "特訓模組推進中"
+          },
+          "sandbox_binding": "C:\\ibm-bob\\01_WORKSPACE",
+          "next_hard_checkpoint": "12/01 結算"
+        },
+        {
+          "id": "T20",
+          "name": "🏆 AWS 虛擬足球盃 全球實體總決賽",
+          "platform": "AWS re:Invent / 拉斯維加斯",
+          "status": "🏆 直通爭奪中 (衝刺 Vegas 門票)",
+          "tactical_version": "v4.0-VegasBound",
+          "match_time": "12/01 ~ 12/05",
+          "submission_deadline": "拉斯維加斯門票 + 機票住宿全贊助",
+          "supplement_deadline": "各週 Wildcard 爭奪中 (OneFootball 最長連勝)",
+          "training_focus": "PHANTOM GRID 綠茵統治級出征 / 直通拉斯維加斯現場加冕",
+          "artifact_readiness": {
+            "percent": 90,
+            "details": "League 4 戰役即刻開打"
+          },
+          "sandbox_binding": "https://agenticfootballcup.ai/mypage",
+          "next_hard_checkpoint": "爭奪 OneFootball 最長連勝周邊與總決賽席位"
+        },
+        {
+          "id": "T21",
+          "name": "🌐 AlgoBharat Regional Hackathon",
+          "platform": "DoraHacks",
+          "status": "🟢 已報名生態長線",
+          "tactical_version": "v1.0-AlgoPay",
+          "match_time": "99+ 天長期生態",
+          "submission_deadline": "依子賽道發布 + 生態 Grants",
+          "supplement_deadline": "長線深耕",
+          "training_focus": "AlgoAgent Pay (x402 去中心化微支付協議與機器對機器商業網關)",
+          "artifact_readiness": {
+            "percent": 70,
+            "details": "支付協議規格已制定"
+          },
+          "sandbox_binding": "C:\\ibm-bob\\01_WORKSPACE",
+          "next_hard_checkpoint": "原型展示"
+        },
+        {
+          "id": "T22",
+          "name": "🇪🇺 TechEx Amsterdam Hackathon",
+          "platform": "Lablab.ai / 歐洲AI峰會",
+          "status": "✅ Approved 資格鎖定",
+          "tactical_version": "v1.0-TechExEurope",
+          "match_time": "10/16 ~ 10/22",
+          "submission_deadline": "歐洲最大 AI & Big Data Expo",
+          "supplement_deadline": "10/16 正式開戰",
+          "training_focus": "Enterprise Resilient AI Agent (企業級韌性自主智能體系統)",
+          "artifact_readiness": {
+            "percent": 85,
+            "details": "八大維度主權架構直接出戰"
+          },
+          "sandbox_binding": "C:\\ibm-bob\\01_WORKSPACE",
+          "next_hard_checkpoint": "10/16 開賽出擊"
+        }
+      ]
+    }
+  ]
+}
