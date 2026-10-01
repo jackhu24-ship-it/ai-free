@@ -287,12 +287,14 @@ class WarRoomHandler(BaseHTTPRequestHandler):
                     "message": res.get("delivery_summary", "🎉 核心庫已成功同步審查合規檔案！")
                 })
             elif "落款" in cmd or "封版" in cmd or "驗票" in cmd or "commander-sign" in cmd.lower() or "commander-seal" in cmd.lower():
-                from office2_ui_controller import handle_btn_commander_seal
-                ui_res = handle_btn_commander_seal()
+                # 第二辦公室無落款權限，回報三權分立移交聲明
+                notice_msg = (
+                    "⚠️ 報告 Jack 哥！第二辦公室為前端作業審查台，無落款權限！\n\n"
+                    "依照 PHANTOM GRID 三權分立鐵律，落款權限已移交「指揮所第三辦公室」進行大腦深度驗證與權威落款。"
+                )
                 event_queue.put({
-                    "type": "COMMANDER_SIGN_DONE",
-                    "result": ui_res,
-                    "message": ui_res.get("copilot_chat", "👑 指揮所權威落款已全數完成！")
+                    "type": "OFFICE2_NOTICE",
+                    "message": notice_msg
                 })
             elif "Solo" in cmd or "發布" in cmd:
                 event_queue.put({
@@ -304,7 +306,7 @@ class WarRoomHandler(BaseHTTPRequestHandler):
             self.wfile.write(json.dumps({"status": "ACK", "echo": cmd}).encode("utf-8"))
             return
 
-        # 3. 執行 02_OUTBOX Staging 一鍵同步核心庫
+        # 3. 執行 02_OUTBOX Staging 一鍵同步核心庫 (第二辦公室作業台)
         elif parsed.path in ("/api/outbox-sync", "/api/outbox-sync-core"):
             from office2_engine import Office2AuditEngine
             res = Office2AuditEngine.execute_sync_core()
@@ -317,11 +319,14 @@ class WarRoomHandler(BaseHTTPRequestHandler):
             self.wfile.write(json.dumps(res, ensure_ascii=False).encode("utf-8"))
             return
 
-        # 4. 執行指揮所權威落款 (Commander Sign & Stamp Header / CommanderSealer)
+        # 4. 指揮所第三辦公室大腦中心權威落款 (Third Office CommanderSealer)
         elif parsed.path in ("/api/commander-sign", "/api/commander-seal"):
-            from commander_seal import CommanderSealer
+            try:
+                from commander_seal import CommanderSealer
+            except ImportError:
+                from tools.commander_seal import CommanderSealer
             res = CommanderSealer.verify_and_stamp()
-            notice = res.get("msg", "👑 指揮所已對核心庫完成權威落款！")
+            notice = res.get("msg", "👑 指揮所第三辦公室已對核心庫完成大腦深度驗票與權威落款！")
             event_queue.put({
                 "type": "COMMANDER_SIGN_DONE",
                 "result": res,

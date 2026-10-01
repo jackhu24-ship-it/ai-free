@@ -557,27 +557,25 @@
         listEl.innerHTML = finishHtml;
       }
 
-      // 左側手機 Copilot 即時送出官方【成果交付結算報告】
-      const zipFileName = data.archive_zip ? data.archive_zip.split(/[\\/]/).pop() : "archive_sync.zip";
+      // 左側手機 Copilot 即時送出官方【成果交付移交報告】
       const deliveryCardHtml = `
-        <b>報告 Jack 哥！🚀 成果審查已正式同步核心庫！</b><br><br>
-        📋 <b>【同步結算報告】</b>：<br>
-        • 目標路徑：<code>${data.core_dir}</code><br>
-        • 同步模組：<b>${data.synced_count} 支檔案</b> (指紋校驗一致 100%)<br>
-        • 02_OUTBOX：已自動歸檔至 <code>${zipFileName}</code> 並清空重置<br>
-        • 全域反查：已熱重載，核心庫實體已即時上線！<br><br>
-        👉 代碼已入庫核心庫！指揮所已就緒，可點選下方熱鍵：【<b>👑 執行指揮所權威落款</b>】以蓋印封版！✨
+        <b>報告 Jack 哥！第二辦公室質檢完成！</b><br><br>
+        📋 <b>【移交報告】</b>：<br>
+        • 實體原檔：<code>.py</code> / <code>.json</code> 檢驗合規 (Clean)<br>
+        • 簽證狀態：已簽發 <code>.audit_certificate.json</code><br>
+        • 移交目的地：核心庫待簽區 (<code>core_repo</code>)<br><br>
+        ⚠️ <b>本台無落款權限，已將權限移交給「指揮所第三辦公室」進行大腦深度驗收與最終落款！</b>
       `;
       appendMobileChatMessage(deliveryCardHtml, false);
-      appendLog(`[Outbox Sync] 同步完成: ${data.synced_count} 支，歸檔包: ${zipFileName}`);
+      appendLog(`[Outbox Sync] 第二辦公室質檢移交完成: ${data.synced_count} 支`);
 
-      // 動態更新手機快捷 Chips，切換為下一階段指令
+      // 動態更新手機快捷 Chips
       updateQuickChipsAfterDelivery();
 
       // 5 秒後優雅復原按鈕為初始待命狀態
       setTimeout(() => {
         if (btn) {
-          btn.textContent = "🚀 成果審查同步";
+          btn.textContent = "🚀 審查並移交指揮所";
           btn.setAttribute("data-stage", "idle");
           btn.style.borderColor = "rgba(168,85,247,0.7)";
           btn.style.color = "#c084fc";
@@ -588,9 +586,9 @@
       }, 5000);
 
     } catch (e) {
-      appendLog(`[Outbox Sync] 同步失敗: ${e}`);
+      appendLog(`[Outbox Sync] 移交失敗: ${e}`);
       if (btn) {
-        btn.textContent = "❌ 同步異常 (請重試)";
+        btn.textContent = "❌ 移交異常 (請重試)";
         btn.disabled = false;
       }
     }
@@ -648,21 +646,21 @@
     const chipsBar = document.getElementById("phoneQuickChips");
     if (!chipsBar) return;
     
-    // 1. 指揮所權威落款熱鍵（置頂金黃色）
-    let signChip = document.getElementById("chipCommanderSign");
-    if (!signChip) {
-      signChip = document.createElement("div");
-      signChip.id = "chipCommanderSign";
-      signChip.className = "quick-chip";
-      signChip.style.color = "#fde047";
-      signChip.style.borderColor = "#f59e0b";
-      signChip.style.background = "rgba(245, 158, 11, 0.2)";
-      signChip.style.fontWeight = "bold";
-      signChip.textContent = "🖋️ 指揮所驗票落款";
-      signChip.onclick = () => {
-        window.triggerCommanderSign();
+    // 1. 權限移交提示標籤（唯讀提醒，二辦不越權落款）
+    let noticeChip = document.getElementById("chipOffice3Transferred");
+    if (!noticeChip) {
+      noticeChip = document.createElement("div");
+      noticeChip.id = "chipOffice3Transferred";
+      noticeChip.className = "quick-chip";
+      noticeChip.style.color = "#c084fc";
+      noticeChip.style.borderColor = "#a855f7";
+      noticeChip.style.background = "rgba(168, 85, 247, 0.15)";
+      noticeChip.style.fontWeight = "bold";
+      noticeChip.textContent = "🏛️ [已移交指揮所第三辦公室]";
+      noticeChip.onclick = () => {
+        appendMobileChatMessage("ℹ️ 第二辦公室無落款權限，控制權已交接予「指揮所第三辦公室」進行大腦深度驗收與最終落款！", false);
       };
-      chipsBar.insertBefore(signChip, chipsBar.firstChild);
+      chipsBar.insertBefore(noticeChip, chipsBar.firstChild);
     }
 
     // 2. 單元回歸測試熱鍵
