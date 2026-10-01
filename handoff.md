@@ -4,6 +4,8 @@
 
 ## ⏯️ 目前做到哪
 
+- **[第二辦公室 APP UI 同步收工]** (2026-10-01 10:29:29): 第二辦公室 APP UI 完成真機工具庫擴充與 3D 活頁翻頁書真機調用對齊。
+
 - **[特助小幫手全自動同步 · 語意排版與自律佈局演算法（L3.7）入冊 ＋ learn_layout.py 純文字三大自學方案落地 ＋ 02_Knowledge/Layout_Rules.json 固化]** (2026-10-01 10:28 CST): 👁️【里程碑 283 · 純文字環境看圖學樣三大旁路方案 ✕ 語意區塊排版決策矩陣實裝】針對二辦純文字環境無法直接貼圖之特性，特助小幫手全鏈路實裝三大排版自學方案：①【三大純文字輸入旁路通道確立（AGENTS.md 第 3.7 條）】：1. 方案 A（主流/路徑指引）：截圖存硬碟，終端輸入 `python tools/learn_layout.py --image samples/layout.png` 讀圖拆解；2. 方案 B（極速/文字風格令）：終端輸入 `python tools/learn_layout.py --style "簡約大廠風, 雙欄, 懸掛縮排"` 秒級映射；3. 方案 C（沉澱/風格代號）：終端輸入 `python tools/learn_layout.py --token executive-airy` 零消耗載入；②【語意區塊排版決策矩陣落盤】：H1/H2 頂格絕不縮排、項次清單強制負首行懸掛（Hanging Indent）、深層說明超過 3 層啟用微卡片邊框容器化（深度安全閥）；③【實體工具與規則庫雙向固化】：落盤 `tools/learn_layout.py` 與 `02_Knowledge/Layout_Rules.json`，四軌同步至 C 槽鏡像、G 槽真身與遠端倉庫！
 
 - **[第二辦公室 APP UI 同步收工]** (2026-10-01 10:28:11): 第二辦公室 APP UI 完成真機工具庫擴充與 3D 活頁翻頁書真機調用對齊。
