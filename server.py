@@ -598,6 +598,31 @@ async def get_created_files():
                 }
             )
 
+    # 讀取 00_Command_HQ/delivery_audit_ledger.json 中最近入庫的檔案
+    ledger_path = os.path.join(REPO_ROOT, "00_Command_HQ", "delivery_audit_ledger.json")
+    if os.path.exists(ledger_path):
+        try:
+            with open(ledger_path, "r", encoding="utf-8") as lf:
+                ledger = json.load(lf)
+                for entry in ledger[:5]:
+                    for f_meta in entry.get("files", []):
+                        f_name = f_meta.get("name")
+                        f_sha = f_meta.get("sha256", "")[:8]
+                        f_size = f_meta.get("size", 0)
+                        file_list.insert(0, {
+                            "name": f_name,
+                            "path": f"C:\\ibm-bob\\core_repo\\{f_name}",
+                            "desc": f"沙盒成果審查入庫 (SHA: {f_sha} | 統帥雙簽已核可)",
+                            "lines": 0,
+                            "size_bytes": f_size,
+                            "size_display": f"{f_size / 1024:.2f} KB" if f_size >= 1024 else f"{f_size} B",
+                            "updated_at": entry.get("timestamp", "").replace("T", " ")[:19],
+                            "status": "APPROVED_CORE",
+                            "tag": "核心庫已入庫"
+                        })
+        except Exception:
+            pass
+
     # Fetch recent Git commits
     git_log_res = tool_run_command('git log -n 5 --pretty=format:"%h|%s|%cd" --date=iso')
     commits = []

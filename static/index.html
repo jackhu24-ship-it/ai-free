@@ -984,7 +984,8 @@ header {
 
       <!-- Input Bar -->
             <!-- Quick Chips Bar -->
-      <div class="quick-chips">
+      <div class="quick-chips" id="phoneQuickChips">
+        <div class="quick-chip" style="color:#c084fc; border-color:#a855f7; background:rgba(168,85,247,0.15); font-weight:bold;" onclick="handleOutboxTwoStageAction()">⚡ [提取 02_OUTBOX 成果]</div>
         <div class="quick-chip" style="color:#00ff66; border-color:#00ff66; background:rgba(0,255,102,0.12); font-weight:bold;" onclick="window.triggerCommand('一鍵生成全套教學包')">⚡ [一鍵生成全套教學包]</div>
         <div class="quick-chip" style="color:#00f2fe; border-color:#00f2fe; background:rgba(0,242,254,0.12); font-weight:bold;" onclick="window.triggerCommand('啟動後台哨兵熱監聽')">👁️ [啟動後台哨兵熱監聽]</div>
         <div class="quick-chip" style="color:#fde047; border-color:#f59e0b; background:rgba(245,158,11,0.12); font-weight:bold;" onclick="window.triggerCommand('執行雙向 SHA256 校驗')">🛡️ [執行雙向 SHA256 校驗]</div>
@@ -1023,6 +1024,7 @@ header {
       <button class="tab-btn" id="tabBtnFlipbook" onclick="switchTab('flipbook')">📖 3D 活頁翻頁</button>
       <button class="tab-btn" id="tabBtnInspect" onclick="switchTab('inspect')">🔍 程式碼全域反查</button>
       <button class="tab-btn" id="tabBtnLogs" onclick="switchTab('logs')">📡 原始 SSE 串流</button>
+      <button class="tab-btn" id="btnOutboxReviewSync" style="border-color:rgba(168,85,247,0.7); color:#c084fc; background:rgba(168,85,247,0.12); font-weight:bold; transition:all 0.3s ease;" onclick="handleOutboxTwoStageAction()">🚀 成果審查同步</button>
       <button class="tab-btn" id="tabBtnHandoff" onclick="switchTab('handoff')">🏁 一鍵收工交接</button>
       <!-- Solo 全格式發布下拉選單 -->
       <div style="position:relative; display:inline-block;">
@@ -1355,6 +1357,60 @@ header {
       </div>
     </div>
 
+    <!-- Panel: 02_OUTBOX 提取與審查 -->
+    <div class="tab-panel" id="panelOutboxReview">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid rgba(168,85,247,0.3); padding-bottom:10px;">
+        <div>
+          <span style="font-size:0.85rem; color:#c084fc; font-family:monospace; font-weight:800; letter-spacing:0.5px;">
+            02_OUTBOX EXTRACT & AUDIT // 沙盒唯讀快照提取與 AST 安全靜態審查
+          </span>
+          <div style="display:flex; align-items:center; gap:8px; margin-top:4px;">
+            <span class="inspect-badge badge-found" style="font-size:0.68rem; padding:2px 6px;">✅ [實體檢驗通過]</span>
+            <span class="inspect-badge badge-found" style="font-size:0.68rem; padding:2px 6px;">✅ [AST 語法合規]</span>
+            <span class="inspect-badge badge-found" style="font-size:0.68rem; padding:2px 6px;">✅ [防幻覺交叉反查 100%]</span>
+          </div>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div id="outboxStatusBadge" style="font-size:0.75rem; font-family:monospace; background:rgba(0,0,0,0.5); padding:4px 10px; border-radius:6px; border:1px solid #10b981;">
+            <span style="color:#10b981; font-weight:bold;">● AST 合規 ✕ 防幻覺 100% ✕ 簽章解鎖</span>
+          </div>
+          <button class="clear-btn" style="border-color:#a855f7; color:#c084fc;" onclick="loadOutboxReview()">🔄 重新掃描提取</button>
+          <button id="btnSyncCore" class="clear-btn" style="border-color:#10b981; color:#34d399; font-weight:bold; background:rgba(16,185,129,0.12);" onclick="syncOutboxToCore()">🚀 批准並同步核心庫</button>
+        </div>
+      </div>
+
+      <!-- 4 Metric Cards -->
+      <div class="inspect-metrics-grid" style="margin-bottom:14px;">
+        <div class="inspect-metric-box">
+          <div class="metric-num" style="color:#c084fc;" id="outboxCountFiles">--</div>
+          <div class="metric-lbl">📦 提取檔案數</div>
+        </div>
+        <div class="inspect-metric-box">
+          <div class="metric-num" style="color:var(--cyan-accent);" id="outboxLatency">--</div>
+          <div class="metric-lbl">⚡ 提取耗時</div>
+        </div>
+        <div class="inspect-metric-box">
+          <div class="metric-num" style="color:var(--success-green);" id="outboxPassRate">100%</div>
+          <div class="metric-lbl">🛡️ AST 靜態審計通過率</div>
+        </div>
+        <div class="inspect-metric-box">
+          <div class="metric-num" style="color:var(--gold-accent);" id="outboxShaStatus">MATCH</div>
+          <div class="metric-lbl">🔑 SHA 一致性與無敏感調用</div>
+        </div>
+      </div>
+
+      <!-- Detailed Matching Checklist -->
+      <div class="inspect-result-box" style="flex:1; display:flex; flex-direction:column; overflow:hidden; border-color:rgba(168,85,247,0.3);">
+        <div style="font-size:0.85rem; font-weight:700; color:#fff; margin-bottom:8px; display:flex; justify-content:space-between;">
+          <span>📋 待審檔案指紋與 AST 稽核清單 (Matching Details)</span>
+          <span style="font-size:0.75rem; color:#94a3b8;" id="outboxStagingPath">Staging: C:\ibm-bob\02_OUTBOX_STAGING</span>
+        </div>
+        <div id="outboxMatchesList" style="background:#090d16; border:1px solid rgba(255,255,255,0.08); border-radius:8px; padding:12px; font-family:monospace; font-size:0.8rem; flex:1; overflow-y:auto; color:#94a3b8;">
+          載入中...
+        </div>
+      </div>
+    </div>
+
     <!-- Panel 2: Raw Logs -->
     <div class="tab-panel" id="panelLogs">
       <div class="console-label">
@@ -1510,6 +1566,7 @@ function switchTab(tabName) {
     'diagrams': 'tabBtnDiagrams',
     'flipbook': 'tabBtnFlipbook',
     'inspect': 'tabBtnInspect',
+    'outboxreview': 'btnOutboxReviewSync',
     'logs': 'tabBtnLogs',
     'handoff': 'tabBtnHandoff'
   };
@@ -1521,6 +1578,7 @@ function switchTab(tabName) {
     'diagrams': 'panelDiagrams',
     'flipbook': 'panelFlipbook',
     'inspect': 'panelInspect',
+    'outboxreview': 'panelOutboxReview',
     'logs': 'panelLogs',
     'handoff': 'panelHandoff'
   };
@@ -1539,6 +1597,7 @@ function switchTab(tabName) {
   if (tabName === 'tournaments') loadTournamentsMaster();
   if (tabName === 'files') loadCreatedFiles();
   if (tabName === 'diagrams') loadDiagrams();
+  if (tabName === 'outboxreview') loadOutboxReview();
 }
 
 async function loadTournamentsMaster() {

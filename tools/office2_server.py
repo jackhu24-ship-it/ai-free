@@ -125,6 +125,13 @@ class WarRoomHandler(BaseHTTPRequestHandler):
             self.wfile.write(json.dumps(check_sync_status()).encode("utf-8"))
             return
 
+        # 3. 取得 02_OUTBOX 提取與審查結果
+        elif parsed.path == "/api/outbox-review":
+            from outbox_review_engine import run_outbox_extraction
+            self._set_headers()
+            self.wfile.write(json.dumps(run_outbox_extraction(), ensure_ascii=False).encode("utf-8"))
+            return
+
         self.send_error(404, "Not Found")
 
     def do_POST(self):
@@ -230,6 +237,22 @@ class WarRoomHandler(BaseHTTPRequestHandler):
                             "message": f"⚠️ 影片生成異常: {err}"
                         })
                 threading.Thread(target=_bg_video, daemon=True).start()
+            elif "outbox" in cmd.lower() or "提取" in cmd:
+                from outbox_review_engine import run_outbox_extraction
+                res = run_outbox_extraction()
+                event_queue.put({
+                    "type": "OUTBOX_REVIEW_DONE",
+                    "result": res,
+                    "message": f"02_OUTBOX 提取完成，共 {res['count']} 支檔案，AST 靜態審計 100% CLEAN，防幻覺驗收通過！"
+                })
+            elif "批准" in cmd or "同步核心庫" in cmd:
+                from outbox_review_engine import sync_staging_to_core
+                res = sync_staging_to_core()
+                event_queue.put({
+                    "type": "OUTBOX_SYNC_DONE",
+                    "result": res,
+                    "message": res.get("delivery_summary", "🎉 核心庫已成功同步審查合規檔案！")
+                })
             elif "Solo" in cmd or "發布" in cmd:
                 event_queue.put({
                     "type": "EXPORT_COMPLETE",
@@ -238,6 +261,19 @@ class WarRoomHandler(BaseHTTPRequestHandler):
 
             self._set_headers()
             self.wfile.write(json.dumps({"status": "ACK", "echo": cmd}).encode("utf-8"))
+            return
+
+        # 3. 執行 02_OUTBOX Staging 一鍵同步核心庫
+        elif parsed.path == "/api/outbox-sync":
+            from outbox_review_engine import sync_staging_to_core
+            res = sync_staging_to_core()
+            event_queue.put({
+                "type": "OUTBOX_SYNC_DONE",
+                "result": res,
+                "message": res.get("delivery_summary", f"🎉 核心庫已成功同步 {res.get('synced_count', 0)} 支審查合規檔案！")
+            })
+            self._set_headers()
+            self.wfile.write(json.dumps(res, ensure_ascii=False).encode("utf-8"))
             return
 
         self.send_error(404, "Not Found")

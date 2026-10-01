@@ -29,4 +29,11 @@
   3. **電影級短片交付**：旗艦全片 `phantom_grid_full_movie.mp4`（39.2s，HUD 角色卡 ＋ 戰情展台 ＋ 毫秒雙行字幕）、快速版 `phantom_fun_daily.mp4`（25.0s）與預告片 `phantom_grid_movie_trailer.mp4`（39.5s）已直通金庫！
   4. **實體引擎落地**：`tools/movie_with_avatars.py`、`tools/multi_voice_producer.py`、`tools/make_fun_video.py` 納入常態戰備武庫！
 
+- **[統帥軍令部署 · 02_OUTBOX 提取審查與四步驗證閉環 · 快取雜訊複檢 ＋ AST 與防幻覺實體檢驗 ＋ 核心庫自動同步歸檔重置]** (2026-10-01 14:52 CST):
+  📦【02_OUTBOX 成果審查與核心庫同步四步閉環 100% 落地】依霸丸總指揮官最新作戰藍圖，第二辦公室從「代碼搬運」切換至「驗證門禁與權限移交」：
+  1. **快取與雜訊過濾複檢 (Cache Clean Check)**：二次排查 Staging 區，杜絕 `.pyc`、`.pyd`、`.obj`、`.DS_Store`、`Thumbs.db`、`__pycache__` 等環境污染，達成 `CACHE_CLEAN_100_PERCENT`。
+  2. **代碼合規與防幻覺實體檢驗 (Entity Audit)**：靜態 AST 解析（`ast.parse`）100% 無語法錯誤，敏感危險調用全面攔截，抽取 Class/Def 實體交叉反查，杜絕 AI 幽靈函式。
+  3. **核可簽章生成 (Manifest)**：全綠通過後自動生成 `.approved_manifest.json`，右上方與手機熱鍵解鎖綠色高亮【🚀 批准並同步核心庫】按鈕。
+  4. **核心庫同步與沙盒歸檔重置 (Core Sync & Archive)**：搬運代碼至 `C:\ibm-bob\core_repo` 與 G 槽金庫；沙盒 `02_OUTBOX` 與 Staging 打包壓縮為 `archive_{timestamp}.zip` 並清空重置；熱重載全域反查引擎（實體存在已建置）；寫入 `delivery_audit_ledger.json`；Copilot 即時印出交付總結卡，快捷 Chips 切換為【⚡ 執行單元回歸測試】與【🏁 一鍵收工交接】！
+
 - **[統帥終審落款]** `2026-10-01 11:10:53` 標的 `bob_sample_draft.json` 經審閱裁決【准】，已加蓋最高權杖指紋並四軌入庫。
