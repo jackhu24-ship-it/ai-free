@@ -123,10 +123,11 @@ class GridShield:
     def check_kill_switch_and_ports(self):
         """4. 熔斷自毀與端口巡檢 (Kill-Switch & Port Check)"""
         try:
-            res = subprocess.run(["netstat", "-ano"], capture_output=True, text=True, check=True)
+            res = subprocess.run(["netstat", "-ano"], capture_output=True)
+            stdout = res.stdout.decode("cp950", errors="replace")
             exposed_ports = []
             safe_ports = []
-            for line in res.stdout.splitlines():
+            for line in stdout.splitlines():
                 if ":8765" in line or ":8080" in line:
                     parts = line.split()
                     if len(parts) >= 2:
