@@ -605,20 +605,25 @@ async def get_created_files():
             with open(ledger_path, "r", encoding="utf-8") as lf:
                 ledger = json.load(lf)
                 for entry in ledger[:5]:
+                    entry_status = entry.get("status", "")
+                    is_sealed = (entry_status == "SEALED_AND_RELEASED") or ("SIGN_AND_STAMP" in entry.get("action", ""))
+                    v_tag = entry.get("version_tag", "v1.2.0-RELEASE")
                     for f_meta in entry.get("files", []):
-                        f_name = f_meta.get("name")
-                        f_sha = f_meta.get("sha256", "")[:8]
+                        f_name = f_meta.get("file_name") or f_meta.get("name")
+                        f_sha = (f_meta.get("seal_hash") or f_meta.get("sha256", ""))[:8]
                         f_size = f_meta.get("size", 0)
+                        tag_label = "🟢 已落款發佈 (Sealed & Released)" if is_sealed else "核心庫已入庫"
+                        desc_text = f"指揮所官方權威落款封版 (版本: {v_tag} | 統帥御印完成)" if is_sealed else f"沙盒成果審查入庫 (SHA: {f_sha} | 統帥雙簽已核可)"
                         file_list.insert(0, {
                             "name": f_name,
                             "path": f"C:\\ibm-bob\\core_repo\\{f_name}",
-                            "desc": f"沙盒成果審查入庫 (SHA: {f_sha} | 統帥雙簽已核可)",
+                            "desc": desc_text,
                             "lines": 0,
                             "size_bytes": f_size,
                             "size_display": f"{f_size / 1024:.2f} KB" if f_size >= 1024 else f"{f_size} B",
                             "updated_at": entry.get("timestamp", "").replace("T", " ")[:19],
-                            "status": "APPROVED_CORE",
-                            "tag": "核心庫已入庫"
+                            "status": "SEALED_AND_RELEASED" if is_sealed else "APPROVED_CORE",
+                            "tag": tag_label
                         })
         except Exception:
             pass

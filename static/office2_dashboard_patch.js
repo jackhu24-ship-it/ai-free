@@ -566,7 +566,7 @@
         • 同步模組：<b>${data.synced_count} 支檔案</b> (指紋校驗一致 100%)<br>
         • 02_OUTBOX：已自動歸檔至 <code>${zipFileName}</code> 並清空重置<br>
         • 全域反查：已熱重載，核心庫實體已即時上線！<br><br>
-        ★ 右側面板已更新為最新建置狀態，模組已可隨時調用！✨
+        👉 代碼已入庫核心庫！指揮所已就緒，可點選下方熱鍵：【<b>👑 執行指揮所權威落款</b>】以蓋印封版！✨
       `;
       appendMobileChatMessage(deliveryCardHtml, false);
       appendLog(`[Outbox Sync] 同步完成: ${data.synced_count} 支，歸檔包: ${zipFileName}`);
@@ -596,11 +596,76 @@
     }
   };
 
+  // 10. 指揮所權威落款控制器 (Commander Sign & Stamp Header)
+  window.triggerCommanderSign = async function() {
+    appendLog("[Command HQ] 正在向指揮所發起權威落款請求...");
+    appendMobileChatMessage("👑 [執行指揮所權威落款]", true);
+
+    try {
+      const res = await fetch(`${BACKEND_URL}/api/commander-sign`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" }
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        appendLog(`[Command HQ] 權威落款圓滿成功: ${data.signed_count} 支檔案，版本號: ${data.version_tag}`);
+        
+        // 格式化展示落款卡
+        const filesListHtml = (data.signed_files || []).map(f => 
+          `• <code>${f.file_name}</code> (印章: <code>SHA256-${f.seal_hash}</code>)`
+        ).join("<br>");
+
+        const signCardHtml = `
+          👑 <b>報告 Jack 哥！指揮所權威落款與封版程序已圓滿完成！</b><br><br>
+          🏛️ <b>【指揮所落款結算報告】</b>：<br>
+          • 法定庫區：<code>C:\\ibm-bob\\core_repo\\</code> (雙向固化 G 槽真身)<br>
+          • 落款官銜：👑 霸丸總指揮官 (Supreme Commander)<br>
+          • 封版版本：<code>${data.version_tag || 'v1.2.0-RELEASE'}</code> (SEALED & RELEASED)<br>
+          • 蓋印模組：共 <b>${data.signed_count || 0} 支檔案</b> 注入權威 Header<br>
+          • 建檔履歷：狀態已升級為「<span style="color:#00ff66; font-weight:bold;">🟢 已落款發佈 (Sealed & Released)</span>」<br><br>
+          📋 <b>【已蓋印核心模組】</b>：<br>
+          ${filesListHtml}<br><br>
+          ★ 全套核心代碼已正式受指揮所最高主權護照背書，隨時可調用上線！🛡️✨
+        `;
+        appendMobileChatMessage(signCardHtml, false);
+
+        // 自動切換到「📦 產出建檔履歷」展台，讓統帥直接看到綠色已落款發佈標籤
+        if (typeof switchTab === "function") {
+          switchTab("files");
+        }
+      } else {
+        appendMobileChatMessage(`❌ 指揮所落款失敗: ${data.msg || "未知錯誤"}`, false);
+        appendLog(`[Command HQ] 落款失敗: ${data.msg}`);
+      }
+    } catch (e) {
+      appendLog(`[Command HQ] 請求失敗: ${e}`);
+      appendMobileChatMessage(`❌ 權威落款請求失敗: ${e}`, false);
+    }
+  };
+
   function updateQuickChipsAfterDelivery() {
     const chipsBar = document.getElementById("phoneQuickChips");
     if (!chipsBar) return;
     
-    // 檢查是否已有回歸測試熱鍵，無則置頂加入
+    // 1. 指揮所權威落款熱鍵（置頂金黃色）
+    let signChip = document.getElementById("chipCommanderSign");
+    if (!signChip) {
+      signChip = document.createElement("div");
+      signChip.id = "chipCommanderSign";
+      signChip.className = "quick-chip";
+      signChip.style.color = "#fde047";
+      signChip.style.borderColor = "#f59e0b";
+      signChip.style.background = "rgba(245, 158, 11, 0.2)";
+      signChip.style.fontWeight = "bold";
+      signChip.textContent = "👑 [執行指揮所權威落款]";
+      signChip.onclick = () => {
+        window.triggerCommanderSign();
+      };
+      chipsBar.insertBefore(signChip, chipsBar.firstChild);
+    }
+
+    // 2. 單元回歸測試熱鍵
     let testChip = document.getElementById("chipRegressionTest");
     if (!testChip) {
       testChip = document.createElement("div");
@@ -616,7 +681,7 @@
           quickSend("🧪 測試驗收戰報");
         }
       };
-      chipsBar.insertBefore(testChip, chipsBar.firstChild);
+      chipsBar.insertBefore(testChip, signChip.nextSibling);
     }
   }
 

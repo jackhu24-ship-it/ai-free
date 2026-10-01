@@ -1,0 +1,116 @@
+[
+  {
+    "release_id": "RELEASE-v1.2.0-RELEASE-1790843901",
+    "timestamp": "2026-10-01T16:38:21.529300",
+    "action": "COMMAND_HQ_SOVEREIGN_SIGN_AND_STAMP",
+    "signer": "Commander Jack",
+    "authority": "👑 霸丸總指揮官 (Supreme Commander)",
+    "version_tag": "v1.2.0-RELEASE",
+    "status": "SEALED_AND_RELEASED",
+    "signed_count": 5,
+    "files": [
+      {
+        "file_name": "fault_injector.py",
+        "rel_path": "fault_injector.py",
+        "seal_hash": "3e58ab768f7025a0",
+        "signed_by": "Commander Jack",
+        "timestamp": "2026-10-01 16:38:21",
+        "version_tag": "v1.2.0-RELEASE",
+        "status": "SEALED_AND_RELEASED"
+      },
+      {
+        "file_name": "kinematics_gate.py",
+        "rel_path": "kinematics_gate.py",
+        "seal_hash": "c6e0c383f620b039",
+        "signed_by": "Commander Jack",
+        "timestamp": "2026-10-01 16:38:21",
+        "version_tag": "v1.2.0-RELEASE",
+        "status": "SEALED_AND_RELEASED"
+      },
+      {
+        "file_name": "lww_register_set.py",
+        "rel_path": "lww_register_set.py",
+        "seal_hash": "2d0e49b08db329a6",
+        "signed_by": "Commander Jack",
+        "timestamp": "2026-10-01 16:38:21",
+        "version_tag": "v1.2.0-RELEASE",
+        "status": "SEALED_AND_RELEASED"
+      },
+      {
+        "file_name": "telemetry_digest.py",
+        "rel_path": "telemetry_digest.py",
+        "seal_hash": "fd648045abe1cc64",
+        "signed_by": "Commander Jack",
+        "timestamp": "2026-10-01 16:38:21",
+        "version_tag": "v1.2.0-RELEASE",
+        "status": "SEALED_AND_RELEASED"
+      },
+      {
+        "file_name": "test_primitives.py",
+        "rel_path": "test_primitives.py",
+        "seal_hash": "18a0ace11b5da544",
+        "signed_by": "Commander Jack",
+        "timestamp": "2026-10-01 16:38:21",
+        "version_tag": "v1.2.0-RELEASE",
+        "status": "SEALED_AND_RELEASED"
+      }
+    ]
+  },
+  {
+    "release_id": "RELEASE-v1.2.0-RELEASE-1790843807",
+    "timestamp": "2026-10-01T16:36:47.266503",
+    "action": "COMMAND_HQ_SOVEREIGN_SIGN_AND_STAMP",
+    "signer": "Commander Jack",
+    "authority": "👑 霸丸總指揮官 (Supreme Commander)",
+    "version_tag": "v1.2.0-RELEASE",
+    "status": "SEALED_AND_RELEASED",
+    "signed_count": 5,
+    "files": [
+      {
+        "file_name": "fault_injector.py",
+        "rel_path": "fault_injector.py",
+        "seal_hash": "3e58ab768f7025a0",
+        "signed_by": "Commander Jack",
+        "timestamp": "2026-10-01 16:36:47",
+        "version_tag": "v1.2.0-RELEASE",
+        "status": "SEALED_AND_RELEASED"
+      },
+      {
+        "file_name": "kinematics_gate.py",
+        "rel_path": "kinematics_gate.py",
+        "seal_hash": "c6e0c383f620b039",
+        "signed_by": "Commander Jack",
+        "timestamp": "2026-10-01 16:36:47",
+        "version_tag": "v1.2.0-RELEASE",
+        "status": "SEALED_AND_RELEASED"
+      },
+      {
+        "file_name": "lww_register_set.py",
+        "rel_path": "lww_register_set.py",
+        "seal_hash": "2d0e49b08db329a6",
+        "signed_by": "Commander Jack",
+        "timestamp": "2026-10-01 16:36:47",
+        "version_tag": "v1.2.0-RELEASE",
+        "status": "SEALED_AND_RELEASED"
+      },
+      {
+        "file_name": "telemetry_digest.py",
+        "rel_path": "telemetry_digest.py",
+        "seal_hash": "fd648045abe1cc64",
+        "signed_by": "Commander Jack",
+        "timestamp": "2026-10-01 16:36:47",
+        "version_tag": "v1.2.0-RELEASE",
+        "status": "SEALED_AND_RELEASED"
+      },
+      {
+        "file_name": "test_primitives.py",
+        "rel_path": "test_primitives.py",
+        "seal_hash": "18a0ace11b5da544",
+        "signed_by": "Commander Jack",
+        "timestamp": "2026-10-01 16:36:47",
+        "version_tag": "v1.2.0-RELEASE",
+        "status": "SEALED_AND_RELEASED"
+      }
+    ]
+  }
+]

@@ -37,3 +37,12 @@
   4. **核心庫同步與沙盒歸檔重置 (Core Sync & Archive)**：搬運代碼至 `C:\ibm-bob\core_repo` 與 G 槽金庫；沙盒 `02_OUTBOX` 與 Staging 打包壓縮為 `archive_{timestamp}.zip` 並清空重置；熱重載全域反查引擎（實體存在已建置）；寫入 `delivery_audit_ledger.json`；Copilot 即時印出交付總結卡，快捷 Chips 切換為【⚡ 執行單元回歸測試】與【🏁 一鍵收工交接】！
 
 - **[統帥終審落款]** `2026-10-01 11:10:53` 標的 `bob_sample_draft.json` 經審閱裁決【准】，已加蓋最高權杖指紋並四軌入庫。
+
+- **[統帥軍令部署 · 指揮所官方權威落款與核心庫封版發布 · 法定取檔唯一 core_repo ＋ 元數據 Header 注入 ＋ 封版 Tag]** (2026-10-01 16:42 CST):
+  👑【指揮所權威落款與核心庫封版發布 100% 落地】依霸丸總指揮官最新軍令：
+  1. **取檔來源法定唯一**：嚴禁指揮所回頭至沙盒 `02_OUTBOX` 取檔，落款唯一法定來源鎖定為 `C:\ibm-bob\core_repo\`，落款前強制校驗 `approval_seal.json` 前置憑證。
+  2. **檔案頭部權威落款實裝 (commander_sign.py)**：自動注入官方 Header（`ARCHITECTURE`、`TARGET`、`SIGNED BY: Commander Jack`、`AUDIT DATE`、`SEAL HASH: SHA256-...`、`VERSION TAG: v1.2.0-RELEASE`、`STATUS: SEALED & RELEASED`），具備增量更新防重複蓋印。
+  3. **建檔履歷與 Tag 封版同步**：自動登記 `delivery_audit_ledger.json`，頂部「📦 產出建檔履歷」狀態升級為【🟢 已落款發佈 (Sealed & Released)】。
+  4. **手機端熱鍵直連**：手機快捷 Chips 置頂新增【👑 [執行指揮所權威落款]】，點擊即刻全域落款並印出結算報告！
+
+- **[統帥權威落款 · 核心庫正式封版發布]** `2026-10-01 16:38:21` 👑 統帥 Jack 哥對核心庫 `C:\ibm-bob\core_repo` 進行權威蓋印，標記版本號 `v1.2.0-RELEASE`，共落款 `5` 支核心模組，狀態變更為【已落款發佈 (Sealed & Released)】，履歷已永久封存！

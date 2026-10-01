@@ -253,6 +253,14 @@ class WarRoomHandler(BaseHTTPRequestHandler):
                     "result": res,
                     "message": res.get("delivery_summary", "🎉 核心庫已成功同步審查合規檔案！")
                 })
+            elif "落款" in cmd or "封版" in cmd or "commander-sign" in cmd.lower():
+                from commander_sign import sign_all_core_modules
+                res = sign_all_core_modules()
+                event_queue.put({
+                    "type": "COMMANDER_SIGN_DONE",
+                    "result": res,
+                    "message": res.get("notice_text", "👑 指揮所權威落款已生效！")
+                })
             elif "Solo" in cmd or "發布" in cmd:
                 event_queue.put({
                     "type": "EXPORT_COMPLETE",
@@ -271,6 +279,19 @@ class WarRoomHandler(BaseHTTPRequestHandler):
                 "type": "OUTBOX_SYNC_DONE",
                 "result": res,
                 "message": res.get("delivery_summary", f"🎉 核心庫已成功同步 {res.get('synced_count', 0)} 支審查合規檔案！")
+            })
+            self._set_headers()
+            self.wfile.write(json.dumps(res, ensure_ascii=False).encode("utf-8"))
+            return
+
+        # 4. 執行指揮所權威落款 (Commander Sign & Stamp Header)
+        elif parsed.path == "/api/commander-sign":
+            from commander_sign import sign_all_core_modules
+            res = sign_all_core_modules()
+            event_queue.put({
+                "type": "COMMANDER_SIGN_DONE",
+                "result": res,
+                "message": res.get("notice_text", f"👑 指揮所已對核心庫 {res.get('signed_count', 0)} 支模組完成權威落款！")
             })
             self._set_headers()
             self.wfile.write(json.dumps(res, ensure_ascii=False).encode("utf-8"))
