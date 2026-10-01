@@ -1,7 +1,7 @@
 {
   "project": "PHANTOM_GRID",
-  "last_sync_timestamp": "2026-10-01T09:52:54.179231",
-  "agents_sha256": "eec696a3748756a020729121fb440bb0c0ea5ae6b08e5e27f6a4909dc1a075e6",
+  "last_sync_timestamp": "2026-10-01T10:06:54.088845",
+  "agents_sha256": "dd493494a012408a039c58cb5ff52d18215d730ad91b15a9b892bf6c1c61dd84",
   "installer_template_synced": true,
   "status": "ALREADY_UP_TO_DATE",
   "targets_updated": [

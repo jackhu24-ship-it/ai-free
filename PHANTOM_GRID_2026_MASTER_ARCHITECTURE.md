@@ -122,6 +122,20 @@
 
 ---
 
+## 📌 規格歸位確認清單
+
+### 1. 3D 筆記本／PDF／HTML 編輯
+- **主責機關**：第二辦公室（戰情全景拓撲）
+- **職責**：將架構、日誌、報告透過 SOIL / HTML5 / Three.js / StPageFlip 引擎轉譯為「3D 活頁翻頁互動電子書」，並落盤至向量級 PDF。
+- **驅動引擎**：L3 的 Three.js / StPageFlip（3D 翻頁）與 PptxGenJS / Playwright（A4 向量級 PDF / HTML）。
+
+### 2. 影片製作相關規格
+- **主責機關**：第三辦公室（落地模組工廠）
+- **職責**：Edge-TTS 英文旁白 + Playwright 終端動態錄製 + FFmpeg 1080P/60FPS 封裝 + CapCut 分鏡 (JSON) 與字幕 (SRT) 彈藥包。
+- **驅動引擎**：L3 的 Edge-TTS（旁白）＋ FFmpeg（1080P/60FPS 壓制）＋ CapCut Bridge（路演 JSON/SRT 分鏡字幕）。
+
+---
+
 ## 🎖️ 指揮所戰略總結
 
 這張架構圖將**指揮鏈、兩大辦公室視圖實體、邊境 Bob 雙層認證、G 槽真身動態定錨、無人值守哨兵與全格式 Solo 生成軍火庫**全部緊密咬合在一起。
@@ -131,3 +145,5 @@
 - `server.py`（第二辦公室 8765 核心服務與 SSE 串流大盤）
 - `auto_watchdog_pipeline.py`（無人值守目錄哨兵監聽器）
 - `grid_shield.py`（五大鐵壁開工自檢護甲）
+- `phantom_shutdown_hook.py`（收工動態差異比對與一鍵安裝反向同步）
+- `install_opencode_complete.py`（雙模一鍵安裝與自適應配置凍結器）
