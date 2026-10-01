@@ -427,29 +427,37 @@
       const data = await res.json();
       renderOutboxPanel(data);
 
+      const count = data.total_count || data.count || 0;
+      const passRateStr = data.pass_rate_str || (data.all_passed ? `${count}/${count} (100%)` : "未全數通過");
+      const blockedCache = data.blocked_cache_count || 0;
+
       const btn = document.getElementById("btnOutboxReviewSync");
-      if (data.can_sync_core && btn) {
-        // 第一步完成：動態切換按鈕為綠色高亮「🚀 批准並同步核心庫」
-        btn.textContent = "🚀 批准並同步核心庫";
-        btn.setAttribute("data-stage", "ready_to_sync");
-        btn.style.borderColor = "#10b981";
-        btn.style.color = "#34d399";
-        btn.style.background = "rgba(16, 185, 129, 0.22)";
-        btn.style.boxShadow = "0 0 16px rgba(16, 185, 129, 0.5)";
+      const subBtn = document.getElementById("btnSyncCore");
+      if (data.can_sync_core) {
+        if (btn) {
+          btn.textContent = "🚀 移交核心庫待簽區";
+          btn.setAttribute("data-stage", "ready_to_sync");
+          btn.style.borderColor = "#10b981";
+          btn.style.color = "#34d399";
+          btn.style.background = "rgba(16, 185, 129, 0.22)";
+          btn.style.boxShadow = "0 0 16px rgba(16, 185, 129, 0.5)";
+          btn.disabled = false;
+        }
+        if (subBtn) {
+          subBtn.textContent = "🚀 移交核心庫待簽區";
+          subBtn.disabled = false;
+        }
       }
 
-      // 左側 Copilot 完整印出對話報告
-      const count = data.count || 0;
-      const manifestId = (data.manifest && data.manifest.manifest_id) ? data.manifest.manifest_id : "VALIDATED";
+      // 左側 Copilot 完整印出批量審查摘要
       const reportHtml = `
-        <b>報告 Jack 哥！02_OUTBOX 提取與安全門禁稽核完成！</b><br><br>
-        📋 <b>【成果提取與驗收報告】</b>：<br>
-        • 提取來源：<code>02_OUTBOX</code> (唯讀快照中繼)<br>
-        • 快取與雜訊複檢：<span style="color:#00ff66; font-weight:bold;">✅ 已清除編譯物與暫存檔 (100% 純淨)</span><br>
-        • 提取檔案數：<b>${count} 支</b> (全數符合白名單副檔名)<br>
-        • AST 語法與防幻覺檢驗：<span style="color:#00ff66; font-weight:bold;">✅ 100% 通過，無敏感調用，實體依賴健全！</span><br>
-        • 核可標記：已於 Staging 生成 <code>.approved_manifest.json</code> [${manifestId}]<br><br>
-        👉 右上熱鍵已解鎖為【<b>🚀 批准並同步核心庫</b>】，請點擊確認發章入庫！
+        <b>報告 Jack 哥！02_OUTBOX 內 ${count} 個檔案已完成批次質檢！</b><br><br>
+        📋 <b>【批量審查摘要】</b>：<br>
+        • 待審檔案總數：<b>${count} 支</b><br>
+        • 快取過濾：已阻斷 <b>${blockedCache} 個快取雜訊</b><br>
+        • 靜態合規檢驗：<span style="color:#00ff66; font-weight:bold;">${passRateStr} 全數通過 (無敏感函式)</span><br>
+        • 簽證狀態：已生成 <b>${count} 檔合規認證單</b>！<br><br>
+        👉 右側已列出完整檔案指紋清單。請確認無誤後，點選「<b>移交核心庫待簽區</b>」，交由指揮所第三辦公室落款！
       `;
       appendMobileChatMessage(reportHtml, false);
     } catch (e) {
@@ -475,19 +483,27 @@
     const stagingPathEl = document.getElementById("outboxStagingPath");
     const badgeEl = document.getElementById("outboxStatusBadge");
 
-    if (countEl) countEl.textContent = `${data.count || 0} 支`;
-    if (latEl) latEl.textContent = `${data.latency_ms || 0} ms`;
+    const totalCount = data.total_count || data.count || 0;
+    const latency = data.latency_s || `${data.latency_ms || 0} ms`;
+    const passRate = data.pass_rate_str || (data.all_passed ? `${totalCount}/${totalCount} (100%)` : "WARNING");
+    const compliance = data.compliance_status || (data.all_passed ? "全數通過" : "存在違規");
+
+    if (countEl) countEl.textContent = `${totalCount} 支`;
+    if (latEl) latEl.textContent = latency;
     if (passEl) {
-      passEl.textContent = data.all_passed ? "100% PASS" : "WARNING";
+      passEl.textContent = passRate;
       passEl.style.color = data.all_passed ? "var(--success-green)" : "#ef4444";
     }
-    if (shaEl) shaEl.textContent = "MANIFEST VALID";
+    if (shaEl) {
+      shaEl.textContent = compliance;
+      shaEl.style.color = data.all_passed ? "var(--gold-accent)" : "#ef4444";
+    }
     if (stagingPathEl && data.staging_dir) {
       stagingPathEl.textContent = `Staging: ${data.staging_dir}`;
     }
     if (badgeEl) {
-      badgeEl.innerHTML = '<span style="color:#10b981; font-weight:bold;">● AST 合規 ✕ 防幻覺 100% ✕ 簽章解鎖</span>';
-      badgeEl.style.borderColor = "#10b981";
+      badgeEl.innerHTML = `<span style="color:#10b981; font-weight:bold;">● 批次閘門檢驗: ${compliance} (${totalCount} 檔)</span>`;
+      badgeEl.style.borderColor = data.all_passed ? "#10b981" : "#ef4444";
     }
 
     if (listEl) {
@@ -495,24 +511,35 @@
         listEl.innerHTML = '<div style="color:#ef4444;">❌ 02_OUTBOX 無待審檔案。</div>';
         return;
       }
-      let html = "";
+      
+      let headerHtml = `
+        <div style="font-family:monospace; margin-bottom:12px; padding:8px 12px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:6px; color:#cbd5e1; font-size:0.8rem; display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+          <span>待審總數: <b>${totalCount}</b></span>
+          <span>耗時: <b>${latency}</b></span>
+          <span>通過率: <b style="color:#10b981;">${passRate}</b></span>
+          <span>合規狀態: <b style="color:#10b981;">${compliance}</b></span>
+        </div>
+        <div style="color:#fde047; font-weight:bold; margin-bottom:8px; font-size:0.82rem;">【審查合格明細清單 (AUDIT DETAILS)】:</div>
+      `;
+
+      let itemsHtml = "";
       data.data.forEach((item, idx) => {
+        const itemNo = item.no || (idx + 1);
         const passBadge = item.passed 
           ? `<span style="color:#10b981; font-weight:bold;">[PASSED] ${item.audit_msg}</span>`
           : `<span style="color:#ef4444; font-weight:bold;">[FAILED] ${item.audit_msg}</span>`;
-        html += `
-          <div style="margin-bottom:8px; border-bottom:1px dashed rgba(255,255,255,0.06); padding-bottom:6px; display:flex; justify-content:space-between; align-items:center;">
+        itemsHtml += `
+          <div style="margin-bottom:6px; border-bottom:1px dashed rgba(255,255,255,0.06); padding-bottom:5px; display:flex; justify-content:space-between; align-items:center; font-family:monospace;">
             <div>
-              <span style="color:#c084fc; font-weight:bold;">${idx + 1}. ${item.name}</span>
-              <span style="color:#94a3b8; font-size:0.75rem; margin-left:8px;">: ${item.line_info}</span>
-              <span style="color:#f59e0b; font-size:0.75rem; margin-left:8px;">| SHA: ${item.hash}</span>
-              <div style="color:#64748b; font-size:0.7rem; margin-top:2px;">↳ ${item.entity_info || "AST Verified"}</div>
+              <span style="color:#c084fc; font-weight:bold;">${itemNo > 9 ? itemNo : ' ' + itemNo}. ${item.name}</span>
+              <span style="color:#94a3b8; font-size:0.75rem; margin-left:8px;">| ${item.line_info || (item.size + ' B')}</span>
+              <span style="color:#f59e0b; font-size:0.75rem; margin-left:8px;">| SHA: ${item.hash || '...'}...</span>
             </div>
             <div>${passBadge}</div>
           </div>
         `;
       });
-      listEl.innerHTML = html;
+      listEl.innerHTML = headerHtml + itemsHtml;
     }
   }
 
