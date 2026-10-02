@@ -97,11 +97,18 @@ def run_pdf_spec_sealing():
     print("=" * 75)
     print("🏛️  [指揮所第三辦公室] 啟動 PHANTOM GRID 頂級 PDF 規範權威落款與封版程序")
     print(f"👑  授權統帥: {COMMANDER_NAME} (霸丸總指揮官)")
-    print(f"📍  審查交付區: {OUTBOX_DIR}")
+    target_dir = OUTBOX_DIR
+    if not target_dir.exists():
+        if CORE_REPO_DIR.exists():
+            target_dir = CORE_REPO_DIR
+        else:
+            target_dir = Path("phantom-grid-docs")
+
+    print(f"📍  審查交付區: {target_dir}")
     print("=" * 75)
 
-    if not OUTBOX_DIR.exists():
-        print(f"❌ 錯誤: 找不到交付目錄 {OUTBOX_DIR}")
+    if not target_dir.exists():
+        print(f"❌ 錯誤: 找不到交付目錄 {target_dir}")
         return False
 
     now_dt = datetime.now()
@@ -112,10 +119,10 @@ def run_pdf_spec_sealing():
     sealed_files = []
 
     # 1. 遍歷並蓋印核心檔案
-    for root, dirs, files in os.walk(OUTBOX_DIR):
+    for root, dirs, files in os.walk(target_dir):
         for f in files:
             p = Path(root) / f
-            rel_name = p.relative_to(OUTBOX_DIR).as_posix()
+            rel_name = p.relative_to(target_dir).as_posix()
             f_hash = calculate_sha256(p)
 
             if p.suffix.lower() == ".py":
@@ -147,7 +154,7 @@ def run_pdf_spec_sealing():
         "sealed_manifest": sealed_files
     }
 
-    seal_file = OUTBOX_DIR / "RELEASE_SEAL.json"
+    seal_file = target_dir / "RELEASE_SEAL.json"
     seal_file.write_text(json.dumps(release_seal_data, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"\n📜 [發布大印] 簽發終審法定憑證: {seal_file} (Release ID: {release_id})")
 
@@ -178,15 +185,17 @@ def run_pdf_spec_sealing():
     print(f"📖 [主權帳本] 成功登錄審計軌跡至 {AUDIT_LEDGER}")
 
     # 4. 同步至 core_repo 與 G 槽真身主權金庫
-    if CORE_REPO_DIR.exists():
-        shutil.rmtree(CORE_REPO_DIR)
-    shutil.copytree(OUTBOX_DIR, CORE_REPO_DIR)
-    print(f"🏛️  [核心庫] 已同步正式發布版至 {CORE_REPO_DIR}")
+    if target_dir != CORE_REPO_DIR:
+        if CORE_REPO_DIR.exists():
+            shutil.rmtree(CORE_REPO_DIR)
+        shutil.copytree(target_dir, CORE_REPO_DIR)
+        print(f"🏛️  [核心庫] 已同步正式發布版至 {CORE_REPO_DIR}")
 
-    if VAULT_DIR.exists():
-        shutil.rmtree(VAULT_DIR)
-    shutil.copytree(OUTBOX_DIR, VAULT_DIR)
-    print(f"🔒 [真身金庫] 已雙軌固化封存至 {VAULT_DIR}")
+    if target_dir != VAULT_DIR:
+        if VAULT_DIR.exists():
+            shutil.rmtree(VAULT_DIR)
+        shutil.copytree(target_dir, VAULT_DIR)
+        print(f"🔒 [真身金庫] 已雙軌固化封存至 {VAULT_DIR}")
 
     # 5. 執行沙盒資產分流清空 (Rule 23 永久豁免影視與逆向工程)
     try:
