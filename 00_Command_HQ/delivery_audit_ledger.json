@@ -299,5 +299,13 @@
     "commander": "Jack Hu (Supreme Commander)",
     "sovereign_seal": "aaba20d685517cb125b3247a45b2f72f8f1459a6f2b41c30bf18fe9748f8fe1d",
     "timestamp": "2026-10-02T13:02:28.065235"
+  },
+  {
+    "event": "BOB_RESTORED_TO_DUTY",
+    "status": "BOB_PIPELINE_ACTIVE",
+    "commander": "Jack Hu (Supreme Commander)",
+    "pipeline": "Office2(Draft) -> CommandHQ(00_INBOX) -> Bob(01_WORKSPACE -> 02_OUTBOX) -> Customs -> Office3(Verify) -> Commander(Seal)",
+    "timestamp": "2026-10-02T13:09:34.075663",
+    "sovereign_note": "特戰工兵 Bob 已修復完畢，全軍常態恢復調用外部免費算力！"
   }
 ]

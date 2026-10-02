@@ -19,6 +19,7 @@ from pathlib import Path
 from datetime import datetime
 
 TRIGGER_CODE = "//我說BOB受損//"
+RESTORE_CODE = "//我說BOB已修好//"
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 COMMAND_HQ_DIR = BASE_DIR / "00_Command_HQ"
@@ -132,7 +133,42 @@ class SovereignFallbackPipeline:
         self.log(f"📑 審計帳本已更新並雙向固化！")
         return seal_payload
 
+    def restore_bob_pipeline(self) -> dict:
+        """
+        修復歸隊：當統帥宣告 BOB 已修好時，解除熔斷並恢復為外掛工兵 Bob 標準作業流程
+        """
+        self.log("🛠️ [狀態切換：修復歸隊] 接收到統帥復原軍令！啟動特戰工兵 Bob 歸隊程序...")
+        restore_payload = {
+            "event": "BOB_RESTORED_TO_DUTY",
+            "status": "BOB_PIPELINE_ACTIVE",
+            "commander": "Jack Hu (Supreme Commander)",
+            "pipeline": "Office2(Draft) -> CommandHQ(00_INBOX) -> Bob(01_WORKSPACE -> 02_OUTBOX) -> Customs -> Office3(Verify) -> Commander(Seal)",
+            "timestamp": datetime.now().isoformat(),
+            "sovereign_note": "特戰工兵 Bob 已修復完畢，全軍常態恢復調用外部免費算力！"
+        }
+        
+        # 記錄至審計帳本
+        if LEDGER_FILE.exists():
+            try:
+                with open(LEDGER_FILE, "r", encoding="utf-8") as f:
+                    ledger = json.load(f)
+            except Exception:
+                ledger = []
+        else:
+            ledger = []
+            
+        ledger.append(restore_payload)
+        with open(LEDGER_FILE, "w", encoding="utf-8") as f:
+            json.dump(ledger, f, ensure_ascii=False, indent=2)
+            
+        self.log("✅ 特戰工兵 Bob 已正式修復歸隊！全軍已恢復標準外掛沙盒六部曲作業模式！")
+        return restore_payload
+
     def run_full_pipeline(self, signal: str):
+        if signal.strip() == RESTORE_CODE or "BOB已修好" in signal or "bob已修好" in signal:
+            self.log(f"🟢 接收到最高統帥暗號 [{signal}]！外掛傭兵修復歸隊！")
+            return self.restore_bob_pipeline()
+            
         if not self.verify_trigger(signal):
             return None
         
@@ -147,15 +183,15 @@ class SovereignFallbackPipeline:
 if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(description="PHANTOM GRID Sovereign Fallback Protocol")
-    parser.add_argument("--trigger", type=str, default=TRIGGER_CODE, help="Trigger signal phrase")
+    parser.add_argument("--trigger", type=str, default=TRIGGER_CODE, help="Trigger signal phrase (//我說BOB受損// or //我說BOB已修好//)")
     parser.add_argument("--task", type=str, default="SOVEREIGN_STANDALONE_RUN", help="Task name")
-    parser.add_argument("--desc", type=str, default="暗號 //我說BOB受損// 實兵自動接管演練", help="Task description")
+    parser.add_argument("--desc", type=str, default="暗號實兵雙向切換演練", help="Task description")
     args = parser.parse_args()
 
     pipeline = SovereignFallbackPipeline(task_name=args.task, task_desc=args.desc)
     result = pipeline.run_full_pipeline(args.trigger)
     if result:
         print("\n" + "="*60)
-        print("🛡️ 【PHANTOM GRID 緊急熔斷自立接管完成證明】")
+        print("🛡️ 【PHANTOM GRID 統帥雙向狀態切換證明】")
         print(json.dumps(result, ensure_ascii=False, indent=2))
         print("="*60)
