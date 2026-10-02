@@ -2,44 +2,28 @@
 // ARCHITECTURE : PHANTOM GRID / TOP-TIER INDUSTRIAL PDF SPECIFICATION
 // MODULE       : main.typ
 // SIGNED BY    : Commander Jack (👑 霸丸總指揮官權威落款)
-// SEAL TIME    : 2026-10-02 13:44:48 CST
+// SEAL TIME    : 2026-10-02 13:47:24 CST
 // STATUS       : OFFICIALLY RELEASED & SEALED
-// INTEGRITY    : SHA256:b8d0b1122c729a18... [VERIFIED]
-// SPEC STANDARD: PG-SPEC-2026-PDF-WORLD-CLASS
-// ==============================================================================
-
-// ==============================================================================
-// ARCHITECTURE : PHANTOM GRID / TOP-TIER INDUSTRIAL PDF SPECIFICATION
-// MODULE       : main.typ
-// SIGNED BY    : Commander Jack (👑 霸丸總指揮官權威落款)
-// SEAL TIME    : 2026-10-02 13:42:28 CST
-// STATUS       : OFFICIALLY RELEASED & SEALED
-// INTEGRITY    : SHA256:fb71b92dfafeb011... [VERIFIED]
-// SPEC STANDARD: PG-SPEC-2026-PDF-WORLD-CLASS
-// ==============================================================================
-
-// ==============================================================================
-// ARCHITECTURE : PHANTOM GRID / TOP-TIER INDUSTRIAL PDF SPECIFICATION
-// MODULE       : main.typ
-// SIGNED BY    : Commander Jack (👑 霸丸總指揮官權威落款)
-// SEAL TIME    : 2026-10-02 13:40:00 CST
-// STATUS       : OFFICIALLY RELEASED & SEALED
+// INTEGRITY    : SHA256:887e7bb3880ce937... [VERIFIED]
 // SPEC STANDARD: PG-SPEC-2026-PDF-WORLD-CLASS
 // ==============================================================================
 
 #import "../templates/phantom_theme.typ": phantom-doc
 #import "../templates/phantom_table.typ": can-matrix-table, pinout-table
+#import "generated_tables.typ": auto-timing-table
 
 #show: phantom-doc.with(
-  title: "PHANTOM GRID VEHICLE NETWORK & HARDWARE SPECIFICATION",
-  subtitle: "Signal Matrix & MCU Interface Pinouts",
-  doc-id: "PG-SPEC-2026-REL-A",
-  version: "2.4.0"
+  title: "PHANTOM GRID VEHICLE NETWORK & STATE ARCHITECTURE",
+  subtitle: "Automated Bit-Timing Translation & ISO 26262 Safety Machine",
+  doc-id: "PG-AUTO-DOC-2026",
+  version: "3.0.0"
 )
 
-= 系統概述與微控制器節點架構
+= 動態位元時序運算驗證 (Automated SJA1000 to PIC18F)
 
-PHANTOM GRID 匯流排通訊系統採用雙核心容錯架構。本規範定義主網關控制器與 *PIC18F / SJA1000* 節點間的位元時序轉換（Bit Timing Translation）與記憶體映象標準。
+本節所有硬體暫存器數據均由 *Doc-as-Code 編譯器* 依據 $ F_"osc" = 16 "MHz" $ 及 75% 標稱採樣點動態計算生成，嚴禁手動改動。
+
+#auto-timing-table
 
 == ISO 26262 狀態機與時鐘同步指標
 
@@ -54,19 +38,13 @@ PHANTOM GRID 匯流排通訊系統採用雙核心容錯架構。本規範定義�
   [E2E CRC Watchdog], [1.0 kHz], [± 0.02 ms], [PASS]
 )
 
-== SJA1000 至 PIC18F25K80 時序暫存器映射矩陣
+= 功能安全狀態機模型 (ISO 26262 ASIL-D State Flow)
 
-當工程人員由 SJA1000（BTR0/BTR1）轉譯至 Microchip PIC 暫存器（BRGCON1/2/3）時，數值必須符合以下映射計算式：
+PHANTOM GRID 通訊監控核心在檢測到匯流排中斷或 CRC 驗證失敗時，保證在 5ms 內進入安全降級狀態（Safe State）：
 
-#table(
-  columns: (1.5fr, 1.2fr, 2.5fr, 1fr),
-  align: (left, center, left, center),
-  [暫存器代號], [Bit 遮罩], [位元域描述 (Field Function)], [設定值],
-  [BRGCON1], [0xC0], [SJW: 步階跳躍寬度（1~4 Tq）], [0x01 (2 Tq)],
-  [BRGCON1], [0x3F], [BRP: 鮑率預分頻器 $ ((2 times ("BRP" + 1)) / F_"osc") $], [0x03],
-  [BRGCON2], [0x80], [SAM: 取樣點次數（0 = 1次, 1 = 3次）], [0x01 (3次)],
-  [BRGCON2], [0x38], [PHSEG1: 相位緩衝段 1 長度], [0x05 (6 Tq)],
-  [BRGCON3], [0x07], [PHSEG2: 相位緩衝段 2 長度], [0x04 (5 Tq)]
+#figure(
+  image("../assets/images/safety_fsm.svg", width: 98%),
+  caption: [ISO 26262 容錯安全狀態轉移圖（由向量編譯器自動渲染）]
 )
 
 = 通訊矩陣與資料封包規範 (CAN-FD Matrix)

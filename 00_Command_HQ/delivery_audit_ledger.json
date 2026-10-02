@@ -1,6 +1,169 @@
 [
   {
     "release_id": "REL-20261002-PDF-999",
+    "timestamp": "2026-10-02T13:47:24.423411",
+    "action": "COMMAND_HQ_OFFICIAL_STAMP_AND_SEAL",
+    "signer": "Commander Jack",
+    "authority": "👑 霸丸總指揮官 (Supreme Commander)",
+    "project": "PHANTOM GRID World-Class PDF Engineering Specification",
+    "version_tag": "PG-SPEC-2026-V1.0-RELEASE",
+    "status": "SEALED_AND_RELEASED",
+    "signed_count": 30,
+    "files": [
+      {
+        "file": "CHECKLIST_WORLD_CLASS_PDF.md",
+        "type": "ASSET_DOC",
+        "hash": "ff5934903f2828c7e93a6dc56b418b1f10355cff19ed46744f4e6f408e758f97"
+      },
+      {
+        "file": "check_standards.py",
+        "type": "PYTHON_MODULE",
+        "hash": "f2225dab905cbd3dea8a0db9e2318d5da64828876480ce13bf68899f9bfe0461"
+      },
+      {
+        "file": "Makefile",
+        "type": "ASSET_DOC",
+        "hash": "92d19359f7d996894face097fb6c93855431deabe31c5165a6d5f5635a61e50f"
+      },
+      {
+        "file": "README.md",
+        "type": "ASSET_DOC",
+        "hash": "e02af51cc965cb0032cc727e9e7ef7df6c413db8dadb83c2e20cf72617e334d5"
+      },
+      {
+        "file": "RELEASE_SEAL.json",
+        "type": "JSON_SCHEMA",
+        "hash": "c01c70f3a0a2cf6c0f3e59e750301bfd890a21806d0a273d4c8c3e422aa30843"
+      },
+      {
+        "file": ".github/workflows/build-docs.yml",
+        "type": "ASSET_DOC",
+        "hash": "03987d473fa9e6a4dbcd30764cf72da992677895e6b43185d171079721634886"
+      },
+      {
+        "file": ".vscode/settings.json",
+        "type": "JSON_SCHEMA",
+        "hash": "b08fa2e6bd91b6ec7f69bf0798888bf068287eb4dc4a8ff3b2db1585ee00777c"
+      },
+      {
+        "file": ".vscode/tasks.json",
+        "type": "JSON_SCHEMA",
+        "hash": "e5d0fab46d5ddb15f25afd0993215dbda84ca8c609a10b3b8644808c64e57387"
+      },
+      {
+        "file": "assets/fonts/Inter-Regular.ttf",
+        "type": "ASSET_DOC",
+        "hash": "29160a80ff49ddcab2c97711247e08b1fab27a484a329ce8b813d820dc559031"
+      },
+      {
+        "file": "assets/fonts/Inter-Regular.woff2",
+        "type": "ASSET_DOC",
+        "hash": "e06f6b1bc553aaea4e4668023ed0ab0a147129c3107f511bc7d03d361b0ae085"
+      },
+      {
+        "file": "assets/fonts/JetBrainsMono-Bold.ttf",
+        "type": "ASSET_DOC",
+        "hash": "d22c4f3821d725eb01210d278d95dfcfcaadc34699a06658d47c8a5cc5830ada"
+      },
+      {
+        "file": "assets/fonts/JetBrainsMono-Regular.ttf",
+        "type": "ASSET_DOC",
+        "hash": "e6fd0d7e91550b3ed2b735d4312474362c4716edc4fc0577a0f61ed782d5aed1"
+      },
+      {
+        "file": "assets/fonts/README_FONTS.md",
+        "type": "ASSET_DOC",
+        "hash": "42a08caf6914ac8351ded5ee0a7f2b4d7e14b8c3da2854ecca6b6375198b72b2"
+      },
+      {
+        "file": "assets/images/latency_benchmark.svg",
+        "type": "ASSET_DOC",
+        "hash": "3745a7e4c0df7cb8328e3330899b35e30bc91edf007c1573335fa3f6471cc26c"
+      },
+      {
+        "file": "assets/images/safety_fsm.svg",
+        "type": "ASSET_DOC",
+        "hash": "1ecc24c1a38035a2075a4b68682747864902059903200b95c557d57b6b648bb9"
+      },
+      {
+        "file": "dist/PHANTOM_GRID_SPEC.pdf",
+        "type": "ASSET_DOC",
+        "hash": "09cffed7abd38367b5c4818478032a4b0d0b63a37e0e7b3f7ef134c93ce3fdaa"
+      },
+      {
+        "file": "docs/generated_tables.typ",
+        "type": "TYPST_TEMPLATE",
+        "hash": "0892c695ce67f35fc73d4bc1b4f295f2d4eac4bade3ef641bc7cfb2377ec4537"
+      },
+      {
+        "file": "docs/main.typ",
+        "type": "TYPST_TEMPLATE",
+        "hash": "887e7bb3880ce937384eba3d36f98021dcf2e207698014579a8e3f903de87eb5"
+      },
+      {
+        "file": "scripts/build.bat",
+        "type": "ASSET_DOC",
+        "hash": "8cca826056f9ad42a1cbe8a6da7b3b17f58d032197ec90a364006ad6b792fcb8"
+      },
+      {
+        "file": "scripts/build.sh",
+        "type": "ASSET_DOC",
+        "hash": "87ffd50eff2c88cff1dffc0434d294a7ec41da8df9b14112b005f72a70cd9baf"
+      },
+      {
+        "file": "scripts/compile_matrix.py",
+        "type": "PYTHON_MODULE",
+        "hash": "b81b62f8d433333c8c2e58dd89821084c51c2aae57b37bbb8814c5e3c752e9ed"
+      },
+      {
+        "file": "scripts/compile_typst.py",
+        "type": "PYTHON_MODULE",
+        "hash": "b6f59e29abdcf1783c39204a7f1b62c3c4033d045e0a61c655aa7c45e576aeb2"
+      },
+      {
+        "file": "scripts/generate_charts.py",
+        "type": "PYTHON_MODULE",
+        "hash": "02ac3e143855b57a7a9fb4bbd6e32a1b864e28db27e01fa72617a769218dc38d"
+      },
+      {
+        "file": "scripts/generate_fsm.py",
+        "type": "PYTHON_MODULE",
+        "hash": "f0f6a7a28ff8f80f0d3f69c5ec69258a45cbc08f538e4f5813000133e0e5c855"
+      },
+      {
+        "file": "scripts/setup.ps1",
+        "type": "ASSET_DOC",
+        "hash": "0c20724e9b12a43c7f4d95cc0849f8ae91b705fa4940c08258c6a54e799101dc"
+      },
+      {
+        "file": "scripts/setup.py",
+        "type": "PYTHON_MODULE",
+        "hash": "865cd12ab2d26b239d589afc744ac890fe471ba2d27f414e6cfbe790ddfc7106"
+      },
+      {
+        "file": "scripts/setup.sh",
+        "type": "ASSET_DOC",
+        "hash": "1197aaa124748c0d1bcc49c392fb61ece0c5071e5e07ea79b579ba75e77103a2"
+      },
+      {
+        "file": "scripts/verify_spec.py",
+        "type": "PYTHON_MODULE",
+        "hash": "055242541ca83c6cf9ff9416dfc9600f8cbb73fec1f8a0abe1a70914937963d8"
+      },
+      {
+        "file": "templates/phantom_table.typ",
+        "type": "TYPST_TEMPLATE",
+        "hash": "cad7aa2a1c6262c2b2dc2de732686beb29a476e72217230ce5993279a5cde91c"
+      },
+      {
+        "file": "templates/phantom_theme.typ",
+        "type": "TYPST_TEMPLATE",
+        "hash": "8606431341cfb757119b8390e899a37b688a6452325a5d047970535b713ef539"
+      }
+    ]
+  },
+  {
+    "release_id": "REL-20261002-PDF-999",
     "timestamp": "2026-10-02T13:44:48.684445",
     "action": "COMMAND_HQ_OFFICIAL_STAMP_AND_SEAL",
     "signer": "Commander Jack",
