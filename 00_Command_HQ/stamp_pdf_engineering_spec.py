@@ -97,12 +97,12 @@ def run_pdf_spec_sealing():
     print("=" * 75)
     print("🏛️  [指揮所第三辦公室] 啟動 PHANTOM GRID 頂級 PDF 規範權威落款與封版程序")
     print(f"👑  授權統帥: {COMMANDER_NAME} (霸丸總指揮官)")
-    target_dir = OUTBOX_DIR
+    target_dir = Path("phantom-grid-docs")
     if not target_dir.exists():
-        if CORE_REPO_DIR.exists():
+        if OUTBOX_DIR.exists():
+            target_dir = OUTBOX_DIR
+        elif CORE_REPO_DIR.exists():
             target_dir = CORE_REPO_DIR
-        else:
-            target_dir = Path("phantom-grid-docs")
 
     print(f"📍  審查交付區: {target_dir}")
     print("=" * 75)

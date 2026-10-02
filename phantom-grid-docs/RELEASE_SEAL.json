@@ -1,0 +1,143 @@
+{
+  "release_id": "REL-20261002-PDF-999",
+  "commander": "Commander Jack",
+  "authority": "👑 霸丸總指揮官 (Supreme Commander)",
+  "project": "PHANTOM GRID World-Class PDF Engineering Specification",
+  "spec_standard": "PG-SPEC-2026-PDF-WORLD-CLASS",
+  "seal_time": "2026-10-02 13:44:48 CST",
+  "status": "ALL_MODULES_OFFICIALLY_SEALED",
+  "total_sealed": 26,
+  "standards_compliance": "6/6 PASS 100% (Grid, Tabular Figures, Direct Labeling, Orphans/Widows, WCAG AAA, Tagged PDF)",
+  "sealed_manifest": [
+    {
+      "file": "CHECKLIST_WORLD_CLASS_PDF.md",
+      "type": "ASSET_DOC",
+      "hash": "ff5934903f2828c7e93a6dc56b418b1f10355cff19ed46744f4e6f408e758f97"
+    },
+    {
+      "file": "check_standards.py",
+      "type": "PYTHON_MODULE",
+      "hash": "075e18e68bcda4950c58daffbb953eab0a839c54769a1afbce95d4f3b92f7c1d"
+    },
+    {
+      "file": "Makefile",
+      "type": "ASSET_DOC",
+      "hash": "a86f093bbe999436dcc68e0d444c74eb4d564bf7c3b7c8c0970fb275610577b1"
+    },
+    {
+      "file": "README.md",
+      "type": "ASSET_DOC",
+      "hash": "e02af51cc965cb0032cc727e9e7ef7df6c413db8dadb83c2e20cf72617e334d5"
+    },
+    {
+      "file": "RELEASE_SEAL.json",
+      "type": "JSON_SCHEMA",
+      "hash": "4b92e0e74ef372fa6dcda78403de8926483b53862a7efd15ecbef2e076889502"
+    },
+    {
+      "file": ".github/workflows/build-docs.yml",
+      "type": "ASSET_DOC",
+      "hash": "03987d473fa9e6a4dbcd30764cf72da992677895e6b43185d171079721634886"
+    },
+    {
+      "file": ".vscode/settings.json",
+      "type": "JSON_SCHEMA",
+      "hash": "a14f251ec8e2ee647440459735ead22ef1c530cd8a54bab6d9c5576087b99e16"
+    },
+    {
+      "file": ".vscode/tasks.json",
+      "type": "JSON_SCHEMA",
+      "hash": "8d52ae7bef33da0d83d7c0b6e29f88afceb1f2a69b6dc33e2d1e1ac1bd653961"
+    },
+    {
+      "file": "assets/fonts/Inter-Regular.ttf",
+      "type": "ASSET_DOC",
+      "hash": "29160a80ff49ddcab2c97711247e08b1fab27a484a329ce8b813d820dc559031"
+    },
+    {
+      "file": "assets/fonts/Inter-Regular.woff2",
+      "type": "ASSET_DOC",
+      "hash": "e06f6b1bc553aaea4e4668023ed0ab0a147129c3107f511bc7d03d361b0ae085"
+    },
+    {
+      "file": "assets/fonts/JetBrainsMono-Bold.ttf",
+      "type": "ASSET_DOC",
+      "hash": "d22c4f3821d725eb01210d278d95dfcfcaadc34699a06658d47c8a5cc5830ada"
+    },
+    {
+      "file": "assets/fonts/JetBrainsMono-Regular.ttf",
+      "type": "ASSET_DOC",
+      "hash": "e6fd0d7e91550b3ed2b735d4312474362c4716edc4fc0577a0f61ed782d5aed1"
+    },
+    {
+      "file": "assets/fonts/README_FONTS.md",
+      "type": "ASSET_DOC",
+      "hash": "42a08caf6914ac8351ded5ee0a7f2b4d7e14b8c3da2854ecca6b6375198b72b2"
+    },
+    {
+      "file": "assets/images/latency_benchmark.svg",
+      "type": "ASSET_DOC",
+      "hash": "ac207f51f1545d9146f84d5412b3dc00e3b121886f5ad41b5a6404d5e5437070"
+    },
+    {
+      "file": "dist/PHANTOM_GRID_SPEC.pdf",
+      "type": "ASSET_DOC",
+      "hash": "896eb73dfecb2644d7a3dd9d8918efb08bb717d575f6bf24b190e396d2caeac8"
+    },
+    {
+      "file": "docs/main.typ",
+      "type": "TYPST_TEMPLATE",
+      "hash": "b8d0b1122c729a1835c8e241b3ded1f84de31f35e1038de0f4dbc95d91c54e52"
+    },
+    {
+      "file": "scripts/build.bat",
+      "type": "ASSET_DOC",
+      "hash": "20e5205da396ea67db716624081f75e6d220323467275d27566d07c9fed0ce84"
+    },
+    {
+      "file": "scripts/build.sh",
+      "type": "ASSET_DOC",
+      "hash": "ee2ee4b3e79825243e2365999feed321b9336092bbac6b106e97784ffdb3cea3"
+    },
+    {
+      "file": "scripts/compile_typst.py",
+      "type": "PYTHON_MODULE",
+      "hash": "56c514798ce5c703b38bb346c46a91f71c6a7099fe69a338764d8e2acca23dfd"
+    },
+    {
+      "file": "scripts/generate_charts.py",
+      "type": "PYTHON_MODULE",
+      "hash": "8587fcc6bf7066180593c7dd4f81f41a4252959dfe9d3dc7b23c0dc89cef5ee2"
+    },
+    {
+      "file": "scripts/setup.ps1",
+      "type": "ASSET_DOC",
+      "hash": "0c20724e9b12a43c7f4d95cc0849f8ae91b705fa4940c08258c6a54e799101dc"
+    },
+    {
+      "file": "scripts/setup.py",
+      "type": "PYTHON_MODULE",
+      "hash": "aac1d4791ad14d42e674c3ecac94114e12c3225baf8bd24a0a66550e3d6fee38"
+    },
+    {
+      "file": "scripts/setup.sh",
+      "type": "ASSET_DOC",
+      "hash": "1197aaa124748c0d1bcc49c392fb61ece0c5071e5e07ea79b579ba75e77103a2"
+    },
+    {
+      "file": "scripts/verify_spec.py",
+      "type": "PYTHON_MODULE",
+      "hash": "9432677cdb532749c60bea7a83d28a7f8822b97997b8b501f5d7fbd9f6cd928b"
+    },
+    {
+      "file": "templates/phantom_table.typ",
+      "type": "TYPST_TEMPLATE",
+      "hash": "cc1414d544d045996990a8bdff8001f696ef0144b3d39d59410fa4b44c7adb6c"
+    },
+    {
+      "file": "templates/phantom_theme.typ",
+      "type": "TYPST_TEMPLATE",
+      "hash": "10e918913fec17326ad26aa109f208224dfd98cdb8799255c983de5b490d9783"
+    }
+  ]
+}

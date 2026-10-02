@@ -1,0 +1,44 @@
+name: Build PHANTOM GRID PDF
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Install Python Dependencies
+        run: |
+          pip install matplotlib numpy
+
+      - name: Install Typst CLI
+        uses: typst-community/setup-typst@v3
+        with:
+          typst-version: "latest"
+
+      - name: Generate Charts & Compile PDF
+        run: |
+          make all
+
+      - name: Run Quality Gate Checklist
+        run: |
+          python3 check_standards.py
+
+      - name: Upload PDF Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: PHANTOM-GRID-SPEC
+          path: dist/PHANTOM_GRID_SPEC.pdf

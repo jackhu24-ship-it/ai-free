@@ -1,0 +1,17 @@
+{
+  "_commander_seal": {
+    "signed_by": "Commander Jack",
+    "authority": "👑 霸丸總指揮官 (Supreme Commander)",
+    "seal_time": "2026-10-02 13:44:48 CST",
+    "status": "OFFICIALLY_SEALED",
+    "spec_standard": "PG-SPEC-2026-PDF-WORLD-CLASS",
+    "base_sha256": "a14f251ec8e2ee647440459735ead22ef1c530cd8a54bab6d9c5576087b99e16"
+  },
+  "tinymist.exportPdf": "onSave",
+  "tinymist.fontPaths": [
+    "./assets/fonts"
+  ],
+  "tinymist.preview.pin": true,
+  "editor.wordWrap": "on",
+  "editor.formatOnSave": true
+}

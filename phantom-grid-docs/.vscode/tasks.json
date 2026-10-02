@@ -1,0 +1,35 @@
+{
+  "_commander_seal": {
+    "signed_by": "Commander Jack",
+    "authority": "👑 霸丸總指揮官 (Supreme Commander)",
+    "seal_time": "2026-10-02 13:44:48 CST",
+    "status": "OFFICIALLY_SEALED",
+    "spec_standard": "PG-SPEC-2026-PDF-WORLD-CLASS",
+    "base_sha256": "8d52ae7bef33da0d83d7c0b6e29f88afceb1f2a69b6dc33e2d1e1ac1bd653961"
+  },
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Compile Typst PDF",
+      "type": "shell",
+      "command": "typst compile --font-path ./assets/fonts docs/main.typ dist/PHANTOM_GRID_SPEC.pdf",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Generate Charts",
+      "type": "shell",
+      "command": "python scripts/generate_charts.py",
+      "problemMatcher": []
+    },
+    {
+      "label": "Check Standards",
+      "type": "shell",
+      "command": "python check_standards.py",
+      "problemMatcher": []
+    }
+  ]
+}
