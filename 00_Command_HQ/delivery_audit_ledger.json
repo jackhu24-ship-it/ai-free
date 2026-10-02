@@ -1,5 +1,88 @@
 [
   {
+    "release_id": "REL-20261002-PDF-999",
+    "timestamp": "2026-10-02T12:54:13.618875",
+    "action": "COMMAND_HQ_OFFICIAL_STAMP_AND_SEAL",
+    "signer": "Commander Jack",
+    "authority": "👑 霸丸總指揮官 (Supreme Commander)",
+    "project": "PHANTOM GRID World-Class PDF Engineering Specification",
+    "version_tag": "PG-SPEC-2026-V1.0-RELEASE",
+    "status": "SEALED_AND_RELEASED",
+    "signed_count": 14,
+    "files": [
+      {
+        "file": "CHECKLIST_WORLD_CLASS_PDF.md",
+        "type": "ASSET_DOC",
+        "hash": "ff5934903f2828c7e93a6dc56b418b1f10355cff19ed46744f4e6f408e758f97"
+      },
+      {
+        "file": "check_standards.py",
+        "type": "PYTHON_MODULE",
+        "hash": "3675da5c7b6035ceeebb3107eeac6e8843fb7b41ebdc2efa1a54a0f6800f3753"
+      },
+      {
+        "file": "Makefile",
+        "type": "ASSET_DOC",
+        "hash": "bf800b0d3f7611fdfd201fcec8530423e42fa0e5dd0fc03aad7b56e96f0f3c87"
+      },
+      {
+        "file": "README.md",
+        "type": "ASSET_DOC",
+        "hash": "e02af51cc965cb0032cc727e9e7ef7df6c413db8dadb83c2e20cf72617e334d5"
+      },
+      {
+        "file": ".github/workflows/build-docs.yml",
+        "type": "ASSET_DOC",
+        "hash": "03987d473fa9e6a4dbcd30764cf72da992677895e6b43185d171079721634886"
+      },
+      {
+        "file": ".vscode/settings.json",
+        "type": "JSON_SCHEMA",
+        "hash": "ef673c528e112fa89c042ec96780822e5c027f697718377d0c19eddb3bd36bab"
+      },
+      {
+        "file": ".vscode/tasks.json",
+        "type": "JSON_SCHEMA",
+        "hash": "f098709b70af3cfb5c68c677192b2bfa726bcfdecaef1d088a6ace29eade5212"
+      },
+      {
+        "file": "assets/fonts/README_FONTS.md",
+        "type": "ASSET_DOC",
+        "hash": "42a08caf6914ac8351ded5ee0a7f2b4d7e14b8c3da2854ecca6b6375198b72b2"
+      },
+      {
+        "file": "assets/images/latency_benchmark.svg",
+        "type": "ASSET_DOC",
+        "hash": "2a2df3f0c77a17646fca0ef56bf61ee558ea931c368a813abd43275e501795ca"
+      },
+      {
+        "file": "docs/main.typ",
+        "type": "TYPST_TEMPLATE",
+        "hash": "57014de78ebb2361ba0346f4607dad4f63cc15d00104c5d1bffc3b3cf36f5f46"
+      },
+      {
+        "file": "scripts/build.bat",
+        "type": "ASSET_DOC",
+        "hash": "ec285c5359ddbf9749a7ffae380c2acb16f6cc2f9ea6bb7efd22790d946a706f"
+      },
+      {
+        "file": "scripts/build.sh",
+        "type": "ASSET_DOC",
+        "hash": "aeceb8c1ec018767de33d44163aa4afb13098af7a887c31bbfd61b0a8cfbac55"
+      },
+      {
+        "file": "scripts/generate_charts.py",
+        "type": "PYTHON_MODULE",
+        "hash": "5bc71a5a33716ed4341a04476e096e911d444f13065f58bda70b02a961fa0a8c"
+      },
+      {
+        "file": "templates/phantom_theme.typ",
+        "type": "TYPST_TEMPLATE",
+        "hash": "cb001f6e46d1a14c9d41dfdc65ccbb0c41a54630474e1e574527f44cfaa84ec0"
+      }
+    ]
+  },
+  {
     "release_id": "RELEASE-v1.2.0-RELEASE-1790844295",
     "timestamp": "2026-10-01T16:44:55.312457",
     "action": "COMMAND_HQ_SOVEREIGN_SIGN_AND_STAMP",
@@ -205,5 +288,16 @@
         "status": "SEALED_AND_RELEASED"
       }
     ]
+  },
+  {
+    "release_id": "REL-20261002-SOVEREIGN-348",
+    "status": "OFFICIALLY_SEALED",
+    "blueprint_id": "BP-20261002130227",
+    "asset_bundle_id": "ASSET-20261002130227",
+    "graduation_certificate": "CERT-GRADUATION-20261002-130228",
+    "pipeline": "Office2(Draft) -> CommandHQ(Assets) -> Office3(Execution & Seal)",
+    "commander": "Jack Hu (Supreme Commander)",
+    "sovereign_seal": "aaba20d685517cb125b3247a45b2f72f8f1459a6f2b41c30bf18fe9748f8fe1d",
+    "timestamp": "2026-10-02T13:02:28.065235"
   }
 ]

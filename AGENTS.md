@@ -91,6 +91,11 @@ AI 自學工具箱建置：完整具備 13 庫之 AI 工具箱（OpenCode 懶人
       2. 凡屬【逆向工程資產】（`BOB_REVERSE_ENGINEERING_LEARNING_LEDGER.md`、`progress_ledger.json`、`project_manifest.json` 及 `PROJECTS/` 專案目錄）；
       **一律列為「永久保護級資產」，在任何清空、重置或垃圾回收指令中絕對嚴禁誤刪！**
     - **金庫雙軌保險**：所有影視成片與逆向進度帳本，必須 100% 同步保存在 G 槽主權真身金庫（`02_Knowledge/Studio_Cinema/` 與 `AI產出成品總庫/Videos_1080P/`），確保即使本地執行清理，成果永生不滅！此條文永久生效！
+24. **外掛傭兵受損緊急熔斷接管鐵律（暗號 //我說BOB受損// 觸發）**：凡統帥下達指令「`//我說BOB受損//`」或檢測到外部傭兵伺服器 500、連線崩潰或離線，全軍立即切換至內部三辦公室鼎足自主熔斷模式：
+    - **第二辦公室（戰情監控與全景拓撲）**：負責草擬藍圖、規格架構與原型草案（Drafting Blueprint & Specification）。
+    - **實體指揮所（Command HQ / 小米海關）**：負責提煉脫敏需求、建立相關素材、設定精密提示詞與素材裝配（Asset & Prompt Engineering）。
+    - **第三辦公室（落地模組工廠與考驗驗收）**：全權接管核心工程施工、單元測試、1,500 次極限混沌壓測（Chaos Verifier）、免安裝封裝、官方認證頒發與最終權威原位落款（`_commander_seal` 與 `RELEASE_SEAL.json`）。
+    徹底解耦外部依賴，實現 100% 內部主權自主閉環！此條文永久生效！
 
 ## 3.4 Solo 全格式內容生成規格 (Multi-Format Production Engine)
 
