@@ -20,7 +20,7 @@
             "percent": 95,
             "details": "代碼已就緒，前24H練習賽熱身中"
           },
-          "sandbox_binding": "https://agenticfootballcup.ai/mypage",
+          "sandbox_binding": "https://agentic-football.aws.dev/v2/player/login",
           "next_hard_checkpoint": "10/02 演練 10 場練習賽並點擊 Deploy Changes"
         },
         {
