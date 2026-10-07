@@ -128,3 +128,6 @@ __pycache__/
 *.gdoc
 *.gsheet
 *.gslides
+*.gdoc
+*.gsheet
+*.gslides
