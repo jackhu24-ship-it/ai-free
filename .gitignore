@@ -125,3 +125,6 @@ stellaris_ai_report.json
 .pytest_cache/
 __pycache__/
 *.pyc
+*.gdoc
+*.gsheet
+*.gslides

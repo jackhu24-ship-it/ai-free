@@ -1,0 +1,21 @@
+﻿# PHANToM Grid - Production Guard Configurations
+version: "1.0.0"
+
+ingress:
+  norm_tolerance: 1.0e-5
+  enforce_unit_quaternion: true
+
+vram_guard:
+  max_memory_gb: 50.0
+  poll_interval_steps: 1
+  auto_abort_on_breach: true
+
+critic:
+  damping_factor: 1.35
+  sample_rate: 0.25
+  epipolar_threshold: 1.0e-4
+
+zdr:
+  secure_zero_out: true
+  enforce_weakref_cleanup: true
+  audit_fingerprint: true

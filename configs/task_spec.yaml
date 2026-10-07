@@ -1,0 +1,40 @@
+﻿task_metadata:
+  system_name: "PHANToM Grid 4D Neural Geometric Defense"
+  version: "1.0.0-PROD"
+  verification_tier: "Tier-4 Ultimate E2E"
+
+resource_guard:
+  vram_hard_limit_gb: 50.0
+  vram_warning_limit_gb: 35.0
+  default_chunk_size: 2
+  allow_cpu_fallback: true
+  zero_allocation_enforced: true
+
+modules_config:
+  spatiotemporal_anchor:
+    damping_factor: 1.35
+    max_curvature_threshold: 0.08
+    ema_alpha: 0.3
+    max_fallback_frames: 5
+
+  geodesic_curvature:
+    damping_factor: 1.35
+    max_curvature_threshold: 0.08
+    ema_alpha: 0.3
+    max_fallback_frames: 5
+
+  epipolar_critic:
+    damping_factor: 1.35
+    max_residual_threshold: 0.08
+    ema_alpha: 0.3
+    max_fallback_frames: 5
+
+  vram_guard_scheduler:
+    hard_limit_gb: 50.0
+    warning_limit_gb: 35.0
+    default_chunk_size: 2
+
+governance:
+  zdr_enforced: true
+  sha256_audit_logging: true
+  audit_dir: "logs/audit"

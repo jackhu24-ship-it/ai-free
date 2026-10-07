@@ -15,4 +15,6 @@ minversion = "8.0"
 testpaths = ["tests"]
 python_files = ["test_*.py", "*_test.py"]
 python_functions = ["test_*"]
+pythonpath = ["src", "src/security", "src/clearing", "src/ai", "src/consensus", "src/crypto", "src/energy", "src/router", "."]
 addopts = "-ra -q --import-mode=importlib"
+

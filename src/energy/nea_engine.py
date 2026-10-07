@@ -1,5 +1,5 @@
-﻿import time
-from typing import Dict
+import time
+from typing import Any, Dict
 
 class NEAEngine:
     def __init__(self, max_capacity: int = 100000):
@@ -8,7 +8,8 @@ class NEAEngine:
         self.energy_state = "HIGH_PERFORMANCE" # States: ECO_MODE, NORMAL, HIGH_PERFORMANCE
         self.power_consumption_kw = 5000.0 # Base consumption in KW
 
-    def analyze_and_adjust(self, current_traffic_tps: int) -> Dict[str, any]:
+    def analyze_and_adjust(self, current_traffic_tps: int) -> Dict[str, Any]:
+
         """
         Dynamically adjust active nodes and energy state based on traffic.
         Must execute under 0.05ms to avoid blocking network layer.

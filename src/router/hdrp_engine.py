@@ -1,4 +1,4 @@
-﻿from dataclasses import dataclass
+from dataclasses import dataclass
 from typing import List, Dict, Tuple, Optional
 import heapq
 
@@ -46,8 +46,8 @@ class HDRPEngine:
         # Penalize heavily if QBER is very high (e.g., > 0.5)
         qber_penalty = 1.0 + (link_data["qber"] * 10.0) 
         if link_data["qber"] > 0.1:
-            qber_penalty += link_data["qber"] * 100.0 # Exponential surge penalty
-        return base_latency * qber_penalty
+            qber_penalty += link_data["qber"] * 100.0  # Exponential surge penalty
+        return float(base_latency * qber_penalty)
 
     def find_optimal_route(self, source: str, target: str) -> Optional[RoutePath]:
         if source not in self.graph or target not in self.graph:
