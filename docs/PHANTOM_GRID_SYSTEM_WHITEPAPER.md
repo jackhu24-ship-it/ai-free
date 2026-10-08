@@ -29,3 +29,7 @@
 10. **模組九：視訊逆向幾何規格提取器**
    - 原始碼：src/engine/video_reverse_extractor.py
    - 驗收測試：	ests/test_video_reverse_extractor.py
+
+11. **模組十：全生命週期即時可視化監控大盤**
+   - 原始碼：src/engine/orchestrator_dashboard.py
+   - 驗收測試：	ests/test_orchestrator_dashboard.py
