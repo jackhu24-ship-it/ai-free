@@ -26,3 +26,6 @@
 8. **模組七：片上 SRAM 融合同步算子**
    - 原始碼：\src/engine/kernels/fused_spatiotemporal.py   - 驗收測試：\	ests/test_fused_spatiotemporal.py9. **模組八：多卡異步雙流 NCCL 通訊排程器**
    - 原始碼：\src/pipelines/multi_gpu_dual_stream_scheduler.py   - 驗收測試：\	ests/test_multi_gpu_dual_stream_scheduler.py
+10. **模組九：視訊逆向幾何規格提取器**
+   - 原始碼：src/engine/video_reverse_extractor.py
+   - 驗收測試：	ests/test_video_reverse_extractor.py
