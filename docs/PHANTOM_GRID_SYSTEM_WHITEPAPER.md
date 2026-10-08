@@ -22,3 +22,7 @@
 - 幾何阻尼: 殘差 > 0.08 啟用 1.35x 剛性收縮阻尼
 - ZDR 物理銷毀: 中介暫存 zero_() 清零 (Max Abs = 0.0)
 - 審計簽名: SHA-256 64-hex 指紋存證於 logs/audit/
+
+8. **模組七：片上 SRAM 融合同步算子**
+   - 原始碼：\src/engine/kernels/fused_spatiotemporal.py   - 驗收測試：\	ests/test_fused_spatiotemporal.py9. **模組八：多卡異步雙流 NCCL 通訊排程器**
+   - 原始碼：\src/pipelines/multi_gpu_dual_stream_scheduler.py   - 驗收測試：\	ests/test_multi_gpu_dual_stream_scheduler.py
