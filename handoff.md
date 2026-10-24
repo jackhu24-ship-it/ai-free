@@ -42,6 +42,15 @@ Recorded and ratified into `CORE_PITFALLS_LEDGER.md` (§3.4.72 ~ §3.4.75) and `
 
 ---
 
-## 5. Sovereign Protocol Handoff Command
+## 5. Sovereign Hollywood Video Master Typography Law (Rule 67 Global Skill Enactment)
+Ratified and permanently enacted into `AGENTS.md`, `STD-TOURNAMENT-TRI`, and global skill `hackathon-demo-video-pipeline`:
+- **Global Triggers**: Triggered automatically whenever "影片", "1440P", "1080P", "demo video", "展示影片", or "路演影片" is mentioned.
+- **Terminal Area**: Cyan Title **30pt Bold** `(60, 147)`, Log Stream **25pt Consolas** with 70px vertical step and `#102037` highlight bar.
+- **Subtitle Area**: Bounding box `[30, 835, 1890, 1040]`; Left Orange Header **25pt** `(40, 854)`, Right Audio Tag **20pt** `(1464, 854)` (529px safe gap); Middle Verbatim Subtitle **42pt Bold** single-line full width (Zero Split); Commander Nameplate **28pt** `(60, 975)` with $\ge 105\text{px}$ Title Safe Area.
+- **Audio Alignment**: Edge-TTS `en-US-ChristopherNeural` + `apad=pad_dur=0.35` physical silence packaging (0.00ms phase lock).
+
+---
+
+## 6. Sovereign Protocol Handoff Command
 Whenever transitioning to a new session:
-> "小米，母庫已完成 v6.1.0 全域憲法、OpenCode Match 3 (Rule 65 滿血 8 大要素全綠) 與四大實戰避坑裝甲 (PITFALL-46~49) 固化交接（Receipt: PG-RECEIPT-PITFALLS-46-49-0x99F12A0B7C8E），請調閱 handoff.md 與 AGENTS.md 接續執行任務！"
+> "小米，母庫已完成 v6.1.0 全域憲法、OpenCode Match 3 全綠交件、四大實戰避坑裝甲 (PITFALL-46~49) 與統帥定板好萊塢影片全域排版法典 (Rule 67) 固化交接（Receipt: PG-RECEIPT-RULE67-TYPOGRAPHY-LAW-0xFE991823BA01），請調閱 handoff.md 與 AGENTS.md 接續執行任務！"
