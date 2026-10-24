@@ -1,0 +1,103 @@
+# ==============================================================================
+# 👑 PHANToM GRID :: 全域系統主設定檔 (GLOBAL MASTER CONFIGURATION)
+# 專案名稱: PHANTOM_GRID_Aria_Titan (泰坦天琴神兵)
+# 最高統帥: 🎖️ COMMANDER JACK HU (SOLO ARCHITECT)
+# 版本規格: v2.4.0-TITAN-ASIL-D-RELEASE
+# 執行法典: Gate-Before-Ship SOP ✕ ASIL-D 零腦裂狀態機 ✕ §3.3 視覺幾何防衛天條
+# ==============================================================================
+
+governance:
+  commander_badge: "[OFFICIAL BADGE] COMMANDER JACK HU (SOLO ARCHITECT)"
+  mode: "HITL_STRICT_MULTI_SIG"
+  failover_policy: "AIR_GAPPED_FALLBACK"
+  audit_hash_algo: "CRC64_WEAKREF_SHA256"
+  single_source_of_truth_root: "G:\\我的雲端硬碟\\260803_opencode\\03_研發專區\\PHANTOM_GRID_Aria_Titan"
+  battle_mirror_root: "C:\\260728-code\\03_研發專區\\PHANTOM_GRID_Aria_Titan"
+  master_agents_ssot: "G:\\我的雲端硬碟\\260803_opencode\\AGENTS.md"
+
+command_brain:
+  orchestrator_module: "05_中樞大腦與路由_Level3_Orchestrator/titan_orchestrator.py"
+  bootstrap_payload_path: "05_中樞大腦與路由_Level3_Orchestrator/COMMAND_CENTER_BOOTSTRAP_PAYLOAD_v256.1.md"
+  commercial_token_strict_mode: true
+  max_job_ticket_tokens: 200
+  max_audit_receipt_tokens: 20
+  disallow_raw_code_ingress: true
+  disallow_full_log_ingress: true
+  l2_local_sentry_engine: "ollama"
+
+sandboxes:
+  sandbox_a_local_ast:
+    name: "LOCAL_PYTHON_AST_SANDBOX"
+    assigned_unit: "OFFICE_1_ASSISTANT_DEV_FRONT"
+    runner_script: "04_功能模組庫_Level2_Modules/coding_agent/code_refactor_sandbox.py"
+    allow_network: false
+    allow_fs_write: false
+    token_cost: 0
+
+  sandbox_b_antigravity:
+    name: "ANTIGRAVITY_CLOUD_LINUX_SANDBOX"
+    assigned_unit: "OFFICE_3_AUTO_PIPELINE"
+    hard_token_cap: 4000
+    allow_bash_execution: true
+    chaos_target_rounds: 1500
+    pass_threshold_rate: 1.00
+
+rust_core:
+  crate_path: "02_基底元素庫_Level0_Elements/crates/phantom_core"
+  binding_type: "PYO3_AND_C_ABI_DUAL_TRACK"
+  simd_mode: "AVX-512_OR_NEON"
+  memory_policy: "ZERO_COPY_RAW_SLICE"
+  max_calc_latency_ms: 1.0
+  ring_buffer_capacity_bytes: 65536
+
+customs_and_ui:
+  gate_before_ship_enforced: true
+  min_vertical_coverage: 0.78
+  card_title_max_font_px: 36
+  commander_badge_max_width_ratio: 0.68
+  commander_badge_safety_margin_px: 48
+
+tournament_tri_standards:
+  rule_id: "RULE_65_TOURNAMENT_DOC_VIDEO_TRI_STANDARDS"
+  ssot_manual: "00_System/Standards/TOURNAMENT_DOC_VIDEO_TRI_STANDARDS.md"
+  pillar_1_typesetting_scroll:
+    module_id: "MOD-SCROLL-01"
+    engine_path: "G:\\我的雲端硬碟\\260803_opencode\\03_研發專區\\PHANTOM_GRID_Typesetting_Scroll"
+    line_breaker: "KNUTH_PLASS_DAG"
+    micro_shaper: "HARFBUZZ_OPENTYPE_TNUM_ZERO"
+    min_vertical_coverage: 0.78
+    greedy_font_probing_pt: [42, 38, 34, 28]
+    commander_badge_isolation_px: 48
+    anti_mojibake_strict: true
+    trinity_blueprint_schema: ["SPEC_MD", "BLUEPRINTS_MMD", "MATRIX_CSV"]
+  pillar_2_hollywood_cinema:
+    module_id: "MOD-CINEMA-SUPREME"
+    spec_id: "SPEC_22_SUPREME_HOLLYWOOD"
+    engine_path: "G:\\我的雲端硬碟\\260803_opencode\\02_模組專區_Level2_CommonModules\\cinema_extension"
+    resolutions: ["2560x1440_QHD_16x9", "3840x1600_CINEMASCOPE_239"]
+    fps: 60.0
+    color_space: "ACES_2.0_HDR10"
+    director_180_rule_enforced: true
+    geodesic_damping_factor: 1.35
+    nccl_overlap_min_ratio: 0.85
+    vram_hard_ceiling_gib: 50.0
+    zdr_residual_mb: 0.0
+    sentence_phase_locked_sync_ms: 0.0
+    acoustic_breath_gap_sec: 0.25
+    ambient_bed_db: -28.0
+    subtitle_title_safe_area_px: [110, 135]
+    dynamic_pointer_tracking: true
+  pillar_3_official_requirements:
+    manifest_driven: "match_manifest.yaml"
+    gate_skill: "gate-before-ship"
+    international_english_only: true
+    title_prefix: "PHANTOM GRID :: "
+    video_duration_sec_range: [120, 180]
+    video_golden_sec_range: [135, 165]
+    live_demo_min_ratio: 0.50
+    short_pitch_max_chars: 280
+    hyphenated_tags_enforced: true
+    incognito_public_repo_check: true
+    live_app_keep_alive_check: true
+    no_reply_email_firewall: true
+    dual_sign_required: ["COMMANDER_XIAOMI", "SUPREME_COMMANDER_JACK_HU"]
