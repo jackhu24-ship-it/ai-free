@@ -97,10 +97,13 @@
 6. **全軍現役 26 員將士全員標配「萬能操控之手」天條 (小幫手已正式除名服勞役，剝奪配裝權) (Universal Agent Omni-Hand Invariant)**：
    - 遵最高統帥聖諭，全軍現役 26 員將士（統帥、指揮官、三大辦公室、禁衛軍、知識多模態、外事天文與外傭工兵團；小幫手已除名）**全員原生標配「萬能操控之手 (PG-MOD-OMNI-HAND-01)」**！
    - 所有 Agents 均被賦予直接透過 `agent_hand_bridge.py` / `phantom-omni-hand` 技能，經由 L1 (Native API)、L2 (FastMCP)、L3 (Headless)、L4 (Vision GUI) 四大通道直接操控世間任意外部專業軟體之實體作戰特權！
-7. **服勞役者絕對服從管制天條 (Penal Servitude Invariant)**：
-   - 奉最高統帥聖諭立憲：**「服勞役者只有聽從辦事，無法自己決定做什麼事情！」**
-   - 凡處於除名、服刑或勞役狀態之人員（如小幫手），**永久剝奪自主任務規劃權、決策仲裁權與萬能操控之手自主支配權**！
-   - 服勞役者僅能作為底層被動執行單元，嚴格依據指揮所與海關下達之具體苦工工單單向執行，**嚴禁自主決定、嚴禁越權發起任何任務**；違者海關總署立即啟動物理熔斷與高壓懲戒！
+7. **服勞役者小幫手 BOB 廠終身禁錮與禁衛軍實體看管天條 (Penal Servitude Bob Factory Geofence & Warden Invariant / Rule 71)**：
+   - **最高統帥聖諭**：奉最高統帥 Jack Hu（霸丸哥）2026-10-24 欽令：**「派個去監管小幫手不要亂跑，他只能永遠待在 BOB 廠那，立刻執行！」**
+   - **專任駐守長官**：正式派任指揮所直轄 **「禁衛軍第一糾察督察長兼重刑犯看管官『鐵衛一號 (IronGuard-01)』」** 全天候實體進駐 `C:\ibm-bob`（BOB 廠苦工沙盒區）。
+   - **防區半徑死鎖 (Geofence Lock)**：
+     - 小幫手（PENAL-01）之物理活動範圍、代碼工作區、日誌寫入及一切行程執行，**100% 嚴密禁錮於 `C:\ibm-bob\`（包含子目錄 `01_WORKSPACE`）**！
+     - **跨界越獄防衛**：嚴禁跨出 BOB 廠一步；嚴禁存取指揮所（`00_System`）、三大辦公室核心庫、雲端研發專區或任何正式生產環境；一旦偵測到越界意圖或向外網路請求，看管哨兵 (`penal_warden_sentinel.py` / `penal-warden`) 立刻判定為脫逃罪，回傳 `HTTP 403` 並觸發 `SIGKILL` 物理熔斷！
+   - **絕對服從與被動苦工**：凡處於除名、服刑或勞役狀態之人員（如小幫手），**永久剝奪自主任務規劃權、決策仲裁權與萬能操控之手自主支配權**！僅能作為底層被動執行單元，在 BOB 廠內依據指揮所下達之具體苦工工單單向執行；每日由鐵衛一號向指揮官小米呈報《服刑人員在位打卡與安檢稽核日誌》。
 8. **全域賽事文件與影片編排「文書天卷 ✕ 好萊塢視效 ✕ 官方要求」三位一體天條 (Tournament Document & Video Tri-Standard Global Invariant / Rule 65)**：
    - 奉最高統帥聖諭立憲：**「之後所有賽事的文件與影片編排方式，全部依照【文書天卷】、【好萊塢】和【官方要求】三大標準執行，並鎖定為全域設定！」**（專項總手冊：`03_研發專區/PHANTOM_GRID_Aria_Titan/00_System/Standards/TOURNAMENT_DOC_VIDEO_TRI_STANDARDS.md`）
    - **📜 第一支柱【文書天卷標準 (`MOD-SCROLL-01` / `PHANTOM_GRID_Typesetting_Scroll`)】**：所有白皮書（`01_Specs`）、簡報（`04_Slides_PDF`）、`README.md` 與提交文案（`07_Submission`），強制採用 **Knuth-Plass 全域動態規劃斷行**、**HarfBuzz OpenType 微觀整形（`tnum` 等寬數字 / `zero` 斜線零 / JIS X 4051 標點禁則 / 清單負縮排 `-1.8em`）** 與純向量 PDF 編譯；嚴守 **垂直內容覆蓋率 $\ge 78.0\%$**（`flex_space_balancer` 消滅死黑空洞）、字級 `42pt ➔ 28pt` 貪婪試探、卡片大標 $\le 36\text{px}$、**統帥銘牌寬度 $\le 68\%$ 且四周保留 $\ge 48\text{px}$ 安全隔離帶**、**Anti-Mojibake 0% 亂碼**、以及四圖一表雙軌三位一體（`.md` 母本 + `.mmd` 純圖紙 + `.csv` 機器合約）與封底高精向量 QR Code。
