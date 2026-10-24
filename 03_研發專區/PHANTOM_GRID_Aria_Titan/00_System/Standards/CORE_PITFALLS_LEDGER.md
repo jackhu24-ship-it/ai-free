@@ -538,3 +538,22 @@
   - **第四條【全域技能封裝與語意理解掛載】**：自動於 `C:\Users\user\.gemini\config\skills\` 建立專屬技能，配置隱式語意理解與觸發清單，確保 Agent 隨時自主拔刀。
   - **第五條【Windows 系統級全域 PATH 捷徑注入】**：自動於 `C:\Users\user\.local\bin\` 注入 `.bat` 啟動器，支援 Windows 終端全域命令直通。
   - **第六條【全域大總表登錄與雙向鏡像】**：登錄 `GLOBAL_ELEMENTS_REGISTRY.md` 官方編號與 `AGENTS.md` 情境路由，雙向鏡像雲端硬碟，出具閉環驗收公文呈報統帥。
+
+### 📜 §3.4.78 [RULE-70] 文書天卷全域排版立憲法典 (Master Typesetting Scroll Sovereign Law / MOD-SCROLL-01)
+- **立憲背景**：最高統帥 Jack Hu（霸丸哥）2026-10-24 巡視全艦法典時親察盲點指出：「好,,,好像漏了一條文書天卷我沒看到立法！」全軍指揮官小米接旨，即刻將「文書天卷（MOD-SCROLL-01）」正式升格為全軍第 70 號立憲大天條！
+- **法典主旨**：文書天卷為 PHANToM Grid 全軍所有白皮書（`01_Specs`）、簡報（`04_Slides_PDF`）、代碼庫說明（`README.md`）與官方提交文案（`07_SubmissionPackage`）排版美學之最高法定聖經！
+- **主管將領與責任到人**：
+  - 二辦小深 ✕ 小米：主管白皮書四圖一表架構純度、因果推演排版。
+  - 三辦小馬 ✕ 小開：主管 10 大抽屜全卷落盤、大字級貪婪試探、負縮排與純向量 PDF 編譯。
+  - 海關總署長小米：主管 HarfBuzz 微觀整形、78% 覆蓋率、Anti-Mojibake 0% 亂碼與海關雙簽！
+- **法定十項剛性排版天條（Ten Sacred Typesetting Invariants）**：
+  1. **Knuth-Plass 全域動態規劃斷行**：DAG 最短路徑最佳化斷行，消滅孤字破行（Orphan）與末行懸掛（Widow）。
+  2. **HarfBuzz / OpenType 微觀整形**：表格啟用 `tnum` 等寬數字；零字元啟用 `zero` 斜線零；遵循 JIS X 4051 標點禁則；清單採用負縮排 `-1.8em`。
+  3. **垂直內容覆蓋率 >= 78.0%**：全面啟動 `flex_space_balancer` 自適應彈性間距算法，消滅死黑死白大空洞。
+  4. **自頂向下大字級貪婪試探 (Anti-Lazy Minimum)**：嚴禁套用最小號字級避罪！字級由 42pt ➔ 36pt ➔ 28pt 貪婪向下探測最大可行字級，主標題 56pt~64pt，次標題 24pt~28pt。
+  5. **統帥銘牌寬度與安全隔離帶**：統帥銘牌寬度 <= 68% 畫布，四周保留 >= 48px 絕對安全呼吸隔離帶。
+  6. **Anti-Mojibake 0% 亂碼門禁**：全域 UTF-8 鎖死，嚴禁出現 \ufffd、ðŸ、â€ 等損壞符號。
+  7. **四圖一表雙軌三位一體落盤**：母本 .md 內嵌 + 純圖紙 diagrams/*.mmd + 機器合約 docs/*.csv 三位一體無損共存。
+  8. **封底實體高精向量 QR Code**：簡報與白皮書封底必須嵌入實體可掃描之純向量高對比 QR Code 圖像。
+  9. **純向量 ISO 32000-1 PDF 編譯**：強制採用無損向量渲染（ReportLab Flowables 或 Chromium Headless --print-to-pdf），嚴禁低解析度點陣截圖偽造 PDF。
+  10. **ZDR 物理銷毀與 50GB 顯存熔斷**：排版緩衝區計算完成後強制執行 2-Pass ZDR (0xAA ➔ 0x00) 銷毀，殘留值必須為 0.00MB；顯存上限 50GB 熔斷。
