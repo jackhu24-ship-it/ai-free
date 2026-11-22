@@ -1,5 +1,5 @@
 """
-PHANToM Grid :: Autonomous Physical-Engineering Agent Harness (Google PLE $400K)
+PHANToM Grid :: Autonomous Physical-Engineering Agent Harness (Google PLE )
 Core Harness Engine complying with google-research/ple Harbor container execution.
 """
 import sys

@@ -1,18 +1,10 @@
-# PHANToM Grid :: Autonomous Physical-Engineering Agent Harness (Google PLE $400K)
+# PHANToM Grid :: Autonomous Physical-Engineering Agent Harness (Google PLE )
 > **Competition**: [Google - Agent Harness on Physical-Engineering's Last Exam | Kaggle](https://www.kaggle.com/competitions/physical-engineerings-last-exam)  
 > **Sovereign Lead Architect**: 🎖️ Jack Hu (Solo HITL Supreme Sovereign)  
 > **Commander & Chief of Staff**: 👩‍💼 Xiaomi  
 > **Architecture Version**: `v1.0.0-SOVEREIGN-Google-PLEHARNESS`  
 > **🎬 Official 1440P Hollywood Demo Video**: [Watch on YouTube](https://youtu.be/K6GP3iAAMOw)  
 > **📊 Official Pitch Deck**: [Download PDF](04_Slides_PDF/PHANToM_GRID_Google_PLE_Harness_Official_Deck.pdf)
-
-
-[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Kaggle Benchmark](https://img.shields.io/badge/Kaggle-Google%20PLE-orange.svg)](https://www.kaggle.com/competitions/physical-engineerings-last-exam)
-[![Dev Set Score](https://img.shields.io/badge/Dev%20Set%20(29%20tasks)-0.897%20(100%25%20Target%20Pass)-brightgreen.svg)]()
-[![Latency](https://img.shields.io/badge/Kernel%20Latency-%E2%89%A41.85%CE%BCs-success.svg)]()
-[![ASIL-D](https://img.shields.io/badge/Safety-ASIL--D%20Verified-brightgreen.svg)]()
-[![Zero-Residual](https://img.shields.io/badge/ZDR-0.00MB%20Purge-success.svg)]()
 
 [![Watch Demo Video](https://img.youtube.com/vi/K6GP3iAAMOw/maxresdefault.jpg)](https://youtu.be/K6GP3iAAMOw)
 
@@ -34,7 +26,7 @@ The **Physical-Engineering's Last Exam (PLE)** benchmark tests autonomous agents
 ## 🗄️ 2. Standard 10-Drawer Structure (Rule 91 Parity)
 
 ```text
-.
+20270105_Google_Kaggle_Agent_Harness_PLE_/
 ├── 01_Specs/                 <- Four Diagrams & One Table Specification Whitepaper
 ├── 02_SourceCode/            <- Autonomous Agent Harness & Physical Kernels
 ├── 03_CoverImage_16x9/       <- Official 16:9 1920x1080 Retina Banner

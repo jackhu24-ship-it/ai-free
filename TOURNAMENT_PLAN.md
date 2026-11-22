@@ -1,7 +1,7 @@
 # PHANToM Grid :: Tournament Brief & Dual-Track Staging Plan
 > **Tournament**: Google - Agent Harness on Physical-Engineering's Last Exam (PLE)  
 > **Host**: Google Research ✕ Kaggle  
-> **Prize Pool**: $400,000 USD (1st: $250,000 / 2nd: $100,000 / 3rd: $50,000)  
+> **Benchmark Scope**: Google DeepMind Physical-Engineering Benchmark  
 > **Deadline**: January 5, 2027 @ 11:59 PM UTC (Taipei: Jan 6, 07:59 AM)  
 > **Official URL**: https://www.kaggle.com/competitions/physical-engineerings-last-exam  
 > **Official Repo**: https://github.com/google-research/ple  

@@ -1,13 +1,13 @@
 ================================================================================
-PHANToM GRID // GOOGLE KAGGLE PLE $400K DEMO VIDEO (HOLLYWOOD 1440P BROADCAST)
+PHANToM GRID // GOOGLE KAGGLE PLE DEMO VIDEO (HOLLYWOOD 1440P BROADCAST)
 Master Hollywood Supreme Edition (MOD_VIDEO_RENDER_ENGINE x SKIN_SPATIAL_EMERALD)
 ================================================================================
 
 Title:
-PHANToM GRID: Autonomous Agent Harness on Physical-Engineering's Last Exam (PLE) | Kaggle Grand Prize ($400,000 USD)
+PHANToM GRID: Autonomous Agent Harness on Physical-Engineering's Last Exam (PLE) | Kaggle Benchmark Challenge
 
 Description:
-Official demonstration of PHANToM GRID for the Google - Physical-Engineering's Last Exam (PLE) Kaggle Grand Prize Competition ($400,000 USD).
+Official demonstration of PHANToM GRID for the Google - Physical-Engineering's Last Exam (PLE) Kaggle Benchmark Competition.
 
 Architected by Solo Architect & Supreme Sovereign Jack Hu, and governed by Commander-in-Chief Commander Xiaomi, PHANToM GRID bridges generative AI agents with rigid physical engineering laws.
 

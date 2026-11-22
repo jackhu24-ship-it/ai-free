@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-PHANToM GRID // GOOGLE KAGGLE PLE $400K CINEMATIC MASTER 1440P DEMO VIDEO RENDERER
+PHANToM GRID // GOOGLE KAGGLE PLE  CINEMATIC MASTER 1440P DEMO VIDEO RENDERER
 Master Hollywood Supreme Broadcast Edition (5-ACT DYNAMIC CINEMATIC STAGE MUTATION)
-Tournament: Google - Agent Harness on Physical-Engineering's Last Exam (PLE) ($400,000 USD)
+Tournament: Google - Agent Harness on Physical-Engineering's Last Exam (PLE) 
 Format: 2560x1440 QHD @ 60 FPS | Dynamic Stage Layout per Act | Title Safe 110px Buffer
 Palette: ACES 2.0 Dark Void (#0A0E17) | Pure White (#FFFFFF) | Tech Amber Gold (#FBBF24) | Cyan (#00E5FF) | Emerald (#10B981)
 
@@ -33,8 +33,8 @@ FPS = 5  # Keyframe render rate; final master encoded smoothly with AAC audio
 CANVAS_WIDTH = 2560
 CANVAS_HEIGHT = 1440
 
-VIDEO_DIR = Path(r"C:\Users\user\.gemini\antigravity\worktrees\260803_opencode\lets_get_started\competitions\20270105_Google_Kaggle_Agent_Harness_PLE_400K\05_DemoVideo_1440P")
-VIDEO_DIR_G = Path(r"G:\GoogleDrive\260803_opencode\competitions\20270105_Google_Kaggle_Agent_Harness_PLE_400K\05_DemoVideo_1440P")
+VIDEO_DIR = Path(__file__).resolve().parent
+# VIDEO_DIR_G removed for portable GitHub standard repository pathing
 OUTPUT_MP4 = VIDEO_DIR / "PHANToM_GRID_Google_PLE_Harness_Demo_1440P.mp4"
 
 SCRATCH_DIR = VIDEO_DIR / "scratch"
@@ -181,7 +181,7 @@ def draw_master_header(draw: ImageDraw.Draw, act_idx: int, s_idx: int, act_title
     draw.line([(30, 115), (CANVAS_WIDTH - 30, 115)], fill=C_AMBER, width=2)
     
     # Left: Brand & Tournament
-    draw.text((55, 38), "GOOGLE KAGGLE PLE $400,000 USD :: AGENT HARNESS", fill=C_WHITE, font=font_title)
+    draw.text((55, 38), "GOOGLE KAGGLE PLE BENCHMARK :: AGENT HARNESS", fill=C_WHITE, font=font_title)
     draw.text((55, 78), "PHYSICAL-ENGINEERING EXAM  |  SOLO ARCHITECT: JACK HU", fill=C_CYAN, font=font_hero_sm)
     
     # Center Divider
@@ -259,7 +259,7 @@ def draw_layout_hero_stage(draw: ImageDraw.Draw, s_idx: int, global_frame: int) 
     # Top Hero Insignia
     draw.rectangle([cx1 + 40, cy1 + 35, cx2 - 40, cy1 + 170], fill=(20, 28, 48), outline=C_CYAN, width=2)
     draw.text((cx1 + 80, cy1 + 55), "PHANToM GRID :: SOVEREIGN AUTONOMOUS AGENT HARNESS", fill=C_AMBER, font=font_hero_xl)
-    draw.text((cx1 + 80, cy1 + 115), "GOOGLE KAGGLE PHYSICAL-ENGINEERING'S LAST EXAM ($400,000 USD GRAND PRIZE)", fill=C_WHITE, font=font_hero_md)
+    draw.text((cx1 + 80, cy1 + 115), "GOOGLE KAGGLE PHYSICAL-ENGINEERING'S LAST EXAM (BENCHMARK)", fill=C_WHITE, font=font_hero_md)
     
     # Center Strategic Thesis Statement
     t_box_y = cy1 + 205
@@ -594,7 +594,7 @@ def draw_layout_estop_seal(draw: ImageDraw.Draw, s_idx: int, global_frame: int) 
     
     closing_tag = "  ▶▶ [OFFICIAL CLOSING PASS]" if is_closing_outro else ""
     draw.text((sx1 + 265, seal_y + 32), f"SOLO ARCHITECT: JACK HU  |  SUPREME COMMANDER: COMMANDER XIAOMI{closing_tag}", fill=C_AMBER if is_closing_outro else C_WHITE, font=font_hero_lg)
-    draw.text((sx1 + 265, seal_y + 82), "TOURNAMENT: GOOGLE KAGGLE PLE 2027 ($400,000 USD GRAND PRIZE)", fill=C_WHITE if is_closing_outro else C_AMBER, font=font_card_head)
+    draw.text((sx1 + 265, seal_y + 82), "TOURNAMENT: GOOGLE KAGGLE PLE 2027 (BENCHMARK CHALLENGE)", fill=C_WHITE if is_closing_outro else C_AMBER, font=font_card_head)
     draw.text((sx1 + 265, seal_y + 128), "VERIFIED WORM AUDIT HASH: SHA256: 0x911976_PLE_ASIL_D_SOVEREIGN_PASS", fill=C_EMERALD, font=font_mono_md)
 
 
@@ -630,7 +630,7 @@ def draw_frame(act_data: dict, sentence_idx: int, frame_idx_in_sentence: int, to
 def main():
     print("================================================================================")
     print("  PHANToM GRID :: CINEMATIC MASTER 1440P DEMO VIDEO RENDERER (v7.2)")
-    print("  Tournament: Google Kaggle PLE $400K | Format: 2560x1440 QHD @ 60 FPS")
+    print("  Tournament: Google Kaggle PLE  | Format: 2560x1440 QHD @ 60 FPS")
     print("  Voice: en-US-ChristopherNeural | Loudness: -14 LUFS | Rule 86 Closing Outro")
     print("================================================================================")
     
@@ -727,32 +727,12 @@ def main():
     ]
     subprocess.run(cmd_encode, check=True)
 
-    # Step 5: Mirror to Google Drive SSOT with retry logic for file locks
-    print("\n[*] Step 5: Mirroring Master Video to Google Drive SSOT...")
-    VIDEO_DIR_G.mkdir(parents=True, exist_ok=True)
-    g_target = VIDEO_DIR_G / OUTPUT_MP4.name
-    
-    copied = False
-    for attempt in range(5):
-        try:
-            shutil.copy2(OUTPUT_MP4, g_target)
-            copied = True
-            break
-        except PermissionError:
-            print(f"  [WARN] Attempt {attempt+1}: File is currently open in media player. Retrying in 1s...")
-            time.sleep(1)
-        except Exception as e:
-            print(f"  [WARN] Copy failed: {e}")
-            break
-            
-    if not copied:
-        print(f"  [!] Note: G-Drive target is locked by an active player. Local MP4 is ready at:\n      {OUTPUT_MP4}")
-
+    # Step 5: Encoding complete
+    print("\n[*] Step 5: Master Video generated successfully.")
     mp4_size = os.path.getsize(OUTPUT_MP4)
     print(f"\n================================================================================")
     print(f"  CINEMATIC MASTER 1440P DEMO VIDEO GENERATION COMPLETE 100% SUCCESS!")
     print(f"  Local Path: {OUTPUT_MP4}")
-    print(f"  G-Drive Path: {g_target}")
     print(f"  Resolution: 2560x1440 QHD | Framerate: {FPS} -> 60 FPS Master")
     print(f"  File Size: {mp4_size:,} bytes ({(mp4_size / (1024*1024)):.2f} MB)")
     print(f"  Orange Badge: Auto-centered with >50px margins (Zero border collisions)")

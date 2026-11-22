@@ -8,7 +8,7 @@ SKIN_SPATIAL_EMERALD skeleton palette (#0D1117, #10B981, #FBBF24, #00E5FF, #FFFF
 import os
 from PIL import Image, ImageDraw, ImageFont
 
-SPECS_DIR = r"C:\Users\user\.gemini\antigravity\worktrees\260803_opencode\lets_get_started\competitions\20270105_Google_Kaggle_Agent_Harness_PLE_400K\01_Specs"
+SPECS_DIR = os.path.dirname(os.path.abspath(__file__))
 os.makedirs(SPECS_DIR, exist_ok=True)
 
 try:
@@ -59,7 +59,7 @@ def make_fig1():
     draw = ImageDraw.Draw(img)
     draw.rectangle([10, 10, W-10, H-10], outline=C_BORDER, width=2)
     draw.text((30, 25), "FIGURE 1: SYSTEM TOPOLOGY & TRI-BRAIN PIPELINE", fill=C_AMBER, font=font_h1)
-    draw.text((30, 58), "Google Kaggle PLE $400K :: Spatial Robotics & Physical Engineering Agent Harness", fill=C_CYAN, font=font_tag)
+    draw.text((30, 58), "Google Kaggle PLE Benchmark :: Spatial Robotics & Physical Engineering Agent Harness", fill=C_CYAN, font=font_tag)
 
     draw_box(draw, (40, 95, 800, 205), "1. INGRESS & PROBLEM SPECIFICATION", [
         "• Ingest Kaggle PLE task specification (Structural, Civil, Electrical, Mechanical)",

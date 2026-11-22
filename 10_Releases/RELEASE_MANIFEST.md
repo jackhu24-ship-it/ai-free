@@ -1,4 +1,4 @@
-# Release Manifest v1.0.0 (Google PLE Benchmark $400K)
+# Release Manifest v1.0.0 (Google PLE Benchmark )
 > **Product**: PHANToM Sovereign Physical-Engineering Agent Harness  
 > **Release Date**: 2026-11-22  
 > **Target Competition**: Google - Agent Harness on Physical-Engineering's Last Exam (PLE)  

@@ -1,4 +1,4 @@
-# Kaggle Submission Draft: PHANToM Sovereign Agent Harness (Google PLE $400K)
+# Kaggle Submission Draft: PHANToM Sovereign Agent Harness (Google PLE )
 > **Track**: Google - Agent Harness on Physical-Engineering's Last Exam | Kaggle  
 > **Team Name**: PHANToM-GRID  
 > **Primary Contact**: Jack Hu (jackhu24@gmail.com)  

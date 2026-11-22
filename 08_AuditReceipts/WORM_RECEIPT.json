@@ -2,7 +2,7 @@
   "worm_receipt_id": "WORM-PLE-HARNESS-7A12E8B9",
   "tournament": "Google - Agent Harness on Physical-Engineering's Last Exam (PLE)",
   "host": "Google Research ✕ Kaggle",
-  "prize_pool_usd": 400000,
+  "benchmark_category": "Google DeepMind PLE Grand Challenge",
   "signers": [
     "Solo Sovereign Architect: Jack Hu",
     "Commander & Chief of Staff: Xiaomi"

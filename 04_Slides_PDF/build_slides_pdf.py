@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-PHANToM GRID // GOOGLE KAGGLE PLE $400K OFFICIAL TOURNAMENT SLIDES DECK
+PHANToM GRID // GOOGLE KAGGLE PLE BENCHMARK OFFICIAL TOURNAMENT SLIDES DECK
 Master Sovereign Edition (MOD_OMNI_CONTEST_CREATIVE_ENGINE x SKIN_SPATIAL_EMERALD)
-Tournament: Google - Agent Harness on Physical-Engineering's Last Exam (PLE) ($400,000 USD)
+Tournament: Google - Agent Harness on Physical-Engineering's Last Exam (PLE) 
 Palette: 85% Matte Black (#0D1117) | 10% Titanium White (#FFFFFF) | 5% Tech Amber (#FBBF24) | Emerald (#10B981)
 """
 
@@ -14,13 +14,11 @@ from reportlab.lib.pagesizes import letter, landscape
 from reportlab.pdfgen import canvas
 from reportlab.lib import colors
 
-PDF_DIR_LOCAL = r"C:\Users\user\.gemini\antigravity\worktrees\260803_opencode\lets_get_started\competitions\20270105_Google_Kaggle_Agent_Harness_PLE_400K\04_Slides_PDF"
-PDF_DIR_G = r"G:\GoogleDrive\260803_opencode\competitions\20270105_Google_Kaggle_Agent_Harness_PLE_400K\04_Slides_PDF"
-SPECS_DIR = r"C:\Users\user\.gemini\antigravity\worktrees\260803_opencode\lets_get_started\competitions\20270105_Google_Kaggle_Agent_Harness_PLE_400K\01_Specs"
+PDF_DIR_LOCAL = os.path.dirname(os.path.abspath(__file__))
+SPECS_DIR = os.path.join(os.path.dirname(PDF_DIR_LOCAL), "01_Specs")
 PDF_NAME = "PHANToM_GRID_Google_PLE_Harness_Official_Deck.pdf"
 
 os.makedirs(PDF_DIR_LOCAL, exist_ok=True)
-os.makedirs(PDF_DIR_G, exist_ok=True)
 
 pdf_path = os.path.join(PDF_DIR_LOCAL, PDF_NAME)
 w, h = landscape(letter)  # 792 x 612
@@ -67,7 +65,7 @@ def draw_slide_template(c, slide_num, title, subtitle):
     # 5. Footer Metadata & Title Safe Perimeter
     c.setFillColorRGB(0.58, 0.64, 0.72)
     c.setFont("Helvetica", 9)
-    c.drawString(42, 34, "PHANToM GRID :: Google Kaggle PLE 2027 ($400,000 USD) | ASIL-D & DO-254 DAL-A Certified")
+    c.drawString(42, 34, "PHANToM GRID :: Google Kaggle PLE 2027  | ASIL-D & DO-254 DAL-A Certified")
     c.drawRightString(w - 42, 34, f"Slide {slide_num} of 10")
     
     c.setStrokeColorRGB(0.15, 0.20, 0.30)
@@ -77,7 +75,7 @@ def draw_slide_template(c, slide_num, title, subtitle):
 # ==============================================================================
 # SLIDE 1: Title & 3-Second Hook (Executive Thesis)
 # ==============================================================================
-draw_slide_template(c, 1, "PHANToM GRID :: Autonomous Physical Engineering Agent Harness", "Google - Physical-Engineering's Last Exam (PLE) | Kaggle Grand Prize ($400,000 USD)")
+draw_slide_template(c, 1, "PHANToM GRID :: Autonomous Physical Engineering Agent Harness", "Google - Physical-Engineering's Last Exam (PLE) | Kaggle Benchmark Challenge")
 
 c.setFillColorRGB(1.0, 1.0, 1.0)
 c.setFont("Helvetica-Bold", 16)
@@ -542,7 +540,7 @@ c.drawCentredString(w / 2.0, 235, "jackhu24@gmail.com")
 
 c.setFillColorRGB(0.90, 0.93, 0.96)
 c.setFont("Helvetica", 11)
-c.drawCentredString(w / 2.0, 200, "Tournament Portal (Google Kaggle PLE $400K):")
+c.drawCentredString(w / 2.0, 200, "Tournament Portal (Google Kaggle PLE Benchmark):")
 c.setFillColorRGB(0.0, 0.898, 1.0)
 c.setFont("Helvetica-Bold", 11)
 c.drawCentredString(w / 2.0, 180, "https://www.kaggle.com/competitions/agent-harness-ple")
@@ -554,16 +552,5 @@ c.drawCentredString(w / 2.0, 95, "OFFICIALLY SEALED & VERIFIED FOR GOOGLE KAGGLE
 
 c.showPage()
 c.save()
-
-# Copy to G Drive with retry
-for attempt in range(3):
-    try:
-        shutil.copy2(pdf_path, os.path.join(PDF_DIR_G, PDF_NAME))
-        print("Copied to G Drive successfully.")
-        break
-    except PermissionError:
-        time.sleep(1)
-        if attempt == 2:
-            print("[WARN] G Drive PDF is currently open by user viewer. Local PDF updated.")
 
 print(f"SUCCESS: Generated {pdf_path} ({os.path.getsize(pdf_path)} bytes)")

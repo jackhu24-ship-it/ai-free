@@ -1,8 +1,8 @@
 """
-PHANToM Grid :: Official 16:9 Banner Generator (Google PLE $400K)
+PHANToM Grid :: Official 16:9 Banner Generator (Google PLE )
 Complies with Rule 172: High Contrast, Anti-Box-Overflow, Bold Typography, 1920x1080.
 Revision:
-1. Removed Top-Right Prize Pool Badge (per Supreme Sovereign directive).
+1. Removed Top-Right Benchmark Scope Badge (per Supreme Sovereign directive).
 2. Fixed Box Overflow in Domain Cards: Reduced metric font, centered text, strict -32px inner margin.
 """
 import os

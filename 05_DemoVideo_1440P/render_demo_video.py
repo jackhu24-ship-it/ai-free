@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-PHANToM GRID // GOOGLE PLE BENCHMARK $400K 1440P DEMO VIDEO RENDERER
+PHANToM GRID // GOOGLE PLE BENCHMARK  1440P DEMO VIDEO RENDERER
 Master Hollywood Supreme Broadcast Edition (MOD-CINEMA-SUPREME)
 Format: 2560x1440 QHD @ 30 FPS / 60 FPS
 """
@@ -16,7 +16,7 @@ CANVAS_WIDTH = 2560
 CANVAS_HEIGHT = 1440
 FPS = 30 # 30 fps for clean generation
 
-out_dir = Path("competitions/20270105_Google_Kaggle_Agent_Harness_PLE_400K/05_DemoVideo_1440P")
+out_dir = Path(__file__).resolve().parent
 out_dir.mkdir(parents=True, exist_ok=True)
 scratch_dir = out_dir / "scratch_frames"
 scratch_dir.mkdir(parents=True, exist_ok=True)
@@ -34,7 +34,7 @@ scenes = [
         "act": "ACT 01 // MISSION BRIEFING",
         "title": "GOOGLE RESEARCH ✕ KAGGLE PLE BENCHMARK",
         "sub": "Autonomous Agent Harness for Real-World Physical Engineering",
-        "accent": "$400,000 USD GLOBAL HACKATHON POOL",
+        "accent": "GOOGLE DEEPMIND PHYSICAL AI BENCHMARK",
         "desc": "Moving Beyond LLM Textbooks: 85 Expert Tasks in Mechanical, Electrical, Structural & Civil",
         "duration_sec": 3
     },
