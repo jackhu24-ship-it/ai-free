@@ -1,15 +1,14 @@
 # PHANToM Grid :: Autonomous Physical-Engineering Agent Harness (Google PLE $400K)
 > **Competition**: [Google - Agent Harness on Physical-Engineering's Last Exam | Kaggle](https://www.kaggle.com/competitions/physical-engineerings-last-exam)  
-> **Official Prize Pool**: $400,000 USD (1st: $250K, 2nd: $100K, 3rd: $50K)  
 > **Sovereign Lead Architect**: 🎖️ Jack Hu (Solo HITL Supreme Sovereign)  
 > **Commander & Chief of Staff**: 👩‍💼 Xiaomi  
-> **Architecture Version**: `v1.0.0-SOVEREIGN-PLE-HARNESS`  
+> **Architecture Version**: `v1.0.0-SOVEREIGN-Google-PLEHARNESS`  
 > **🎬 Official 1440P Hollywood Demo Video**: [Watch on YouTube](https://youtu.be/K6GP3iAAMOw)  
 > **📊 Official Pitch Deck**: [Download PDF](04_Slides_PDF/PHANToM_GRID_Google_PLE_Harness_Official_Deck.pdf)
 
 
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Kaggle Track](https://img.shields.io/badge/Kaggle-PLE%20-orange.svg)](https://www.kaggle.com/competitions/physical-engineerings-last-exam)
+[![Kaggle Benchmark](https://img.shields.io/badge/Kaggle-Google%20PLE-orange.svg)](https://www.kaggle.com/competitions/physical-engineerings-last-exam)
 [![Dev Set Score](https://img.shields.io/badge/Dev%20Set%20(29%20tasks)-0.897%20(100%25%20Target%20Pass)-brightgreen.svg)]()
 [![Latency](https://img.shields.io/badge/Kernel%20Latency-%E2%89%A41.85%CE%BCs-success.svg)]()
 [![ASIL-D](https://img.shields.io/badge/Safety-ASIL--D%20Verified-brightgreen.svg)]()

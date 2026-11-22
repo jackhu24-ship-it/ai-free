@@ -2,11 +2,10 @@ tournament_id: "20270105_Google_Kaggle_Agent_Harness_PLE_400K"
 tournament_name: "Google - Agent Harness on Physical-Engineering's Last Exam (PLE)"
 host_platform: "Kaggle"
 official_url: "https://www.kaggle.com/competitions/physical-engineerings-last-exam"
-prize_pool_usd: 400000
 deadline_utc: "2027-01-05T23:59:59Z"
 deadline_taipei: "2027-01-06T07:59:59+08:00"
 
-architecture_version: "v1.0.0-SOVEREIGN-PLE-HARNESS"
+architecture_version: "v1.0.0-SOVEREIGN-Google-PLEHARNESS"
 lead_architect: "Jack Hu (Solo Sovereign Architect)"
 commander: "Commander & Chief of Staff Xiaomi"
 

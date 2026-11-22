@@ -1,6 +1,5 @@
 # Technical Whitepaper: PHANToM Sovereign Agent Harness on Physical-Engineering's Last Exam (PLE)
 > **Competition**: Google - Agent Harness on Physical-Engineering's Last Exam (PLE) | Kaggle  
-> **Official Prize Pool**: $400,000 USD (1st: $250K, 2nd: $100K, 3rd: $50K)  
 > **Lead Architect**: 🎖️ Jack Hu (Solo HITL Supreme Sovereign)  
 > **Commander & Chief of Staff**: 👩‍💼 Xiaomi  
 > **Document Status**: RELEASE APPROVED (ASIL-D / SIL-VERIFIED)

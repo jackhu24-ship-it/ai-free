@@ -3,7 +3,7 @@
 > **Release Date**: 2026-11-22  
 > **Target Competition**: Google - Agent Harness on Physical-Engineering's Last Exam (PLE)  
 > **License**: Apache-2.0  
-> **WORM Cryptographic Seal**: `WORM-PLE-HARNESS-7A12E8B9`
+> **WORM Cryptographic Seal**: `WORM-Google-PLEHARNESS-7A12E8B9`
 
 ---
 
