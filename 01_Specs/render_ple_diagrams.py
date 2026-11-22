@@ -8,7 +8,7 @@ SKIN_SPATIAL_EMERALD skeleton palette (#0D1117, #10B981, #FBBF24, #00E5FF, #FFFF
 import os
 from PIL import Image, ImageDraw, ImageFont
 
-SPECS_DIR = r"C:\Users\user\.gemini\antigravity\worktrees\260803_opencode\lets_get_started\01_賽事專區\20270105_Google_Kaggle_Agent_Harness_PLE_400K\01_Specs"
+SPECS_DIR = r"C:\Users\user\.gemini\antigravity\worktrees\260803_opencode\lets_get_started\competitions\20270105_Google_Kaggle_Agent_Harness_PLE_400K\01_Specs"
 os.makedirs(SPECS_DIR, exist_ok=True)
 
 try:

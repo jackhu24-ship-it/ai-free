@@ -14,9 +14,9 @@ from reportlab.lib.pagesizes import letter, landscape
 from reportlab.pdfgen import canvas
 from reportlab.lib import colors
 
-PDF_DIR_LOCAL = r"C:\Users\user\.gemini\antigravity\worktrees\260803_opencode\lets_get_started\01_賽事專區\20270105_Google_Kaggle_Agent_Harness_PLE_400K\04_Slides_PDF"
-PDF_DIR_G = r"G:\我的雲端硬碟\260803_opencode\01_賽事專區\20270105_Google_Kaggle_Agent_Harness_PLE_400K\04_Slides_PDF"
-SPECS_DIR = r"C:\Users\user\.gemini\antigravity\worktrees\260803_opencode\lets_get_started\01_賽事專區\20270105_Google_Kaggle_Agent_Harness_PLE_400K\01_Specs"
+PDF_DIR_LOCAL = r"C:\Users\user\.gemini\antigravity\worktrees\260803_opencode\lets_get_started\competitions\20270105_Google_Kaggle_Agent_Harness_PLE_400K\04_Slides_PDF"
+PDF_DIR_G = r"G:\GoogleDrive\260803_opencode\competitions\20270105_Google_Kaggle_Agent_Harness_PLE_400K\04_Slides_PDF"
+SPECS_DIR = r"C:\Users\user\.gemini\antigravity\worktrees\260803_opencode\lets_get_started\competitions\20270105_Google_Kaggle_Agent_Harness_PLE_400K\01_Specs"
 PDF_NAME = "PHANToM_GRID_Google_PLE_Harness_Official_Deck.pdf"
 
 os.makedirs(PDF_DIR_LOCAL, exist_ok=True)

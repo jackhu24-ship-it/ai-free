@@ -33,8 +33,8 @@ FPS = 5  # Keyframe render rate; final master encoded smoothly with AAC audio
 CANVAS_WIDTH = 2560
 CANVAS_HEIGHT = 1440
 
-VIDEO_DIR = Path(r"C:\Users\user\.gemini\antigravity\worktrees\260803_opencode\lets_get_started\01_賽事專區\20270105_Google_Kaggle_Agent_Harness_PLE_400K\05_DemoVideo_1440P")
-VIDEO_DIR_G = Path(r"G:\我的雲端硬碟\260803_opencode\01_賽事專區\20270105_Google_Kaggle_Agent_Harness_PLE_400K\05_DemoVideo_1440P")
+VIDEO_DIR = Path(r"C:\Users\user\.gemini\antigravity\worktrees\260803_opencode\lets_get_started\competitions\20270105_Google_Kaggle_Agent_Harness_PLE_400K\05_DemoVideo_1440P")
+VIDEO_DIR_G = Path(r"G:\GoogleDrive\260803_opencode\competitions\20270105_Google_Kaggle_Agent_Harness_PLE_400K\05_DemoVideo_1440P")
 OUTPUT_MP4 = VIDEO_DIR / "PHANToM_GRID_Google_PLE_Harness_Demo_1440P.mp4"
 
 SCRATCH_DIR = VIDEO_DIR / "scratch"
@@ -244,7 +244,7 @@ def draw_master_subtitles(draw: ImageDraw.Draw, act_idx: int, s_idx: int, total_
 
 
 # =============================================================================
-# CINEMATIC ACT LAYOUT 1: HERO CINEMA STAGE (全屏震撼開場)
+# CINEMATIC ACT LAYOUT 1: HERO CINEMA STAGE (Hero Stage Opening)
 # =============================================================================
 def draw_layout_hero_stage(draw: ImageDraw.Draw, s_idx: int, global_frame: int) -> None:
     cx1, cy1, cx2, cy2 = 100, 140, CANVAS_WIDTH - 100, 1190
@@ -298,7 +298,7 @@ def draw_layout_hero_stage(draw: ImageDraw.Draw, s_idx: int, global_frame: int) 
 
 
 # =============================================================================
-# CINEMATIC ACT LAYOUT 2: 3D SPATIAL CAD VIEWPORT (70%/30% 沉浸三維視窗)
+# CINEMATIC ACT LAYOUT 2: 3D SPATIAL CAD VIEWPORT (70/30 Immersive 3D Viewport)
 # =============================================================================
 def draw_layout_spatial_cad(draw: ImageDraw.Draw, s_idx: int, global_frame: int) -> None:
     vx1, vy1, vx2, vy2 = 40, 140, 1750, 1190
@@ -387,7 +387,7 @@ def draw_layout_spatial_cad(draw: ImageDraw.Draw, s_idx: int, global_frame: int)
 
 
 # =============================================================================
-# CINEMATIC ACT LAYOUT 3: 2x2 MULTI-PHYSICS WORKBENCH (四象限工程矩陣)
+# CINEMATIC ACT LAYOUT 3: 2x2 MULTI-PHYSICS WORKBENCH (2x2 Engineering Matrix)
 # =============================================================================
 def draw_layout_quadrant_matrix(draw: ImageDraw.Draw, s_idx: int, global_frame: int) -> None:
     q_w = (CANVAS_WIDTH - 120) // 2
@@ -460,7 +460,7 @@ def draw_layout_quadrant_matrix(draw: ImageDraw.Draw, s_idx: int, global_frame: 
 
 
 # =============================================================================
-# CINEMATIC ACT LAYOUT 4: COGNITIVE DAG x CYBER CONSOLE (三腦流動 ✕ 賽博終端)
+# CINEMATIC ACT LAYOUT 4: COGNITIVE DAG x CYBER CONSOLE (Tri-Brain Flow x Cyber Console)
 # =============================================================================
 def draw_layout_dag_terminal(draw: ImageDraw.Draw, s_idx: int, global_frame: int) -> None:
     lx1, ly1, lx2, ly2 = 40, 140, 1160, 1190
@@ -529,7 +529,7 @@ def draw_layout_dag_terminal(draw: ImageDraw.Draw, s_idx: int, global_frame: int
 
 
 # =============================================================================
-# CINEMATIC ACT LAYOUT 5: ASIL-D HARDWARE E-STOP & WORM SEAL (熔斷儀式 ✕ 官方封印)
+# CINEMATIC ACT LAYOUT 5: ASIL-D HARDWARE E-STOP & WORM SEAL (Hardware E-STOP & Official Seal)
 # =============================================================================
 def draw_layout_estop_seal(draw: ImageDraw.Draw, s_idx: int, global_frame: int) -> None:
     sx1, sy1, sx2, sy2 = 80, 140, CANVAS_WIDTH - 80, 1190

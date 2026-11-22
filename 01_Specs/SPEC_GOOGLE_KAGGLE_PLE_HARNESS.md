@@ -51,9 +51,9 @@ This whitepaper presents the **PHANToM Sovereign Agent Harness**, a deterministi
 
 ---
 
-## 4. Four Architectural Diagrams (四圖完整實裝)
+## 4. Four Architectural Diagrams (Four Formal Architectural Diagrams)
 
-### Figure 1: System Topology Architecture (系統拓撲全架構圖)
+### Figure 1: System Topology Architecture (Full System Topology Architecture)
 ```mermaid
 flowchart TD
     subgraph INGRESS["⚡ INGRESS & PROBLEM INGESTION"]
@@ -112,7 +112,7 @@ flowchart TD
 
 ---
 
-### Figure 2: Temporal Sequence & Real-Time Loop (時序推進與微秒級閉環圖)
+### Figure 2: Temporal Sequence & Real-Time Loop (Temporal Sequence & Microsecond Closure)
 ```mermaid
 sequenceDiagram
     autonumber
@@ -146,7 +146,7 @@ sequenceDiagram
 
 ---
 
-### Figure 3: ASIL-D Zero Brain-Split State Machine (ASIL-D 零腦裂狀態機圖)
+### Figure 3: ASIL-D Zero Brain-Split State Machine (ASIL-D Zero Brain-Split State Machine)
 ```mermaid
 stateDiagram-v2
     [*] --> TASK_INGESTION: Container Initialized
@@ -189,7 +189,7 @@ stateDiagram-v2
 
 ---
 
-### Figure 4: Sovereign Physical Defense Matrix (剛性阻尼與防禦矩陣流圖)
+### Figure 4: Sovereign Physical Defense Matrix (Rigid Damping & Defense Matrix)
 ```mermaid
 flowchart LR
     subgraph THREATS["🚨 CRITICAL PHYSICAL AI THREATS"]
@@ -225,7 +225,7 @@ flowchart LR
 
 ---
 
-## 5. Table 01: Physical AI Defense & Invariant Matrix (一表完整實裝)
+## 5. Table 01: Physical AI Defense & Invariant Matrix (Table 01 Specification Matrix)
 
 | Threat ID | Physical Engineering Risk | Detection Vector | Enforcement Mechanism | Hard Invariant Threshold |
 | :---: | :--- | :--- | :--- | :--- |

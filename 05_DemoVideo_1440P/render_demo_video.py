@@ -16,7 +16,7 @@ CANVAS_WIDTH = 2560
 CANVAS_HEIGHT = 1440
 FPS = 30 # 30 fps for clean generation
 
-out_dir = Path("01_賽事專區/20270105_Google_Kaggle_Agent_Harness_PLE_400K/05_DemoVideo_1440P")
+out_dir = Path("competitions/20270105_Google_Kaggle_Agent_Harness_PLE_400K/05_DemoVideo_1440P")
 out_dir.mkdir(parents=True, exist_ok=True)
 scratch_dir = out_dir / "scratch_frames"
 scratch_dir.mkdir(parents=True, exist_ok=True)
