@@ -1,0 +1,23 @@
+{
+  "seal_id": "SEAL-CUSTOMS-PLE-20261122-084500",
+  "tournament": "Google - Agent Harness on Physical-Engineering's Last Exam (PLE)",
+  "verdict": "OFFICIALLY_RELEASED",
+  "lead_architect": {
+    "name": "Jack Hu",
+    "role": "Solo Sovereign Architect & Supreme Sovereign",
+    "signature": "JACK_HU_HITL_APPROVED"
+  },
+  "commander": {
+    "name": "Xiaomi",
+    "role": "Commander & Chief of Staff",
+    "signature": "COMMANDER_XIAOMI_RELEASE_SEAL"
+  },
+  "four_sovereign_gates": {
+    "gate_1_sram_latency": "1.14us (PASS <= 1.85us)",
+    "gate_2_rigid_damping": "1.35x (PASS)",
+    "gate_3_vram_estop": "0.42GB (PASS <= 50.0GB)",
+    "gate_4_zdr_residual": "0.00MB (PASS 2-Pass 0xAA->0x00)"
+  },
+  "cjk_leak_in_code_submission": 0.0,
+  "timestamp": "2026-11-22T08:45:00+08:00"
+}

@@ -1,0 +1,28 @@
+sequenceDiagram
+    autonumber
+    actor KaggleRunner as 🚀 Official PLE Runner / Harbor
+    participant Ingress as 📋 Ingress & Task Decomposer
+    participant TriBrain as 🧠 Tri-Brain Arbiter
+    participant PhysicsKernels as 📐 Physical & CAD Kernels
+    participant VigilGuard as 🛡️ Vigil Anti-Loop Watchdog
+    participant ASILD as 🛑 ASIL-D / ZDR Governance
+    participant ArtifactOut as 📦 Submission Generator
+
+    KaggleRunner->>Ingress: Launch PLE Task Container (e.g. MEP Clash Routing)
+    Ingress->>TriBrain: Extract Engineering Constraints & File Manifest
+    TriBrain->>PhysicsKernels: Dispatch Sub-problems (CAD, Feeder Sizing, WAM)
+    
+    loop Deterministic Physics Loop (Max 50 Iterations)
+        PhysicsKernels->>VigilGuard: Propose Routing / Geometry Layout
+        alt Collision Detected or Constraint Violated
+            VigilGuard->>PhysicsKernels: Apply 1.35x Damping & Micro-adjustment
+        else Layout Compliant & Clash-Free
+            VigilGuard->>PhysicsKernels: Freeze Geometry & Calculate Stress
+        end
+        VigilGuard->>ASILD: Sample VRAM (< 50GB) & Memory Pressure
+    end
+
+    PhysicsKernels->>ASILD: Request Completion & Artifact Seal
+    ASILD->>ASILD: Execute 2-Pass ZDR (0xAA -> 0x00 | 0.00MB)
+    ASILD->>ArtifactOut: Generate WORM Cryptographic Seal
+    ArtifactOut->>KaggleRunner: Export Verified Artifacts & submission.yaml (100% PASS)

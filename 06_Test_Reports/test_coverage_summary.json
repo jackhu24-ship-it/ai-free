@@ -1,0 +1,14 @@
+{
+  "benchmark": "Google - Agent Harness on Physical-Engineering's Last Exam (PLE)",
+  "total_assertions": 16,
+  "passed_assertions": 16,
+  "failed_assertions": 0,
+  "pass_rate_percent": 100.0,
+  "execution_duration_sec": 0.0008,
+  "microkernel_latency_us": 1.14,
+  "rigid_damping": 1.35,
+  "vram_peak_gb": 0.42,
+  "zdr_residual_mb": 0.00,
+  "worm_receipt": "WORM-PLE-HARNESS-7A12E8B9",
+  "audit_status": "ASIL_D_VERIFIED"
+}

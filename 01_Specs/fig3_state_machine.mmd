@@ -1,0 +1,37 @@
+stateDiagram-v2
+    [*] --> TASK_INGESTION: Container Initialized
+    
+    TASK_INGESTION --> AST_AUDIT: Parse Task Description & Manifest
+    
+    AST_AUDIT --> ARCHITECTURE_ROUTING: Safe Sandboxed Environment
+    AST_AUDIT --> HARD_ABORT: Prohibited Syscall / Sandbox Breach
+    
+    state ARCHITECTURE_ROUTING {
+        [*] --> CAD_ANALYSIS
+        CAD_ANALYSIS --> MEP_CLASH_ROUTING: 3D Geometry Extracted
+        MEP_CLASH_ROUTING --> ELECTRICAL_SIZING: Routing Passed
+        ELECTRICAL_SIZING --> WAM_ROLLOUT: Voltage Drop < 3%
+        WAM_ROLLOUT --> [*]: 50-Step Symplectic Verification
+    }
+    
+    ARCHITECTURE_ROUTING --> DAMPING_CORRECTION: Collision or Tolerance Breach
+    DAMPING_CORRECTION --> ARCHITECTURE_ROUTING: 1.35x Damping Applied (Retries < 5)
+    DAMPING_CORRECTION --> HARD_ESTOP: Max Retries >= 5 (Anti-Loop Triggered)
+
+    ARCHITECTURE_ROUTING --> GOVERNANCE_SEAL: Engineering Constraints Satisfied
+    
+    state GOVERNANCE_SEAL {
+        [*] --> VRAM_CHECK
+        VRAM_CHECK --> ZDR_PASS_1: VRAM <= 50GB
+        VRAM_CHECK --> HARD_ESTOP: VRAM > 50GB
+        ZDR_PASS_1 --> ZDR_PASS_2: 0xAA Overwrite
+        ZDR_PASS_2 --> WORM_SIGNING: 0x00 Overwrite (0.00MB Residual)
+        WORM_SIGNING --> [*]: Dual Seal Granted
+    }
+    
+    GOVERNANCE_SEAL --> SUBMISSION_EXPORT: Verification Passed
+    HARD_ESTOP --> SAFE_HALT: Failsafe Safe-State Engaged
+    HARD_ABORT --> SAFE_HALT: E-STOP Triggered
+    
+    SUBMISSION_EXPORT --> [*]: Submission Ready
+    SAFE_HALT --> [*]: Exit with Failsafe Receipt

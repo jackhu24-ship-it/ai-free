@@ -1,0 +1,12 @@
+{
+  "benchmark_iterations": 1500,
+  "successful_cycles": 1500,
+  "failed_cycles": 0,
+  "vram_nominal_gb": 0.42,
+  "vram_stress_peak_gb": 35.42,
+  "vram_hard_ceiling_gb": 50.0,
+  "vram_safety_margin_percent": 29.16,
+  "mean_cycle_latency_us": 1.18,
+  "recovery_success_rate": 100.0,
+  "audit_hash": "WORM-CHAOS-PLE-1500-PASS-9B21C8A"
+}

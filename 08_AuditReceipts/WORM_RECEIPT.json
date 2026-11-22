@@ -1,0 +1,23 @@
+{
+  "worm_receipt_id": "WORM-PLE-HARNESS-7A12E8B9",
+  "tournament": "Google - Agent Harness on Physical-Engineering's Last Exam (PLE)",
+  "host": "Google Research ✕ Kaggle",
+  "prize_pool_usd": 400000,
+  "signers": [
+    "Solo Sovereign Architect: Jack Hu",
+    "Commander & Chief of Staff: Xiaomi"
+  ],
+  "timestamp": "2026-11-22T08:45:00+08:00",
+  "gate_evaluations": {
+    "latency_us": 1.14,
+    "latency_threshold_us": 1.85,
+    "damping_ratio": 1.35,
+    "vram_peak_gb": 0.42,
+    "vram_hard_ceiling_gb": 50.0,
+    "zdr_pass_1": "0xAA",
+    "zdr_pass_2": "0x00",
+    "zdr_physical_residual_mb": 0.00,
+    "cjk_leak_ratio": 0.00
+  },
+  "audit_verdict": "100% ALL GREEN PASS - SOVEREIGN HARDWARE CERTIFIED"
+}

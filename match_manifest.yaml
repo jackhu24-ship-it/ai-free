@@ -1,0 +1,73 @@
+tournament_id: "20270105_Google_Kaggle_Agent_Harness_PLE_400K"
+tournament_name: "Google - Agent Harness on Physical-Engineering's Last Exam (PLE)"
+host_platform: "Kaggle"
+official_url: "https://www.kaggle.com/competitions/physical-engineerings-last-exam"
+prize_pool_usd: 400000
+deadline_utc: "2027-01-05T23:59:59Z"
+deadline_taipei: "2027-01-06T07:59:59+08:00"
+
+architecture_version: "v1.0.0-SOVEREIGN-PLE-HARNESS"
+lead_architect: "Jack Hu (Solo Sovereign Architect)"
+commander: "Commander & Chief of Staff Xiaomi"
+
+drawers:
+  - id: "01_Specs"
+    status: "IN_PROGRESS"
+    artifacts:
+      - "SPEC_GOOGLE_KAGGLE_PLE_HARNESS.md"
+      - "TABLE_01_DEFENSE_MATRIX.md"
+      - "fig1_system_topology.mmd"
+      - "fig2_temporal_sequence.mmd"
+      - "fig3_state_machine.mmd"
+      - "fig4_defense_matrix.mmd"
+  - id: "02_SourceCode"
+    status: "IN_PROGRESS"
+    artifacts:
+      - "ple_agent_harness.py"
+      - "cad_mep_routing_kernel.py"
+      - "electrical_feeder_sizing_kernel.py"
+      - "wam_collision_predict_kernel.py"
+      - "vigil_anti_loop_watchdog.py"
+  - id: "03_CoverImage_16x9"
+    status: "PLANNED"
+    artifacts:
+      - "cover_image_16x9.png"
+  - id: "04_Slides_PDF"
+    status: "PLANNED"
+    artifacts:
+      - "PHANToM_GRID_Google_PLE_Harness_Pitch.pdf"
+  - id: "05_DemoVideo_1440P"
+    status: "PLANNED"
+    artifacts:
+      - "PHANToM_GRID_Google_PLE_Harness_Demo_1440P.mp4"
+  - id: "06_Test_Reports"
+    status: "PLANNED"
+    artifacts:
+      - "PLE_DEV_SET_EVALUATION_REPORT.md"
+  - id: "07_SubmissionPackage"
+    status: "PLANNED"
+    artifacts:
+      - "submission.yaml"
+      - "kaggle_notebook_submission.py"
+      - "SUBMISSION_DRAFT.md"
+  - id: "08_AuditReceipts"
+    status: "PLANNED"
+    artifacts:
+      - "WORM_RECEIPT.json"
+      - "CUSTOMS_DUAL_SEAL.json"
+  - id: "09_ChaosReports"
+    status: "PLANNED"
+    artifacts:
+      - "CHAOS_1500_STRESS_REPORT.md"
+  - id: "10_Releases"
+    status: "PLANNED"
+    artifacts:
+      - "RELEASE_MANIFEST.md"
+      - "LICENSE"
+
+gate_invariants:
+  sram_microkernel_latency_us: 1.85
+  rigid_geometric_damping: 1.35
+  vram_hardware_estop_gb: 50.0
+  zdr_memory_wipe_residual_mb: 0.00
+  cjk_leak_target: 0.0

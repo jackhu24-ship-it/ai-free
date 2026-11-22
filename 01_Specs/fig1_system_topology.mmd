@@ -1,0 +1,53 @@
+flowchart TD
+    subgraph INGRESS["⚡ INGRESS & PROBLEM INGESTION"]
+        TASK_SPEC["📋 Kaggle PLE Task Specification<br/>(Structural / Civil / Electrical / Mechanical)"]
+        MULTI_FILE["📂 Multi-File CAD / Drawing / Code Assets<br/>(DXF, STEP, Netlist, Python, Standards)"]
+    end
+
+    subgraph TRI_BRAIN["🧠 SOVEREIGN TRI-BRAIN DECISION ENGINE"]
+        BRAIN4["🌐 Cloud SSOT / Free Brain<br/>(Long-Horizon Reasoning & Task Decomposition)"]
+        BRAIN2["👁️ Local Vision / Ollama Brain<br/>(3D CAD Geometry & Diagram Analysis)"]
+        BRAIN1["⚡ Rust SRAM Microkernel<br/>(<= 1.85us Physics & Math Solvers)"]
+    end
+
+    subgraph HARNESS["🛠️ PHANToM AUTONOMOUS AGENT HARNESS"]
+        ORCH["🔀 Sovereign Orchestrator & State Graph"]
+        CAD_ROUTER["📐 3D CAD & MEP Clash-Free Router<br/>(PG-MOD-35 / PG-MOD-38)"]
+        ELEC_SIZER["⚡ Electrical Feeder & Cable Sizer<br/>(Ampacity, Voltage Drop < 3%, Short-Circuit)"]
+        WAM_ROLLOUT["🦾 WAM Physical Dynamic Rollout<br/>(PG-MOD-39 50-Step Symplectic Rollout)"]
+        VIGIL_GUARD["🛡️ Vigil Anti-Loop & Tool Sandbox<br/>(PG-MOD-24 Max Retries <= 5)"]
+    end
+
+    subgraph HARDWARE_DEFENSE["🛡️ ASIL-D HARDWARE DEFENSE & GOVERNANCE"]
+        VRAM_ESTOP["🛑 50GB VRAM Hard E-STOP"]
+        RIGID_DAMP["⚖️ 1.35x Rigid Geometric Damping"]
+        ZDR_CLEAN["🧹 2-Pass ZDR Memory Sanitization<br/>(0xAA -> 0x00 | 0.00MB Residual)"]
+        WORM_AUDIT["📜 WORM Cryptographic Seal & Audit Trail"]
+    end
+
+    subgraph VERIFIER["🎯 PLE VERIFICATION & ARTIFACT EXPORT"]
+        LOCAL_CHECK["🔍 Official Harbor / Kit Verifier Run"]
+        SUBMISSION["📦 submission.yaml & Kaggle Notebook Ready"]
+    end
+
+    TASK_SPEC --> ORCH
+    MULTI_FILE --> BRAIN2
+    ORCH <--> BRAIN4
+    ORCH <--> BRAIN2
+    ORCH <--> BRAIN1
+
+    ORCH --> CAD_ROUTER
+    ORCH --> ELEC_SIZER
+    ORCH --> WAM_ROLLOUT
+
+    CAD_ROUTER --> VIGIL_GUARD
+    ELEC_SIZER --> VIGIL_GUARD
+    WAM_ROLLOUT --> VIGIL_GUARD
+
+    VIGIL_GUARD --> VRAM_ESTOP
+    VIGIL_GUARD --> RIGID_DAMP
+    VIGIL_GUARD --> ZDR_CLEAN
+
+    ZDR_CLEAN --> WORM_AUDIT
+    WORM_AUDIT --> LOCAL_CHECK
+    LOCAL_CHECK --> SUBMISSION

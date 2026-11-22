@@ -1,0 +1,18 @@
+team_name: "PHANToM-GRID"
+competition: "Google - Agent Harness on Physical-Engineering's Last Exam"
+model_architecture: "Tri-Brain Sovereign Physical Agent Harness"
+lead_author: "Jack Hu"
+contact: "jackhu24@gmail.com"
+repository: "https://github.com/jackhu24-ship-it/ai-free"
+demo_video_url: "https://youtu.be/K6GP3iAAMOw"
+license: "Apache-2.0"
+harness_entrypoint: "02_SourceCode/ple_agent_harness.py"
+evaluation_compatibility:
+  harbor_version: "0.20.0"
+  container_runtime: "docker"
+  max_runtime_hours: 6
+sovereign_invariants:
+  sram_latency_us: 1.85
+  rigid_damping: 1.35
+  vram_ceiling_gb: 50.0
+  zdr_residual_mb: 0.00
